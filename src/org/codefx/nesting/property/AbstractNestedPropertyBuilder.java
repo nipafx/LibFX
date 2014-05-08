@@ -1,5 +1,7 @@
 package org.codefx.nesting.property;
 
+import java.util.Objects;
+
 import javafx.beans.property.Property;
 
 import org.codefx.nesting.Nesting;
@@ -8,17 +10,19 @@ import org.codefx.nesting.Nesting;
  * Abstract superclass to nested property builders. Collects common builder settings; e.g. for the new property's
  * {@link Property#getBean() bean} and {@link Property#getName() name}.
  *
- * @param <P>
+ * @param <N>
  *            the nesting hierarchy's innermost type of {@link Property}
+ * @param <P>
+ *            the type of {@link Property} which will be built
  */
-abstract class AbstractNestedPropertyBuilder<P extends Property<?>> {
+abstract class AbstractNestedPropertyBuilder<N extends Property<?>, P extends NestedProperty<?>> {
 
 	// #region PROPERTIES
 
 	/**
 	 * The nesting which will be used for all nested properties.
 	 */
-	private final Nesting<P> nesting;
+	private final Nesting<N> nesting;
 
 	/**
 	 * The property's future {@link Property#getBean() bean}.
@@ -40,7 +44,7 @@ abstract class AbstractNestedPropertyBuilder<P extends Property<?>> {
 	 * @param nesting
 	 *            the nesting which will be used for all nested properties
 	 */
-	protected AbstractNestedPropertyBuilder(Nesting<P> nesting) {
+	protected AbstractNestedPropertyBuilder(Nesting<N> nesting) {
 		this.nesting = nesting;
 	}
 
@@ -52,7 +56,7 @@ abstract class AbstractNestedPropertyBuilder<P extends Property<?>> {
 	 * Creates a new property instance. This method can be called arbitrarily often and each call returns a new
 	 * instance.
 	 *
-	 * @return the new instance of {@code P}, i.e. an implementation of {@link Property}
+	 * @return the new instance of {@code P}, i.e. an implementation of {@link NestedProperty}
 	 */
 	public abstract P build();
 
@@ -63,7 +67,7 @@ abstract class AbstractNestedPropertyBuilder<P extends Property<?>> {
 	/**
 	 * @return the nesting which will be used for all nested properties
 	 */
-	protected final Nesting<P> getNesting() {
+	protected final Nesting<N> getNesting() {
 		return nesting;
 	}
 
@@ -81,6 +85,7 @@ abstract class AbstractNestedPropertyBuilder<P extends Property<?>> {
 	 *            the property's future bean
 	 */
 	public final void setBean(Object bean) {
+		Objects.requireNonNull(bean, "The argument 'bean' must not be null.");
 		this.bean = bean;
 	}
 
@@ -98,6 +103,7 @@ abstract class AbstractNestedPropertyBuilder<P extends Property<?>> {
 	 *            the property's future name
 	 */
 	public final void setName(String name) {
+		Objects.requireNonNull(name, "The argument 'name' must not be null.");
 		this.name = name;
 	}
 

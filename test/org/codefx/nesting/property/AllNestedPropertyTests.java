@@ -9,6 +9,7 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(Suite.class)
 @SuiteClasses({
+	NestedIntegerPropertyTest.class,
 	NestedObjectPropertyTest.class,
 })
 public class AllNestedPropertyTests {

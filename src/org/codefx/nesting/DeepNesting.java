@@ -2,8 +2,8 @@ package org.codefx.nesting;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Function;
 
+import javafx.beans.Observable;
 import javafx.beans.property.Property;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -11,14 +11,14 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
 /**
- * An implementation of {@link Nesting} which uses an outer {@link ObservableValue} and a series of nested value getters
- * to get the {@link #innerProperty()}.
+ * An implementation of {@link Nesting} which uses an outer {@link ObservableValue} and a series of nesting steps to get
+ * the {@link #innerObservable()}.
  *
  * @param <O>
- *            the hierarchy's innermost type of {@link ObservableValue}
+ *            the hierarchy's innermost type of {@link Observable}
  */
 @SuppressWarnings("rawtypes")
-final class DeepNesting<O extends ObservableValue<?>> implements Nesting<O> {
+final class DeepNesting<O extends Observable> implements Nesting<O> {
 
 	//#formatter:off
 
@@ -27,7 +27,7 @@ final class DeepNesting<O extends ObservableValue<?>> implements Nesting<O> {
 	 *
 	 * Because the depth of the nesting is variable, the number of involved types is determined at runtime. This class
 	 * can hence not use generics for type safety. So it uses tons of raw types, which only works out if the
-	 * constructor is called with the correctly typed outer observable and "nesting steps".
+	 * constructor is called with the correctly typed outer observable and nesting steps.
 	 *
 	 *
 	 * DATA STRUCTURES
@@ -38,15 +38,18 @@ final class DeepNesting<O extends ObservableValue<?>> implements Nesting<O> {
 	 *
 	 * observables:	outer nested ... nested inner
 	 * level:		  0     1    ...  n-1    n
-	 * getters[]:	  x     x     x    x			// each getter uses values[level] to get new observ.[level + 1]
+	 * steps[]:		  x     x     x    x			// each step uses values[level] to get the new observ.[level + 1]
 	 * observ.[]:	  x     x     x    x			// stored to remove listeners; [0] only stored for uniform loop
 	 * values[]:	  x     x     x    x			// stored to compare values and end loop upon reaching same value
-	 * listeners[]:	  x     x     x    x			// stored to remove and add them
+	 * listeners[]:	  x     x     x    x			// stored to remove and add the listeners
 	 *
 	 *
 	 * BEHAVIOR
 	 *
-	 * TODO: document
+	 * Whenever a listener registers a changing value it calls 'updateNestingFromLevel' with the level on which the
+	 * value changed. The method will start on that level and use the nesting steps to get to the higher ones until it
+	 * reaches the inner observable which will be stored in 'innerObservable'. Check the method for details.
+	 *
 	 */
 
 	//#formatter:on
@@ -59,27 +62,27 @@ final class DeepNesting<O extends ObservableValue<?>> implements Nesting<O> {
 	private final int maxLevel;
 
 	/**
-	 * The getters which implement the nesting step from one observable value to the next.
+	 * The steps one observable's value to the next.
 	 */
-	private final Function[] nestedObservableGetters;
+	private final NestingStep[] nestingSteps;
 
 	/**
-	 * The current hierarchy of observable values.
+	 * The current hierarchy of observables.
 	 */
 	private final ObservableValue[] observables;
 
 	/**
-	 * The values currently held by the observable values.
+	 * The values currently held by the observables.
 	 */
 	private final Object[] values;
 
 	/**
-	 * The change listeners which are added to the observable values.
+	 * The change listeners which are added to the observables.
 	 */
 	private final ChangeListener[] changeListeners;
 
 	/**
-	 * The property holding the current innermost observable value.
+	 * The property holding the current innermost observable.
 	 */
 	private final Property<O> inner;
 
@@ -88,33 +91,38 @@ final class DeepNesting<O extends ObservableValue<?>> implements Nesting<O> {
 	// #region CONSTRUCTION
 
 	/**
-	 * Creates a new deep nesting which depends on the specified outer observable value and uses the specified getters
-	 * for its "nesting steps".
+	 * Creates a new deep nesting which depends on the specified outer observable and uses specified nesting steps.
 	 *
-	 * @param outerObservableValue
+	 * @param outerObservable
 	 *            the {@link ObservableValue} on which this nesting depends
-	 * @param nestedObservableGetters
-	 *            the {@link Function Functions} which perform the "nesting step" from one observable's value to the
-	 *            next observable; the getters must be ordered such that:
+	 * @param nestingSteps
+	 *            the {@link NestingStep NestingSteps} from one observable's value to the next observable; they must be
+	 *            ordered such that:
 	 *            <ul>
-	 *            <li>the first accepts an argument of the type wrapped by the {@code outerObservableValue}
-	 *            <li>each next accepts an argument of the type wrapped by the observable returned by the previous
-	 *            getter
+	 *            <li>the first accepts an argument of the type wrapped by the {@code outerObservable} and returns an
+	 *            {@link ObservableValue}
+	 *            <li>each next accepts an argument of the type wrapped by the observable returned by the step before
+	 *            and returns an {@link ObservableValue}
+	 *            <li>only the last step might return an {@link Observable}
 	 *            </ul>
-	 *            These conditions are not checked by the compiler nor during construction but will later lead to
-	 *            {@link ClassCastException ClassCastExceptions}.
+	 *            These conditions are not checked by the compiler nor during construction. Violations will later lead
+	 *            to {@link ClassCastException ClassCastExceptions}.
+	 * @throws NullPointerException
+	 *             if any of the arguments is null
+	 * @throws IllegalArgumentException
+	 *             if the list is empty
 	 */
-	public DeepNesting(ObservableValue outerObservableValue, List<Function> nestedObservableGetters) {
-		Objects.requireNonNull(outerObservableValue, "The argument 'outerObservableValue' must not be null.");
-		Objects.requireNonNull(nestedObservableGetters, "The argument 'nestedObservableGetters' must not be null.");
-		if (nestedObservableGetters.size() < 1)
+	public DeepNesting(ObservableValue outerObservable, List<NestingStep> nestingSteps) {
+		Objects.requireNonNull(outerObservable, "The argument 'outerObservable' must not be null.");
+		Objects.requireNonNull(nestingSteps, "The argument 'nestedObservableGetters' must not be null.");
+		if (nestingSteps.size() < 1)
 			throw new IllegalArgumentException("The list 'nestedObservableGetters' must have at least length 1.");
 
-		maxLevel = nestedObservableGetters.size();
+		maxLevel = nestingSteps.size();
 
-		this.observables = createObservables(outerObservableValue, maxLevel);
+		this.observables = createObservables(outerObservable, maxLevel);
 		this.values = new Object[maxLevel];
-		this.nestedObservableGetters = nestedObservableGetters.toArray(new Function[maxLevel]);
+		this.nestingSteps = nestingSteps.toArray(new NestingStep[maxLevel]);
 		this.changeListeners = createChangeListeners(maxLevel);
 		this.inner = new SimpleObjectProperty<O>(this, "inner");
 
@@ -153,40 +161,15 @@ final class DeepNesting<O extends ObservableValue<?>> implements Nesting<O> {
 		return listeners;
 	}
 
+	//#end CONSTRUCTION
+
 	/**
 	 * Initializes this nesting by filling the arrays {@link #observables} and {@link #values} and adding the
 	 * corresponding {@link #changeListeners changeListener} to each observable.
 	 */
 	private void initializeNesting() {
-		/*
-		 * Simply update the nesting from level 0 on. This only works if certain preconditions are met (which depend on
-		 * the structure of 'updateNestingFromLevel') so make sure to create them first.
-		 */
-		initializeNestingLevel0();
-		updateNestingFromLevel(0);
+		new NestingInitializer().initialize();
 	}
-
-	/**
-	 * Creates the preconditions necessary to use {@link #updateNestingFromLevel(int) updateNestingFromLevel(0)} to
-	 * initialize this nesting.
-	 */
-	@SuppressWarnings("unchecked")
-	private void initializeNestingLevel0() {
-
-		// WARNING:
-		// This method is highly coupled to 'updateNestingFromLevel'!
-		// Make sure to inspect both methods upon changing one of them.
-
-		// if 'updateNestingFromLevel' encounters the same value in the 'values' array as in the corresponding property,
-		// it stops updating so make sure this cannot happen (if the property actually contains null, nothing is left to do)
-		values[0] = null;
-
-		// if 'updateNestingFromLevel' encounters the same property in the 'observables' array
-		// as on the currently checked level, it does not add a listener so do that here
-		observables[0].addListener(changeListeners[0]);
-	}
-
-	//#end CONSTRUCTION
 
 	/**
 	 * Updates the nesting from the specified level on. This includes moving listeners from old to new observables and
@@ -196,76 +179,8 @@ final class DeepNesting<O extends ObservableValue<?>> implements Nesting<O> {
 	 *            the level on which to start updating; this will be the one to which the {@link #observables
 	 *            observable} which changed its value belongs
 	 */
-	@SuppressWarnings("unchecked")
 	private void updateNestingFromLevel(int startLevel) {
-
-		// WARNING:
-		// This method is highly coupled to 'initializeNestingLevel0'!
-		// Make sure to inspect both methods upon changing one of them.
-
-		int currentLevel = startLevel;
-
-		ObservableValue currentObservable = observables[startLevel];
-		// note that unless the observable has a strange implementation which calls change listeners
-		// even though nothing changed, this will always be true
-		boolean currentValueChanged = values[currentLevel] != currentObservable.getValue();
-
-		// there is no listener on the inner level's observable so the start level can never be the inner level
-		boolean currentIsInnerLevel = false;
-
-		/*
-		 * Loop through the levels [startLevel; innerLevel - 1] unless a level is found where the stored value equals
-		 * the current one. In that case all higher levels must be identical and nothing more needs to be updated. Note
-		 * that the loop will not stop on null observables and null values - instead it continues and still compares to
-		 * stored values.
-		 */
-		while (currentValueChanged && !currentIsInnerLevel) {
-			// update 'observables' array and move listener from old to new observable;
-			// (note that the test below is never true for the 'startLevel': the listener to that observable called
-			// this method because the observable's _value_ changed - hence the observable itself cannot have changed.)
-			ObservableValue storedObservable = observables[currentLevel];
-			if (storedObservable != currentObservable) {
-				observables[currentLevel] = currentObservable;
-				if (storedObservable != null)
-					storedObservable.removeListener(changeListeners[currentLevel]);
-				if (currentObservable != null)
-					currentObservable.addListener(changeListeners[currentLevel]);
-			}
-
-			// update 'values' array
-			Object storedValue = values[currentLevel];
-			Object currentValue = null;
-			if (currentObservable != null)
-				currentValue = currentObservable.getValue();
-			currentValueChanged = storedValue != currentValue;
-			if (currentValueChanged)
-				values[currentLevel] = currentValue;
-
-			// if the value changed, move to next level
-			if (currentValueChanged) {
-				// get the values for the next level ...
-				ObservableValue nextObservable = null;
-				if (currentValue != null)
-					nextObservable = (ObservableValue) nestedObservableGetters[currentLevel].apply(currentValue);
-				boolean nextIsInnerLevel = (currentLevel + 1 == maxLevel);
-
-				// ... assign them ...
-				currentObservable = nextObservable;
-				currentIsInnerLevel = nextIsInnerLevel;
-
-				// ... and finally increase level counter
-				currentLevel++;
-			}
-		}
-
-		// if the loop encountered a level where the stored and the current value are identical,
-		// all higher levels must be identical so nothing is left to do here
-		if (!currentValueChanged)
-			return;
-
-		// if the inner level was reached, set its property as the new inner property
-		if (currentIsInnerLevel)
-			inner.setValue((O) currentObservable);
+		new NestingUpdater(startLevel).update();
 	}
 
 	// #region PROPERTY ACCESS
@@ -274,10 +189,209 @@ final class DeepNesting<O extends ObservableValue<?>> implements Nesting<O> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ReadOnlyProperty<O> innerProperty() {
+	public ReadOnlyProperty<O> innerObservable() {
 		return inner;
 	}
 
 	//#end PROPERTY ACCESS
+
+	// #region PRIVATE CLASSES
+
+	/**
+	 * Initializes {@link DeepNesting#observables}, {@link DeepNesting#values} and {@link DeepNesting#inner} as well as
+	 * adding {@link DeepNesting#changeListeners} to all observables.
+	 */
+	private class NestingInitializer {
+
+		/**
+		 * Initializes the {@code DeepNesting} by filling the arrays {@link DeepNesting#observables} and
+		 * {@link DeepNesting#values}, setting {@link DeepNesting#inner} and adding the corresponding
+		 * {@link DeepNesting#changeListeners} to each observable.
+		 */
+		@SuppressWarnings("unchecked")
+		public void initialize() {
+
+			// WARNING:
+			// This method is highly coupled to 'NestingUpdater.updateCurrentLevel'!
+			// Make sure to inspect both methods upon changing one of them.
+
+			/*
+			 * Simply update the nesting from level 0 on. But if the updater encounters the same property in the
+			 * 'observables' array as on the currently checked level, it does not add a listener so do that here.
+			 */
+			observables[0].addListener(changeListeners[0]);
+			new NestingUpdater(0).update();
+		}
+
+	}
+
+	/**
+	 * Updates the {@code DeepNesting} when an observable in the nesting hierarchy changes its value - the level on
+	 * which the change occurred (i.e. the 'startLevel') is specified during construction.
+	 * <p>
+	 * The updater loops through the levels {@code [startLevel; innerLevel - 1]}, updates {@code observables} and
+	 * {@code values} and moves the {@link DeepNesting#changeListeners} from the old to the new observables. It stops
+	 * when a level is found where the stored value equals the current one. In that case all higher levels must be
+	 * identical and nothing more needs to be updated. <br>
+	 * Note that the loop will not stop on null observables and null values. Instead it continues and replaces all
+	 * stored observables and values with null. This is the desired behavior as the hierarchy is in now an incomplete
+	 * state and the old observables and values are obsolete.
+	 */
+	private class NestingUpdater {
+
+		/**
+		 * The level the updater is currently working on.
+		 */
+		private int currentLevel;
+
+		/**
+		 * Indicates whether the {@link #currentLevel} is the inner level.
+		 */
+		private boolean currentLevelIsInnerLevel;
+
+		/**
+		 * The {@link ObservableValue} on the {@link #currentLevel}.
+		 */
+		private ObservableValue currentObservable;
+
+		/**
+		 * The {@link #currentObservable}'s value.
+		 */
+		private Object currentValue;
+
+		/**
+		 * Indicates whether the {@link #currentValue} differs from the value stored in {@link DeepNesting#values}.
+		 */
+		private boolean currentValueChanged;
+
+		/**
+		 * The observable on the inner level. Must be stored separately because {@link DeepNesting#observables} only
+		 * accepts {@link ObservableValue ObservableValues}, which is also the reason why it is too short to also hold
+		 * the inner observable.
+		 */
+		private Observable innerObservable;
+
+		/**
+		 * Creates a new updater which starts updating on the specified level.
+		 *
+		 * @param startLevel
+		 *            the level on which this updater starts updating
+		 */
+		public NestingUpdater(int startLevel) {
+			currentLevel = startLevel;
+			// there is no listener on the inner level's observable so the start level can never be the inner level
+			currentLevelIsInnerLevel = false;
+
+			currentObservable = observables[startLevel];
+			currentValue = currentObservable.getValue();
+			// note that unless the observable has a strange implementation which calls change listeners
+			// even though nothing changed, this will always be true
+			currentValueChanged = values[currentLevel] != currentObservable.getValue();
+		}
+
+		/**
+		 * Updates the nesting from the {@link #currentLevel} on.
+		 */
+		public void update() {
+			while (mustUpdateCurrentLevel()) {
+				updateCurrentLevel();
+				moveToNextLevel();
+			}
+			updateInnerObservable();
+		}
+
+		/**
+		 * Indicates whether the current level must be updated.
+		 *
+		 * @return true if the {@link #currentLevel} must be updated
+		 */
+		private boolean mustUpdateCurrentLevel() {
+			return currentValueChanged && !currentLevelIsInnerLevel;
+		}
+
+		/**
+		 * Updates the {@link DeepNesting#observables} and {@link DeepNesting#values} on the {@link #currentLevel}.
+		 */
+		private void updateCurrentLevel() {
+
+			// WARNING:
+			// This method is highly coupled to 'NestingInitializer.initializeNestingLevel0'!
+			// Make sure to inspect both methods upon changing one of them.
+
+			updateObservableOnCurrentLevel();
+			updateValueOnCurrentLevel();
+		}
+
+		/**
+		 * Updates {@link DeepNesting#observables}[{@link #currentLevel}] to {@link #currentObservable} and moves the
+		 * listener from the old to the new observable.
+		 */
+		@SuppressWarnings("unchecked")
+		private void updateObservableOnCurrentLevel() {
+			ObservableValue storedObservable = DeepNesting.this.observables[currentLevel];
+			if (storedObservable != currentObservable) {
+				DeepNesting.this.observables[currentLevel] = currentObservable;
+				if (storedObservable != null)
+					storedObservable.removeListener(changeListeners[currentLevel]);
+				if (currentObservable != null)
+					currentObservable.addListener(changeListeners[currentLevel]);
+			}
+		}
+
+		/**
+		 * Updates {@link #currentValue} and {@link #currentValueChanged} and sets {@link DeepNesting#values}[
+		 * {@link #currentLevel}] to {@link #currentValue}.
+		 */
+		private void updateValueOnCurrentLevel() {
+			if (currentObservable == null)
+				currentValue = null;
+			else
+				currentValue = currentObservable.getValue();
+
+			Object storedValue = DeepNesting.this.values[currentLevel];
+			currentValueChanged = storedValue != currentValue;
+			if (currentValueChanged)
+				DeepNesting.this.values[currentLevel] = currentValue;
+		}
+
+		/**
+		 * Moves to the next level by updating {@link #currentLevel}, {@link #currentLevelIsInnerLevel},
+		 * {@link #currentObservable} and possibly {@link #innerObservable}.
+		 */
+		@SuppressWarnings("unchecked")
+		private void moveToNextLevel() {
+			Observable nextObservable = null;
+			if (currentValue != null)
+				nextObservable = nestingSteps[currentLevel].step(currentValue);
+			boolean nextIsInnerLevel = (currentLevel + 1 == maxLevel);
+
+			// ... assign them ...
+			if (nextIsInnerLevel) {
+				currentLevelIsInnerLevel = true;
+				innerObservable = nextObservable;
+			} else {
+				currentLevelIsInnerLevel = false;
+				// only the last nesting step is allowed to return an 'Observable'
+				currentObservable = (ObservableValue) nextObservable;
+			}
+
+			// ... and finally increase level counter
+			currentLevel++;
+		}
+
+		/**
+		 * Updates {@link #innerObservable} if the loop reached it.
+		 */
+		@SuppressWarnings("unchecked")
+		private void updateInnerObservable() {
+			// if the loop encountered a level where the stored and the current value are identical,
+			// all higher levels are identical as well and the inner observable can not have changed
+			if (currentLevelIsInnerLevel)
+				inner.setValue((O) innerObservable);
+		}
+
+	}
+
+	//#end PRIVATE CLASSES
 
 }

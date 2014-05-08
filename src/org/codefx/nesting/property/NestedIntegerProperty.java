@@ -1,21 +1,18 @@
 package org.codefx.nesting.property;
 
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.ReadOnlyBooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 import org.codefx.nesting.Nesting;
 
 /**
- * An {@link ObjectProperty} which also implements {@link NestedProperty}.
- * 
- * @param <T>
- *            the type of the value wrapped by this property
+ * An {@link IntegerProperty} which also implements {@link NestedProperty}.
  */
-public class NestedObjectProperty<T> extends SimpleObjectProperty<T> implements NestedProperty<T> {
+public class NestedIntegerProperty extends SimpleIntegerProperty implements NestedProperty<Number> {
 
 	// #region PROPERTIES
 
@@ -38,7 +35,7 @@ public class NestedObjectProperty<T> extends SimpleObjectProperty<T> implements 
 	 * @param name
 	 *            this property's name
 	 */
-	NestedObjectProperty(Nesting<? extends Property<T>> nesting, Object bean, String name) {
+	NestedIntegerProperty(Nesting<? extends Property<Number>> nesting, Object bean, String name) {
 		super(bean, name);
 		this.innerObservableNull = new SimpleBooleanProperty(this, "innerObservableNull");
 

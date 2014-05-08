@@ -1,27 +1,18 @@
 package org.codefx.nesting.property;
 
-import java.util.function.Supplier;
-
 import javafx.beans.property.Property;
 
 import org.codefx.nesting.Nesting;
 
 /**
- * A builder which creates a {@link NestedObjectProperty}.
+ * A builder for a {@link Property} which is bound to the {@link Nesting#innerObservable() innerObservable} of a
+ * {@link Nesting}.
  *
  * @param <T>
  *            the type of the value wrapped by the property which will be build
  */
-public final class NestedObjectPropertyBuilder<T> extends AbstractNestedPropertyBuilder<Property<T>> {
-
-	// #region PROPERTIES
-
-	/**
-	 * Provides a default value for the case that the nesting's inner property is null.
-	 */
-	private Supplier<T> defaultValueSupplier;
-
-	//#end PROPERTIES
+public final class NestedObjectPropertyBuilder<T>
+extends AbstractNestedPropertyBuilder<Property<T>, NestedProperty<T>> {
 
 	// #region CONSTRUCTION
 
@@ -33,7 +24,6 @@ public final class NestedObjectPropertyBuilder<T> extends AbstractNestedProperty
 	 */
 	private NestedObjectPropertyBuilder(Nesting<Property<T>> nesting) {
 		super(nesting);
-		defaultValueSupplier = () -> null;
 	}
 
 	/**
@@ -54,36 +44,10 @@ public final class NestedObjectPropertyBuilder<T> extends AbstractNestedProperty
 	// #region METHODS
 
 	@Override
-	public Property<T> build() {
-		return new NestedObjectProperty<>(getNesting(), getBean(), getName(), defaultValueSupplier);
+	public NestedProperty<T> build() {
+		return new NestedObjectProperty<>(getNesting(), getBean(), getName());
 	}
 
 	//#end METHODS
-
-	// #region PROPERTY ACCESS
-
-	/**
-	 * Sets the default value, which defines the property's value while it is not bound to
-	 * {@link Nesting#innerProperty()}.
-	 *
-	 * @param defaultValue
-	 *            the default value
-	 */
-	public void setDefaultValue(T defaultValue) {
-		this.defaultValueSupplier = () -> defaultValue;
-	}
-
-	/**
-	 * Sets the default value supplier, which defines the property's value while it is not bound to
-	 * {@link Nesting#innerProperty()}.
-	 *
-	 * @param defaultValueSupplier
-	 *            the {@link Supplier} of default values
-	 */
-	public void setDefaultValueSupplier(Supplier<T> defaultValueSupplier) {
-		this.defaultValueSupplier = defaultValueSupplier;
-	}
-
-	//#end PROPERTY ACCESS
 
 }
