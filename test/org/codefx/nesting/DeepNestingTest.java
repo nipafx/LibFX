@@ -4,68 +4,99 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.beans.Observable;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.Property;
 import javafx.beans.value.ObservableValue;
 
 import org.codefx.nesting.testhelper.InnerValue;
+import org.codefx.nesting.testhelper.NestingAccess;
 import org.codefx.nesting.testhelper.OuterValue;
-import org.junit.Before;
-import org.junit.Test;
+import org.codefx.nesting.testhelper.SomeValue;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
 
 /**
- * Tests for the class {@link DeepNesting}. All tests are defined in {@link NestingTests} and called from here.
+ * Tests the {@link Nesting} implementation {@link DeepNesting}.
  */
+@RunWith(Suite.class)
+@SuiteClasses({
+	DeepNestingTest.WithObservable.class,
+	DeepNestingTest.WithProperty.class,
+	DeepNestingTest.WithIntegerProperty.class,
+})
 public class DeepNestingTest {
 
-	// #region OUTER OBSERVALE & NESTINGS
+	/**
+	 * Tests a {@link DeepNesting} with an {@link Observable} as inner observable.
+	 */
+	public static class WithObservable extends AbstractDeepNestingTestForDefaultNesting<Observable> {
+
+		@Override
+		protected Nesting<Observable> createNewNestingFromOuterObservable(Property<OuterValue> outerObservable) {
+			@SuppressWarnings("rawtypes")
+			List<NestingStep> nestingSteps = new ArrayList<>();
+			nestingSteps.add(outerValue -> ((OuterValue) outerValue).innerValueProperty());
+			nestingSteps.add(innerValue -> ((InnerValue) innerValue).observable());
+
+			return new DeepNesting<>(outerObservable, nestingSteps);
+		}
+
+		@Override
+		protected Observable getInnerObservable(Property<OuterValue> outerObservable) {
+			return NestingAccess.getInnerObservable(outerObservable);
+		}
+
+	}
 
 	/**
-	 * An outer observable from which nested instances are instantiated.
+	 * Tests a {@link DeepNesting} with an {@link ObservableValue} as inner observable.
 	 */
-	private ObservableValue<OuterValue> outerObservable;
+	public static class WithProperty
+			extends AbstractDeepNestingTestForDefaultNesting<Property<SomeValue>> {
+
+		@Override
+		protected Nesting<Property<SomeValue>> createNewNestingFromOuterObservable(
+				Property<OuterValue> outerObservable) {
+
+			@SuppressWarnings("rawtypes")
+			List<NestingStep> nestingSteps = new ArrayList<>();
+			nestingSteps.add(outerValue -> ((OuterValue) outerValue).innerValueProperty());
+			nestingSteps.add(innerValue -> ((InnerValue) innerValue).property());
+
+			return new DeepNesting<>(outerObservable, nestingSteps);
+		}
+
+		@Override
+		protected Property<SomeValue> getInnerObservable(Property<OuterValue> outerObservable) {
+			return NestingAccess.getInnerProperty(outerObservable);
+		}
+
+	}
 
 	/**
-	 * A nesting on {@link #outerObservable} -> outerType -> innerType -> observable.
+	 * Tests a {@link DeepNesting} with an {@link ObservableValue} as inner observable.
 	 */
-	private Nesting<Observable> nestingOnObservable;
+	public static class WithIntegerProperty
+			extends AbstractDeepNestingTestForDefaultNesting<IntegerProperty> {
 
-	//#end OUTER OBSERVALE & NESTINGS
+		@Override
+		protected Nesting<IntegerProperty> createNewNestingFromOuterObservable(
+				Property<OuterValue> outerObservable) {
 
-	/**
-	 * Initializes all nestings before each test.
-	 */
-	@Before
-	@SuppressWarnings("rawtypes")
-	private void initialiteNestings() {
-		outerObservable = new SimpleObjectProperty<>(OuterValue.createWithInnerType());
+			@SuppressWarnings("rawtypes")
+			List<NestingStep> nestingSteps = new ArrayList<>();
+			nestingSteps.add(outerValue -> ((OuterValue) outerValue).innerValueProperty());
+			nestingSteps.add(innerValue -> ((InnerValue) innerValue).integerProperty());
 
-		List<NestingStep> nestingSteps = new ArrayList<>();
-		nestingSteps.add(outerType -> ((OuterValue) outerType).innerValueProperty());
-		nestingSteps.add(innerType -> ((InnerValue) innerType).observable());
-		nestingOnObservable = new DeepNesting<>(outerObservable, nestingSteps);
+			return new DeepNesting<>(outerObservable, nestingSteps);
+		}
+
+		@Override
+		protected IntegerProperty getInnerObservable(Property<OuterValue> outerObservable) {
+			return NestingAccess.getInnerIntegerProperty(outerObservable);
+		}
+
 	}
-
-	// #region OBSERVABLE TESTS
-
-	@Test
-	@SuppressWarnings("javadoc")
-	public void testInnerObservableInitiallyCorrect() {
-		NestingTests.testInnerObservableInitiallyCorrect(nestingOnObservable, outerObservable);
-	}
-
-	@Test
-	@SuppressWarnings("javadoc")
-	public void testInnerObservableWhenSettingNewInnerType() {
-		NestingTests.testInnerObservableWhenSettingNewInnerType(nestingOnObservable, outerObservable);
-	}
-
-	@Test
-	@SuppressWarnings("javadoc")
-	public void testInnerObservableWhenSettingNewInnerTypeWithNulls() {
-		NestingTests.testInnerObservableWhenSettingNewInnerTypeWithNulls(
-				nestingOnObservable, outerObservable);
-	}
-
-	//#end OBSERVABLE TESTS
 
 }

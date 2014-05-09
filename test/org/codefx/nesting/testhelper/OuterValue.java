@@ -31,6 +31,13 @@ public class OuterValue {
 	}
 
 	/**
+	 * @return a new outer value with a null inner type
+	 */
+	public static OuterValue createWithNull() {
+		return new OuterValue(null);
+	}
+
+	/**
 	 * Instance of the inner value.
 	 *
 	 * @return the innerValue as a property

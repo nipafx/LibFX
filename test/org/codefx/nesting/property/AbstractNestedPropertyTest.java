@@ -5,6 +5,7 @@ import static org.codefx.nesting.testhelper.NestingAccess.getNestingValue;
 import static org.codefx.nesting.testhelper.NestingAccess.setNestingObservable;
 import static org.codefx.nesting.testhelper.NestingAccess.setNestingValue;
 import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import javafx.beans.property.Property;
 
@@ -14,13 +15,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Abstract superclass to all tests of nested properties. By implementing the few abstract methods subclasses can run
- * all tests which apply to all nested property implementations.
+ * Abstract superclass to tests of nested properties. By implementing the few abstract methods subclasses can run all
+ * tests which apply to all nested property implementations.
  *
  * @param <T>
  *            the type wrapped by the nested property
  */
-public abstract class NestedPropertyTest<T> {
+public abstract class AbstractNestedPropertyTest<T> {
 
 	// #region INSTANCES USED FOR TESTING
 
@@ -70,6 +71,20 @@ public abstract class NestedPropertyTest<T> {
 		// assert that nesting and property hold the new value
 		assertSame(getNestingValue(nesting), property.getValue());
 		assertSame(newValue, property.getValue());
+	}
+
+	/**
+	 * Tests whether the property's value is not updated when the nesting gets null as a new observable.
+	 */
+	@Test
+	public void testChangingObservableToNull() {
+		T oldValue = property.getValue();
+		setNestingObservable(nesting, null);
+		// assert that setting the null observable worked
+		assertNull(getNestingObservable(nesting));
+
+		// assert that the nesting still holds the old value
+		assertSame(oldValue, property.getValue());
 	}
 
 	/**

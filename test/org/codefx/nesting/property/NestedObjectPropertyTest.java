@@ -9,7 +9,7 @@ import org.codefx.nesting.testhelper.SomeValue;
 /**
  * Tests the class {@link NestedObjectProperty}.
  */
-public class NestedObjectPropertyTest extends NestedPropertyTest<SomeValue> {
+public class NestedObjectPropertyTest extends AbstractNestedPropertyTest<SomeValue> {
 
 	@Override
 	protected NestedProperty<SomeValue> createNestedPropertyFromNesting(Nesting<Property<SomeValue>> nesting) {

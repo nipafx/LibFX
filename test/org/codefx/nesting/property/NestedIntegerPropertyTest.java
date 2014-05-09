@@ -8,7 +8,7 @@ import org.codefx.nesting.Nesting;
 /**
  * Tests the class {@link NestedIntegerProperty}.
  */
-public class NestedIntegerPropertyTest extends NestedPropertyTest<Number> {
+public class NestedIntegerPropertyTest extends AbstractNestedPropertyTest<Number> {
 
 	/**
 	 * The next value returned by {@link #createNewValue()}.
