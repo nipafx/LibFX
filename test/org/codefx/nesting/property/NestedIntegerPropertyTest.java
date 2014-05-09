@@ -16,6 +16,11 @@ public class NestedIntegerPropertyTest extends AbstractNestedPropertyTest<Number
 	private int nextValue = 1;
 
 	@Override
+	protected boolean allowsNullValues() {
+		return false;
+	}
+
+	@Override
 	protected NestedIntegerProperty createNestedPropertyFromNesting(Nesting<Property<Number>> nesting) {
 		return new NestedIntegerProperty(nesting, null, null);
 	}

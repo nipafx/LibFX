@@ -12,6 +12,11 @@ import org.codefx.nesting.testhelper.SomeValue;
 public class NestedObjectPropertyTest extends AbstractNestedPropertyTest<SomeValue> {
 
 	@Override
+	protected boolean allowsNullValues() {
+		return true;
+	}
+
+	@Override
 	protected NestedProperty<SomeValue> createNestedPropertyFromNesting(Nesting<Property<SomeValue>> nesting) {
 		return new NestedObjectProperty<>(nesting, null, null);
 	}

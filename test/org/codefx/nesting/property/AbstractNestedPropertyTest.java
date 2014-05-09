@@ -4,9 +4,11 @@ import static org.codefx.nesting.testhelper.NestingAccess.getNestingObservable;
 import static org.codefx.nesting.testhelper.NestingAccess.getNestingValue;
 import static org.codefx.nesting.testhelper.NestingAccess.setNestingObservable;
 import static org.codefx.nesting.testhelper.NestingAccess.setNestingValue;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import javafx.beans.property.Property;
 
 import org.codefx.nesting.Nesting;
@@ -56,6 +58,7 @@ public abstract class AbstractNestedPropertyTest<T> {
 	@Test
 	public void testInnerValueAfterConstruction() {
 		assertSame(getNestingValue(nesting), property.getValue());
+		assertFalse(property.isInnerObservableNull());
 	}
 
 	/**
@@ -74,17 +77,19 @@ public abstract class AbstractNestedPropertyTest<T> {
 	}
 
 	/**
-	 * Tests whether the property's value is not updated when the nesting gets null as a new observable.
+	 * Tests whether the property's value is correctly updated when the nesting's observable changes its value to null.
 	 */
 	@Test
-	public void testChangingObservableToNull() {
-		T oldValue = property.getValue();
-		setNestingObservable(nesting, null);
-		// assert that setting the null observable worked
-		assertNull(getNestingObservable(nesting));
+	public void testChangingValueToNull() {
+		if (!allowsNullValues())
+			return;
 
-		// assert that the nesting still holds the old value
-		assertSame(oldValue, property.getValue());
+		setNestingValue(nesting, null);
+		// assert that setting the value worked
+		assertNull(getNestingValue(nesting));
+
+		// assert that the property holds null
+		assertNull(property.getValue());
 	}
 
 	/**
@@ -101,6 +106,24 @@ public abstract class AbstractNestedPropertyTest<T> {
 		// assert that nesting and property hold the new value
 		assertSame(getNestingValue(nesting), property.getValue());
 		assertSame(newValue, property.getValue());
+		// assert that 'isInnerObservableNull' is still false
+		assertFalse(property.isInnerObservableNull());
+	}
+
+	/**
+	 * Tests whether the property's value is not updated when the nesting gets null as a new observable.
+	 */
+	@Test
+	public void testChangingObservableToNull() {
+		T oldValue = property.getValue();
+		setNestingObservable(nesting, null);
+		// assert that setting the null observable worked
+		assertNull(getNestingObservable(nesting));
+
+		// assert that the nesting still holds the old value
+		assertSame(oldValue, property.getValue());
+		// assert that 'isInnerObservableNull' is now true
+		assertTrue(property.isInnerObservableNull());
 	}
 
 	/**
@@ -152,6 +175,13 @@ public abstract class AbstractNestedPropertyTest<T> {
 	//#end TESTS
 
 	// #region ABSTRACT METHODS
+
+	/**
+	 * Indicates whether the tested nested property allows null values.
+	 *
+	 * @return true if the nested properties allows null values
+	 */
+	protected abstract boolean allowsNullValues();
 
 	/**
 	 * Creates the property, which will be tested, from the specified nesting.
