@@ -1,6 +1,6 @@
 package org.codefx;
 
-import org.codefx.nesting.AllNestingTests;
+import org.codefx.nesting._AllNestingTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -10,7 +10,7 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(Suite.class)
 @SuiteClasses({
-	AllNestingTests.class,
+	_AllNestingTests.class,
 })
 public class AllTests {
 	// no body needed

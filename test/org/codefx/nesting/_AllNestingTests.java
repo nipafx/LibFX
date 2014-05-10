@@ -1,5 +1,6 @@
-package org.codefx.nesting.property;
+package org.codefx.nesting;
 
+import org.codefx.nesting.property._AllNestedPropertyTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -9,9 +10,10 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(Suite.class)
 @SuiteClasses({
-	NestedIntegerPropertyTest.class,
-	NestedObjectPropertyTest.class,
+		_AllNestedPropertyTests.class,
+		DeepNestingTest.class,
+		ShallowNestingTest.class,
 })
-public class AllNestedPropertyTests {
+public class _AllNestingTests {
 	// no body needed
 }

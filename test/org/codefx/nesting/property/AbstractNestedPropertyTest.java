@@ -22,15 +22,17 @@ import org.junit.Test;
  *
  * @param <T>
  *            the type wrapped by the nested property
+ * @param <P>
+ *            the type of property wrapped by the nesting
  */
-public abstract class AbstractNestedPropertyTest<T> {
+public abstract class AbstractNestedPropertyTest<T, P extends Property<T>> {
 
 	// #region INSTANCES USED FOR TESTING
 
 	/**
 	 * The nesting on which the tested property is based.
 	 */
-	private NestingAccess.EditableNesting<Property<T>> nesting;
+	private NestingAccess.EditableNesting<P> nesting;
 
 	/**
 	 * The tested property.
@@ -44,7 +46,7 @@ public abstract class AbstractNestedPropertyTest<T> {
 	 */
 	@Before
 	public void setUp() {
-		Property<T> innerObservable = createNewObservableWithSomeValue();
+		P innerObservable = createNewObservableWithSomeValue();
 		nesting = NestingAccess.EditableNesting.createWithInnerObservable(innerObservable);
 		property = createNestedPropertyFromNesting(nesting);
 	}
@@ -98,7 +100,7 @@ public abstract class AbstractNestedPropertyTest<T> {
 	@Test
 	public void testChangingObservable() {
 		T newValue = createNewValue();
-		Property<T> newObservable = createNewObservableWithValue(newValue);
+		P newObservable = createNewObservableWithValue(newValue);
 		setNestingObservable(nesting, newObservable);
 		// assert that setting the observable worked
 		assertSame(newObservable, getNestingObservable(nesting));
@@ -132,7 +134,7 @@ public abstract class AbstractNestedPropertyTest<T> {
 	@Test
 	public void testChangingNewObservablesValue() {
 		// set a new observable ...
-		Property<T> newObservable = createNewObservableWithSomeValue();
+		P newObservable = createNewObservableWithSomeValue();
 		setNestingObservable(nesting, newObservable);
 		// (assert that setting the observable worked)
 		assertSame(newObservable, getNestingObservable(nesting));
@@ -156,7 +158,7 @@ public abstract class AbstractNestedPropertyTest<T> {
 
 		// ... set a new observable ...
 		T newValueInNewObservable = createNewValue();
-		Property<T> newObservable = createNewObservableWithValue(newValueInNewObservable);
+		P newObservable = createNewObservableWithValue(newValueInNewObservable);
 		setNestingObservable(nesting, newObservable);
 		// (assert that setting the observable worked)
 		assertNotSame(oldObservable, getNestingObservable(nesting));
@@ -190,7 +192,7 @@ public abstract class AbstractNestedPropertyTest<T> {
 	 *            the nesting from which the nested property is created
 	 * @return a new {@link NestedProperty} instance
 	 */
-	protected abstract NestedProperty<T> createNestedPropertyFromNesting(Nesting<Property<T>> nesting);
+	protected abstract NestedProperty<T> createNestedPropertyFromNesting(Nesting<P> nesting);
 
 	/**
 	 * Creates a new value. Each call must return a new instance.
@@ -206,7 +208,7 @@ public abstract class AbstractNestedPropertyTest<T> {
 	 *            the new observable's value
 	 * @return a new {@link Property} instance with the specified value
 	 */
-	protected abstract Property<T> createNewObservableWithValue(T value);
+	protected abstract P createNewObservableWithValue(T value);
 
 	/**
 	 * Creates a new observable which holds some arbitrary value (there are no constraints for this value). Each call
@@ -214,7 +216,7 @@ public abstract class AbstractNestedPropertyTest<T> {
 	 *
 	 * @return a new {@link Property} instance with the specified value
 	 */
-	protected abstract Property<T> createNewObservableWithSomeValue();
+	protected abstract P createNewObservableWithSomeValue();
 
 	//#end ABSTRACT METHODS
 
