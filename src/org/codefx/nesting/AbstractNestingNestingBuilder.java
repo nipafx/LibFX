@@ -57,8 +57,6 @@ abstract class AbstractNestingNestingBuilder<T, O extends ObservableValue<T>> ex
 	 *            the function which performs the nesting step from one observable to the next
 	 * @return an {@link ObservableValueNestingBuilder} which builds a nesting from this builder's settings and the
 	 *         specified nesting steps
-	 * @throws NullPointerException
-	 *             if the specified function is null
 	 */
 	public <N> ObservableValueNestingBuilder<N> nestObservable(NestingStep<T, ObservableValue<N>> nestingStep) {
 		Objects.requireNonNull(nestingStep, "The argument 'nestingStep' must not be null.");
@@ -75,8 +73,6 @@ abstract class AbstractNestingNestingBuilder<T, O extends ObservableValue<T>> ex
 	 *            the function which performs the nesting step from one observable to the next
 	 * @return an {@link ObservableValueNestingBuilder} which builds a nesting from this builder's settings and the
 	 *         specified nesting steps
-	 * @throws NullPointerException
-	 *             if the specified function is null
 	 */
 	public <N> ObjectPropertyNestingBuilder<N> nestProperty(NestingStep<T, Property<N>> nestingStep) {
 		Objects.requireNonNull(nestingStep, "The argument 'nestingStep' must not be null.");

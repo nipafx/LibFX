@@ -97,14 +97,10 @@ class PropertyToNestingBinding<T> {
 	 */
 	private void bindToNestingProperty() {
 		// bind to the nesting's current property
-		moveBinding(Optional.empty(), Optional.ofNullable(nesting.innerObservable().getValue()));
+		moveBinding(Optional.empty(), nesting.innerObservable().getValue());
 		// add a listener to the nesting which moves the binding from one property to the next
 		nesting.innerObservable().addListener(
-				(observable, oldProperty, newProperty) -> {
-					Optional<Property<T>> oldPropertyOpt = Optional.ofNullable(oldProperty);
-					Optional<Property<T>> newPropertyOpt = Optional.ofNullable(newProperty);
-					moveBinding(oldPropertyOpt, newPropertyOpt);
-				});
+				(observable, oldProperty, newProperty) -> moveBinding(oldProperty, newProperty));
 	}
 
 	/**
@@ -115,7 +111,8 @@ class PropertyToNestingBinding<T> {
 	 * @param newPropertyOpt
 	 *            the {@link Property} to which to bind
 	 */
-	private void moveBinding(Optional<Property<T>> oldPropertyOpt, Optional<Property<T>> newPropertyOpt) {
+	private void moveBinding(Optional<? extends Property<T>> oldPropertyOpt,
+			Optional<? extends Property<T>> newPropertyOpt) {
 		oldPropertyOpt.ifPresent(oldProperty -> nestedProperty.unbindBidirectional(oldProperty));
 		newPropertyOpt.ifPresent(newProperty -> nestedProperty.bindBidirectional(newProperty));
 

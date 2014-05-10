@@ -14,6 +14,8 @@ import javafx.beans.value.ObservableValue;
  * O(outer) and N(ested)
  * <p>
  * TODO examples; differences between builder types
+ * <p>
+ * TODO comment about nulls (here?)
  */
 public class Nestings {
 

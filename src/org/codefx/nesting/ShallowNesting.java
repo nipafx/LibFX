@@ -1,6 +1,7 @@
 package org.codefx.nesting;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import javafx.beans.Observable;
 import javafx.beans.property.ReadOnlyProperty;
@@ -18,7 +19,7 @@ final class ShallowNesting<O extends Observable> implements Nesting<O> {
 	 * The property holding the current inner observable, which is always the outer observable specified during
 	 * construction.
 	 */
-	private final ReadOnlyProperty<O> inner;
+	private final ReadOnlyProperty<Optional<O>> inner;
 
 	/**
 	 * Creates a new shallow nesting whose {@link #innerObservable} property always holds the specified outer
@@ -29,11 +30,12 @@ final class ShallowNesting<O extends Observable> implements Nesting<O> {
 	 */
 	public ShallowNesting(O outerObservable) {
 		Objects.requireNonNull(outerObservable, "The argument 'outerObservable' must not be null.");
-		inner = new SimpleObjectProperty<O>(this, "inner", outerObservable);
+		Optional<O> optionalInner = Optional.of(outerObservable);
+		inner = new SimpleObjectProperty<>(this, "inner", optionalInner);
 	}
 
 	@Override
-	public ReadOnlyProperty<O> innerObservable() {
+	public ReadOnlyProperty<Optional<O>> innerObservable() {
 		return inner;
 	}
 

@@ -2,6 +2,7 @@ package org.codefx.nesting;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 
 import javafx.beans.Observable;
@@ -58,6 +59,8 @@ abstract class AbstractNestingBuilder<T, O extends Observable> {
 	 *            the outer observable upon which the constructed nesting depends
 	 */
 	protected AbstractNestingBuilder(O outerObservable) {
+		Objects.requireNonNull(outerObservable, "The argument 'outerObservable' must not be null.");
+
 		this.outerObservable = outerObservable;
 		this.previousBuilder = null;
 		this.nestingStep = null;
@@ -76,6 +79,9 @@ abstract class AbstractNestingBuilder<T, O extends Observable> {
 	 */
 	protected <P> AbstractNestingBuilder(
 			AbstractNestingBuilder<P, ?> previousBuilder, NestingStep<P, ? extends O> nestingStep) {
+
+		Objects.requireNonNull(previousBuilder, "The argument 'previousBuilder' must not be null.");
+		Objects.requireNonNull(nestingStep, "The argument 'nestingStep' must not be null.");
 
 		this.outerObservable = null;
 		this.previousBuilder = previousBuilder;
@@ -122,12 +128,13 @@ abstract class AbstractNestingBuilder<T, O extends Observable> {
 	}
 
 	/**
-	 * Fills the specified kit with an observable value and all observable getters which were given to this and its
-	 * previous nesting builders.
+	 * Fills the specified kit with an observable value and all nesting steps which were given to this and its previous
+	 * nesting builders. The steps' order is from outer to inner property and hence is correct for the constructor of
+	 * {@link DeepNesting}.
 	 *
 	 * @param kit
 	 *            the {@link NestingConstructionKit} to fill with an {@link #outerObservable} and {@link #nestingStep
-	 *            nestedObservableGetters}
+	 *            nestingSteps}
 	 */
 	@SuppressWarnings("rawtypes")
 	private void fillNestingConstructionKit(NestingConstructionKit kit) {
@@ -135,8 +142,7 @@ abstract class AbstractNestingBuilder<T, O extends Observable> {
 		/*
 		 * Uses recursion to move up the chain of 'previousNestedBuilder's until the outer builder is reached. This
 		 * builder's 'outerObservable' is set to the specified 'kit'. The 'kit's list of nesting steps is then filled
-		 * when the recursion is closed, i.e. top down from the outermost builder to the inner one. This creates the
-		 * list on the correct order for the 'Nesting' constructor.
+		 * when the recursion is closed, i.e. top down from the outermost builder to the inner one.
 		 */
 
 		if (isOuterBuilder())

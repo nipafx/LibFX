@@ -1,13 +1,15 @@
 package org.codefx.nesting;
 
+import java.util.Optional;
+
 import javafx.beans.Observable;
 import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.value.ObservableValue;
 
 /**
  * A nesting encapsulates a hierarchy of nested {@link ObservableValue ObservableValues}; its {@link #innerObservable()}
- * always contains the current innermost {@link Observable} in that hierarchy. If some observable or its value were
- * null, {@code innerObservable} contains null as well.
+ * always contains the current innermost {@link Observable} in that hierarchy as an {@link Optional}. If some observable
+ * or its value were null, {@code innerObservable} contains {@link Optional#empty()}.
  * <p>
  * Nestings will usually be implemented such that they eagerly evaluate the nested observables.
  *
@@ -22,6 +24,6 @@ public interface Nesting<O extends Observable> {
 	 *
 	 * @return the innermost {@link ObservableValue}
 	 */
-	ReadOnlyProperty<O> innerObservable();
+	ReadOnlyProperty<Optional<O>> innerObservable();
 
 }

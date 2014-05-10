@@ -2,6 +2,7 @@ package org.codefx.nesting;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import javafx.beans.Observable;
 import javafx.beans.property.Property;
@@ -84,7 +85,7 @@ final class DeepNesting<O extends Observable> implements Nesting<O> {
 	/**
 	 * The property holding the current innermost observable.
 	 */
-	private final Property<O> inner;
+	private final Property<Optional<O>> inner;
 
 	//#end PROPERTIES
 
@@ -107,8 +108,6 @@ final class DeepNesting<O extends Observable> implements Nesting<O> {
 	 *            </ul>
 	 *            These conditions are not checked by the compiler nor during construction. Violations will later lead
 	 *            to {@link ClassCastException ClassCastExceptions}.
-	 * @throws NullPointerException
-	 *             if any of the arguments is null
 	 * @throws IllegalArgumentException
 	 *             if the list is empty
 	 */
@@ -124,7 +123,7 @@ final class DeepNesting<O extends Observable> implements Nesting<O> {
 		this.values = new Object[maxLevel];
 		this.nestingSteps = nestingSteps.toArray(new NestingStep[maxLevel]);
 		this.changeListeners = createChangeListeners(maxLevel);
-		this.inner = new SimpleObjectProperty<O>(this, "inner");
+		this.inner = new SimpleObjectProperty<>(this, "inner");
 
 		initializeNesting();
 	}
@@ -161,8 +160,6 @@ final class DeepNesting<O extends Observable> implements Nesting<O> {
 		return listeners;
 	}
 
-	//#end CONSTRUCTION
-
 	/**
 	 * Initializes this nesting by filling the arrays {@link #observables} and {@link #values} and adding the
 	 * corresponding {@link #changeListeners changeListener} to each observable.
@@ -170,6 +167,8 @@ final class DeepNesting<O extends Observable> implements Nesting<O> {
 	private void initializeNesting() {
 		new NestingInitializer().initialize();
 	}
+
+	//#end CONSTRUCTION
 
 	/**
 	 * Updates the nesting from the specified level on. This includes moving listeners from old to new observables and
@@ -189,7 +188,7 @@ final class DeepNesting<O extends Observable> implements Nesting<O> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ReadOnlyProperty<O> innerObservable() {
+	public ReadOnlyProperty<Optional<O>> innerObservable() {
 		return inner;
 	}
 
@@ -235,7 +234,7 @@ final class DeepNesting<O extends Observable> implements Nesting<O> {
 	 * identical and nothing more needs to be updated. <br>
 	 * Note that the loop will not stop on null observables and null values. Instead it continues and replaces all
 	 * stored observables and values with null. This is the desired behavior as the hierarchy is in now an incomplete
-	 * state and the old observables and values are obsolete.
+	 * state and the old observables and values are obsolete and have to be replaced.
 	 */
 	private class NestingUpdater {
 
@@ -386,8 +385,10 @@ final class DeepNesting<O extends Observable> implements Nesting<O> {
 		private void updateInnerObservable() {
 			// if the loop encountered a level where the stored and the current value are identical,
 			// all higher levels are identical as well and the inner observable can not have changed
-			if (currentLevelIsInnerLevel)
-				inner.setValue((O) innerObservable);
+			if (currentLevelIsInnerLevel) {
+				Optional innerObservableOptional = Optional.ofNullable(innerObservable);
+				inner.setValue(innerObservableOptional);
+			}
 		}
 
 	}

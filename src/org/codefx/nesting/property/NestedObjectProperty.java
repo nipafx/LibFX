@@ -1,5 +1,7 @@
 package org.codefx.nesting.property;
 
+import java.util.Objects;
+
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.Property;
@@ -11,7 +13,7 @@ import org.codefx.nesting.Nesting;
 
 /**
  * An {@link ObjectProperty} which also implements {@link NestedProperty}.
- * 
+ *
  * @param <T>
  *            the type of the value wrapped by this property
  */
@@ -34,12 +36,13 @@ public class NestedObjectProperty<T> extends SimpleObjectProperty<T> implements 
 	 * @param nesting
 	 *            the nesting this property is based on
 	 * @param bean
-	 *            the bean which owns this property
+	 *            the bean which owns this property; can be null
 	 * @param name
-	 *            this property's name
+	 *            this property's name; can be null
 	 */
 	NestedObjectProperty(Nesting<? extends Property<T>> nesting, Object bean, String name) {
 		super(bean, name);
+		Objects.requireNonNull(nesting, "The argument 'nesting' must not be null.");
 		this.innerObservableNull = new SimpleBooleanProperty(this, "innerObservableNull");
 
 		PropertyToNestingBinding.bind(this, isNull -> innerObservableNull.set(isNull), nesting);

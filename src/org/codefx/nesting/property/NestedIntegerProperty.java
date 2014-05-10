@@ -1,5 +1,7 @@
 package org.codefx.nesting.property;
 
+import java.util.Objects;
+
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.Property;
@@ -31,12 +33,13 @@ public class NestedIntegerProperty extends SimpleIntegerProperty implements Nest
 	 * @param nesting
 	 *            the nesting this property is based on
 	 * @param bean
-	 *            the bean which owns this property
+	 *            the bean which owns this property; can be null
 	 * @param name
-	 *            this property's name
+	 *            this property's name; can be null
 	 */
 	NestedIntegerProperty(Nesting<? extends Property<Number>> nesting, Object bean, String name) {
 		super(bean, name);
+		Objects.requireNonNull(nesting, "The argument 'nesting' must not be null.");
 		this.innerObservableNull = new SimpleBooleanProperty(this, "innerObservableNull");
 
 		PropertyToNestingBinding.bind(this, isNull -> innerObservableNull.set(isNull), nesting);

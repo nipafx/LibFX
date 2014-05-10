@@ -45,6 +45,7 @@ abstract class AbstractNestedPropertyBuilder<N extends Property<?>, P extends Ne
 	 *            the nesting which will be used for all nested properties
 	 */
 	protected AbstractNestedPropertyBuilder(Nesting<N> nesting) {
+		Objects.requireNonNull(nesting, "The argument 'nesting' must not be null.");
 		this.nesting = nesting;
 	}
 
