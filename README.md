@@ -13,7 +13,7 @@ A nesting can than be used in several ways:
 * You can attach a change listener which is carried along as the innermost property changes.
 * You can create bindings which are not only updated when the innermost property's value changes but also when the property itself is replaced.
 
-These further steps can also be achieved with the same fluent API without breaking one's stride. You can find an example below and more in the classes in the folder `demo/org/codefx/nesting`.
+These further steps can be made with the same fluent API without breaking one's stride. You can find an example below and more in the classes in the folder `demo/org/codefx/nesting` (look for methods starting with "demo").
 
 ## Example
 
@@ -39,13 +39,13 @@ Another way is to explicitly listen to changes of the model's `currentEmployeePr
 Use **CodeFX**! :)
 
 ``` Java
-Nestings.on(currentEmployee)
+Nestings.on(currentEmployeeProperty)
 	.nestDouble(employee -> employee.salaryProperty())
 	.bindBidirectional(slider.valueProperty());
 ```
 
 ``` Java
-Nestings.on(currentEmployee)
+Nestings.on(currentEmployeeProperty)
 	.nest(employee -> employee.addressProperty())
 	.nest(address -> address.zipProperty())
 	.addChangeListener(myListener);
