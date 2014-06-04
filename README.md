@@ -12,6 +12,8 @@ And the answer to _What?_ might also be underwhelming as I can't really tell you
 * I wanna search my projects for reusable chunks of code. Whatever I find will be redesigned, tested, well-documented and finally published here.
 * I've got some ideas of things I'd like to implement and see where it takes me.
 
+Features will be developed in feature branches so this master might remain empty for a while. Check out the other branches to see what is being developed.
+
 ## Why?
 
 So why should you use this? Yes, why indeed...
