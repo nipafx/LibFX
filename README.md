@@ -1,4 +1,4 @@
-# CodeFX
+# LibFX
 
 This is the place where we tell you, who we are, what this project is all about and why you really need it!
 
