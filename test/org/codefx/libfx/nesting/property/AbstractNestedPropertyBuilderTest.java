@@ -1,11 +1,9 @@
 package org.codefx.libfx.nesting.property;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
 import javafx.beans.property.Property;
 
-import org.codefx.libfx.nesting.property.AbstractNestedPropertyBuilder;
-import org.codefx.libfx.nesting.property.NestedProperty;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -49,7 +47,7 @@ public abstract class AbstractNestedPropertyBuilderTest<N extends Property<?>, P
 		builder.setBean(bean);
 		P nestedProperty = builder.build();
 
-		assertSame(bean, nestedProperty.getBean());
+		assertEquals(bean, nestedProperty.getBean());
 	}
 
 	/**
@@ -72,7 +70,7 @@ public abstract class AbstractNestedPropertyBuilderTest<N extends Property<?>, P
 		builder.setName(name);
 		P nestedProperty = builder.build();
 
-		assertSame(name, nestedProperty.getName());
+		assertEquals(name, nestedProperty.getName());
 	}
 
 	/**

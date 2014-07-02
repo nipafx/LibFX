@@ -4,15 +4,14 @@ import static org.codefx.libfx.nesting.testhelper.NestingAccess.getNestingObserv
 import static org.codefx.libfx.nesting.testhelper.NestingAccess.getNestingValue;
 import static org.codefx.libfx.nesting.testhelper.NestingAccess.setNestingObservable;
 import static org.codefx.libfx.nesting.testhelper.NestingAccess.setNestingValue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import javafx.beans.property.Property;
 
 import org.codefx.libfx.nesting.Nesting;
-import org.codefx.libfx.nesting.property.NestedProperty;
 import org.codefx.libfx.nesting.testhelper.NestingAccess;
 import org.junit.Before;
 import org.junit.Test;
@@ -60,7 +59,7 @@ public abstract class AbstractNestedPropertyTest<T, P extends Property<T>> {
 	 */
 	@Test
 	public void testInnerValueAfterConstruction() {
-		assertSame(getNestingValue(nesting), property.getValue());
+		assertEquals(getNestingValue(nesting), property.getValue());
 		assertFalse(property.isInnerObservableNull());
 	}
 
@@ -72,11 +71,11 @@ public abstract class AbstractNestedPropertyTest<T, P extends Property<T>> {
 		T newValue = createNewValue();
 		setNestingValue(nesting, newValue);
 		// assert that setting the value worked
-		assertSame(newValue, getNestingValue(nesting));
+		assertEquals(newValue, getNestingValue(nesting));
 
 		// assert that nesting and property hold the new value
-		assertSame(getNestingValue(nesting), property.getValue());
-		assertSame(newValue, property.getValue());
+		assertEquals(getNestingValue(nesting), property.getValue());
+		assertEquals(newValue, property.getValue());
 	}
 
 	/**
@@ -104,11 +103,11 @@ public abstract class AbstractNestedPropertyTest<T, P extends Property<T>> {
 		P newObservable = createNewObservableWithValue(newValue);
 		setNestingObservable(nesting, newObservable);
 		// assert that setting the observable worked
-		assertSame(newObservable, getNestingObservable(nesting));
+		assertEquals(newObservable, getNestingObservable(nesting));
 
 		// assert that nesting and property hold the new value
-		assertSame(getNestingValue(nesting), property.getValue());
-		assertSame(newValue, property.getValue());
+		assertEquals(getNestingValue(nesting), property.getValue());
+		assertEquals(newValue, property.getValue());
 		// assert that 'isInnerObservableNull' is still false
 		assertFalse(property.isInnerObservableNull());
 	}
@@ -124,7 +123,7 @@ public abstract class AbstractNestedPropertyTest<T, P extends Property<T>> {
 		assertNull(getNestingObservable(nesting));
 
 		// assert that the nesting still holds the old value
-		assertSame(oldValue, property.getValue());
+		assertEquals(oldValue, property.getValue());
 		// assert that 'isInnerObservableNull' is now true
 		assertTrue(property.isInnerObservableNull());
 	}
@@ -138,15 +137,15 @@ public abstract class AbstractNestedPropertyTest<T, P extends Property<T>> {
 		P newObservable = createNewObservableWithSomeValue();
 		setNestingObservable(nesting, newObservable);
 		// (assert that setting the observable worked)
-		assertSame(newObservable, getNestingObservable(nesting));
+		assertEquals(newObservable, getNestingObservable(nesting));
 
 		// ... and change its value
 		T newValue = createNewValue();
 		newObservable.setValue(newValue);
 
 		// assert that nesting and property hold the new value
-		assertSame(getNestingValue(nesting), property.getValue());
-		assertSame(newValue, property.getValue());
+		assertEquals(getNestingValue(nesting), property.getValue());
+		assertEquals(newValue, property.getValue());
 	}
 
 	/**
@@ -171,8 +170,8 @@ public abstract class AbstractNestedPropertyTest<T, P extends Property<T>> {
 		// assert that nesting and property do not hold the old observable's value ...
 		assertNotSame(newValueInOldObservable, property.getValue());
 		// ... but the new one
-		assertSame(getNestingValue(nesting), property.getValue());
-		assertSame(newValueInNewObservable, property.getValue());
+		assertEquals(getNestingValue(nesting), property.getValue());
+		assertEquals(newValueInNewObservable, property.getValue());
 	}
 
 	//#end TESTS
