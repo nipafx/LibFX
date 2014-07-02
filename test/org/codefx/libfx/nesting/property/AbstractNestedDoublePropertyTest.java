@@ -12,7 +12,7 @@ import org.codefx.libfx.nesting.Nesting;
 public abstract class AbstractNestedDoublePropertyTest extends AbstractNestedPropertyTest<Number, DoubleProperty> {
 
 	/**
-	 * The next value returned by {@link #createNewValue()}.
+	 * The last value returned by {@link #createNewValue()}.
 	 */
 	private double lastValue = 1.5;
 

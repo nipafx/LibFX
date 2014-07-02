@@ -12,9 +12,9 @@ import org.codefx.libfx.nesting.Nesting;
 public abstract class AbstractNestedIntegerPropertyTest extends AbstractNestedPropertyTest<Number, IntegerProperty> {
 
 	/**
-	 * The next value returned by {@link #createNewValue()}.
+	 * The last value returned by {@link #createNewValue()}.
 	 */
-	private int nextValue = 1;
+	private int lastValue = 0;
 
 	@Override
 	protected boolean allowsNullValues() {
@@ -23,7 +23,7 @@ public abstract class AbstractNestedIntegerPropertyTest extends AbstractNestedPr
 
 	@Override
 	protected Number createNewValue() {
-		return ++nextValue;
+		return lastValue++;
 	}
 
 	@Override

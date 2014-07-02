@@ -12,7 +12,7 @@ import org.codefx.libfx.nesting.Nesting;
 public abstract class AbstractNestedFloatPropertyTest extends AbstractNestedPropertyTest<Number, FloatProperty> {
 
 	/**
-	 * The next value returned by {@link #createNewValue()}.
+	 * The last value returned by {@link #createNewValue()}.
 	 */
 	private float lastValue = 1.5f;
 
