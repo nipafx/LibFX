@@ -73,7 +73,7 @@ public class ObjectPropertyNestingBuilder<T> extends AbstractNestingNestingBuild
 	 * Creates a nested property from this builder's settings. This method can be called arbitrarily often and each call
 	 * returns a new instance.
 	 *
-	 * @return a new {@link NestedProperty} instance with no owning bean, no name and no default value
+	 * @return a new {@link NestedProperty} instance with no owning bean and no name
 	 */
 	public NestedProperty<T> buildProperty() {
 		Nesting<Property<T>> nesting = buildNesting();

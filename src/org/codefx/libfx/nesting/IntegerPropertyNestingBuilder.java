@@ -37,7 +37,7 @@ public class IntegerPropertyNestingBuilder extends AbstractNestingBuilder<Number
 	 * Creates a nested property from this builder's settings. This method can be called arbitrarily often and each call
 	 * returns a new instance.
 	 *
-	 * @return a new {@link IntegerProperty} instance with no owning bean, no name and no default value
+	 * @return a new {@link IntegerProperty} instance with no owning bean and no name
 	 */
 	public IntegerProperty buildProperty() {
 		Nesting<IntegerProperty> nesting = buildNesting();

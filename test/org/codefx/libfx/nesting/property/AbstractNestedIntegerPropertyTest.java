@@ -4,10 +4,9 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 import org.codefx.libfx.nesting.Nesting;
-import org.codefx.libfx.nesting.property.NestedObjectProperty;
 
 /**
- * Abstract superclass to tests for {@link NestedObjectProperty NestedObjectProperties} which only leaves the creation
+ * Abstract superclass to tests for {@link NestedIntegerProperty NestedIntegerProperty} which only leaves the creation
  * of the tested properties (by {@link #createNestedPropertyFromNesting(Nesting)}) to the subclasses.
  */
 public abstract class AbstractNestedIntegerPropertyTest extends AbstractNestedPropertyTest<Number, IntegerProperty> {

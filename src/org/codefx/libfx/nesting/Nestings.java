@@ -10,13 +10,13 @@ import javafx.beans.value.ObservableValue;
  * outer -> nested -> inner (which is also nested) <br>
  * level 0 -> level 1 -> ...
  * <p>
- * TODO: nomenclature: "observable" = "observable value"
+ * TODO (doc): nomenclature: "observable" = "observable value"
  * <p>
- * TODO: fix names of all generics to some common schema like O(outer) and N(ested)
+ * TODO (doc): fix names of all generics to some common schema like O(outer) and N(ested)
  * <p>
- * TODO examples; differences between builder types
+ * TODO (doc): examples; differences between builder types
  * <p>
- * TODO comment about nulls (here?)
+ * TODO (doc): comment about nulls (here?)
  */
 public class Nestings {
 
