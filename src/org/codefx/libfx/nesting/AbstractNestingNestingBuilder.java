@@ -120,7 +120,7 @@ abstract class AbstractNestingNestingBuilder<T, O extends ObservableValue<T>> ex
 	 *
 	 * @param nestingStep
 	 *            the function which performs the nesting step from one observable to the next
-	 * @return an {@link FloatPropertyNestingBuilder} which builds a nesting from this builder's settings and the
+	 * @return a {@link FloatPropertyNestingBuilder} which builds a nesting from this builder's settings and the
 	 *         specified nesting steps
 	 * @throws NullPointerException
 	 *             if the specified function is null
@@ -136,7 +136,7 @@ abstract class AbstractNestingNestingBuilder<T, O extends ObservableValue<T>> ex
 	 *
 	 * @param nestingStep
 	 *            the function which performs the nesting step from one observable to the next
-	 * @return an {@link DoublePropertyNestingBuilder} which builds a nesting from this builder's settings and the
+	 * @return a {@link DoublePropertyNestingBuilder} which builds a nesting from this builder's settings and the
 	 *         specified nesting steps
 	 * @throws NullPointerException
 	 *             if the specified function is null
