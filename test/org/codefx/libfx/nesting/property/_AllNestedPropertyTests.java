@@ -9,6 +9,8 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(Suite.class)
 @SuiteClasses({
+		NestedBooleanPropertyBuilderTest.class,
+		NestedBooleanPropertyTest.class,
 		NestedDoublePropertyBuilderTest.class,
 		NestedDoublePropertyTest.class,
 		NestedFloatPropertyBuilderTest.class,
