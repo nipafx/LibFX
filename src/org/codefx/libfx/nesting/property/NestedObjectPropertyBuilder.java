@@ -12,7 +12,7 @@ import org.codefx.libfx.nesting.Nesting;
  *            the type of the value wrapped by the property which will be build
  */
 public final class NestedObjectPropertyBuilder<T>
-extends AbstractNestedPropertyBuilder<Property<T>, NestedProperty<T>> {
+		extends AbstractNestedPropertyBuilder<Property<T>, NestedProperty<T>> {
 
 	// #region CONSTRUCTION
 
@@ -44,7 +44,7 @@ extends AbstractNestedPropertyBuilder<Property<T>, NestedProperty<T>> {
 	// #region METHODS
 
 	@Override
-	public NestedProperty<T> build() {
+	public NestedObjectProperty<T> build() {
 		return new NestedObjectProperty<>(getNesting(), getBean(), getName());
 	}
 

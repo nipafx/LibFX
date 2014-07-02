@@ -2,6 +2,7 @@ package org.codefx.libfx.nesting;
 
 import javafx.beans.property.DoubleProperty;
 
+import org.codefx.libfx.nesting.property.NestedDoubleProperty;
 import org.codefx.libfx.nesting.property.NestedDoublePropertyBuilder;
 import org.codefx.libfx.nesting.property.NestedObjectPropertyBuilder;
 
@@ -37,9 +38,9 @@ public class DoublePropertyNestingBuilder extends AbstractNestingBuilder<Number,
 	 * Creates a nested property from this builder's settings. This method can be called arbitrarily often and each call
 	 * returns a new instance.
 	 *
-	 * @return a new {@link DoubleProperty} instance with no owning bean and no name
+	 * @return a new {@link NestedDoubleProperty} instance with no owning bean and no name
 	 */
-	public DoubleProperty buildProperty() {
+	public NestedDoubleProperty buildProperty() {
 		Nesting<DoubleProperty> nesting = buildNesting();
 		return NestedDoublePropertyBuilder.forNesting(nesting).build();
 	}

@@ -2,6 +2,7 @@ package org.codefx.libfx.nesting;
 
 import javafx.beans.property.IntegerProperty;
 
+import org.codefx.libfx.nesting.property.NestedIntegerProperty;
 import org.codefx.libfx.nesting.property.NestedIntegerPropertyBuilder;
 import org.codefx.libfx.nesting.property.NestedObjectPropertyBuilder;
 
@@ -37,9 +38,9 @@ public class IntegerPropertyNestingBuilder extends AbstractNestingBuilder<Number
 	 * Creates a nested property from this builder's settings. This method can be called arbitrarily often and each call
 	 * returns a new instance.
 	 *
-	 * @return a new {@link IntegerProperty} instance with no owning bean and no name
+	 * @return a new {@link NestedIntegerProperty} instance with no owning bean and no name
 	 */
-	public IntegerProperty buildProperty() {
+	public NestedIntegerProperty buildProperty() {
 		Nesting<IntegerProperty> nesting = buildNesting();
 		return NestedIntegerPropertyBuilder.forNesting(nesting).build();
 	}

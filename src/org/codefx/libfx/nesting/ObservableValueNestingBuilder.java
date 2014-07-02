@@ -47,7 +47,7 @@ public class ObservableValueNestingBuilder<T> extends AbstractNestingNestingBuil
 	// #region NEST
 
 	/**
-	 * Usability method which simply calls {@link #nestObservable(NestingStep) nestProperty}.
+	 * Usability method which simply calls {@link #nestObservable(NestingStep) nestObservable}.
 	 * <p>
 	 * Returns a builder for nestings whose inner observable is an {@link ObservableValue}. The created nestings depend
 	 * on this builder's outer observable and nesting steps and adds the specified step as the next one.

@@ -2,6 +2,7 @@ package org.codefx.libfx.nesting;
 
 import javafx.beans.property.Property;
 
+import org.codefx.libfx.nesting.property.NestedObjectProperty;
 import org.codefx.libfx.nesting.property.NestedObjectPropertyBuilder;
 import org.codefx.libfx.nesting.property.NestedProperty;
 
@@ -75,7 +76,7 @@ public class ObjectPropertyNestingBuilder<T> extends AbstractNestingNestingBuild
 	 *
 	 * @return a new {@link NestedProperty} instance with no owning bean and no name
 	 */
-	public NestedProperty<T> buildProperty() {
+	public NestedObjectProperty<T> buildProperty() {
 		Nesting<Property<T>> nesting = buildNesting();
 		return NestedObjectPropertyBuilder.forNesting(nesting).build();
 	}

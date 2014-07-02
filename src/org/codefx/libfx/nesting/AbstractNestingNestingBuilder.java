@@ -72,7 +72,7 @@ abstract class AbstractNestingNestingBuilder<T, O extends ObservableValue<T>> ex
 	 *            the type wrapped by the created nesting builder
 	 * @param nestingStep
 	 *            the function which performs the nesting step from one observable to the next
-	 * @return an {@link ObservableValueNestingBuilder} which builds a nesting from this builder's settings and the
+	 * @return an {@link ObjectPropertyNestingBuilder} which builds a nesting from this builder's settings and the
 	 *         specified nesting steps
 	 */
 	public <N> ObjectPropertyNestingBuilder<N> nestProperty(NestingStep<T, Property<N>> nestingStep) {
@@ -86,7 +86,7 @@ abstract class AbstractNestingNestingBuilder<T, O extends ObservableValue<T>> ex
 	 *
 	 * @param nestingStep
 	 *            the function which performs the nesting step from one observable to the next
-	 * @return an {@link ObservableValueNestingBuilder} which builds a nesting from this builder's settings and the
+	 * @return an {@link IntegerPropertyNestingBuilder} which builds a nesting from this builder's settings and the
 	 *         specified nesting steps
 	 * @throws NullPointerException
 	 *             if the specified function is null
@@ -102,7 +102,7 @@ abstract class AbstractNestingNestingBuilder<T, O extends ObservableValue<T>> ex
 	 *
 	 * @param nestingStep
 	 *            the function which performs the nesting step from one observable to the next
-	 * @return an {@link ObservableValueNestingBuilder} which builds a nesting from this builder's settings and the
+	 * @return an {@link DoublePropertyNestingBuilder} which builds a nesting from this builder's settings and the
 	 *         specified nesting steps
 	 * @throws NullPointerException
 	 *             if the specified function is null
