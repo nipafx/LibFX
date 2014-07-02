@@ -27,7 +27,7 @@ public class NestedIntegerPropertyBuilder extends AbstractNestedPropertyBuilder<
 	 *
 	 * @param nesting
 	 *            the nesting which will be used for all nested properties
-	 * @return a new instance of {@link NestedObjectPropertyBuilder}
+	 * @return a new instance of {@link NestedIntegerPropertyBuilder}
 	 */
 	public static NestedIntegerPropertyBuilder forNesting(Nesting<IntegerProperty> nesting) {
 		return new NestedIntegerPropertyBuilder(nesting);

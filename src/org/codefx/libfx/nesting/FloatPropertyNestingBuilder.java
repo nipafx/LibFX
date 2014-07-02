@@ -4,7 +4,6 @@ import javafx.beans.property.FloatProperty;
 
 import org.codefx.libfx.nesting.property.NestedFloatProperty;
 import org.codefx.libfx.nesting.property.NestedFloatPropertyBuilder;
-import org.codefx.libfx.nesting.property.NestedObjectPropertyBuilder;
 
 /**
  * A builder for all kinds of nested functionality whose innermost value is held by a {@link FloatProperty}.
@@ -49,7 +48,7 @@ public class FloatPropertyNestingBuilder extends AbstractNestingBuilder<Number, 
 	 * Returns a nested object property builder which can be used to define the new property's attributes before
 	 * building it.
 	 *
-	 * @return a new instance of {@link NestedObjectPropertyBuilder}
+	 * @return a new instance of {@link NestedFloatPropertyBuilder}
 	 */
 	public NestedFloatPropertyBuilder buildPropertyWithBuilder() {
 		Nesting<FloatProperty> nesting = buildNesting();

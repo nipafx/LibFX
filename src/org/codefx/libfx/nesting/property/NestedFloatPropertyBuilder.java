@@ -27,7 +27,7 @@ public class NestedFloatPropertyBuilder extends AbstractNestedPropertyBuilder<Fl
 	 *
 	 * @param nesting
 	 *            the nesting which will be used for all nested properties
-	 * @return a new instance of {@link NestedObjectPropertyBuilder}
+	 * @return a new instance of {@link NestedFloatPropertyBuilder}
 	 */
 	public static NestedFloatPropertyBuilder forNesting(Nesting<FloatProperty> nesting) {
 		return new NestedFloatPropertyBuilder(nesting);

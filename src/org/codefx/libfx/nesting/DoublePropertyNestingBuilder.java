@@ -4,7 +4,6 @@ import javafx.beans.property.DoubleProperty;
 
 import org.codefx.libfx.nesting.property.NestedDoubleProperty;
 import org.codefx.libfx.nesting.property.NestedDoublePropertyBuilder;
-import org.codefx.libfx.nesting.property.NestedObjectPropertyBuilder;
 
 /**
  * A builder for all kinds of nested functionality whose innermost value is held by a {@link DoubleProperty}.
@@ -49,7 +48,7 @@ public class DoublePropertyNestingBuilder extends AbstractNestingBuilder<Number,
 	 * Returns a nested object property builder which can be used to define the new property's attributes before
 	 * building it.
 	 *
-	 * @return a new instance of {@link NestedObjectPropertyBuilder}
+	 * @return a new instance of {@link NestedDoublePropertyBuilder}
 	 */
 	public NestedDoublePropertyBuilder buildPropertyWithBuilder() {
 		Nesting<DoubleProperty> nesting = buildNesting();

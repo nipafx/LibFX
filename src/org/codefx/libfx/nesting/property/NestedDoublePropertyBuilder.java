@@ -27,7 +27,7 @@ public class NestedDoublePropertyBuilder extends AbstractNestedPropertyBuilder<D
 	 *
 	 * @param nesting
 	 *            the nesting which will be used for all nested properties
-	 * @return a new instance of {@link NestedObjectPropertyBuilder}
+	 * @return a new instance of {@link NestedDoublePropertyBuilder}
 	 */
 	public static NestedDoublePropertyBuilder forNesting(Nesting<DoubleProperty> nesting) {
 		return new NestedDoublePropertyBuilder(nesting);
