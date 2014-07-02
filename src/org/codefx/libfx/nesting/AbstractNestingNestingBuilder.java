@@ -5,6 +5,7 @@ import java.util.Objects;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.FloatProperty;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.LongProperty;
 import javafx.beans.property.Property;
 import javafx.beans.value.ObservableValue;
 
@@ -95,6 +96,22 @@ abstract class AbstractNestingNestingBuilder<T, O extends ObservableValue<T>> ex
 	public IntegerPropertyNestingBuilder nestIntegerProperty(NestingStep<T, IntegerProperty> nestingStep) {
 		Objects.requireNonNull(nestingStep, "The argument 'nestingStep' must not be null.");
 		return new IntegerPropertyNestingBuilder(this, nestingStep);
+	}
+
+	/**
+	 * Returns a builder for nestings whose inner observable is a {@link LongProperty}. The created nestings depend on
+	 * this builder's outer observable and nesting steps and adds the specified step as the next one.
+	 *
+	 * @param nestingStep
+	 *            the function which performs the nesting step from one observable to the next
+	 * @return a {@link LongPropertyNestingBuilder} which builds a nesting from this builder's settings and the
+	 *         specified nesting steps
+	 * @throws NullPointerException
+	 *             if the specified function is null
+	 */
+	public LongPropertyNestingBuilder nestLongProperty(NestingStep<T, LongProperty> nestingStep) {
+		Objects.requireNonNull(nestingStep, "The argument 'nestingStep' must not be null.");
+		return new LongPropertyNestingBuilder(this, nestingStep);
 	}
 
 	/**
