@@ -2,7 +2,6 @@ package org.codefx.libfx.nesting.property;
 
 import javafx.beans.property.Property;
 
-import org.codefx.libfx.nesting.Nested;
 import org.codefx.libfx.nesting.Nesting;
 
 /**
@@ -21,6 +20,6 @@ import org.codefx.libfx.nesting.Nesting;
  * @param <T>
  *            the type of the value wrapped by the property
  */
-public interface NestedProperty<T> extends Nested, Property<T> {
+public interface NestedProperty<T> extends Property<T>, ReadOnlyNestedProperty<T> {
 	// no additional members defined
 }
