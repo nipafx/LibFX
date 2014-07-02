@@ -49,9 +49,8 @@ public class NestingDemo {
 	 * Demonstrates the use of {@link NestedProperty}.
 	 */
 	private void demoNestedProperties() {
-		// TODO change this to DoubleProperty as soon as that is implemented
-		Property<Number> currentEmployeesSalary = Nestings.on(currentEmployee)
-				.nest(employee -> employee.salaryProperty())
+		DoubleProperty currentEmployeesSalary = Nestings.on(currentEmployee)
+				.nestDoubleProperty(employee -> employee.salaryProperty())
 				.buildProperty();
 
 		System.out
