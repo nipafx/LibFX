@@ -13,8 +13,8 @@ import javafx.beans.value.ObservableValue;
 import org.codefx.libfx.nesting.Nesting;
 
 /**
- * Provides simple usability functions to access an outer observables nesting hierarchy in a more readable way. To that
- * end many arguments and return types can be null (see method comments).
+ * Provides simple usability functions to access an outer observable's nesting hierarchy in a more readable way. To that
+ * end, many arguments and return types can be null (see method comments).
  */
 public class NestingAccess {
 
@@ -25,8 +25,8 @@ public class NestingAccess {
 	 *            the type of observable the nesting contains
 	 * @param nesting
 	 *            the nesting whose observable will be returned
-	 * @return {@link Nesting#innerObservable()}.{@link ReadOnlyProperty#getValue() getValue()}.{@link Optional#get()};
-	 *         can be null
+	 * @return {@link Nesting#innerObservable()}.{@link ReadOnlyProperty#getValue() getValue()}.{@link Optional#get()
+	 *         get()}; can be null
 	 */
 	public static <O extends Observable> O getNestingObservable(Nesting<O> nesting) {
 		Objects.requireNonNull(nesting, "The argument 'nesting' must not be null.");

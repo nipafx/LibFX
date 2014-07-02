@@ -4,10 +4,6 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 import org.codefx.libfx.nesting.Nesting;
-import org.codefx.libfx.nesting.property.AbstractNestedPropertyBuilder;
-import org.codefx.libfx.nesting.property.NestedIntegerProperty;
-import org.codefx.libfx.nesting.property.NestedIntegerPropertyBuilder;
-import org.codefx.libfx.nesting.property.NestedProperty;
 import org.codefx.libfx.nesting.testhelper.NestingAccess.EditableNesting;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -18,8 +14,8 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(Suite.class)
 @SuiteClasses({
-		NestedIntegerPropertyBuilderTest.AbstractBuilderContract.class,
-		NestedIntegerPropertyBuilderTest.CreatedProperties.class,
+	NestedIntegerPropertyBuilderTest.AbstractBuilderContract.class,
+	NestedIntegerPropertyBuilderTest.CreatedProperties.class,
 })
 public class NestedIntegerPropertyBuilderTest {
 
@@ -27,7 +23,7 @@ public class NestedIntegerPropertyBuilderTest {
 	 * Tests whether the builder fulfills the contract defined by {@link AbstractNestedPropertyBuilder}.
 	 */
 	public static class AbstractBuilderContract
-	extends AbstractNestedPropertyBuilderTest<IntegerProperty, NestedIntegerProperty> {
+			extends AbstractNestedPropertyBuilderTest<IntegerProperty, NestedIntegerProperty> {
 
 		@Override
 		protected AbstractNestedPropertyBuilder<IntegerProperty, NestedIntegerProperty> createBuilder() {

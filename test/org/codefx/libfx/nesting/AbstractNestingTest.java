@@ -5,7 +5,6 @@ import static org.junit.Assert.assertSame;
 import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
 
-import org.codefx.libfx.nesting.Nesting;
 import org.junit.Before;
 import org.junit.Test;
 

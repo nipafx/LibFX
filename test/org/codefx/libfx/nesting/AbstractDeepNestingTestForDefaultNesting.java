@@ -10,7 +10,7 @@ import org.codefx.libfx.nesting.testhelper.InnerValue;
 import org.codefx.libfx.nesting.testhelper.OuterValue;
 
 /**
- * Superclass for tests for deep nestings which are based on the nesting hierarchy in the package
+ * Abstract superclass to tests for deep nestings which are based on the nesting hierarchy in the package
  * {@link org.codefx.libfx.nesting.testhelper testhelper}.
  * <p>
  * It leaves {@link #createNewNestingFromOuterObservable(Observable)} and {@link #getInnerObservable(Observable)}

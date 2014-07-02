@@ -5,10 +5,9 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
-import org.codefx.libfx.nesting.Nesting;
-import org.codefx.libfx.nesting.ShallowNesting;
 import org.codefx.libfx.nesting.testhelper.SomeValue;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -19,9 +18,9 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(Suite.class)
 @SuiteClasses({
-		ShallowNestingTest.OnObservable.class,
-		ShallowNestingTest.OnObservableValue.class,
-		ShallowNestingTest.OnProperty.class,
+	ShallowNestingTest.OnObservable.class,
+	ShallowNestingTest.OnObservableValue.class,
+	ShallowNestingTest.OnProperty.class,
 })
 public class ShallowNestingTest {
 
@@ -57,15 +56,43 @@ public class ShallowNestingTest {
 	 * Tests a {@link ShallowNesting} based on an {@link ObservableValue}.
 	 */
 	public static class OnObservableValue
-	extends AbstractShallowNestingTest<ObservableValue<SomeValue>> {
+			extends AbstractShallowNestingTest<ObservableValue<SomeValue>> {
 
 		@Override
 		protected ObservableValue<SomeValue> createNewNestingHierarchy() {
+			final SomeValue someValue = new SomeValue();
+
 			/*
-			 * TODO check whether it would be better to return an implementation of 'ObservableValue' which does not
-			 * also implement other interfaces.
+			 * To return an implementation of the 'ObservableValue' interface which does not also implement other
+			 * interfaces, create an anonymous class. It is assumed that listeners are neither added nor removed.
 			 */
-			return new SimpleObjectProperty<SomeValue>(new SomeValue());
+			return new ObservableValue<SomeValue>() {
+
+				@Override
+				public void addListener(InvalidationListener listener) {
+					fail();
+				}
+
+				@Override
+				public void removeListener(InvalidationListener listener) {
+					fail();
+				}
+
+				@Override
+				public void addListener(ChangeListener<? super SomeValue> listener) {
+					fail();
+				}
+
+				@Override
+				public void removeListener(ChangeListener<? super SomeValue> listener) {
+					fail();
+				}
+
+				@Override
+				public SomeValue getValue() {
+					return someValue;
+				}
+			};
 		}
 	}
 

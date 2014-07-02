@@ -6,7 +6,6 @@ import static org.junit.Assert.assertSame;
 import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
 
-import org.codefx.libfx.nesting.Nesting;
 import org.junit.Test;
 
 /**
@@ -115,14 +114,14 @@ public abstract class AbstractDeepNestingTest<OO extends Observable, IO extends 
 	protected enum Level {
 
 		/**
-		 * A level below the outer level.
-		 */
-		NESTED,
-
-		/**
 		 * The outer level.
 		 */
 		OUTER,
+
+		/**
+		 * A level below the outer level.
+		 */
+		NESTED,
 	}
 
 	/**
