@@ -6,6 +6,7 @@ import static org.codefx.libfx.nesting.testhelper.NestingAccess.setNestingObserv
 import static org.codefx.libfx.nesting.testhelper.NestingAccess.setNestingValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -167,9 +168,9 @@ public abstract class AbstractNestedPropertyTest<T, P extends Property<T>> {
 		T newValueInOldObservable = createNewValue();
 		oldObservable.setValue(newValueInOldObservable);
 
-		// assert that nesting and property do not hold the old observable's value ...
-		assertNotSame(newValueInOldObservable, property.getValue());
-		// ... but the new one
+		// assert that nesting and property do not hold the old observable's new value ...
+		assertNotEquals(newValueInOldObservable, property.getValue());
+		// ... but the new observable's value
 		assertEquals(getNestingValue(nesting), property.getValue());
 		assertEquals(newValueInNewObservable, property.getValue());
 	}
@@ -219,5 +220,30 @@ public abstract class AbstractNestedPropertyTest<T, P extends Property<T>> {
 	protected abstract P createNewObservableWithSomeValue();
 
 	//#end ABSTRACT METHODS
+
+	// #region ATTRIBUTE ACCESS
+
+	/**
+	 * @return the nesting on which the tested property is based
+	 */
+	public NestingAccess.EditableNesting<P> getNesting() {
+		return nesting;
+	}
+
+	/**
+	 * @return the tested property
+	 */
+	public NestedProperty<T> getProperty() {
+		return property;
+	}
+
+	/**
+	 * @return the {@link #getProperty tested property}'s current value
+	 */
+	public T getPropertyValue() {
+		return property.getValue();
+	}
+
+	//#end ATTRIBUTE ACCESS
 
 }

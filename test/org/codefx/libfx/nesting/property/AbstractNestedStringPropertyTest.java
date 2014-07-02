@@ -18,7 +18,7 @@ public abstract class AbstractNestedStringPropertyTest extends AbstractNestedPro
 
 	@Override
 	protected boolean allowsNullValues() {
-		return false;
+		return true;
 	}
 
 	@Override
