@@ -9,16 +9,18 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(Suite.class)
 @SuiteClasses({
-	NestedDoublePropertyBuilderTest.class,
-	NestedDoublePropertyTest.class,
-	NestedFloatPropertyBuilderTest.class,
-	NestedFloatPropertyTest.class,
-	NestedIntegerPropertyBuilderTest.class,
-	NestedIntegerPropertyTest.class,
-	NestedLongPropertyBuilderTest.class,
-	NestedLongPropertyTest.class,
-	NestedObjectPropertyBuilderTest.class,
-	NestedObjectPropertyTest.class,
+		NestedDoublePropertyBuilderTest.class,
+		NestedDoublePropertyTest.class,
+		NestedFloatPropertyBuilderTest.class,
+		NestedFloatPropertyTest.class,
+		NestedIntegerPropertyBuilderTest.class,
+		NestedIntegerPropertyTest.class,
+		NestedLongPropertyBuilderTest.class,
+		NestedLongPropertyTest.class,
+		NestedObjectPropertyBuilderTest.class,
+		NestedObjectPropertyTest.class,
+		NestedStringPropertyBuilderTest.class,
+		NestedStringPropertyTest.class,
 })
 public class _AllNestedPropertyTests {
 	// no body needed
