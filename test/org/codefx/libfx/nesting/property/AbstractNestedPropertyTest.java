@@ -61,7 +61,7 @@ public abstract class AbstractNestedPropertyTest<T, P extends Property<T>> {
 	@Test
 	public void testInnerValueAfterConstruction() {
 		assertEquals(getNestingValue(nesting), property.getValue());
-		assertFalse(property.isInnerObservableNull());
+		assertTrue(property.isInnerObservablePresent());
 	}
 
 	/**
@@ -109,8 +109,8 @@ public abstract class AbstractNestedPropertyTest<T, P extends Property<T>> {
 		// assert that nesting and property hold the new value
 		assertEquals(getNestingValue(nesting), property.getValue());
 		assertEquals(newValue, property.getValue());
-		// assert that 'isInnerObservableNull' is still false
-		assertFalse(property.isInnerObservableNull());
+		// assert that the inner observable is present
+		assertTrue(property.isInnerObservablePresent());
 	}
 
 	/**
@@ -125,8 +125,8 @@ public abstract class AbstractNestedPropertyTest<T, P extends Property<T>> {
 
 		// assert that the nesting still holds the old value
 		assertEquals(oldValue, property.getValue());
-		// assert that 'isInnerObservableNull' is now true
-		assertTrue(property.isInnerObservableNull());
+		// assert that the inner observable is now missing, i.e. not present
+		assertFalse(property.isInnerObservablePresent());
 	}
 
 	/**

@@ -8,17 +8,17 @@ import javafx.beans.property.ReadOnlyBooleanProperty;
 public interface Nested {
 
 	/**
-	 * Indicates whether the inner observable is currently null.
+	 * Indicates whether the inner observable is currently present.
 	 *
-	 * @return whether the inner observable is null as a property
+	 * @return whether the inner observable is present, i.e. not null (as a property)
 	 */
-	ReadOnlyBooleanProperty innerObservableNull();
+	ReadOnlyBooleanProperty innerObservablePresent();
 
 	/**
-	 * Indicates whether the inner observable is currently null.
+	 * Indicates whether the inner observable is currently present.
 	 *
-	 * @return true if the inner observable is null
+	 * @return true if the inner observable is present, i.e. not null
 	 */
-	boolean isInnerObservableNull();
+	boolean isInnerObservablePresent();
 
 }

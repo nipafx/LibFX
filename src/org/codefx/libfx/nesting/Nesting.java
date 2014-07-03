@@ -19,10 +19,10 @@ import javafx.beans.value.ObservableValue;
 public interface Nesting<O extends Observable> {
 
 	/**
-	 * The current innermost observable in the hierarchy. If some observable or its value were null, this contains null
-	 * as well.
+	 * A property holding the current innermost observable in the hierarchy. If some observable or its value were null,
+	 * this contains {@link Optional#empty()}.
 	 *
-	 * @return the innermost {@link ObservableValue}
+	 * @return the innermost {@link ObservableValue} in an {@link Optional}
 	 */
 	ReadOnlyProperty<Optional<O>> innerObservable();
 

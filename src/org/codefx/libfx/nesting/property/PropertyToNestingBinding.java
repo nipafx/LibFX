@@ -25,9 +25,10 @@ class PropertyToNestingBinding<T> {
 	private final NestedProperty<T> nestedProperty;
 
 	/**
-	 * Sets the {@link #nestedProperty}'s {@link NestedProperty#innerObservableNull() innerObservableNull} property.
+	 * Sets the {@link #nestedProperty}'s {@link NestedProperty#innerObservablePresent() innerObservablePresent}
+	 * property.
 	 */
-	private final Consumer<Boolean> innerObservableNullSetter;
+	private final Consumer<Boolean> innerObservablePresentSetter;
 
 	/**
 	 * The nesting to which the {@link #nestedProperty} will be bound.
@@ -40,51 +41,54 @@ class PropertyToNestingBinding<T> {
 
 	/**
 	 * Bidirectionally binds the specified nested property to the specified nesting's property. The specified setter is
-	 * used to update the {@code innerObservableNull} property.
+	 * used to update the nested property's {@link NestedProperty#innerObservablePresent() innerObservablePresent}
+	 * property.
 	 *
 	 * @param nestedProperty
 	 *            the {@link Property} which will be bound to the specified nesting
-	 * @param innerObservableNullSetter
-	 *            the {@link Consumer} which sets the {@link NestedProperty#innerObservableNull()} property
+	 * @param innerObservablePresentSetter
+	 *            the {@link Consumer} which sets the {@link NestedProperty#innerObservablePresent()} property
 	 * @param nesting
 	 *            the {@link Nesting} to which the property will be bound
 	 * @throws NullPointerException
 	 *             if any of the arguments is null
 	 */
 	private PropertyToNestingBinding(
-			NestedProperty<T> nestedProperty, Consumer<Boolean> innerObservableNullSetter,
+			NestedProperty<T> nestedProperty, Consumer<Boolean> innerObservablePresentSetter,
 			Nesting<? extends Property<T>> nesting) {
 
 		Objects.requireNonNull(nestedProperty, "The argument 'property' must not be null.");
-		Objects.requireNonNull(innerObservableNullSetter, "The argument 'innerObservableNullSetter' must not be null.");
+		Objects.requireNonNull(innerObservablePresentSetter,
+				"The argument 'innerObservablePresentSetter' must not be null.");
 		Objects.requireNonNull(nesting, "The argument 'nesting' must not be null.");
 
 		this.nestedProperty = nestedProperty;
-		this.innerObservableNullSetter = innerObservableNullSetter;
+		this.innerObservablePresentSetter = innerObservablePresentSetter;
 		this.nesting = nesting;
 	}
 
 	/**
 	 * Bidirectionally binds the specified nested property to the specified nesting's property. The specified setter is
-	 * used to update the {@code innerObservableNull} property.
+	 * used to update the nested property's {@link NestedProperty#innerObservablePresent() innerObservablePresent}
+	 * property.
 	 *
 	 * @param <T>
 	 *            the type wrapped by the property
 	 * @param nestedProperty
 	 *            the {@link Property} which will be bound to the specified nesting
-	 * @param innerObservableNullSetter
-	 *            the {@link Consumer} which sets the {@link NestedProperty#innerObservableNull()} property
+	 * @param innerObservablePresentSetter
+	 *            the {@link Consumer} which sets the {@link NestedProperty#innerObservablePresent()} property
 	 * @param nesting
 	 *            the {@link Nesting} to which the property will be bound
 	 * @throws NullPointerException
 	 *             if any of the arguments is null
 	 */
 	public static <T> void bind(
-			NestedProperty<T> nestedProperty, Consumer<Boolean> innerObservableNullSetter,
+			NestedProperty<T> nestedProperty, Consumer<Boolean> innerObservablePresentSetter,
 			Nesting<? extends Property<T>> nesting) {
 
 		PropertyToNestingBinding<T> binding =
-				new PropertyToNestingBinding<>(nestedProperty, innerObservableNullSetter, nesting);
+				new PropertyToNestingBinding<>(nestedProperty, innerObservablePresentSetter, nesting);
 		binding.bindToNestingProperty();
 	}
 
@@ -111,13 +115,15 @@ class PropertyToNestingBinding<T> {
 	 * @param newPropertyOpt
 	 *            the {@link Property} to which to bind
 	 */
-	private void moveBinding(Optional<? extends Property<T>> oldPropertyOpt,
+	private void moveBinding(
+			Optional<? extends Property<T>> oldPropertyOpt,
 			Optional<? extends Property<T>> newPropertyOpt) {
+
 		oldPropertyOpt.ifPresent(oldProperty -> nestedProperty.unbindBidirectional(oldProperty));
 		newPropertyOpt.ifPresent(newProperty -> nestedProperty.bindBidirectional(newProperty));
 
-		boolean innerObservableNull = !newPropertyOpt.isPresent();
-		innerObservableNullSetter.accept(innerObservableNull);
+		boolean innerObservablePresent = newPropertyOpt.isPresent();
+		innerObservablePresentSetter.accept(innerObservablePresent);
 	}
 
 	//#end BIND

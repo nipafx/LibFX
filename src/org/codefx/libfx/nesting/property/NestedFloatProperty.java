@@ -19,9 +19,9 @@ public class NestedFloatProperty extends SimpleFloatProperty implements NestedPr
 	// #region PROPERTIES
 
 	/**
-	 * The property indicating whether the nesting's inner observable is currently null.
+	 * The property indicating whether the nesting's inner observable is currently present, i.e. not null.
 	 */
-	private final BooleanProperty innerObservableNull;
+	private final BooleanProperty innerObservablePresent;
 
 	//#end PROPERTIES
 
@@ -40,9 +40,9 @@ public class NestedFloatProperty extends SimpleFloatProperty implements NestedPr
 	NestedFloatProperty(Nesting<? extends Property<Number>> nesting, Object bean, String name) {
 		super(bean, name);
 		Objects.requireNonNull(nesting, "The argument 'nesting' must not be null.");
-		this.innerObservableNull = new SimpleBooleanProperty(this, "innerObservableNull");
+		this.innerObservablePresent = new SimpleBooleanProperty(this, "innerObservablePresent");
 
-		PropertyToNestingBinding.bind(this, isNull -> innerObservableNull.set(isNull), nesting);
+		PropertyToNestingBinding.bind(this, isPresent -> innerObservablePresent.set(isPresent), nesting);
 	}
 
 	//#end CONSTUCTION
@@ -50,13 +50,13 @@ public class NestedFloatProperty extends SimpleFloatProperty implements NestedPr
 	// #region IMPLEMENTATION OF 'NestedProperty'
 
 	@Override
-	public ReadOnlyBooleanProperty innerObservableNull() {
-		return innerObservableNull;
+	public ReadOnlyBooleanProperty innerObservablePresent() {
+		return innerObservablePresent;
 	}
 
 	@Override
-	public boolean isInnerObservableNull() {
-		return innerObservableNull.get();
+	public boolean isInnerObservablePresent() {
+		return innerObservablePresent.get();
 	}
 
 	//#end IMPLEMENTATION OF 'NestedProperty'
