@@ -13,8 +13,8 @@ import org.codefx.libfx.nesting.Nesting;
  * property's value changes to the new observable's value. Like all other value changes this one also results in calling
  * all change listeners. If the new observable is null, the property keeps its value and no change listener is called.
  * <h2>Inner Observable Holds Null</h2> It is possible that a nesting's inner observable holds null (see class comment
- * in {@link Nesting}). In that case the {@link NestedProperty#innerObservableNull() innerObservableNull} property is
- * true and changes made to this property's value can not be propagated to another property. If the inner observable
+ * in {@link Nesting}). In that case the {@link NestedProperty#innerObservablePresent() innerObservablePresent} property
+ * is true and changes made to this property's value can not be propagated to another property. If the inner observable
  * changes back to a non-null value, everything said above applies.
  *
  * @param <T>

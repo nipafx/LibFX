@@ -22,8 +22,8 @@ final class ShallowNesting<O extends Observable> implements Nesting<O> {
 	private final ReadOnlyProperty<Optional<O>> inner;
 
 	/**
-	 * Creates a new shallow nesting whose {@link #innerObservable} property always holds the specified outer
-	 * observable.
+	 * Creates a new shallow nesting whose {@link #innerObservableProperty() innerObservable} property always holds the
+	 * specified outer observable.
 	 *
 	 * @param outerObservable
 	 *            the {@link Observable} on which this nesting depends
