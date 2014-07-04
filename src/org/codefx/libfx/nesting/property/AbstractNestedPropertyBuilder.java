@@ -85,9 +85,22 @@ abstract class AbstractNestedPropertyBuilder<N extends Property<?>, P extends Ne
 	 * @param bean
 	 *            the property's future bean
 	 */
-	public final void setBean(Object bean) {
+	protected final void setTheBean(Object bean) {
 		Objects.requireNonNull(bean, "The argument 'bean' must not be null.");
 		this.bean = bean;
+	}
+
+	/**
+	 * Sets the property's future {@link Property#getBean() bean}.
+	 *
+	 * @param bean
+	 *            the property's future bean
+	 * @return this builder
+	 */
+	public AbstractNestedPropertyBuilder<N, P> setBean(Object bean) {
+		Objects.requireNonNull(bean, "The argument 'bean' must not be null.");
+		this.bean = bean;
+		return this;
 	}
 
 	/**
@@ -103,9 +116,21 @@ abstract class AbstractNestedPropertyBuilder<N extends Property<?>, P extends Ne
 	 * @param name
 	 *            the property's future name
 	 */
-	public final void setName(String name) {
+	protected final void setTheName(String name) {
 		Objects.requireNonNull(name, "The argument 'name' must not be null.");
 		this.name = name;
+	}
+
+	/**
+	 * Sets the property's future {@link Property#getName() name}.
+	 *
+	 * @param name
+	 *            the property's future name
+	 * @return this builder
+	 */
+	public AbstractNestedPropertyBuilder<N, P> setName(String name) {
+		setTheName(name);
+		return this;
 	}
 
 	//#end PROPERTY ACCESS

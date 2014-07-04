@@ -48,6 +48,32 @@ public final class NestedObjectPropertyBuilder<T>
 		return new NestedObjectProperty<>(getNesting(), getBean(), getName());
 	}
 
+	/**
+	 * Sets the property's future {@link Property#getBean() bean}.
+	 *
+	 * @param bean
+	 *            the property's future bean
+	 * @return this builder
+	 */
+	@Override
+	public NestedObjectPropertyBuilder<T> setBean(Object bean) {
+		setTheBean(bean);
+		return this;
+	}
+
+	/**
+	 * Sets the property's future {@link Property#getName() name}.
+	 *
+	 * @param name
+	 *            the property's future name
+	 * @return this builder
+	 */
+	@Override
+	public NestedObjectPropertyBuilder<T> setName(String name) {
+		setTheName(name);
+		return this;
+	}
+
 	//#end METHODS
 
 }
