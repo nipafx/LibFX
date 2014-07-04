@@ -25,7 +25,7 @@ public abstract class AbstractDeepNestingTest<OO extends Observable, IO extends 
 	// nested value
 
 	/**
-	 * Tests whether the {@link #nesting}'s {@link Nesting#innerObservable() innerObservable} is updated correctly when
+	 * Tests whether the {@link #nesting}'s {@link Nesting#innerObservableProperty() innerObservable} is updated correctly when
 	 * one of the {@link #outerObservable}'s nested values is changed.
 	 */
 	@Test
@@ -35,7 +35,7 @@ public abstract class AbstractDeepNestingTest<OO extends Observable, IO extends 
 	}
 
 	/**
-	 * Tests whether the {@link #nesting}'s {@link Nesting#innerObservable() innerObservable} is updated correctly when
+	 * Tests whether the {@link #nesting}'s {@link Nesting#innerObservableProperty() innerObservable} is updated correctly when
 	 * one of the {@link #outerObservable}'s nested values is changed to one which contains null observables.
 	 */
 	@Test
@@ -45,7 +45,7 @@ public abstract class AbstractDeepNestingTest<OO extends Observable, IO extends 
 	}
 
 	/**
-	 * Tests whether the {@link #nesting}'s {@link Nesting#innerObservable() innerObservable} is updated correctly when
+	 * Tests whether the {@link #nesting}'s {@link Nesting#innerObservableProperty() innerObservable} is updated correctly when
 	 * one of the {@link #outerObservable}'s nested values is set to null.
 	 */
 	@Test
@@ -57,7 +57,7 @@ public abstract class AbstractDeepNestingTest<OO extends Observable, IO extends 
 	// outer value
 
 	/**
-	 * Tests whether the {@link #nesting}'s {@link Nesting#innerObservable() innerObservable} is updated correctly when
+	 * Tests whether the {@link #nesting}'s {@link Nesting#innerObservableProperty() innerObservable} is updated correctly when
 	 * the {@link #outerObservable}'s outer value is changed.
 	 */
 	@Test
@@ -67,7 +67,7 @@ public abstract class AbstractDeepNestingTest<OO extends Observable, IO extends 
 	}
 
 	/**
-	 * Tests whether the {@link #nesting}'s {@link Nesting#innerObservable() innerObservable} is updated correctly when
+	 * Tests whether the {@link #nesting}'s {@link Nesting#innerObservableProperty() innerObservable} is updated correctly when
 	 * the {@link #outerObservable}'s outer value is changed to one which contains null observables.
 	 */
 	@Test
@@ -77,7 +77,7 @@ public abstract class AbstractDeepNestingTest<OO extends Observable, IO extends 
 	}
 
 	/**
-	 * Tests whether the {@link #nesting}'s {@link Nesting#innerObservable() innerObservable} is updated correctly when
+	 * Tests whether the {@link #nesting}'s {@link Nesting#innerObservableProperty() innerObservable} is updated correctly when
 	 * the {@link #outerObservable}'s outer value is set to null.
 	 */
 	@Test

@@ -5,7 +5,7 @@ import javafx.beans.property.Property;
 import org.codefx.libfx.nesting.Nesting;
 
 /**
- * A builder for a {@link Property} which is bound to the {@link Nesting#innerObservable() innerObservable} of a
+ * A builder for a {@link Property} which is bound to the {@link Nesting#innerObservableProperty() innerObservable} of a
  * {@link Nesting}.
  *
  * @param <T>

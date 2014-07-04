@@ -5,7 +5,7 @@ import javafx.beans.property.StringProperty;
 import org.codefx.libfx.nesting.Nesting;
 
 /**
- * A builder for a {@link NestedStringProperty} which is bound to the {@link Nesting#innerObservable() innerObservable}
+ * A builder for a {@link NestedStringProperty} which is bound to the {@link Nesting#innerObservableProperty() innerObservable}
  * of a {@link Nesting}.
  */
 public class NestedStringPropertyBuilder extends AbstractNestedPropertyBuilder<StringProperty, NestedStringProperty> {

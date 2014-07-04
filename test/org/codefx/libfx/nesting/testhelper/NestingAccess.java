@@ -14,7 +14,8 @@ import org.codefx.libfx.nesting.Nesting;
 
 /**
  * Provides simple usability functions to access an outer observable's nesting hierarchy in a more readable way. To that
- * end, many arguments and return types can be null (see method comments).
+ * end, many arguments and return types can be null if the {@link Nesting#innerObservableProperty() innerObservable} is
+ * not present.(see method comments)
  */
 public class NestingAccess {
 
@@ -25,13 +26,14 @@ public class NestingAccess {
 	 *            the type of observable the nesting contains
 	 * @param nesting
 	 *            the nesting whose observable will be returned
-	 * @return {@link Nesting#innerObservable()}.{@link ReadOnlyProperty#getValue() getValue()}.{@link Optional#get()
-	 *         get()}; can be null
+	 * @return the observable in the nesting's {@code innerObservable} property:
+	 *         {@link Nesting#innerObservableProperty()}.{@link ReadOnlyProperty#getValue() getValue()}.
+	 *         {@link Optional#get() get()}; will be null if no observable is present
 	 */
 	public static <O extends Observable> O getNestingObservable(Nesting<O> nesting) {
 		Objects.requireNonNull(nesting, "The argument 'nesting' must not be null.");
 
-		Optional<O> nestingObservable = nesting.innerObservable().getValue();
+		Optional<O> nestingObservable = nesting.innerObservableProperty().getValue();
 		if (nestingObservable.isPresent())
 			return nestingObservable.get();
 		else
@@ -61,9 +63,11 @@ public class NestingAccess {
 	 *            the type of observable the nesting contains
 	 * @param nesting
 	 *            the nesting whose observable's value will be returned
-	 * @return the value of the observable in {@link Nesting#innerObservable()}; can be null
+	 * @return the value of the observable in the nesting's {@code innerObservable} property:
+	 *         {@link Nesting#innerObservableProperty()}.{@link ReadOnlyProperty#getValue() getValue()}.
+	 *         {@link Optional#get() get()}.{@link ObservableValue#getValue() getValue()}; can be null
 	 * @throws NullPointerException
-	 *             if the nesting's inner observable is null
+	 *             if the nesting's inner observable is not present
 	 */
 	public static <T, O extends ObservableValue<T>> T getNestingValue(Nesting<O> nesting) {
 		Objects.requireNonNull(nesting, "The argument 'nesting' must not be null.");
@@ -83,7 +87,7 @@ public class NestingAccess {
 	 * @param newValue
 	 *            the nesting's observable's new value; can be null.
 	 * @throws NullPointerException
-	 *             if the nesting's inner observable is null
+	 *             if the nesting's inner observable is not present
 	 */
 	public static <T, O extends Property<T>> void setNestingValue(Nesting<O> nesting, T newValue) {
 		Objects.requireNonNull(nesting, "The argument 'nesting' must not be null.");
@@ -192,7 +196,7 @@ public class NestingAccess {
 
 	/**
 	 * An implementation of {@link Nesting} which does no real nesting. Instead it allows to directly edit the
-	 * {@link Nesting#innerObservable()}.
+	 * {@link Nesting#innerObservableProperty()}.
 	 *
 	 * @param <O>
 	 *            the type of the inner observable
@@ -246,7 +250,7 @@ public class NestingAccess {
 		 * @return the innerObservable as a property
 		 */
 		@Override
-		public Property<Optional<O>> innerObservable() {
+		public Property<Optional<O>> innerObservableProperty() {
 			return innerObservable;
 		}
 
@@ -256,7 +260,7 @@ public class NestingAccess {
 		 * @return the innerObservable
 		 */
 		public Optional<O> getInnerObservable() {
-			return innerObservable().getValue();
+			return innerObservableProperty().getValue();
 		}
 
 		/**
@@ -266,7 +270,7 @@ public class NestingAccess {
 		 *            the innerObservable to set
 		 */
 		public void setInnerObservable(Optional<O> innerObservable) {
-			innerObservable().setValue(innerObservable);
+			innerObservableProperty().setValue(innerObservable);
 		}
 
 	}

@@ -9,8 +9,8 @@ import javafx.beans.property.Property;
 import org.codefx.libfx.nesting.Nesting;
 
 /**
- * Implements the bidirectional binding between a nested property and its nesting's {@link Nesting#innerObservable()
- * innerProperty} and updates the binding when the nesting changes.
+ * Implements the bidirectional binding between a nested property and its nesting's
+ * {@link Nesting#innerObservableProperty() innerObservable} and updates the binding when the nesting changes.
  *
  * @param <T>
  *            the type wrapped by the property
@@ -101,9 +101,9 @@ class PropertyToNestingBinding<T> {
 	 */
 	private void bindToNestingProperty() {
 		// bind to the nesting's current property
-		moveBinding(Optional.empty(), nesting.innerObservable().getValue());
+		moveBinding(Optional.empty(), nesting.innerObservableProperty().getValue());
 		// add a listener to the nesting which moves the binding from one property to the next
-		nesting.innerObservable().addListener(
+		nesting.innerObservableProperty().addListener(
 				(observable, oldProperty, newProperty) -> moveBinding(oldProperty, newProperty));
 	}
 
@@ -117,7 +117,7 @@ class PropertyToNestingBinding<T> {
 	 */
 	private void moveBinding(
 			Optional<? extends Property<T>> oldPropertyOpt,
-			Optional<? extends Property<T>> newPropertyOpt) {
+					Optional<? extends Property<T>> newPropertyOpt) {
 
 		oldPropertyOpt.ifPresent(oldProperty -> nestedProperty.unbindBidirectional(oldProperty));
 		newPropertyOpt.ifPresent(newProperty -> nestedProperty.bindBidirectional(newProperty));

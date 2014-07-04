@@ -35,7 +35,7 @@ final class ShallowNesting<O extends Observable> implements Nesting<O> {
 	}
 
 	@Override
-	public ReadOnlyProperty<Optional<O>> innerObservable() {
+	public ReadOnlyProperty<Optional<O>> innerObservableProperty() {
 		return inner;
 	}
 

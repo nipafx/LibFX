@@ -45,8 +45,8 @@ public abstract class AbstractNestingTest<OO extends Observable, IO extends Obse
 	// #region TESTS
 
 	/**
-	 * Tests whether the {@link #nesting}'s {@link Nesting#innerObservable() innerObservable} property contains the
-	 * {@link #outerObservable}'s inner observable.
+	 * Tests whether the {@link #nesting}'s {@link Nesting#innerObservableProperty() innerObservable} property contains
+	 * the correct observable, which is the {@link #outerObservable}'s inner observable.
 	 */
 	@Test
 	public void testCorrectAfterConstruction() {

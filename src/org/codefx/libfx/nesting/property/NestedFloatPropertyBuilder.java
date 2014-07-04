@@ -5,7 +5,7 @@ import javafx.beans.property.FloatProperty;
 import org.codefx.libfx.nesting.Nesting;
 
 /**
- * A builder for a {@link NestedFloatProperty} which is bound to the {@link Nesting#innerObservable() innerObservable}
+ * A builder for a {@link NestedFloatProperty} which is bound to the {@link Nesting#innerObservableProperty() innerObservable}
  * of a {@link Nesting}.
  */
 public class NestedFloatPropertyBuilder extends AbstractNestedPropertyBuilder<FloatProperty, NestedFloatProperty> {

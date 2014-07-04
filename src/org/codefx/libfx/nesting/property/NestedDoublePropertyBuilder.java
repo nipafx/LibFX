@@ -5,7 +5,7 @@ import javafx.beans.property.DoubleProperty;
 import org.codefx.libfx.nesting.Nesting;
 
 /**
- * A builder for a {@link NestedDoubleProperty} which is bound to the {@link Nesting#innerObservable() innerObservable}
+ * A builder for a {@link NestedDoubleProperty} which is bound to the {@link Nesting#innerObservableProperty() innerObservable}
  * of a {@link Nesting}.
  */
 public class NestedDoublePropertyBuilder extends AbstractNestedPropertyBuilder<DoubleProperty, NestedDoubleProperty> {

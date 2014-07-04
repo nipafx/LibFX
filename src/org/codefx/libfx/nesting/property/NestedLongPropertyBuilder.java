@@ -5,7 +5,7 @@ import javafx.beans.property.LongProperty;
 import org.codefx.libfx.nesting.Nesting;
 
 /**
- * A builder for a {@link NestedLongProperty} which is bound to the {@link Nesting#innerObservable() innerObservable} of
+ * A builder for a {@link NestedLongProperty} which is bound to the {@link Nesting#innerObservableProperty() innerObservable} of
  * a {@link Nesting}.
  */
 public class NestedLongPropertyBuilder extends AbstractNestedPropertyBuilder<LongProperty, NestedLongProperty> {

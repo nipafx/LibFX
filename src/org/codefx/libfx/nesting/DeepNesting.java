@@ -13,7 +13,7 @@ import javafx.beans.value.ObservableValue;
 
 /**
  * An implementation of {@link Nesting} which uses an outer {@link ObservableValue} and a series of nesting steps to get
- * the {@link #innerObservable()}.
+ * the {@link #innerObservableProperty() innerObservable}.
  *
  * @param <O>
  *            the hierarchy's innermost type of {@link Observable}
@@ -188,7 +188,7 @@ final class DeepNesting<O extends Observable> implements Nesting<O> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ReadOnlyProperty<Optional<O>> innerObservable() {
+	public ReadOnlyProperty<Optional<O>> innerObservableProperty() {
 		return inner;
 	}
 
