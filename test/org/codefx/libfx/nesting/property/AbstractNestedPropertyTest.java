@@ -130,6 +130,42 @@ public abstract class AbstractNestedPropertyTest<T, P extends Property<T>> {
 	}
 
 	/**
+	 * Tests whether changing the nested property's value while the nesting's observable is missing works.
+	 */
+	@Test
+	public void testChangingValueWhileObservableIsMissing() {
+		// set the nesting observable to null
+		setNestingObservable(nesting, null);
+
+		// set a new value (which can not be written to the nesting's observable as none is present)
+		T newValue = createNewValue();
+		property.setValue(newValue);
+
+		// assert that the property indeed holds the new value
+		assertEquals(newValue, property.getValue());
+	}
+
+	/**
+	 * Tests whether the nested property's value, which was changed while the nesting's observable was missing, will not
+	 * propagate to an observable which will be set thereafter.
+	 */
+	@Test
+	public void testChangedValueNotPropagationAfterObservableWasMissing() {
+		// set the nesting observable to null and create the new observable
+		setNestingObservable(nesting, null);
+		P newObservable = createNewObservableWithValue(createNewValue());
+
+		// change the nested property's value (which can not be written to the nesting's observable as none is present);
+		// due to the contract of 'createNewValue' the nested property has currently another value than the new observable
+		property.setValue(createNewValue());
+		assertNotEquals(newObservable.getValue(), property.getValue());
+
+		// set the new observable and assert that the property reflects its value
+		setNestingObservable(nesting, newObservable);
+		assertEquals(newObservable.getValue(), property.getValue());
+	}
+
+	/**
 	 * Tests whether the property's value is correctly updated when the nesting's new observable gets a new value.
 	 */
 	@Test
@@ -196,7 +232,8 @@ public abstract class AbstractNestedPropertyTest<T, P extends Property<T>> {
 	protected abstract NestedProperty<T> createNestedPropertyFromNesting(Nesting<P> nesting);
 
 	/**
-	 * Creates a new value. Each call must return a new instance.
+	 * Creates a new value. Each call must return an instance which is not equal to any of those returned before and to
+	 * that contained in the observable returned by {@link #createNewObservableWithSomeValue()}.
 	 *
 	 * @return a new instance of type {@code T}
 	 */

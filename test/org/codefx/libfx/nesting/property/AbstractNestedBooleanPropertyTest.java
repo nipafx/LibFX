@@ -84,6 +84,19 @@ public abstract class AbstractNestedBooleanPropertyTest extends AbstractNestedPr
 		assertFalse(getPropertyValue());
 	}
 
+	@Override
+	@Test
+	public void testChangedValueNotPropagationAfterObservableWasMissing() {
+		// set the nesting observable and change the nested property's value to 'true'
+		setNestingObservable(getNesting(), null);
+		getProperty().setValue(true);
+
+		// set the new observable and assert that the property reflects its value, i.e. holds 'false'
+		BooleanProperty newObservable = createNewObservableWithValue(false);
+		setNestingObservable(getNesting(), newObservable);
+		assertFalse(getPropertyValue());
+	}
+
 	//#end OVERRIDDEN TEST METHODS
 
 }
