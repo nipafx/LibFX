@@ -48,7 +48,7 @@ public class NestedBooleanProperty extends SimpleBooleanProperty implements Nest
 	// #region IMPLEMENTATION OF 'NestedProperty'
 
 	@Override
-	public ReadOnlyBooleanProperty innerObservablePresent() {
+	public ReadOnlyBooleanProperty innerObservablePresentProperty() {
 		return innerObservablePresent;
 	}
 

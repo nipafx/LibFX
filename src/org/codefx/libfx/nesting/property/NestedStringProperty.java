@@ -50,7 +50,7 @@ public class NestedStringProperty extends SimpleStringProperty implements Nested
 	// #region IMPLEMENTATION OF 'NestedProperty'
 
 	@Override
-	public ReadOnlyBooleanProperty innerObservablePresent() {
+	public ReadOnlyBooleanProperty innerObservablePresentProperty() {
 		return innerObservablePresent;
 	}
 

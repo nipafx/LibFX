@@ -50,7 +50,7 @@ public class NestedFloatProperty extends SimpleFloatProperty implements NestedPr
 	// #region IMPLEMENTATION OF 'NestedProperty'
 
 	@Override
-	public ReadOnlyBooleanProperty innerObservablePresent() {
+	public ReadOnlyBooleanProperty innerObservablePresentProperty() {
 		return innerObservablePresent;
 	}
 

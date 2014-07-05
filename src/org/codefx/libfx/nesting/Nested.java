@@ -12,7 +12,7 @@ public interface Nested {
 	 *
 	 * @return whether the inner observable is present, i.e. not null (as a property)
 	 */
-	ReadOnlyBooleanProperty innerObservablePresent();
+	ReadOnlyBooleanProperty innerObservablePresentProperty();
 
 	/**
 	 * Indicates whether the inner observable is currently present.

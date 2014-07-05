@@ -25,7 +25,7 @@ class PropertyToNestingBinding<T> {
 	private final NestedProperty<T> nestedProperty;
 
 	/**
-	 * Sets the {@link #nestedProperty}'s {@link NestedProperty#innerObservablePresent() innerObservablePresent}
+	 * Sets the {@link #nestedProperty}'s {@link NestedProperty#innerObservablePresentProperty() innerObservablePresent}
 	 * property.
 	 */
 	private final Consumer<Boolean> innerObservablePresentSetter;
@@ -41,13 +41,13 @@ class PropertyToNestingBinding<T> {
 
 	/**
 	 * Bidirectionally binds the specified nested property to the specified nesting's property. The specified setter is
-	 * used to update the nested property's {@link NestedProperty#innerObservablePresent() innerObservablePresent}
-	 * property.
+	 * used to update the nested property's {@link NestedProperty#innerObservablePresentProperty()
+	 * innerObservablePresent} property.
 	 *
 	 * @param nestedProperty
 	 *            the {@link Property} which will be bound to the specified nesting
 	 * @param innerObservablePresentSetter
-	 *            the {@link Consumer} which sets the {@link NestedProperty#innerObservablePresent()} property
+	 *            the {@link Consumer} which sets the {@link NestedProperty#innerObservablePresentProperty()} property
 	 * @param nesting
 	 *            the {@link Nesting} to which the property will be bound
 	 * @throws NullPointerException
@@ -69,15 +69,15 @@ class PropertyToNestingBinding<T> {
 
 	/**
 	 * Bidirectionally binds the specified nested property to the specified nesting's property. The specified setter is
-	 * used to update the nested property's {@link NestedProperty#innerObservablePresent() innerObservablePresent}
-	 * property.
+	 * used to update the nested property's {@link NestedProperty#innerObservablePresentProperty()
+	 * innerObservablePresent} property.
 	 *
 	 * @param <T>
 	 *            the type wrapped by the property
 	 * @param nestedProperty
 	 *            the {@link Property} which will be bound to the specified nesting
 	 * @param innerObservablePresentSetter
-	 *            the {@link Consumer} which sets the {@link NestedProperty#innerObservablePresent()} property
+	 *            the {@link Consumer} which sets the {@link NestedProperty#innerObservablePresentProperty()} property
 	 * @param nesting
 	 *            the {@link Nesting} to which the property will be bound
 	 * @throws NullPointerException
@@ -117,7 +117,7 @@ class PropertyToNestingBinding<T> {
 	 */
 	private void moveBinding(
 			Optional<? extends Property<T>> oldPropertyOpt,
-					Optional<? extends Property<T>> newPropertyOpt) {
+			Optional<? extends Property<T>> newPropertyOpt) {
 
 		oldPropertyOpt.ifPresent(oldProperty -> nestedProperty.unbindBidirectional(oldProperty));
 		newPropertyOpt.ifPresent(newProperty -> nestedProperty.bindBidirectional(newProperty));

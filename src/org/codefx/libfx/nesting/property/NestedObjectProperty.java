@@ -53,7 +53,7 @@ public class NestedObjectProperty<T> extends SimpleObjectProperty<T> implements 
 	// #region IMPLEMENTATION OF 'NestedProperty'
 
 	@Override
-	public ReadOnlyBooleanProperty innerObservablePresent() {
+	public ReadOnlyBooleanProperty innerObservablePresentProperty() {
 		return innerObservablePresent;
 	}
 

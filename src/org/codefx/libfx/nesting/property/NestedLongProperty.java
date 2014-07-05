@@ -50,7 +50,7 @@ public class NestedLongProperty extends SimpleLongProperty implements NestedProp
 	// #region IMPLEMENTATION OF 'NestedProperty'
 
 	@Override
-	public ReadOnlyBooleanProperty innerObservablePresent() {
+	public ReadOnlyBooleanProperty innerObservablePresentProperty() {
 		return innerObservablePresent;
 	}
 
