@@ -9,6 +9,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import javafx.beans.property.Property;
 
@@ -53,6 +54,13 @@ public abstract class AbstractNestedPropertyTest<T, P extends Property<T>> {
 	}
 
 	// #region TESTS
+
+	/**
+	 * Tests whether the properties the tested property owns have the correct bean.
+	 */
+	public void testPropertyBean() {
+		assertSame(property, property.innerObservablePresentProperty().getBean());
+	}
 
 	/**
 	 * Tests whether the property's initial value (i.e. after construction) is the one held by the nesting's inner
