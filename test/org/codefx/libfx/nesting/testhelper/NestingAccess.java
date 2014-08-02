@@ -270,6 +270,7 @@ public class NestingAccess {
 		 *            the innerObservable to set
 		 */
 		public void setInnerObservable(Optional<O> innerObservable) {
+			Objects.requireNonNull(innerObservable, "The argument 'innerObservable' must not be null.");
 			innerObservableProperty().setValue(innerObservable);
 		}
 

@@ -12,6 +12,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({
 		_AllNestedPropertyTests.class,
 		DeepNestingTest.class,
+		NestingObserverTest.class,
 		ShallowNestingTest.class,
 })
 public class _AllNestingTests {

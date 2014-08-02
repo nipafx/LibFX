@@ -15,7 +15,7 @@ import javafx.beans.value.ObservableValue;
  * Nestings will usually be implemented such that they eagerly evaluate the nested observables.
  *
  * @param <O>
- *            the hierarchy's innermost type of {@link Observable}
+ *            the type of the hierarchy's innermost {@link Observable}
  */
 public interface Nesting<O extends Observable> {
 
