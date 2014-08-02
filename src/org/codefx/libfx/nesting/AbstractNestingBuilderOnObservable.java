@@ -20,7 +20,7 @@ import javafx.beans.value.ObservableValue;
  * @param <O>
  *            the type of observable this builder can build;
  */
-abstract class AbstractNestingBuilder<T, O extends Observable> {
+abstract class AbstractNestingBuilderOnObservable<T, O extends Observable> {
 
 	/*
 	 * A builder can either be the outer or a nested builder of a nesting. In the first case, 'outerObservable' is
@@ -40,7 +40,7 @@ abstract class AbstractNestingBuilder<T, O extends Observable> {
 	 * The previous builder upon which this builder depends. This is only non-null for nested builders (indicated by
 	 * {@link #isOuterBuilder()}).
 	 */
-	private final AbstractNestingBuilder<?, ?> previousBuilder;
+	private final AbstractNestingBuilderOnObservable<?, ?> previousBuilder;
 
 	/**
 	 * The function which performs the {@link NestingStep} from an instance of the previous builder's wrapped type to
@@ -58,7 +58,7 @@ abstract class AbstractNestingBuilder<T, O extends Observable> {
 	 * @param outerObservable
 	 *            the outer observable upon which the constructed nesting depends
 	 */
-	protected AbstractNestingBuilder(O outerObservable) {
+	protected AbstractNestingBuilderOnObservable(O outerObservable) {
 		Objects.requireNonNull(outerObservable, "The argument 'outerObservable' must not be null.");
 
 		this.outerObservable = outerObservable;
@@ -77,8 +77,8 @@ abstract class AbstractNestingBuilder<T, O extends Observable> {
 	 * @param nestingStep
 	 *            the function which performs the nesting step from one observable to the next
 	 */
-	protected <P> AbstractNestingBuilder(
-			AbstractNestingBuilder<P, ?> previousBuilder, NestingStep<P, ? extends O> nestingStep) {
+	protected <P> AbstractNestingBuilderOnObservable(
+			AbstractNestingBuilderOnObservable<P, ?> previousBuilder, NestingStep<P, ? extends O> nestingStep) {
 
 		Objects.requireNonNull(previousBuilder, "The argument 'previousBuilder' must not be null.");
 		Objects.requireNonNull(nestingStep, "The argument 'nestingStep' must not be null.");

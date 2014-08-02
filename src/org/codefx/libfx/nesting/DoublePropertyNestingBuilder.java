@@ -8,7 +8,7 @@ import org.codefx.libfx.nesting.property.NestedDoublePropertyBuilder;
 /**
  * A builder for all kinds of nested functionality whose innermost value is held by a {@link DoubleProperty}.
  */
-public class DoublePropertyNestingBuilder extends AbstractNestingBuilder<Number, DoubleProperty> {
+public class DoublePropertyNestingBuilder extends AbstractNestingBuilderOnProperty<Number, DoubleProperty> {
 
 	// #region CONSTRUCTION
 
@@ -23,7 +23,7 @@ public class DoublePropertyNestingBuilder extends AbstractNestingBuilder<Number,
 	 *            the function which performs the nesting step from one observable to the next
 	 */
 	<P> DoublePropertyNestingBuilder(
-			AbstractNestingBuilder<P, ?> previousNestedBuilder,
+			AbstractNestingBuilderOnObservableValue<P, ?> previousNestedBuilder,
 			NestingStep<P, DoubleProperty> nestingStep) {
 
 		super(previousNestedBuilder, nestingStep);

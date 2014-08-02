@@ -8,7 +8,7 @@ import org.codefx.libfx.nesting.property.NestedBooleanPropertyBuilder;
 /**
  * A builder for all kinds of nested functionality whose innermost value is held by a {@link BooleanProperty}.
  */
-public class BooleanPropertyNestingBuilder extends AbstractNestingBuilder<Boolean, BooleanProperty> {
+public class BooleanPropertyNestingBuilder extends AbstractNestingBuilderOnProperty<Boolean, BooleanProperty> {
 
 	// #region CONSTRUCTION
 
@@ -23,7 +23,7 @@ public class BooleanPropertyNestingBuilder extends AbstractNestingBuilder<Boolea
 	 *            the function which performs the nesting step from one observable to the next
 	 */
 	<P> BooleanPropertyNestingBuilder(
-			AbstractNestingBuilder<P, ?> previousNestedBuilder,
+			AbstractNestingBuilderOnObservableValue<P, ?> previousNestedBuilder,
 			NestingStep<P, BooleanProperty> nestingStep) {
 
 		super(previousNestedBuilder, nestingStep);

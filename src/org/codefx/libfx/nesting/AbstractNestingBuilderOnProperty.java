@@ -1,14 +1,17 @@
 package org.codefx.libfx.nesting;
 
-import javafx.beans.Observable;
+import javafx.beans.property.Property;
 
 /**
- * A builder for all kinds of nested functionality whose innermost value is held by an {@link Observable}.
- * <p>
- * Note that an {@code Observable} provides no way do access a value. It is hence not possible to nest further or create
- * nestings which depend on a value, e.g. nested properties.
+ * A nesting builder which allows bindings.
+ *
+ * @param <T>
+ *            the type of the wrapped value
+ * @param <O>
+ *            the type of observable this builder can build
  */
-public class ObservableNestingBuilder extends AbstractNestingBuilderOnObservable<Object, Observable> {
+abstract class AbstractNestingBuilderOnProperty<T, O extends Property<T>>
+		extends AbstractNestingBuilderOnObservableValue<T, O> {
 
 	// #region CONSTRUCTION
 
@@ -18,7 +21,7 @@ public class ObservableNestingBuilder extends AbstractNestingBuilderOnObservable
 	 * @param outerObservable
 	 *            the outer observable upon which the constructed nesting depends
 	 */
-	ObservableNestingBuilder(Observable outerObservable) {
+	protected AbstractNestingBuilderOnProperty(O outerObservable) {
 		super(outerObservable);
 	}
 
@@ -32,8 +35,8 @@ public class ObservableNestingBuilder extends AbstractNestingBuilderOnObservable
 	 * @param nestingStep
 	 *            the function which performs the nesting step from one observable to the next
 	 */
-	<P> ObservableNestingBuilder(
-			AbstractNestingBuilderOnObservableValue<P, ?> previousNestedBuilder, NestingStep<P, Observable> nestingStep) {
+	protected <P> AbstractNestingBuilderOnProperty(
+			AbstractNestingBuilderOnObservable<P, ?> previousNestedBuilder, NestingStep<P, O> nestingStep) {
 
 		super(previousNestedBuilder, nestingStep);
 	}

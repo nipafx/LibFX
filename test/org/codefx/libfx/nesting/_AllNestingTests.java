@@ -10,10 +10,10 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(Suite.class)
 @SuiteClasses({
-		_AllNestedPropertyTests.class,
-		DeepNestingTest.class,
-		NestingObserverTest.class,
-		ShallowNestingTest.class,
+	_AllNestedPropertyTests.class,
+	DeepNestingTest.class,
+	NestingObserverTest.class,
+	ShallowNestingTest.class,
 })
 public class _AllNestingTests {
 	// no body needed

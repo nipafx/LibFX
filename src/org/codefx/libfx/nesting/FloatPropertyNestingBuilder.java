@@ -8,7 +8,7 @@ import org.codefx.libfx.nesting.property.NestedFloatPropertyBuilder;
 /**
  * A builder for all kinds of nested functionality whose innermost value is held by a {@link FloatProperty}.
  */
-public class FloatPropertyNestingBuilder extends AbstractNestingBuilder<Number, FloatProperty> {
+public class FloatPropertyNestingBuilder extends AbstractNestingBuilderOnProperty<Number, FloatProperty> {
 
 	// #region CONSTRUCTION
 
@@ -23,7 +23,7 @@ public class FloatPropertyNestingBuilder extends AbstractNestingBuilder<Number, 
 	 *            the function which performs the nesting step from one observable to the next
 	 */
 	<P> FloatPropertyNestingBuilder(
-			AbstractNestingBuilder<P, ?> previousNestedBuilder,
+			AbstractNestingBuilderOnObservableValue<P, ?> previousNestedBuilder,
 			NestingStep<P, FloatProperty> nestingStep) {
 
 		super(previousNestedBuilder, nestingStep);
