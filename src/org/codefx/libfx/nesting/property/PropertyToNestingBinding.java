@@ -46,15 +46,15 @@ class PropertyToNestingBinding<T> {
 		// the 'innerObservablePresentSetter' only accepts one Boolean; create a 'BiConsumer' from it,
 		// which accepts two and ignores the first
 		BiConsumer<Boolean, Boolean> innerObservablePresentBiSetter =
-				(oldPropertyPresent, newPropertyPresent) -> innerObservablePresentSetter.accept(newPropertyPresent);
+				(any, newPropertyPresent) -> innerObservablePresentSetter.accept(newPropertyPresent);
 
-				// use a nesting observer to accomplish the binding/unbinding
+		// use a nesting observer to accomplish the binding/unbinding
 		NestingObserver
-				.observe(nesting)
+				.forNesting(nesting)
 				.withOldInnerObservable(oldProperty -> nestedProperty.unbindBidirectional(oldProperty))
 				.withNewInnerObservable(newProperty -> nestedProperty.bindBidirectional(newProperty))
 				.whenInnerObservableChanges(innerObservablePresentBiSetter)
-				.build();
+				.observe();
 	}
 
 }

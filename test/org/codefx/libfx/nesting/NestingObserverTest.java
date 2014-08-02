@@ -62,11 +62,11 @@ public class NestingObserverTest {
 
 		// create a nesting observer for the nesting which calls the verifier's methods
 		NestingObserver
-				.observe(nesting)
+				.forNesting(nesting)
 				.withOldInnerObservable(verifier::oldInnerObservableMethod)
 				.withNewInnerObservable(verifier::newInnerObservableMethod)
 				.whenInnerObservableChanges(verifier::innerObservableChangesMethod)
-				.build();
+				.observe();
 
 		// creating the observer already called some methods; reset the mock to not confuse the counts
 		if (resetMock.toBoolean())

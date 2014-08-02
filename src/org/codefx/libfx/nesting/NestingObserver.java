@@ -22,8 +22,8 @@ import javafx.beans.Observable;
  * present.
  * <p>
  * The observer is created with a {@link NestingObserverBuilder} which can be obtained from
- * {@link NestingObserver#observe(Nesting) observe}. After setting some of the methods mentioned above, the observer is
- * built by calling {@link NestingObserverBuilder#build()}.
+ * {@link NestingObserver#forNesting(Nesting) observe}. After setting some of the methods mentioned above, the observer
+ * is built by calling {@link NestingObserverBuilder#observe()}.
  *
  * @param <O>
  *            the type of the nesting hierarchy's innermost {@link Observable}
@@ -83,7 +83,7 @@ public final class NestingObserver<O extends Observable> {
 	 *            the observed {@link Nesting}
 	 * @return a new {@link NestingObserverBuilder}
 	 */
-	public static <O extends Observable> NestingObserverBuilder<O> observe(Nesting<O> nesting) {
+	public static <O extends Observable> NestingObserverBuilder<O> forNesting(Nesting<O> nesting) {
 		return new NestingObserverBuilder<O>(nesting);
 	}
 
@@ -211,11 +211,10 @@ public final class NestingObserver<O extends Observable> {
 
 		/**
 		 * Builds a observer from this builder's settings.
-		 *
-		 * @return a new {@link NestingObserver}
 		 */
-		public NestingObserver<O> build() {
-			return new NestingObserver<O>(this);
+		@SuppressWarnings("unused")
+		public void observe() {
+			new NestingObserver<O>(this);
 		}
 
 	}
