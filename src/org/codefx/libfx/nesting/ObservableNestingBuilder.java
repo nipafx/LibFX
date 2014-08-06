@@ -3,7 +3,7 @@ package org.codefx.libfx.nesting;
 import javafx.beans.Observable;
 
 /**
- * A builder for all kinds of nested functionality whose innermost value is held by an {@link Observable}.
+ * A builder for all kinds of nested functionality whose inner observable is an {@link Observable}.
  * <p>
  * Note that an {@code Observable} provides no way do access a value. It is hence not possible to nest further or create
  * nestings which depend on a value, e.g. nested properties.

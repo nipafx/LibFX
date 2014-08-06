@@ -6,7 +6,7 @@ import org.codefx.libfx.nesting.property.NestedIntegerProperty;
 import org.codefx.libfx.nesting.property.NestedIntegerPropertyBuilder;
 
 /**
- * A builder for all kinds of nested functionality whose innermost value is held by an {@link IntegerProperty}.
+ * A builder for all kinds of nested functionality whose inner observable is an {@link IntegerProperty}.
  */
 public class IntegerPropertyNestingBuilder extends AbstractNestingBuilderOnProperty<Number, IntegerProperty> {
 

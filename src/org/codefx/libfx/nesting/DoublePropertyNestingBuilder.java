@@ -6,7 +6,7 @@ import org.codefx.libfx.nesting.property.NestedDoubleProperty;
 import org.codefx.libfx.nesting.property.NestedDoublePropertyBuilder;
 
 /**
- * A builder for all kinds of nested functionality whose innermost value is held by a {@link DoubleProperty}.
+ * A builder for all kinds of nested functionality whose inner observable is a {@link DoubleProperty}.
  */
 public class DoublePropertyNestingBuilder extends AbstractNestingBuilderOnProperty<Number, DoubleProperty> {
 

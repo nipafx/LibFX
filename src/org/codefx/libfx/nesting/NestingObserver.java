@@ -22,11 +22,11 @@ import javafx.beans.Observable;
  * present.
  * <p>
  * The observer is created with a {@link NestingObserverBuilder} which can be obtained from
- * {@link NestingObserver#forNesting(Nesting) observe}. After setting some of the methods mentioned above, the observer
- * is built by calling {@link NestingObserverBuilder#observe()}.
+ * {@link NestingObserver#forNesting(Nesting) forNesting}. After setting some of the methods mentioned above, the
+ * observer is built by calling {@link NestingObserverBuilder#observe()}.
  *
  * @param <O>
- *            the type of the nesting hierarchy's innermost {@link Observable}
+ *            the type of the nesting hierarchy's inner {@link Observable}
  */
 public final class NestingObserver<O extends Observable> {
 
@@ -38,20 +38,20 @@ public final class NestingObserver<O extends Observable> {
 	private final Nesting<? extends O> nesting;
 
 	/**
-	 * Called when the inner observable changes and an old inner observable was present. That observable is also the
+	 * Called when the inner observable is replaced and an old inner observable was present. That observable is also the
 	 * argument.
 	 */
 	private final Consumer<? super O> oldInnerObservableConsumer;
 
 	/**
-	 * Called when the inner observable changes and the new inner observable is present. That observable is also the
+	 * Called when the inner observable is replaced and the new inner observable is present. That observable is also the
 	 * argument.
 	 */
 	private final Consumer<? super O> newInnerObservableConsumer;
 
 	/**
-	 * Called when the inner observable changes. The arguments are two Booleans indicating whether the old and new inner
-	 * observables are present.
+	 * Called when the inner observable is replaced. The arguments are two Booleans indicating whether the old and new
+	 * inner observables are present.
 	 */
 	private final BiConsumer<Boolean, Boolean> innerObservableChanges;
 
@@ -78,7 +78,7 @@ public final class NestingObserver<O extends Observable> {
 	 * Starts building a new {@link NestingObserver} which observes the specified nesting.
 	 *
 	 * @param <O>
-	 *            the type of the nesting hierarchy's innermost {@link Observable}
+	 *            the type of the nesting hierarchy's inner {@link Observable}
 	 * @param nesting
 	 *            the observed {@link Nesting}
 	 * @return a new {@link NestingObserverBuilder}
@@ -106,7 +106,7 @@ public final class NestingObserver<O extends Observable> {
 
 	/**
 	 * Calls {@link #oldInnerObservableConsumer}, {@link #newInnerObservableConsumer} and
-	 * {@link #innerObservableChanges} when the inner observable changes.
+	 * {@link #innerObservableChanges} when the inner observable is replaced.
 	 *
 	 * @param oldInnerObservable
 	 *            the old {@link Nesting#innerObservableProperty() innerObservable}
@@ -132,7 +132,7 @@ public final class NestingObserver<O extends Observable> {
 	 * Builds a {@link NestingObserver}.
 	 *
 	 * @param <O>
-	 *            the type of the nesting hierarchy's innermost {@link Observable}
+	 *            the type of the nesting hierarchy's inner {@link Observable}
 	 */
 	public static class NestingObserverBuilder<O extends Observable> {
 

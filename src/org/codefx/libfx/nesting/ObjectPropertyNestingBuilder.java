@@ -18,13 +18,13 @@ import org.codefx.libfx.nesting.property.NestedObjectPropertyBuilder;
 import org.codefx.libfx.nesting.property.NestedProperty;
 
 /**
- * A builder for all kinds of nested functionality whose innermost value is held by a {@link Property}.
+ * A builder for all kinds of nested functionality whose inner observable is a {@link Property}.
  * <p>
  * Because the wrapped value might contain properties of its own, nesting is possible (e.g. with
  * {@link #nest(NestingStep) nest}).
  *
  * @param <T>
- *            the type of the wrapped value
+ *            the type of the value wrapped by the {@link Property}
  */
 public class ObjectPropertyNestingBuilder<T> extends AbstractNestingBuilderOnProperty<T, Property<T>> {
 

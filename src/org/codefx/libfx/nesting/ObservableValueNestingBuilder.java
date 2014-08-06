@@ -14,7 +14,7 @@ import javafx.beans.value.ObservableNumberValue;
 import javafx.beans.value.ObservableValue;
 
 /**
- * A builder for all kinds of nested functionality whose innermost value is held by an {@link ObservableValue}.
+ * A builder for all kinds of nested functionality whose inner observable is an {@link ObservableValue}.
  * <p>
  * Because the wrapped value might contain properties of its own, nesting is possible (e.g. with
  * {@link #nest(NestingStep) nest}).
@@ -23,7 +23,7 @@ import javafx.beans.value.ObservableValue;
  * which depend on writing a value, e.g. nested properties.
  *
  * @param <T>
- *            the type of the wrapped value
+ *            the type of the value wrapped by the {@link ObservableValue}
  */
 public class ObservableValueNestingBuilder<T> extends AbstractNestingBuilderOnObservableValue<T, ObservableValue<T>> {
 

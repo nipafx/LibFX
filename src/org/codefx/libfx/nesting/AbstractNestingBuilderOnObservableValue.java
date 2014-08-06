@@ -1,5 +1,6 @@
 package org.codefx.libfx.nesting;
 
+import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
@@ -12,7 +13,7 @@ import org.codefx.libfx.nesting.listener.NestedChangeListenerBuilder;
  * @param <T>
  *            the type of the wrapped value
  * @param <O>
- *            the type of observable this builder can build
+ *            the type of {@link Observable} this builder uses as an inner observable
  */
 abstract class AbstractNestingBuilderOnObservableValue<T, O extends ObservableValue<T>>
 		extends AbstractNestingBuilderOnObservable<T, O> {

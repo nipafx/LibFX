@@ -6,9 +6,10 @@ import javafx.beans.Observable;
  * Functions of this type perform the nesting steps from one oservable's value to the next nested observable.
  *
  * @param <T>
- *            the type of the value whose observable is returned
+ *            the type of the value from where the nesting step starts (which is also the value which owns the returned
+ *            observable)
  * @param <O>
- *            the type of observable returned by the step
+ *            the type of {@link Observable} returned by the step
  */
 @FunctionalInterface
 public interface NestingStep<T, O extends Observable> {

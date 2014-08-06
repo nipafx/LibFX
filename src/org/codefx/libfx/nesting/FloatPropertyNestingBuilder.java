@@ -6,7 +6,7 @@ import org.codefx.libfx.nesting.property.NestedFloatProperty;
 import org.codefx.libfx.nesting.property.NestedFloatPropertyBuilder;
 
 /**
- * A builder for all kinds of nested functionality whose innermost value is held by a {@link FloatProperty}.
+ * A builder for all kinds of nested functionality whose inner observable is a {@link FloatProperty}.
  */
 public class FloatPropertyNestingBuilder extends AbstractNestingBuilderOnProperty<Number, FloatProperty> {
 

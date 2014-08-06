@@ -158,7 +158,7 @@ public abstract class AbstractNestedPropertyTest<T, P extends Property<T>> {
 	 * propagate to an observable which will be set thereafter.
 	 */
 	@Test
-	public void testChangedValueNotPropagationAfterObservableWasMissing() {
+	public void testChangedValueNotPropagatedAfterObservableWasMissing() {
 		// set the nesting observable to null and create the new observable
 		setNestingObservable(nesting, null);
 		P newObservable = createNewObservableWithValue(createNewValue());

@@ -6,7 +6,7 @@ import org.codefx.libfx.nesting.property.NestedBooleanProperty;
 import org.codefx.libfx.nesting.property.NestedBooleanPropertyBuilder;
 
 /**
- * A builder for all kinds of nested functionality whose innermost value is held by a {@link BooleanProperty}.
+ * A builder for all kinds of nested functionality whose inner observable is a {@link BooleanProperty}.
  */
 public class BooleanPropertyNestingBuilder extends AbstractNestingBuilderOnProperty<Boolean, BooleanProperty> {
 

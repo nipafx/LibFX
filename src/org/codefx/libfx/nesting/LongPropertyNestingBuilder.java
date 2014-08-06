@@ -6,7 +6,7 @@ import org.codefx.libfx.nesting.property.NestedLongProperty;
 import org.codefx.libfx.nesting.property.NestedLongPropertyBuilder;
 
 /**
- * A builder for all kinds of nested functionality whose innermost value is held by a {@link LongProperty}.
+ * A builder for all kinds of nested functionality whose inner observable is a {@link LongProperty}.
  */
 public class LongPropertyNestingBuilder extends AbstractNestingBuilderOnProperty<Number, LongProperty> {
 

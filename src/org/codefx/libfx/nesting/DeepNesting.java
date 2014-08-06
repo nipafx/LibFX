@@ -16,7 +16,7 @@ import javafx.beans.value.ObservableValue;
  * the {@link #innerObservableProperty() innerObservable}.
  *
  * @param <O>
- *            the hierarchy's innermost type of {@link Observable}
+ *            the type of the nesting hierarchy's inner {@link Observable}
  */
 @SuppressWarnings("rawtypes")
 final class DeepNesting<O extends Observable> implements Nesting<O> {
@@ -26,9 +26,9 @@ final class DeepNesting<O extends Observable> implements Nesting<O> {
 	/*
 	 * GENERIC TYPES
 	 *
-	 * Because the depth of the nesting is variable, the number of involved types is determined at runtime. This class
-	 * can hence not use generics for type safety. So it uses tons of raw types, which only works out if the
-	 * constructor is called with the correctly typed outer observable and nesting steps.
+	 * Because the depth of the nesting is not fixed, the number of involved types is determined at runtime. This class
+	 * can hence not use generics for type safety. So it uses tons of raw types, which only works out if the constructor
+	 * is called with the correctly typed outer observable and nesting steps.
 	 *
 	 *
 	 * DATA STRUCTURES
@@ -83,7 +83,7 @@ final class DeepNesting<O extends Observable> implements Nesting<O> {
 	private final ChangeListener[] changeListeners;
 
 	/**
-	 * The property holding the current innermost observable.
+	 * The property holding the current inner observable.
 	 */
 	private final Property<Optional<O>> inner;
 

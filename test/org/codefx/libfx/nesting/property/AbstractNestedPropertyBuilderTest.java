@@ -11,7 +11,7 @@ import org.junit.Test;
  * Abstract superclass to tests for nested property builders.
  *
  * @param <N>
- *            the nesting hierarchy's innermost type of {@link Property}
+ *            the nesting hierarchy's inner type of {@link Property}
  * @param <P>
  *            the type of {@link Property} which will be built
  */

@@ -14,8 +14,8 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(Suite.class)
 @SuiteClasses({
-	NestedBooleanPropertyBuilderTest.AbstractBuilderContract.class,
-	NestedBooleanPropertyBuilderTest.CreatedProperties.class,
+		NestedBooleanPropertyBuilderTest.AbstractBuilderContract.class,
+		NestedBooleanPropertyBuilderTest.CreatedProperties.class,
 })
 public class NestedBooleanPropertyBuilderTest {
 
@@ -23,7 +23,7 @@ public class NestedBooleanPropertyBuilderTest {
 	 * Tests whether the builder fulfills the contract defined by {@link AbstractNestedPropertyBuilder}.
 	 */
 	public static class AbstractBuilderContract
-	extends AbstractNestedPropertyBuilderTest<BooleanProperty, NestedBooleanProperty> {
+			extends AbstractNestedPropertyBuilderTest<BooleanProperty, NestedBooleanProperty> {
 
 		@Override
 		protected AbstractNestedPropertyBuilder<BooleanProperty, NestedBooleanProperty> createBuilder() {

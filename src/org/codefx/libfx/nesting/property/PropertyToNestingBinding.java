@@ -14,7 +14,7 @@ import org.codefx.libfx.nesting.NestingObserver;
  * {@link Nesting#innerObservableProperty() innerObservable} and updates the binding when the nesting changes.
  *
  * @param <T>
- *            the type wrapped by the property
+ *            the type wrapped by the bound {@link Property Properties}
  */
 class PropertyToNestingBinding<T> {
 

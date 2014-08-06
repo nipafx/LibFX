@@ -17,12 +17,12 @@ import org.codefx.libfx.nesting.listener.NestedInvalidationListenerBuilder;
  * nesting steps) and can build a {@link Nesting} from it.
  * <p>
  * Subclasses must not allow nesting if type parameter {@code O} does not also implement {@link ObservableValue}! (Which
- * wouldn't make sense, anyhow, because then no value would be available for the nesting step.)
+ * wouldn't make sense anyhow because then no value would be available for the nesting step.)
  *
  * @param <T>
  *            the type of the wrapped value
  * @param <O>
- *            the type of observable this builder can build;
+ *            the type of {@link Observable} this builder uses as an inner observable
  */
 abstract class AbstractNestingBuilderOnObservable<T, O extends Observable> {
 

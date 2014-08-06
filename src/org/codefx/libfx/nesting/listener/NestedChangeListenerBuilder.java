@@ -11,9 +11,9 @@ import org.codefx.libfx.nesting.Nesting;
  * A builder for a {@link NestedChangeListener}.
  *
  * @param <T>
- *            the type of the value wrapped by the observable value
+ *            the type of the value wrapped by the {@link ObservableValue}
  * @param <O>
- *            the type of the nesting hierarchy's innermost {@link ObservableValue}
+ *            the type of the nesting hierarchy's inner observable
  */
 public class NestedChangeListenerBuilder<T, O extends ObservableValue<T>> {
 
@@ -61,7 +61,7 @@ public class NestedChangeListenerBuilder<T, O extends ObservableValue<T>> {
 	 * @param <T>
 	 *            the type of the value wrapped by the observable value
 	 * @param <O>
-	 *            the type of the nesting hierarchy's innermost {@link ObservableValue}
+	 *            the type of the nesting hierarchy's inner {@link ObservableValue}
 	 * @param nesting
 	 *            the {@link Nesting} to which the listener will be added
 	 * @return the new builder
