@@ -125,6 +125,25 @@ public class ObservableValueNestingBuilder<T> extends AbstractNestingBuilderOnOb
 	}
 
 	/**
+	 * Usability method which simply calls {@link #nestProperty(NestingStep) nestProperty}.
+	 * <p>
+	 * Returns a builder for nestings whose inner observable is a {@link Property}. The created nestings depend on this
+	 * builder's outer observable and nesting steps and adds the specified step as the next one.
+	 *
+	 * @param <N>
+	 *            the type wrapped by the created nesting builder
+	 * @param nestingStep
+	 *            the function which performs the nesting step from one observable to the next
+	 * @return an {@link ObservableValueNestingBuilder} which builds a nesting from this builder's settings and the
+	 *         specified nesting steps
+	 * @throws NullPointerException
+	 *             if the specified function is null
+	 */
+	public <N> ObjectPropertyNestingBuilder<N> nest(NestingStep<T, Property<N>> nestingStep) {
+		return nestProperty(nestingStep);
+	}
+
+	/**
 	 * Returns a builder for nestings whose inner observable is a {@link BooleanProperty}. The created nestings depend
 	 * on this builder's outer observable and nesting steps and adds the specified step as the next one.
 	 *
@@ -218,25 +237,6 @@ public class ObservableValueNestingBuilder<T> extends AbstractNestingBuilderOnOb
 	public StringPropertyNestingBuilder nestStringProperty(NestingStep<T, StringProperty> nestingStep) {
 		Objects.requireNonNull(nestingStep, "The argument 'nestingStep' must not be null.");
 		return new StringPropertyNestingBuilder(this, nestingStep);
-	}
-
-	/**
-	 * Usability method which simply calls {@link #nestObservableValue(NestingStep) nestObservable}.
-	 * <p>
-	 * Returns a builder for nestings whose inner observable is an {@link ObservableValue}. The created nestings depend
-	 * on this builder's outer observable and nesting steps and adds the specified step as the next one.
-	 *
-	 * @param <N>
-	 *            the type wrapped by the created nesting builder
-	 * @param nestingStep
-	 *            the function which performs the nesting step from one observable to the next
-	 * @return an {@link ObservableValueNestingBuilder} which builds a nesting from this builder's settings and the
-	 *         specified nesting steps
-	 * @throws NullPointerException
-	 *             if the specified function is null
-	 */
-	public <N> ObservableValueNestingBuilder<N> nest(NestingStep<T, ObservableValue<N>> nestingStep) {
-		return nestObservableValue(nestingStep);
 	}
 
 	//#end NEST
