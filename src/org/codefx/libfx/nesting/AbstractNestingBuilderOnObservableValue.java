@@ -1,6 +1,10 @@
 package org.codefx.libfx.nesting;
 
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+
+import org.codefx.libfx.nesting.listener.NestedChangeListener;
+import org.codefx.libfx.nesting.listener.NestedChangeListenerBuilder;
 
 /**
  * A nesting builder which allows adding change listeners.
@@ -42,5 +46,24 @@ abstract class AbstractNestingBuilderOnObservableValue<T, O extends ObservableVa
 	}
 
 	//#end CONSTRUCTION
+
+	// #region LISTENERS
+
+	/**
+	 * Adds the specified change listener to the nesting hierarchy's inner {@link ObservableValue}.
+	 *
+	 * @param listener
+	 *            the added {@link ChangeListener}
+	 * @return the {@link NestedChangeListener} which can be used to check the nesting's state
+	 */
+	public NestedChangeListener<T> addListener(ChangeListener<? super T> listener) {
+		Nesting<O> nesting = buildNesting();
+		return NestedChangeListenerBuilder
+				.forNesting(nesting)
+				.withListener(listener)
+				.build();
+	}
+
+	//#end LISTENERS
 
 }

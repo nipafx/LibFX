@@ -5,8 +5,12 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
+import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
+
+import org.codefx.libfx.nesting.listener.NestedInvalidationListener;
+import org.codefx.libfx.nesting.listener.NestedInvalidationListenerBuilder;
 
 /**
  * A superclass for builders for all kinds of nested functionality. Holds the nesting hierarchy (outer observable and
@@ -158,6 +162,25 @@ abstract class AbstractNestingBuilderOnObservable<T, O extends Observable> {
 	}
 
 	//#end BUILD
+
+	// #region LISTENERS
+
+	/**
+	 * Adds the specified invalidation listener to the nesting hierarchy's inner {@link Observable}.
+	 *
+	 * @param listener
+	 *            the added {@link InvalidationListener}
+	 * @return the {@link NestedInvalidationListener} which can be used to check the nesting's state
+	 */
+	public NestedInvalidationListener addListener(InvalidationListener listener) {
+		Nesting<O> nesting = buildNesting();
+		return NestedInvalidationListenerBuilder
+				.forNesting(nesting)
+				.withListener(listener)
+				.build();
+	}
+
+	//#end LISTENERS
 
 	// #region PRIVATE CLASSES
 
