@@ -1,53 +1,21 @@
-# LibFX - Nestings
+# LibFX
 
-This feature branch revolves around JavaFX properties. The core API provides awesome capabilities but one thing I frequently need is missing: the possibility to interact with properties which are hidden in a more complex object hierarchy.
+This is the place where we tell you, who we are, what this project is all about and why you really need it!
 
-Below you will find an example of the problem and its solution with some lines of code from **LibFX**. But before we come to that I wanna shortly present this feature's idea.
+## Who?
 
-## Idea
+Well, we must disappoint you: there is no "we". Currently it's only me, Nicolai. ;)
 
-This branch develops a simple and fluent API to create nestings, where a `Nesting` represents a hierarchy like `Employee -> Address -> ZIP code`. The nesting would collapse the hierarchy to the innermost property (in this example `zipProperty`) and update itself whenever the employee or address instances change.
+## What?
 
-A nesting can than be used in several ways:
-* You can build a property which always holds the innermost value.
-* You can attach a change listener which is carried along as the innermost property changes.
-* You can create bindings which are not only updated when the innermost property's value changes but also when the property itself is replaced.
+And the answer to _What?_ might also be underwhelming as I can't really tell you what will come of this. It will at least involve _JavaFX_ (hence the name) and some collections. In general, I've got two things in mind:
+* I wanna search my projects for reusable chunks of code. Whatever I find will be redesigned, tested, well-documented and finally published here.
+* I've got some ideas of things I'd like to implement and see where it takes me.
 
-These further steps can be made with the same fluent API without breaking one's stride. You can find an example below and more in the classes in the folder `demo/org/codefx/libfx/nesting` (look for methods starting with "demo").
+Features will be developed in feature branches so this master might remain empty for a while. Check out the other branches to see what is being developed.
 
-## Example
+## Why?
 
-Let's see an example...
+So why should you use this? Yes, why indeed...
 
-### The Situation
-
-Say you have an object of type `Employee` and you're creating an `EmployeeEditor` for editing a single employee at a time. You will most likely have a model for your UI which has something like a `currentEmployeeProperty`.
-Now you might want to bind some properties of the controls you're using for your editor to the current employee's properties. For example you might have a slider and want to bind it to the employee's `salaryProperty`.
-
-### The Problem
-
-Up to now that's all straight forward. But what happens when the current employee is replaced by another? Of course you want your editor to be updated.
-
-### The "Solutions"
-
-You could use `Bindings.select` but it has some downsides. For one thing, it uses strings to identify the nested properties, which breaks down quickly under refactoring. Unfortunately you won't even get an exception when trying to access properties which aren't there anymore - your binding will just forever contain null. Another downside is the return type. It's just an `ObjectBinding` (or `DoubleBinding` or ...) which does not suffice in all use cases.
-
-Another way is to explicitly listen to changes of the model's `currentEmployeeProperty` and update the binding accordingly. That's rather tedious and leads to a lot of the same code all over the place. And it gets even worse, when you're nesting deeper, e.g. binding to the current employee's address' ZIP code.
-
-### The Solution
-
-Use **LibFX**! :)
-
-``` Java
-Nestings.on(currentEmployeeProperty)
-	.nestDouble(employee -> employee.salaryProperty())
-	.bindBidirectional(slider.valueProperty());
-```
-
-``` Java
-Nestings.on(currentEmployeeProperty)
-	.nest(employee -> employee.addressProperty())
-	.nest(address -> address.zipProperty())
-	.addChangeListener(myListener);
-```
-
+Until this very hazy text changes, you should not use this code as-is. Check it out, look at it, get some ideas, change it, use it, ... go crazy with it! (But remember, it's licensed under GPL.) At some point, a part of the code will become stable and there will be releases - at least that's the hope. ;)
