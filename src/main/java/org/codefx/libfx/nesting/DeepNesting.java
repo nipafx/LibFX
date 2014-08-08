@@ -231,7 +231,8 @@ final class DeepNesting<O extends Observable> implements Nesting<O> {
 	 * The updater loops through the levels {@code [startLevel; innerLevel - 1]}, updates {@code observables} and
 	 * {@code values} and moves the {@link DeepNesting#changeListeners} from the old to the new observables. It stops
 	 * when a level is found where the stored value equals the current one. In that case all higher levels must be
-	 * identical and nothing more needs to be updated. <br>
+	 * identical and nothing more needs to be updated.
+	 * <p>
 	 * Note that the loop will not stop on null observables and null values. Instead it continues and replaces all
 	 * stored observables and values with null. This is the desired behavior as the hierarchy is in now an incomplete
 	 * state and the old observables and values are obsolete and have to be replaced.

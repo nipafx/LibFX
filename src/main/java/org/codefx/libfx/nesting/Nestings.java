@@ -12,14 +12,13 @@ import org.codefx.libfx.nesting.property.NestedDoubleProperty;
 import org.codefx.libfx.nesting.property.NestedProperty;
 
 /**
+ * <p>
  * This class provides static functions to obtain builders for nested classes like {@link Nesting} or
  * {@link NestedProperty}.
- * <p>
  * <h2>Builders</h2> Calling {@code on} will return a builder whose type depends on the type of the specified
  * observable. Similarly a call to one of the builders' {@code nest...}-methods returns a (new) builder whose type
  * depends on the type of observable the nesting step will return. Each type of builder allows only those functions
  * which are supported by that observable.
- * <p>
  * <h3>Examples on Builder Types</h3> If the last nesting step provides a {@link javafx.beans.property.DoubleProperty
  * DoubleProperty}, a {@link DoublePropertyNestingBuilder} will be returned. Because a {@code Double} cannot contain
  * another observable no further nesting is possible and hence no {@code nest...}-methods are available. But it can be

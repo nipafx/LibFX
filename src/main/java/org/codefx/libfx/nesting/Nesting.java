@@ -7,11 +7,11 @@ import javafx.beans.property.ReadOnlyProperty;
 import javafx.beans.value.ObservableValue;
 
 /**
+ * <p>
  * A nesting encapsulates a hierarchy of nested {@link ObservableValue ObservableValues} and its
  * {@link #innerObservableProperty() innerObservable} property always contains the current innermost {@code Observable}
  * in that hierarchy as an {@link Optional}. A {@code Nesting} can be used as a basic building block for other nested
  * functionality.
- * <p>
  * <h2>Nesting Hierarchy</h2> A nesting hierarchy is composed of some {@code ObservableValues}, often simply called
  * <b>observables</b>, and <b>nesting steps</b> which lead from one observable to the next.
  * <p>
@@ -23,7 +23,6 @@ import javafx.beans.value.ObservableValue;
  * As nesting steps require a value to be accessible, all observables on which a step is used must provide a value.
  * Hence they must all implement {@link ObservableValue} (of {@code T}, where {@code T} is no primitive type wrapper or
  * {@code String}). No step is used on the inner observable so it suffices that it implements {@link Observable}.
- * <p>
  * <h3>Example</h3> Consider a class {@code Employee} which has an {@code Property<Address> address}, where
  * {@code Address} has a {@code StringProperty streetName}. There might be a {@code Property<Emplyee> currentEmployee},
  * which always holds the current employee.
@@ -31,7 +30,6 @@ import javafx.beans.value.ObservableValue;
  * In this case the hierarchy would be {@code currentEmployee -> address -> streetName} where {@code currentEmployee} is
  * the outer observable and {@code address} and {@code streetName} are nested observables. Additionally,
  * {@code streetName} is the inner observable.
- * <p>
  * <h2>Present or Missing Inner Observable</h2> If all steps return non-null observables and none of them contains null,
  * the inner observable can be computed and will be contained in the {@link #innerObservableProperty() innerObservable}
  * property. In this case it is said to be <b>present</b>. The same is true if only the inner observable contains null.
@@ -39,9 +37,7 @@ import javafx.beans.value.ObservableValue;
  * If any nesting step returns null or any observable except the inner contains null as a value, the nesting hierarchy
  * can not be completely computed. The inner observable is said to be <b>missing</b> and the {@code innerObservable}
  * property contains {@link Optional#empty()}.
- * <p>
  * <h2>Evaluation</h2> Nestings will usually be implemented such that they eagerly evaluate the nested observables.
- * <p>
  * <h2>Build</h2> Instances of {@code Nesting} can be created with dedicated builders. These can be obtained by starting
  * with one of the methods in {@link Nestings}. More details can be found there.
  *

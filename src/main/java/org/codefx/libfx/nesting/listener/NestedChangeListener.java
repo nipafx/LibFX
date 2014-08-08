@@ -14,13 +14,12 @@ import org.codefx.libfx.nesting.NestingObserver;
 import org.codefx.libfx.nesting.property.NestedProperty;
 
 /**
+ * <p>
  * Contains a {@link ChangeListener} which is connected to a {@link Nesting}. Simply put, the listener is always added
  * to the nesting's inner observable (more precisely, it is added to the {@link ObservableValue} instance contained in
  * the optional value held by the nesting's {@link Nesting#innerObservableProperty() innerObservable} property).
- * <p>
  * <h2>Inner Observable's Value Changes</h2> The listener is added to the nesting's inner observable. So when that
  * observable's value changes, the listener is called as usual.
- * <p>
  * <h2>Inner Observable Is Replaced</h2> When the nesting's inner observable is replaced by another, the listener is
  * removed from the old and added to the new observable. If one of them is missing, the affected removal or add is not
  * performed, which means the listener might not be added to any observable.
@@ -61,12 +60,12 @@ public class NestedChangeListener<T> implements Nested {
 		this.innerObservablePresent = new SimpleBooleanProperty(this, "innerObservablePresent");
 
 		NestingObserver
-		.forNesting(nesting)
-		.withOldInnerObservable(oldInnerObservable -> oldInnerObservable.removeListener(listener))
-		.withNewInnerObservable(newInnerObservable -> newInnerObservable.addListener(listener))
-		.whenInnerObservableChanges(
-				(Boolean any, Boolean newInnerObservablePresent)
-				-> innerObservablePresent.set(newInnerObservablePresent))
+				.forNesting(nesting)
+				.withOldInnerObservable(oldInnerObservable -> oldInnerObservable.removeListener(listener))
+				.withNewInnerObservable(newInnerObservable -> newInnerObservable.addListener(listener))
+				.whenInnerObservableChanges(
+						(Boolean any, Boolean newInnerObservablePresent)
+						-> innerObservablePresent.set(newInnerObservablePresent))
 				.observe();
 	}
 
