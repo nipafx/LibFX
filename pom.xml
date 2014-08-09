@@ -2,26 +2,48 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<!-- PROJECT COORDINATES -->
+
 	<groupId>org.codefx.libfx</groupId>
 	<artifactId>LibFX</artifactId>
 	<version>0.1.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
+	<!-- PROJECT META INFORMATION -->
+
 	<name>LibFX</name>
-	<url>http://libfx.codefx.org</url>
 	<description>LibFX provides utility classes for JavaFX.</description>
+	<url>http://libfx.codefx.org</url>
+
 	<scm>
 		<url>https://github.com/CodeFX-org/LibFX</url>
+		<connection>scm:git:git://github.com/CodeFX-org/LibFX.git</connection>
 	</scm>
+
 	<issueManagement>
 		<url>https://github.com/CodeFX-org/LibFX/issues</url>
 		<system>GitHub</system>
 	</issueManagement>
 
+	<!-- ORGANIZATION META INFORMATION -->
+
 	<organization>
 		<name>CodeFX</name>
 		<url>http://codefx.org</url>
 	</organization>
+
+	<developers>
+		<developer>
+			<id>nipa</id>
+			<name>Nicolai Parlog</name>
+			<email>nipa@codefx.org</email>
+			<organization>CodeFX</organization>
+			<organizationUrl>http://codefx.org</organizationUrl>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
+
+	<!-- BUILD -->
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
