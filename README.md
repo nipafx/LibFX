@@ -1,21 +1,34 @@
 # LibFX
 
-This is the place where we tell you, who we are, what this project is all about and why you really need it!
+**LibFX** has no strict goal for a feature set. It collects functionality the developer (currently only one) created for his use in other projects but are abstract enough to be generally helpful:
+* [Nestings](https://github.com/CodeFX-org/LibFX/wiki/Nestings): using all the power of JavaFX' properties for nested object aggregations
 
-## Who?
+This somewhat vague sentiment does not translate to quality! The code is clean, which especially includes thorough testing. It is also extensively documented and contains many examples. Bugs will be quickly addressed and feature requests as well as forks and pull requests are welcome.
 
-Well, we must disappoint you: there is no "we". Currently it's only me, Nicolai. ;)
+## License
 
-## What?
+License details can be found in the `LICENSE` file in the same folder as this readme. The information provided there is binding but the gist is: **LibFX** is licensed under the GPL but if that does not suit your licensing models, other arrangements are possible (contact me).
 
-And the answer to _What?_ might also be underwhelming as I can't really tell you what will come of this. It will at least involve _JavaFX_ (hence the name) and some collections. In general, I've got two things in mind:
-* I wanna search my projects for reusable chunks of code. Whatever I find will be redesigned, tested, well-documented and finally published here.
-* I've got some ideas of things I'd like to implement and see where it takes me.
+## Documentation
 
-Features will be developed in feature branches so this master might remain empty for a while. Check out the other branches to see what is being developed.
+The best documentation are the tests. Understandably nobody wants to dig into the tests to understand what the classes do so there is also extensive Javadoc and examples. The best way to get to know a feature is to check out its description in the [wiki](https://github.com/CodeFX-org/LibFX/wiki).
 
-## Why?
+If anything is missing or an explanation proves to be unhelpful, contact me (see below).
 
-So why should you use this? Yes, why indeed...
+## Development
 
-Until this very hazy text changes, you should not use this code as-is. Check it out, look at it, get some ideas, change it, use it, ... go crazy with it! (But remember, it's licensed under GPL.) At some point, a part of the code will become stable and there will be releases - at least that's the hope. ;)
+Some information about how this library is developed:
+
+* The [issue tracker](https://github.com/CodeFX-org/LibFX/issues) is actively used so it is the place to report bugs and request features.
+* Releases are marked as such and can be accessed [here](https://github.com/CodeFX-org/LibFX/releases).
+* As per [GIT branching model](http://nvie.com/posts/a-successful-git-branching-model/) features are developed in feature branches. If you are curious you can check out the other branches to see what is being worked on.
+* This is a [Maven](http://maven.apache.org/) project, so in case you want to check out the code, make sure your IDE knows about Maven.
+
+## Contact
+
+Nicolai Parlog <br>
+CodeFX
+
+URL: http://codefx.org <br>
+Mail: nipa@codefx.org <br>
+Key: http://keys.gnupg.net/pks/lookup?op=vindex&search=0xA47A795BA5BF8326 <br>
