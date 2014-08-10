@@ -13,7 +13,7 @@
 
 	<name>LibFX</name>
 	<description>LibFX provides utility classes for JavaFX.</description>
-	<url>http://libfx.codefx.org</url>
+	<url>https://github.com/CodeFX-org/LibFX</url>
 
 	<scm>
 		<url>https://github.com/CodeFX-org/LibFX</url>
