@@ -42,6 +42,8 @@ The library has its home on [GitHub](https://github.com/CodeFX-org/LibFX) where 
 
 I have a blog at [codefx.org](http://blog.codefx.org) where I might occasionally blog about **LibFX**. Those posts are filed under [their own tag](http://blog.codefx.org/tag/libfx/).
 
+I use Eclipse and my project settings (like compiler warnings, formatter and save actions) can be found in the repository folder **.settings**. I do this to make it easier for contributors to cope with my obsession for warning free and consistently formatted code.
+
 ## Contact
 
 Nicolai Parlog <br>
