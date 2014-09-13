@@ -7,6 +7,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 
+import org.codefx.libfx.nesting.Employee.Address;
 import org.codefx.libfx.nesting.property.NestedDoubleProperty;
 import org.codefx.libfx.nesting.property.NestedProperty;
 import org.codefx.libfx.nesting.property.NestedStringProperty;
@@ -44,6 +45,7 @@ public class NestedDemo {
 		NestedDemo demo = new NestedDemo();
 
 		demo.nestingCreation();
+		demo.nestingCreationWithMethodReferences();
 		demo.nestedListenerCreation();
 		demo.nestedPropertyCreation();
 		demo.nestedPropertyCreationWithBuilder();
@@ -107,7 +109,7 @@ public class NestedDemo {
 				.nestProperty(employee -> employee.addressProperty())
 				.nestObservableValue(address -> address.streetNameProperty())
 				.buildNesting();
-		print("The 'Nesting<ObservableValue<String>' has the value: \""
+		print("The 'Nesting<ObservableValue<String>>' has the value: \""
 				+ getValueFromNesting(withObservableValue) + "\"");
 
 		// the same is true, if it were only an 'Observable'
@@ -115,8 +117,30 @@ public class NestedDemo {
 				.nestProperty(employee -> employee.addressProperty())
 				.nestObservable(address -> address.streetNameProperty())
 				.buildNesting();
-		print("The 'Nesting<Observable's value can not be accessed, so let's call 'toString': \""
+		print("The 'Nesting<Observable>'s value can not be accessed, so let's call 'toString': \""
 				+ withObservable.innerObservableProperty().getValue().get().toString() + "\"");
+
+		print();
+	}
+
+	/**
+	 * Demonstrates how to create a {@link Nesting}.
+	 */
+	private void nestingCreationWithMethodReferences() {
+		print("NESTING CREATION WITH METHOD REFERENCES");
+
+		/*
+		 * The nesting steps take as input a function from an object in the nesting hierarchy to the property containing
+		 * the next object. Instead of using lambda expressions to create those functions, method references are also
+		 * possible. They might even be considered more expressive and are hence the recommended way to create nestings.
+		 */
+
+		Nesting<StringProperty> withShortcut = Nestings.on(currentEmployee)
+				.nest(Employee::addressProperty)
+				.nestStringProperty(Address::streetNameProperty)
+				.buildNesting();
+		print("The 'Nesting<StringProperty>' (with method references) has the value: \""
+				+ getValueFromNesting(withShortcut) + "\"");
 
 		print();
 	}
@@ -136,14 +160,14 @@ public class NestedDemo {
 
 		// nest as above and then add a change listener
 		Nestings.on(currentEmployee)
-				.nestProperty(employee -> employee.addressProperty())
-				.nestProperty(address -> address.streetNameProperty())
+				.nestProperty(Employee::addressProperty)
+				.nestProperty(Address::streetNameProperty)
 				.addListener((observable, oldValue, newValue) -> {/* do something here */});
 
 		// an invalidation listener could even be added if 'employee.addressProperty' were only an observable
 		Nestings.on(currentEmployee)
-				.nestProperty(employee -> employee.addressProperty())
-				.nestObservable(address -> address.streetNameProperty())
+				.nestProperty(Employee::addressProperty)
+				.nestObservable(Address::streetNameProperty)
 				.addListener(observable -> {/* do something here */});
 
 		print();
@@ -163,23 +187,23 @@ public class NestedDemo {
 
 		// nest as above but instead of creating a 'Nesting<Property<String>>', create a 'Property<String>'
 		Property<String> asObjectProperty = Nestings.on(currentEmployee)
-				.nestProperty(employee -> employee.addressProperty())
-				.nestProperty(address -> address.streetNameProperty())
+				.nestProperty(Employee::addressProperty)
+				.nestProperty(Address::streetNameProperty)
 				.buildProperty();
 		print("The nested 'Property<String>' has the value: \"" + asObjectProperty.getValue() + "\"");
 
 		// now, create a 'StringProperty instead'
 		StringProperty asStringProperty = Nestings.on(currentEmployee)
-				.nestProperty(employee -> employee.addressProperty())
-				.nestStringProperty(address -> address.streetNameProperty())
+				.nestProperty(Employee::addressProperty)
+				.nestStringProperty(Address::streetNameProperty)
 				.buildProperty();
 		print("The nested 'StringProperty' has the value: \"" + asStringProperty.getValue() + "\"");
 
 		// 'buildProperty' actually returns a 'Nested...Property', which also implements the interface 'Nested'
 		// (its additional functionality is demonstrated further below)
 		NestedStringProperty asNestedStringProperty = Nestings.on(currentEmployee)
-				.nestProperty(employee -> employee.addressProperty())
-				.nestStringProperty(address -> address.streetNameProperty())
+				.nestProperty(Employee::addressProperty)
+				.nestStringProperty(Address::streetNameProperty)
 				.buildProperty();
 		print("The 'NestedStringProperty' has the value: \"" + asNestedStringProperty.getValue() + "\"");
 
@@ -195,8 +219,8 @@ public class NestedDemo {
 		// after nesting is done, the call to 'buildProperty' can be replaced by 'buildPropertyWithBuilder',
 		// which allows to set additional values for the created nested property
 		NestedStringProperty addressWithBeanAndName = Nestings.on(currentEmployee)
-				.nest(employee -> employee.addressProperty())
-				.nestStringProperty(address -> address.streetNameProperty())
+				.nest(Employee::addressProperty)
+				.nestStringProperty(Address::streetNameProperty)
 				.buildPropertyWithBuilder()
 				.setBean(this)
 				.setName("addressWithBean")
@@ -216,7 +240,7 @@ public class NestedDemo {
 
 		// create a nested property for the current employee's salary
 		NestedDoubleProperty currentEmployeesSalary = Nestings.on(currentEmployee)
-				.nestDoubleProperty(employee -> employee.salaryProperty())
+				.nestDoubleProperty(Employee::salaryProperty)
 				.buildProperty();
 
 		print("The object hierarchy's value is initially the same as the nested property's value:");
@@ -264,8 +288,8 @@ public class NestedDemo {
 
 		// create a nested property for the current employee's street name
 		NestedStringProperty currentEmployeesStreetName = Nestings.on(currentEmployee)
-				.nest(employee -> employee.addressProperty())
-				.nestStringProperty(address -> address.streetNameProperty())
+				.nest(Employee::addressProperty)
+				.nestStringProperty(Address::streetNameProperty)
 				.buildProperty();
 
 		print("Nested property's initial street name: \"" + currentEmployeesStreetName.get() + "\"");
@@ -293,8 +317,8 @@ public class NestedDemo {
 
 		// create a nested property for the current employee's street name
 		NestedStringProperty currentEmployeesStreetName = Nestings.on(currentEmployee)
-				.nest(employee -> employee.addressProperty())
-				.nestStringProperty(address -> address.streetNameProperty())
+				.nest(Employee::addressProperty)
+				.nestStringProperty(Address::streetNameProperty)
 				.buildProperty();
 
 		// the interface 'Nested' has a property which indicates whether the inner observable is present;

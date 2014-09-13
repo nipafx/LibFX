@@ -8,7 +8,8 @@ import javafx.beans.Observable;
 
 /**
  * Usability class which observes a {@link Nesting} and executes some methods when the nesting's
- * {@link Nesting#innerObservableProperty() innerObservable} changes (in that order):
+ * {@link Nesting#innerObservableProperty() innerObservable} changes. These are the methods and the order in which they
+ * are called:
  * <ol>
  * <li>if the old inner observable was present, a method is called with that observable as its argument; the method is
  * specified during building (see {@link NestingObserverBuilder#withOldInnerObservable(Consumer) withOldInnerObservable})
@@ -18,7 +19,7 @@ import javafx.beans.Observable;
  * new observable were/are present; the method is specified during building (see
  * {@link NestingObserverBuilder#whenInnerObservableChanges(BiConsumer) whenInnerObservableChanges})
  * </ol>
- * These methods are also called once after construction. At this point, there is of course no old inner observable
+ * These methods are also called once during construction. At this point, there is of course no old inner observable
  * present.
  * <p>
  * The observer is created with a {@link NestingObserverBuilder} which can be obtained from

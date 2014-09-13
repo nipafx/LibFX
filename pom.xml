@@ -2,26 +2,64 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<!-- PROJECT COORDINATES -->
+
 	<groupId>org.codefx.libfx</groupId>
 	<artifactId>LibFX</artifactId>
-	<version>0.1.0</version>
+	<version>0.1.1</version>
 	<packaging>jar</packaging>
 
+	<!-- PROJECT META INFORMATION -->
+
 	<name>LibFX</name>
-	<url>http://libfx.codefx.org</url>
 	<description>LibFX provides utility classes for JavaFX.</description>
+	<url>http://libfx.codefx.org</url>
+
 	<scm>
 		<url>https://github.com/CodeFX-org/LibFX</url>
+		<connection>scm:git:git://github.com/CodeFX-org/LibFX.git</connection>
 	</scm>
+
 	<issueManagement>
 		<url>https://github.com/CodeFX-org/LibFX/issues</url>
 		<system>GitHub</system>
 	</issueManagement>
 
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<licenses>
+		<license>
+			<name>GNU General Public License, Version 3.0</name>
+			<url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+			<distribution>repo</distribution>
+			<comments>Dual licensing under a license without copyleft effect is possible. Contact nipa@codefx.org.</comments>
+		</license>
+	</licenses>
+
+	<!-- ORGANIZATION META INFORMATION -->
+
 	<organization>
 		<name>CodeFX</name>
 		<url>http://codefx.org</url>
 	</organization>
+
+	<developers>
+		<developer>
+			<id>nipa</id>
+			<name>Nicolai Parlog</name>
+			<email>nipa@codefx.org</email>
+			<organization>CodeFX</organization>
+			<organizationUrl>http://codefx.org</organizationUrl>
+			<timezone>+1</timezone>
+		</developer>
+	</developers>
+
+	<!-- BUILD -->
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -44,6 +82,7 @@
 
 	<build>
 		<resources>
+			<!-- exclude the demo folder from the build process -->
 			<resource>
 				<directory>src/demo/java</directory>
 				<excludes>
@@ -53,6 +92,7 @@
 		</resources>
 		<plugins>
 			<plugin>
+				<!-- specify using Java 8 -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
@@ -62,6 +102,7 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<!-- create sources.jar -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
 				<version>2.3</version>
@@ -75,6 +116,7 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<!-- create javadoc.jar -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.9.1</version>
@@ -86,6 +128,33 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<!-- sign all jars and pom -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<!-- deploy to sonatype OSSRH -->
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.2</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>false</autoReleaseAfterClose>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
