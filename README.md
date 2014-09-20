@@ -22,7 +22,25 @@ License details can be found in the *LICENSE* file in the project's root folder.
 
 ## Releases
 
-Releases are published [here](https://github.com/CodeFX-org/LibFX/releases). The release notes also contain the Maven coordinates for each version available in Maven Central.
+Releases are published [here](https://github.com/CodeFX-org/LibFX/releases). The release notes also contain a link to the artifact in Maven Central and its coordinates.
+
+The current version is [0.1.2](http://search.maven.org/#artifactdetails|org.codefx.libfx|LibFX|0.1.2|jar):
+
+**Maven**:
+
+``` XML
+<dependency>
+    <groupId>org.codefx.libfx</groupId>
+    <artifactId>LibFX</artifactId>
+    <version>0.1.2</version>
+</dependency>
+``` 
+
+**Gradle**:
+
+```
+	compile 'org.codefx.libfx:LibFX:0.1.2'
+```
 
 ## Development
 
