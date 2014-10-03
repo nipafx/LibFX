@@ -1,7 +1,9 @@
 package org.codefx.libfx.functional;
 
 import static org.codefx.libfx.functional.Partial.VAR;
+import static org.codefx.libfx.functional.Partial.fix;
 import static org.codefx.libfx.functional.Partial.partial;
+import static org.codefx.libfx.functional.Partial.var;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Objects;
@@ -20,6 +22,20 @@ public class PartialTest {
 	public void testPartialWithMethodReference() {
 		for (int a = 0; a < 10; a++) {
 			Function<Integer, Integer> firstFixed = partial(PartialTest::multiply, a, VAR);
+			for (int b = 0; b < 10; b++) {
+				int expected = multiply(a, b);
+				int result = firstFixed.apply(b);
+				assertEquals(expected, result);
+			}
+		}
+	}
+
+	@Test
+	public void testPartialWithMethodReferenceAndVarFix() {
+		for (int a = 0; a < 10; a++) {
+			Function<Integer, Integer> firstFixed = partial(PartialTest::multiply, fix(a), var());
+			final int ah = a;
+			firstFixed = b -> multiply(ah, b);
 			for (int b = 0; b < 10; b++) {
 				int expected = multiply(a, b);
 				int result = firstFixed.apply(b);

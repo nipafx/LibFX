@@ -7,6 +7,14 @@ public class Partial {
 
 	public static final Variable VAR = new Variable();
 
+	public static Variable var() {
+		return VAR;
+	}
+
+	public static <T> T fix(T t) {
+		return t;
+	}
+
 	/*
 	 * PARTIAL FUNCTION APPLICATION
 	 */
