@@ -9,6 +9,12 @@ public class ControlProperties {
 
 	/**
 	 * Creates a builder for a {@link ControlPropertyListener} which observes the specified property map.
+	 * <p>
+	 * Note that it is often necessary to explicitly specify the type parameter {@code T} like so:
+	 * 
+	 * <pre>
+	 * ControlProperties.&lt;String&gt; on(...)
+	 * </pre>
 	 *
 	 * @param <T>
 	 *            the type of values which the listener processes

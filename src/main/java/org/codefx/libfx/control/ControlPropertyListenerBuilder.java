@@ -8,6 +8,15 @@ import javafx.collections.ObservableMap;
 
 /**
  * A builder for {@link ControlPropertyListener}.
+ * <p>
+ * It is best created by calling {@link ControlProperties#on(ObservableMap)} with the control's property map as an
+ * argument. It is necessary to set a key (with {@link #forKey(Object)}) and a processor function for the value (with
+ * {@link #processValue(Consumer)}) before calling {@link #build()}.
+ * <p>
+ * Specifying the value's type with {@link #forValueType(Class)} is optional. If it is done, the built listener will use
+ * it to check the type of the value before casting it to the type accepted by the value processor. If those types do
+ * not match, this prevents {@link ClassCastException} (which would otherwise be caught and silently ignored). If that
+ * case occurs frequently, specifying the type to allow the check will improve performance considerably.
  *
  * @param <T>
  *            the type of values which the listener processes
@@ -112,6 +121,9 @@ public class ControlPropertyListenerBuilder<T> {
 
 	/**
 	 * Creates a new property listener according to the arguments specified before.
+	 * <p>
+	 * Note that this builder is not yet added to the map! This can be done by calling
+	 * {@link ControlPropertyListener#attach() attach()} on the returned instance.
 	 *
 	 * @return a {@link ControlPropertyListener}
 	 */
