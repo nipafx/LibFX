@@ -19,6 +19,11 @@ abstract class AbstractControlPropertyListener implements ControlPropertyListene
 	private final ObservableMap<Object, Object> properties;
 
 	/**
+	 * The key to which the {@link #listener} listens.
+	 */
+	private final Object key;
+
+	/**
 	 * The listener which will be added to the {@link #properties}.
 	 */
 	private final MapChangeListener<Object, Object> listener;
@@ -42,33 +47,40 @@ abstract class AbstractControlPropertyListener implements ControlPropertyListene
 		Objects.requireNonNull(key, "The argument 'key' must not be null.");
 
 		this.properties = properties;
-		this.listener = createListener(properties, key);
+		this.key = key;
+		this.listener = createListener(key);
 	}
 
 	/**
 	 * Creates a map listener which checks whether a value was set for the correct key, delegates to
 	 * {@link #processValueIfPossible(Object)} if that is so and then removes the key-value-pair from the map.
 	 *
-	 * @param properties
-	 *            the {@link ObservableMap} holding the properties
 	 * @param key
 	 *            the key to which the listener will listen
 	 * @return a {@link MapChangeListener}
 	 */
-	private MapChangeListener<Object, Object> createListener(ObservableMap<Object, Object> properties, Object key) {
+	private MapChangeListener<Object, Object> createListener(Object key) {
 		return change -> {
 			boolean setForCorrectKey = change.wasAdded() && Objects.equals(key, change.getKey());
-			if (setForCorrectKey) {
-				processValueIfPossible(change.getValueAdded());
-				// remove the value from the properties map
-				properties.remove(key);
-			}
+			if (setForCorrectKey)
+				processAndRemoveValue(change.getValueAdded());
 		};
 	}
 
 	// #end CONSTRUCTION
 
 	// #region PROCESS VALUE
+
+	/**
+	 * Processes the specified value for the {@link #key} before removing the pair from the {@link #properties}
+	 *
+	 * @param value
+	 *            the value added to the map
+	 */
+	private void processAndRemoveValue(Object value) {
+		processValueIfPossible(value);
+		properties.remove(key);
+	}
 
 	/**
 	 * Called when a value was set for the correct key.
@@ -86,6 +98,8 @@ abstract class AbstractControlPropertyListener implements ControlPropertyListene
 	@Override
 	public void attach() {
 		properties.addListener(listener);
+		if (properties.containsKey(key))
+			processAndRemoveValue(properties.get(key));
 	}
 
 	@Override

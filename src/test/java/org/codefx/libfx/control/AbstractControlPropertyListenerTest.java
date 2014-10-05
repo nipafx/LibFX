@@ -178,6 +178,23 @@ public abstract class AbstractControlPropertyListenerTest {
 	}
 
 	/**
+	 * Tests whether the listener correctly processes a value which already existed in the map before it was attached.
+	 */
+	@Test
+	public void testProcessingPresentValueOnAttach() {
+		// setup
+		Property<String> listenedValue = new SimpleStringProperty();
+		ControlPropertyListener listener = createDefaultListener(String.class, value -> listenedValue.setValue(value));
+		String existingValue = "some existing value";
+		properties.put(LISTENED_KEY, existingValue);
+
+		// this should trigger processing the value
+		listener.attach();
+
+		assertSame(existingValue, listenedValue.getValue());
+	}
+
+	/**
 	 * Tests whether the listener ignores values after it was detached.
 	 */
 	@Test
