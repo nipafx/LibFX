@@ -1,0 +1,189 @@
+package org.codefx.libfx.control;
+
+import java.util.function.Consumer;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableMap;
+
+/**
+ * Demonstrates how to use the {@link ControlPropertyListener} and its builder.
+ */
+public class ControlPropertyListenerDemo {
+
+	// #region CONSTRUCTION & MAIN
+
+	/**
+	 * Creates a new demo.
+	 */
+	private ControlPropertyListenerDemo() {
+		// nothing to do
+	}
+
+	/**
+	 * Runs this demo.
+	 *
+	 * @param args
+	 *            command line arguments (will not be used)
+	 */
+	public static void main(String[] args) {
+		simpleCase();
+		attachAndDetach();
+
+		timeNoTypeCheck();
+		timeWithTypeCheck();
+
+		castVsTypeChecking();
+	}
+
+	// #end CONSTRUCTION & MAIN
+
+	// #region DEMOS
+
+	/**
+	 * Demonstrates the simple case, in which a value processor is added for some key.
+	 */
+	public static void simpleCase() {
+		ObservableMap<Object, Object> properties = FXCollections.observableHashMap();
+
+		// build and attach the listener
+		ControlProperties.<String> on(properties)
+				.forKey("Key")
+				.processValue(value -> System.out.println(" -> " + value))
+				.buildAndAttach();
+
+		// set values of the correct type for the correct key
+		System.out.print("Set \"Value\" for the correct key for the first time: ");
+		properties.put("Key", "Value");
+		System.out.print("Set \"Value\" for the correct key for the second time: ");
+		properties.put("Key", "Value");
+
+		// set values of the wrong type:
+		System.out.println("Set an Integer for the correct key: ... (nothing will happen)");
+		properties.put("Key", 5);
+
+		// set values for the wrong key
+		System.out.println("Set \"Value\" for another key: ... (nothing will happen)");
+		properties.put("OtherKey", "Value");
+	}
+
+	/**
+	 * Demonstrates how a listener can be attached and detached.
+	 */
+	private static void attachAndDetach() {
+		ObservableMap<Object, Object> properties = FXCollections.observableHashMap();
+
+		// build the listener (but don't attach it yet) and assign it to a variable
+		ControlPropertyListener listener = ControlProperties.<String> on(properties)
+				.forKey("Key")
+				.processValue(value -> System.out.println(" -> " + value))
+				.build();
+
+		// set a value when the listener is not yet attached
+		System.out.println(
+				"Set \"ExistingValue\" before attaching the listener: ... (nothing will happen)");
+		properties.put("Key", "ExistingValue");
+
+		// now attach the listener
+		System.out.print("When the listener is set, \"ExistingValue\" is processed and removed: ");
+		listener.attach();
+
+		System.out.print("Set \"Value\": ");
+		properties.put("Key", "Value");
+
+		// detach the listener
+		listener.detach();
+		System.out.println("Set \"UnnoticedValue\" when the listener is detached: ... (nothing will happen)");
+	}
+
+	/**
+	 * Measures the time it takes to get a lot of {@link ClassCastException}.
+	 */
+	private static void timeNoTypeCheck() {
+		ObservableMap<Object, Object> properties = FXCollections.observableHashMap();
+
+		Consumer<String> unreached = value -> {
+			throw new RuntimeException("Should not be executed!");
+		};
+
+		// build and a attach a listener which does no type check before cast
+		ControlProperties.<String> on(properties)
+				.forKey("Key")
+				.processValue(unreached)
+				.buildAndAttach();
+
+		// add a couple of values of the wrong type to average the time that takes
+		Integer valueOfWrongType = 5;
+		int runs = (int) 1e5;
+		long startTimeInNS = System.nanoTime();
+
+		for (int i = 0; i < runs; i++)
+			properties.put("Key", valueOfWrongType);
+
+		long endTimeInNS = System.nanoTime();
+		long timePerRunInNS = (endTimeInNS - startTimeInNS) / runs;
+		System.out.println("For unchecked casts, adding a value of the wrong type takes ~" + timePerRunInNS + " ns.");
+	}
+
+	/**
+	 * Demonstrates how type checking increases performance if values of an incorrect type are added frequently.
+	 */
+	private static void timeWithTypeCheck() {
+		ObservableMap<Object, Object> properties = FXCollections.observableHashMap();
+
+		Consumer<String> unreached = value -> {
+			throw new RuntimeException("Should not be executed!");
+		};
+
+		// build and a attach a listener which does a type check before cast
+		ControlProperties.<String> on(properties)
+				.forKey("Key")
+				.forValueType(String.class)
+				.processValue(unreached)
+				.buildAndAttach();
+
+		// add a couple of values of the wrong type to average the time that takes
+		Integer valueOfWrongType = 5;
+		int runs = (int) 1e5;
+		long startTimeInNS = System.nanoTime();
+
+		for (int i = 0; i < runs; i++)
+			properties.put("Key", valueOfWrongType);
+
+		long endTimeInNS = System.nanoTime();
+		long timePerRunInNS = (endTimeInNS - startTimeInNS) / runs;
+		System.out.println("For checked casts, adding a value of the wrong type takes ~" + timePerRunInNS + " ns.");
+	}
+
+	// #end DEMOS
+
+	/**
+	 * TODO (nipa): I don't get it. The simple test below clearly shows that raising an exception takes about 6.000 ns.
+	 * So why the hell does {@link #timeNoTypeCheck()} run way faster than that?!
+	 */
+	private static void castVsTypeChecking() {
+		int runs = (int) 1e5;
+		Object integer = 3;
+
+		// CAST
+		long start = System.nanoTime();
+		for (int i = 0; i < runs; i++)
+			try {
+				String string = (String) integer;
+				System.out.println(string);
+			} catch (ClassCastException e) {
+				// do nothing
+			}
+		long end = System.nanoTime();
+		System.out.println("Each unchecked cast took ~" + (end - start) / runs + " ns.");
+
+		// TYPE CHECK
+		start = System.nanoTime();
+		for (int i = 0; i < runs; i++)
+			if (String.class.isInstance(integer)) {
+				String bar = (String) integer;
+				System.out.println(bar);
+			}
+		end = System.nanoTime();
+		System.out.println("Each type check took ~" + (end - start) / runs + " ns.");
+	}
+}
