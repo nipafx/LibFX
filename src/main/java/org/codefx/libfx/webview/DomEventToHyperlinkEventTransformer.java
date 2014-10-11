@@ -88,10 +88,10 @@ class DomEventToHyperlinkEventTransformer {
 	 */
 	public HyperlinkEvent transform() throws IllegalArgumentException {
 		EventType type = getEventTypeForDomEvent();
-		URL url = getURLPossiblyNull();
+		Optional<URL> url = getURL();
 		String linkDescription = getDescription();
 
-		return new HyperlinkEvent(source, type, url, linkDescription);
+		return new HyperlinkEvent(source, type, url.orElse(null), linkDescription);
 	}
 
 	/**
@@ -140,45 +140,44 @@ class DomEventToHyperlinkEventTransformer {
 
 	/**
 	 * Returns the URL the interacted hyperlink points to.
-	 * 
-	 * @return the {@link URL} if it could be created; otherwise null
+	 *
+	 * @return the {@link URL} if it could be created
 	 */
-	private URL getURLPossiblyNull() {
+	private Optional<URL> getURL() {
 		Element targetElement = (Element) domEvent.getTarget();
 		Element anchor = getAnchor(targetElement);
 
-		String baseURI = anchor.getBaseURI();
+		Optional<String> baseURI = Optional.ofNullable(anchor.getBaseURI());
 		String href = anchor.getAttribute("href");
-		return createURLPossiblyNull(baseURI, href);
+		return createURL(baseURI, href);
 	}
 
 	private static Element getAnchor(Element targetElement) {
-		Optional<Element> anchor = getAnchorAncestor(targetElement);
-		if (anchor.isPresent())
-			return anchor.get();
-		else
-			throw new IllegalArgumentException(
-					"Neither the event's target element nor one of its parent nodes is an anchor.");
+		Optional<Element> anchor = getAnchorAncestor(Optional.of(targetElement));
+		return anchor.orElseThrow(() -> new IllegalArgumentException(
+				"Neither the event's target element nor one of its parent nodes is an anchor."));
 	}
 
-	private static Optional<Element> getAnchorAncestor(Node domNode) {
-		// if the node is null, there was no anchor, so return empty
-		if (domNode == null)
+	private static Optional<Element> getAnchorAncestor(Optional<Node> domNode) {
+		// if there is no node, there was no anchor, so return empty
+		if (!domNode.isPresent())
 			return Optional.empty();
 
+		Node node = domNode.get();
+
 		// if the node is no element, recurse to its parent
-		boolean nodeIsNoElement = !(domNode instanceof Element);
+		boolean nodeIsNoElement = !(node instanceof Element);
 		if (nodeIsNoElement)
-			return getAnchorAncestor(domNode.getParentNode());
+			return getAnchorAncestor(Optional.ofNullable(node.getParentNode()));
 
 		// if the node is an element, check whether it is an anchor
-		Element element = (Element) domNode;
+		Element element = (Element) node;
 		boolean isAnchor = element.getTagName().equalsIgnoreCase("a");
 		if (isAnchor)
 			return Optional.of(element);
 
 		// if the element is no anchor, recurse to its parent
-		return getAnchorAncestor(element.getParentNode());
+		return getAnchorAncestor(Optional.ofNullable(element.getParentNode()));
 	}
 
 	/**
@@ -188,30 +187,31 @@ class DomEventToHyperlinkEventTransformer {
 	 *            the base URI of the anchor {@link Element} which caused the event
 	 * @param href
 	 *            the href attribute value of the {@link Element} which caused the event
-	 * @return a URL if one could be created; otherwise null
+	 * @return a URL if one could be created
 	 */
-	private static URL createURLPossiblyNull(String baseURI, String href) {
+	private static Optional<URL> createURL(Optional<String> baseURI, String href) {
 		// create URL context from the document's base URI
 		URL context = null;
 		try {
-			if (baseURI != null)
-				context = new URL(baseURI);
+			if (baseURI.isPresent())
+				context = new URL(baseURI.get());
 		} catch (MalformedURLException e) {
 			// if LibFX supports logging, this could be logged:
 			//     "Could not create a URL context from the base URI \"" + baseURI + "\".", e
-			// until then return null, which is a legal value for a URL in an HyperlinkEvent
+			// until then return empty
 		}
 
 		// create URL from context and href
 		try {
-			return new URL(context, href);
+			URL url = new URL(context, href);
+			return Optional.of(url);
 		} catch (MalformedURLException e) {
 			// if LibFX supports logging, this could be logged:
 			//     "Could not create a URL from href \"" + href + "\" and context \"" + context + "\"."
-			// until then return null, which is a legal value for a URL in an HyperlinkEvent
+			// until then return empty
 		}
 
-		return null;
+		return Optional.empty();
 	}
 
 	// #end TRANSFORM
