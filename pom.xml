@@ -67,12 +67,14 @@
 
 	<dependencies>
 		<dependency>
+			<!-- JUNIT for automated tests -->
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<!-- MOCKITO to mock instances for automated tests -->
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
 			<version>1.9.5</version>
