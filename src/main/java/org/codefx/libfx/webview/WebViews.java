@@ -163,4 +163,36 @@ public final class WebViews {
 
 	// #end HYPERLINK EVENTS
 
+	// #region DOM EVENTS
+
+	/**
+	 * Returns a string representation of the specified event.
+	 *
+	 * @param event
+	 *            the DOM-{@link Event} which will be converted to a string
+	 * @return a string representation of the event
+	 */
+	public static String domEventToString(Event event) {
+		Objects.requireNonNull(event, "The parameter 'event' must not be null.");
+
+		return "DOM-Event ["
+				+ "target: "
+				+ event.getTarget()
+				+ "; "
+				+ "type: "
+				+ event.getType()
+				+ "; "
+				+ "time stamp: "
+				+ event.getTimeStamp()
+				+ "; "
+				+ "bubbles: "
+				+ event.getBubbles()
+				+ "; "
+				+ "cancelable: "
+				+ event.getCancelable()
+				+ "]";
+	}
+
+	// #end DOM EVENTS
+
 }
