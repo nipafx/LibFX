@@ -8,6 +8,9 @@ import org.w3c.dom.events.Event;
 
 /**
  * Default implementation of {@link EventTransformer}.
+ * <p>
+ * This class is thread-safe, i.e. the provided methods can be called from different threads and concurrent executions
+ * do not interfere with each other.
  */
 public class DefaultEventTransformer implements EventTransformer {
 
