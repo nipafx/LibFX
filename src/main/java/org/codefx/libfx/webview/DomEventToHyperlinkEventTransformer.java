@@ -53,6 +53,8 @@ class DomEventToHyperlinkEventTransformer {
 	 * @return true if the event's {@link Event#getType() type} has an equivalent {@link EventType EventType}
 	 */
 	public static boolean canTransform(Event domEvent) {
+		Objects.requireNonNull(domEvent, "The argument 'domEvent' must not be null.");
+
 		Optional<EventType> eventType = getEventTypeFrom(domEvent);
 		return eventType.isPresent();
 	}
@@ -64,7 +66,18 @@ class DomEventToHyperlinkEventTransformer {
 	 *            the DOM-{@link Event} from which the {@link HyperlinkEvent} will be created
 	 * @param source
 	 *            the source of the {@code domEvent}
-	 * @return a {@link HyperlinkEvent}
+	 * @return a {@link HyperlinkEvent} with the following properties:
+	 *         <ul>
+	 *         <li> {@link HyperlinkEvent#getEventType() getEventType()} returns the {@link EventType} corresponding to
+	 *         the domEvent's type as defined by {@link DomEventType}
+	 *         <li> {@link HyperlinkEvent#getSource() getSource()} returns the specified {@code source}
+	 *         <li> {@link HyperlinkEvent#getURL() getUrl()} returns the href-attribute's value of the event's source
+	 *         element
+	 *         <li> {@link HyperlinkEvent#getDescription() getDescription()} returns the text content of the event's
+	 *         source element
+	 *         <li> {@link HyperlinkEvent#getInputEvent() getInputEvent()} returns null
+	 *         <li> {@link HyperlinkEvent#getSourceElement() getSourceElement()} returns null
+	 *         </ul>
 	 * @throws IllegalArgumentException
 	 *             if the specified event can not be transformed to a hyperlink event; this is the case if
 	 *             {@link #canTransform(Event)} returns false
@@ -89,7 +102,7 @@ class DomEventToHyperlinkEventTransformer {
 	public HyperlinkEvent transform() throws IllegalArgumentException {
 		EventType type = getEventTypeForDomEvent();
 		Optional<URL> url = getURL();
-		String linkDescription = getDescription();
+		String linkDescription = getTextContent();
 
 		return new HyperlinkEvent(source, type, url.orElse(null), linkDescription);
 	}
@@ -127,15 +140,13 @@ class DomEventToHyperlinkEventTransformer {
 	}
 
 	/**
-	 * Returns the {@link #domEvent}'s target's attribute value which will be used as the created hyperlink event's
-	 * {@link HyperlinkEvent#getDescription() description}.
+	 * Returns the {@link #domEvent}'s target's text content.
 	 *
 	 * @return the description
 	 */
-	private String getDescription() {
+	private String getTextContent() {
 		Element targetElement = (Element) domEvent.getTarget();
-		// TODO: get the actual text of the link
-		return targetElement.getAttribute("text");
+		return targetElement.getTextContent();
 	}
 
 	/**
@@ -152,12 +163,29 @@ class DomEventToHyperlinkEventTransformer {
 		return createURL(baseURI, href);
 	}
 
-	private static Element getAnchor(Element targetElement) {
-		Optional<Element> anchor = getAnchorAncestor(Optional.of(targetElement));
+	/**
+	 * Returns the same element if it is an anchor (in the sense of HTML, i.e. has the a-tag). If it is not the closest
+	 * parent which is an anchor is returned. If no such parent exists, an {@link IllegalArgumentException} is thrown.
+	 *
+	 * @param domElement
+	 *            the {@link Element} on which the search for an anchor element starts
+	 * @return an {@link Element} which is an anchor
+	 * @throws IllegalArgumentException
+	 *             if neither the specified element nor one of its parents is an anchor
+	 */
+	private static Element getAnchor(Element domElement) throws IllegalArgumentException {
+		Optional<Element> anchor = getAnchorAncestor(Optional.of(domElement));
 		return anchor.orElseThrow(() -> new IllegalArgumentException(
 				"Neither the event's target element nor one of its parent nodes is an anchor."));
 	}
 
+	/**
+	 * Searches for an a-tag starting on the specified and recursing to its ancestors.
+	 *
+	 * @param domNode
+	 *            the node which is checked for the a-tag
+	 * @return an {@link Optional} containing an anchor if one was found; otherwise an empty {@code Optional}
+	 */
 	private static Optional<Element> getAnchorAncestor(Optional<Node> domNode) {
 		// if there is no node, there was no anchor, so return empty
 		if (!domNode.isPresent())
