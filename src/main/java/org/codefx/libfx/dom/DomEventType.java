@@ -1,4 +1,4 @@
-package org.codefx.libfx.webview;
+package org.codefx.libfx.dom;
 
 import java.util.Objects;
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package org.codefx.libfx.webview;
+package org.codefx.libfx.javafx.webview;
 
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;

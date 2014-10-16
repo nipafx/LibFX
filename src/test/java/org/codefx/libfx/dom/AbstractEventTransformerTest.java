@@ -1,4 +1,4 @@
-package org.codefx.libfx.webview;
+package org.codefx.libfx.dom;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -24,9 +24,9 @@ import org.w3c.dom.events.EventTarget;
 import org.xml.sax.InputSource;
 
 /**
- * Tests the class {@link DomEventToHyperlinkEventTransformer}.
+ * Abstract superclass to all test classes which test implementations of {@link EventTransformer}.
  */
-public class DomEventToHyperlinkEventTransformerTest {
+public abstract class AbstractEventTransformerTest {
 
 	// #region ATTRIBUTES & INITIALIZATION
 
@@ -78,6 +78,10 @@ public class DomEventToHyperlinkEventTransformerTest {
 
 	// #region TESTS
 
+	// #end ATTRIBUTES & INITIALIZATION
+
+	// #region TESTS
+
 	/**
 	 * Tests whether all DOM events[1] which have a corresponding {@link EventType HyperlinkEventType} are correctly
 	 * reported to be transformable.
@@ -85,7 +89,7 @@ public class DomEventToHyperlinkEventTransformerTest {
 	 * [1] http://www.w3.org/TR/DOM-Level-3-Events/#event-types-list
 	 */
 	@Test
-	public void testCanTransform() {
+	public void testCanTransformToHyperlinkEvent() {
 		// all transformable DOM events
 		String[] transformableEventNames = new String[] {
 				DomEventType.CLICK.getDomName(),
@@ -94,7 +98,9 @@ public class DomEventToHyperlinkEventTransformerTest {
 
 		for (String domEventName : transformableEventNames) {
 			Event domEvent = createDispatchAndCatchEvent(simpleLink, domEventName);
-			assertTrue(DomEventToHyperlinkEventTransformer.canTransform(domEvent));
+			boolean canTransform = canTransformToHyperlinkEvent(domEvent);
+
+			assertTrue("Should be able to transform '" + domEventName + "'.", canTransform);
 		}
 	}
 
@@ -114,8 +120,9 @@ public class DomEventToHyperlinkEventTransformerTest {
 
 		for (String domEventName : notTransformableEventNames) {
 			Event domEvent = createDispatchAndCatchEvent(simpleLink, domEventName);
-			assertFalse("Should not be able to transform '" + domEventName + "'.",
-					DomEventToHyperlinkEventTransformer.canTransform(domEvent));
+			boolean canTransform = canTransformToHyperlinkEvent(domEvent);
+
+			assertFalse("Should not be able to transform '" + domEventName + "'.", canTransform);
 		}
 	}
 
@@ -129,7 +136,8 @@ public class DomEventToHyperlinkEventTransformerTest {
 				continue;
 
 			Event domEvent = createDispatchAndCatchEvent(simpleLink, domEventType.getDomName());
-			HyperlinkEvent transformedEvent = DomEventToHyperlinkEventTransformer.transform(domEvent, new Object());
+			HyperlinkEvent transformedEvent = transformToHyperlinkEvent(domEvent, new Object());
+
 			assertEquals(domEventType.toHyperlinkEventType().get(), transformedEvent.getEventType());
 		}
 	}
@@ -141,7 +149,7 @@ public class DomEventToHyperlinkEventTransformerTest {
 	public void testSource() {
 		Event domEvent = createDispatchAndCatchEvent(simpleLink, DomEventType.CLICK.getDomName());
 		Object source = "the source";
-		HyperlinkEvent transformedEvent = DomEventToHyperlinkEventTransformer.transform(domEvent, source);
+		HyperlinkEvent transformedEvent = transformToHyperlinkEvent(domEvent, source);
 
 		assertSame(source, transformedEvent.getSource());
 	}
@@ -152,7 +160,7 @@ public class DomEventToHyperlinkEventTransformerTest {
 	@Test
 	public void testUrl() {
 		Event domEvent = createDispatchAndCatchEvent(simpleLink, DomEventType.CLICK.getDomName());
-		HyperlinkEvent transformedEvent = DomEventToHyperlinkEventTransformer.transform(domEvent, new Object());
+		HyperlinkEvent transformedEvent = transformToHyperlinkEvent(domEvent, new Object());
 
 		assertEquals(LINK_URL, transformedEvent.getURL().toExternalForm());
 	}
@@ -163,7 +171,7 @@ public class DomEventToHyperlinkEventTransformerTest {
 	@Test
 	public void testDescription() {
 		Event domEvent = createDispatchAndCatchEvent(simpleLink, DomEventType.CLICK.getDomName());
-		HyperlinkEvent transformedEvent = DomEventToHyperlinkEventTransformer.transform(domEvent, new Object());
+		HyperlinkEvent transformedEvent = transformToHyperlinkEvent(domEvent, new Object());
 
 		assertEquals(SIMPLE_LINK_TEXT, transformedEvent.getDescription());
 	}
@@ -174,7 +182,7 @@ public class DomEventToHyperlinkEventTransformerTest {
 	@Test
 	public void testInputEvent() {
 		Event domEvent = createDispatchAndCatchEvent(simpleLink, DomEventType.CLICK.getDomName());
-		HyperlinkEvent transformedEvent = DomEventToHyperlinkEventTransformer.transform(domEvent, new Object());
+		HyperlinkEvent transformedEvent = transformToHyperlinkEvent(domEvent, new Object());
 
 		assertNull(transformedEvent.getInputEvent());
 	}
@@ -186,12 +194,36 @@ public class DomEventToHyperlinkEventTransformerTest {
 	@Test
 	public void testSourceElement() {
 		Event domEvent = createDispatchAndCatchEvent(simpleLink, DomEventType.CLICK.getDomName());
-		HyperlinkEvent transformedEvent = DomEventToHyperlinkEventTransformer.transform(domEvent, new Object());
+		HyperlinkEvent transformedEvent = transformToHyperlinkEvent(domEvent, new Object());
 
 		assertNull(transformedEvent.getSourceElement());
 	}
 
 	// #end TESTS
+
+	// #region ABSTRACT METHODS
+
+	/**
+	 * Implemented by subclasses to check whether the specified event can be transformed.
+	 *
+	 * @param domEvent
+	 *            the {@link Event} to check
+	 * @return true if {@link #transformToHyperlinkEvent(Event, Object)} will succeed
+	 */
+	protected abstract boolean canTransformToHyperlinkEvent(Event domEvent);
+
+	/**
+	 * Implemented by subclasses to transform the specified DOM event to a hyperlink event.
+	 *
+	 * @param domEvent
+	 *            the {@link Event} to be transformed
+	 * @param object
+	 *            the new hyperlink event's source
+	 * @return a {@link HyperlinkEvent}
+	 */
+	protected abstract HyperlinkEvent transformToHyperlinkEvent(Event domEvent, Object object);
+
+	// #end ABSTRACT METHODS
 
 	// #region HELPER METHODS
 

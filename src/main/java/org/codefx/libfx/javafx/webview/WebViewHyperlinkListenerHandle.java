@@ -1,4 +1,4 @@
-package org.codefx.libfx.webview;
+package org.codefx.libfx.javafx.webview;
 
 import java.util.Optional;
 
@@ -10,6 +10,8 @@ import javafx.scene.web.WebView;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkEvent.EventType;
 
+import org.codefx.libfx.dom.DomEventType;
+import org.codefx.libfx.dom.EventTransformer;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
@@ -52,6 +54,11 @@ class WebViewHyperlinkListenerHandle {
 	 */
 	private final EventListener domEventListener;
 
+	/**
+	 * Transforms DOM {@link Event}s to {@link HyperlinkEvent}s.
+	 */
+	private final EventTransformer eventTransformer;
+
 	// #end ATTRIBUTES
 
 	/**
@@ -63,13 +70,17 @@ class WebViewHyperlinkListenerHandle {
 	 *            the {@link WebViewHyperlinkListener} which will be attached to the {@code webView}
 	 * @param eventTypeFilter
 	 *            the filter for events by their {@link EventType}
+	 * @param eventTransformer
+	 *            the transformer for DOM {@link Event}s
 	 */
 	public WebViewHyperlinkListenerHandle(
-			WebView webView, WebViewHyperlinkListener eventListener, Optional<EventType> eventTypeFilter) {
+			WebView webView, WebViewHyperlinkListener eventListener, Optional<EventType> eventTypeFilter,
+			EventTransformer eventTransformer) {
 
 		this.webView = webView;
 		this.eventListener = eventListener;
 		this.eventTypeFilter = eventTypeFilter;
+		this.eventTransformer = eventTransformer;
 
 		domEventListener = this::callHyperlinkListenerWithEvent;
 	}
@@ -162,11 +173,11 @@ class WebViewHyperlinkListenerHandle {
 	 *            the DOM-{@link Event}
 	 */
 	private void callHyperlinkListenerWithEvent(Event domEvent) {
-		boolean canNotTransformEvent = !WebViews.canTransformToHyperlinkEvent(domEvent);
+		boolean canNotTransformEvent = !eventTransformer.canTransformToHyperlinkEvent(domEvent);
 		if (canNotTransformEvent)
 			return;
 
-		HyperlinkEvent event = WebViews.transformToHyperlinkEvent(domEvent, webView);
+		HyperlinkEvent event = eventTransformer.transformToHyperlinkEvent(domEvent, webView);
 		boolean cancel = eventListener.hyperlinkUpdate(event);
 		cancel(domEvent, cancel);
 	}

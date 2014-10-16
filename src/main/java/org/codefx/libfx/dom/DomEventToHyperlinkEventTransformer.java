@@ -1,4 +1,4 @@
-package org.codefx.libfx.webview;
+package org.codefx.libfx.dom;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -14,6 +14,9 @@ import org.w3c.dom.events.Event;
 
 /**
  * Creates a {@link HyperlinkEvent} from the DOM-{@link Event} specified during construction.
+ * <p>
+ * In that sense it acts like an {@link EventTransformer} but because the {@link #domEvent} and its {@link #source} have
+ * to be provided during construction it can not actually implement that interface.
  */
 class DomEventToHyperlinkEventTransformer {
 
@@ -43,68 +46,16 @@ class DomEventToHyperlinkEventTransformer {
 		this.source = source;
 	}
 
-	// #region PUBLIC STATIC
-
-	/**
-	 * Indicates whether the specified DOM event can be transformed to a {@link HyperlinkEvent}.
-	 *
-	 * @param domEvent
-	 *            the DOM-{@link Event}
-	 * @return true if the event's {@link Event#getType() type} has an equivalent {@link EventType EventType}
-	 */
-	public static boolean canTransform(Event domEvent) {
-		Objects.requireNonNull(domEvent, "The argument 'domEvent' must not be null.");
-
-		Optional<EventType> eventType = getEventTypeFrom(domEvent);
-		return eventType.isPresent();
-	}
-
-	/**
-	 * Transforms the specified DOM event to a hyperlink event.
-	 *
-	 * @param domEvent
-	 *            the DOM-{@link Event} from which the {@link HyperlinkEvent} will be created
-	 * @param source
-	 *            the source of the {@code domEvent}
-	 * @return a {@link HyperlinkEvent} with the following properties:
-	 *         <ul>
-	 *         <li> {@link HyperlinkEvent#getEventType() getEventType()} returns the {@link EventType} corresponding to
-	 *         the domEvent's type as defined by {@link DomEventType}
-	 *         <li> {@link HyperlinkEvent#getSource() getSource()} returns the specified {@code source}
-	 *         <li> {@link HyperlinkEvent#getURL() getUrl()} returns the href-attribute's value of the event's source
-	 *         element
-	 *         <li> {@link HyperlinkEvent#getDescription() getDescription()} returns the text content of the event's
-	 *         source element
-	 *         <li> {@link HyperlinkEvent#getInputEvent() getInputEvent()} returns null
-	 *         <li> {@link HyperlinkEvent#getSourceElement() getSourceElement()} returns null
-	 *         </ul>
-	 * @throws IllegalArgumentException
-	 *             if the specified event can not be transformed to a hyperlink event; this is the case if
-	 *             {@link #canTransform(Event)} returns false
-	 */
-	public static HyperlinkEvent transform(Event domEvent, Object source) throws IllegalArgumentException {
-		DomEventToHyperlinkEventTransformer transformer = new DomEventToHyperlinkEventTransformer(domEvent, source);
-		return transformer.transform();
-	}
-
-	// #end PUBLIC STATIC
-
 	// #region TRANSFORM
 
 	/**
-	 * Transforms the event specified during construction to a hyperlink event.
+	 * Indicates whether the DOM event specified during construction can be transformed to a {@link HyperlinkEvent}.
 	 *
-	 * @return a {@link HyperlinkEvent}
-	 * @throws IllegalArgumentException
-	 *             if the specified event can not be transformed to a hyperlink event; this is the case if
-	 *             {@link #canTransform(Event)} returns false
+	 * @return true if the event's {@link Event#getType() type} has an equivalent {@link EventType EventType}
 	 */
-	public HyperlinkEvent transform() throws IllegalArgumentException {
-		EventType type = getEventTypeForDomEvent();
-		Optional<URL> url = getURL();
-		String linkDescription = getTextContent();
-
-		return new HyperlinkEvent(source, type, url.orElse(null), linkDescription);
+	public boolean canTransform() {
+		Optional<EventType> eventType = getEventTypeFrom(domEvent);
+		return eventType.isPresent();
 	}
 
 	/**
@@ -120,6 +71,22 @@ class DomEventToHyperlinkEventTransformer {
 				.byName(domEventName)
 				.flatMap(domEventType -> domEventType.toHyperlinkEventType());
 		return eventType;
+	}
+
+	/**
+	 * Transforms the event specified during construction to a hyperlink event.
+	 *
+	 * @return a {@link HyperlinkEvent}
+	 * @throws IllegalArgumentException
+	 *             if the specified event can not be transformed to a hyperlink event; this is the case if
+	 *             {@link #canTransform()} returns false
+	 */
+	public HyperlinkEvent transform() throws IllegalArgumentException {
+		EventType type = getEventTypeForDomEvent();
+		Optional<URL> url = getURL();
+		String linkDescription = getTextContent();
+
+		return new HyperlinkEvent(source, type, url.orElse(null), linkDescription);
 	}
 
 	/**

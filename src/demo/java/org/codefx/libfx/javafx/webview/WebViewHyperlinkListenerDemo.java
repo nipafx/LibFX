@@ -1,4 +1,4 @@
-package org.codefx.libfx.webview;
+package org.codefx.libfx.javafx.webview;
 
 import java.util.concurrent.Executors;
 
@@ -7,6 +7,9 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+
+import org.codefx.libfx.javafx.webview.WebViewHyperlinkListener;
+import org.codefx.libfx.javafx.webview.WebViews;
 
 /**
  * Demonstrates how to use the {@link WebViewHyperlinkListener}.
@@ -28,8 +31,8 @@ public class WebViewHyperlinkListenerDemo extends Application {
 		WebView webView = new WebView();
 		webView.getEngine().getLoadWorker().stateProperty().addListener((obs, o, n) -> System.out.println(n));
 		webView.getEngine().load("file:D://Downloads//test.html");
-//		addListeners(webView);
-		addListenersDelayed(webView, 1000);
+		addListeners(webView);
+//		addListenersDelayed(webView, 1000);
 
 		Scene scene = new Scene(webView);
 		primaryStage.setScene(scene);
@@ -54,11 +57,11 @@ public class WebViewHyperlinkListenerDemo extends Application {
 		System.out.println("Adding Listeners...");
 
 		WebViews.addHyperlinkListener(webView, event -> {
-			System.out.println("Listener #1: " + event.getEventType());
+			System.out.println("Listener #1: " + WebViews.hyperlinkEventToString(event));
 			return false;
 		});
 		WebViews.addHyperlinkListener(webView, event -> {
-			System.out.println("Listener #2: " + event.getEventType());
+			System.out.println("Listener #2: " + WebViews.hyperlinkEventToString(event));
 			return false;
 		});
 	}

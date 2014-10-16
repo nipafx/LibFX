@@ -1,4 +1,4 @@
-package org.codefx.libfx.webview;
+package org.codefx.libfx.javafx.webview;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -9,6 +9,9 @@ import javafx.scene.web.WebView;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkEvent.EventType;
 
+import org.codefx.libfx.dom.DefaultEventTransformer;
+import org.codefx.libfx.dom.DomEventType;
+import org.codefx.libfx.dom.StaticEventTransformer;
 import org.w3c.dom.events.Event;
 
 /**
@@ -96,7 +99,7 @@ public final class WebViews {
 		Objects.requireNonNull(eventTypeFilter, "The argument 'eventTypeFilter' must not be null.");
 
 		WebViewHyperlinkListenerHandle handle =
-				new WebViewHyperlinkListenerHandle(webView, listener, eventTypeFilter);
+				new WebViewHyperlinkListenerHandle(webView, listener, eventTypeFilter, new DefaultEventTransformer());
 		handle.attach();
 		return handle;
 	}
@@ -113,7 +116,7 @@ public final class WebViews {
 	 * @return true if the event's {@link Event#getType() type} has an equivalent {@link EventType EventType}
 	 */
 	public static boolean canTransformToHyperlinkEvent(Event domEvent) {
-		return DomEventToHyperlinkEventTransformer.canTransform(domEvent);
+		return StaticEventTransformer.canTransformToHyperlinkEvent(domEvent);
 	}
 
 	/**
@@ -131,7 +134,7 @@ public final class WebViews {
 	public static HyperlinkEvent transformToHyperlinkEvent(Event domEvent, Object source)
 			throws IllegalArgumentException {
 
-		return DomEventToHyperlinkEventTransformer.transform(domEvent, source);
+		return StaticEventTransformer.transformToHyperlinkEvent(domEvent, source);
 	}
 
 	/**

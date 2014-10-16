@@ -1,5 +1,6 @@
 package org.codefx.libfx;
 
+import org.codefx.libfx.dom._AllDomTests;
 import org.codefx.libfx.nesting._AllNestingTests;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -10,6 +11,7 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(Suite.class)
 @SuiteClasses({
+		_AllDomTests.class,
 		_AllNestingTests.class,
 })
 public class AllTests {
