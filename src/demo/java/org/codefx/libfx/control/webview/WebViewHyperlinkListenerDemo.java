@@ -1,4 +1,4 @@
-package org.codefx.libfx.javafx.webview;
+package org.codefx.libfx.control.webview;
 
 import java.util.concurrent.Executors;
 
@@ -8,8 +8,8 @@ import javafx.scene.Scene;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
-import org.codefx.libfx.javafx.webview.WebViewHyperlinkListener;
-import org.codefx.libfx.javafx.webview.WebViews;
+import org.codefx.libfx.control.webview.WebViewHyperlinkListener;
+import org.codefx.libfx.control.webview.WebViews;
 
 /**
  * Demonstrates how to use the {@link WebViewHyperlinkListener}.

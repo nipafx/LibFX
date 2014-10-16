@@ -1,4 +1,4 @@
-package org.codefx.libfx.javafx.webview;
+package org.codefx.libfx.control.webview;
 
 import java.util.Optional;
 
