@@ -1,4 +1,4 @@
-package org.codefx.libfx.control;
+package org.codefx.libfx.control.properties;
 
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
@@ -11,6 +11,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 
+import org.codefx.libfx.control.properties.ControlPropertyListener;
 import org.junit.Before;
 import org.junit.Test;
 

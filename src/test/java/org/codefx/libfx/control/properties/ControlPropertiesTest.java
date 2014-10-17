@@ -1,4 +1,4 @@
-package org.codefx.libfx.control;
+package org.codefx.libfx.control.properties;
 
 import static org.junit.Assert.fail;
 
@@ -7,6 +7,11 @@ import java.util.function.Consumer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 
+import org.codefx.libfx.control.properties.CastingControlPropertyListener;
+import org.codefx.libfx.control.properties.ControlProperties;
+import org.codefx.libfx.control.properties.ControlPropertyListener;
+import org.codefx.libfx.control.properties.ControlPropertyListenerBuilder;
+import org.codefx.libfx.control.properties.TypeCheckingControlPropertyListener;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

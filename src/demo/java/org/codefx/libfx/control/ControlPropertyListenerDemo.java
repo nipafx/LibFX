@@ -5,6 +5,9 @@ import java.util.function.Consumer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 
+import org.codefx.libfx.control.properties.ControlProperties;
+import org.codefx.libfx.control.properties.ControlPropertyListener;
+
 /**
  * Demonstrates how to use the {@link ControlPropertyListener} and its builder.
  */
@@ -64,6 +67,8 @@ public class ControlPropertyListenerDemo {
 		// set values for the wrong key
 		System.out.println("Set \"Value\" for another key: ... (nothing will happen)");
 		properties.put("OtherKey", "Value");
+
+		System.out.println();
 	}
 
 	/**
@@ -93,6 +98,8 @@ public class ControlPropertyListenerDemo {
 		// detach the listener
 		listener.detach();
 		System.out.println("Set \"UnnoticedValue\" when the listener is detached: ... (nothing will happen)");
+
+		System.out.println();
 	}
 
 	/**
@@ -122,6 +129,8 @@ public class ControlPropertyListenerDemo {
 		long endTimeInNS = System.nanoTime();
 		long timePerRunInNS = (endTimeInNS - startTimeInNS) / runs;
 		System.out.println("For unchecked casts, adding a value of the wrong type takes ~" + timePerRunInNS + " ns.");
+
+		System.out.println();
 	}
 
 	/**
@@ -152,6 +161,8 @@ public class ControlPropertyListenerDemo {
 		long endTimeInNS = System.nanoTime();
 		long timePerRunInNS = (endTimeInNS - startTimeInNS) / runs;
 		System.out.println("For checked casts, adding a value of the wrong type takes ~" + timePerRunInNS + " ns.");
+
+		System.out.println();
 	}
 
 	// #end DEMOS
@@ -159,6 +170,9 @@ public class ControlPropertyListenerDemo {
 	/**
 	 * TODO (nipa): I don't get it. The simple test below clearly shows that raising an exception takes about 6.000 ns.
 	 * So why the hell does {@link #timeNoTypeCheck()} run way faster than that?!
+	 * <p>
+	 * Some days later: I ran this again and discovered that the time difference is now very measurable and looks
+	 * correct. Perhaps some JVM optimization because I ran it so often?
 	 */
 	private static void castVsTypeChecking() {
 		int runs = (int) 1e5;

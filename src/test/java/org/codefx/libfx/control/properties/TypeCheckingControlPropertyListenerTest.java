@@ -1,6 +1,9 @@
-package org.codefx.libfx.control;
+package org.codefx.libfx.control.properties;
 
 import java.util.function.Consumer;
+
+import org.codefx.libfx.control.properties.ControlPropertyListener;
+import org.codefx.libfx.control.properties.TypeCheckingControlPropertyListener;
 
 import javafx.collections.ObservableMap;
 

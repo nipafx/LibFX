@@ -1,4 +1,4 @@
-package org.codefx.libfx.control;
+package org.codefx.libfx.control.properties;
 
 import java.util.Objects;
 import java.util.function.Consumer;

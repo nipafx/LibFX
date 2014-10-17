@@ -1,4 +1,4 @@
-package org.codefx.libfx.control;
+package org.codefx.libfx.control.properties;
 
 /**
  * A control property listener listens to the changes in a Control's
