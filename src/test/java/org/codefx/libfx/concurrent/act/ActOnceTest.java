@@ -68,7 +68,7 @@ public class ActOnceTest {
 
 	// #end ATTRIBUTES & INITIALIZATION
 
-	// #region SINGLE THREADED TESTS
+	// #region SINGLE-THREADED TESTS
 
 	/**
 	 * Tests whether an {@link IllegalStateException} is thrown when {@link ActOnce#act() act()} is called for the
@@ -192,9 +192,9 @@ public class ActOnceTest {
 		assertFalse(act.isWaiting());
 	}
 
-	// #end SINGLE THREADED TESTS
+	// #end SINGLE-THREADED TESTS
 
-	// #region MULTI THREADED TESTS
+	// #region MULTI-THREADED TESTS
 
 	/**
 	 * Creates a number of threads which repeatedly change the {@link #observable}'s value and a number of threads which
@@ -321,5 +321,5 @@ public class ActOnceTest {
 		return new Thread(runnable, "CorrectValue");
 	}
 
-	// #end MULTI THREADED TESTS
+	// #end MULTI-THREADED TESTS
 }
