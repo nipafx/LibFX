@@ -18,7 +18,7 @@ package org.codefx.libfx.control.properties;
 public interface ControlPropertyListener {
 
 	/**
-	 * Attaches/adds the listener to the properties map.
+	 * Attaches/adds the listener to the properties map. This immediately processes the key if it is present.
 	 */
 	void attach();
 

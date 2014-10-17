@@ -11,8 +11,8 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(Suite.class)
 @SuiteClasses({
-		_AllPropertiesTests.class,
 		_AllNestingTests.class,
+		_AllPropertiesTests.class,
 })
 public class AllTests {
 	// no body needed
