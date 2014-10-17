@@ -1,4 +1,4 @@
-package org.codefx.libfx.concurrent.act;
+package org.codefx.libfx.concurrent.when;
 
 import static org.junit.Assert.assertEquals;
 
@@ -14,9 +14,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests the class {@link ActRepeated}.
+ * Tests the class {@link ExecuteAlwaysWhen}.
  */
-public class ActRepeatedTest {
+public class ExecuteAlwaysWhenTest {
 
 	// #region ATTRIBUTES & INITIALIZATION
 
@@ -65,14 +65,14 @@ public class ActRepeatedTest {
 	// #region SINGLE-THREADED TESTS
 
 	/**
-	 * Tests whether an {@link IllegalStateException} is thrown when {@link ActRepeated#act() act()} is called for the
-	 * second time.
+	 * Tests whether an {@link IllegalStateException} is thrown when {@link ExecuteAlwaysWhen#executeWhen()
+	 * executeWhen()} is called for the second time.
 	 */
 	@Test(expected = IllegalStateException.class)
 	public void testThrowExceptionIfCallActTwice() {
-		ActRepeated<String> act = new ActRepeated<>(observable, ACTION_GATEWAY, action);
-		act.act();
-		act.act();
+		ExecuteAlwaysWhen<String> execute = new ExecuteAlwaysWhen<>(observable, ACTION_GATEWAY, action);
+		execute.executeWhen();
+		execute.executeWhen();
 	}
 
 	/**
@@ -80,8 +80,8 @@ public class ActRepeatedTest {
 	 */
 	@Test
 	public void testDoNotActIfInitialValueWrong() {
-		ActRepeated<String> act = new ActRepeated<>(observable, ACTION_GATEWAY, action);
-		act.act();
+		ExecuteAlwaysWhen<String> execute = new ExecuteAlwaysWhen<>(observable, ACTION_GATEWAY, action);
+		execute.executeWhen();
 
 		assertEquals(0, executedActionCount.get());
 	}
@@ -90,10 +90,10 @@ public class ActRepeatedTest {
 	 * Tests whether the action is executed when the initial value passes the {@link #ACTION_GATEWAY}.
 	 */
 	@Test
-	public void testActWhenInitialValueCorrect() {
+	public void testExecuteWhenWhenInitialValueCorrect() {
 		observable.setValue(ACTION_STRING);
-		ActRepeated<String> act = new ActRepeated<>(observable, ACTION_GATEWAY, action);
-		act.act();
+		ExecuteAlwaysWhen<String> execute = new ExecuteAlwaysWhen<>(observable, ACTION_GATEWAY, action);
+		execute.executeWhen();
 
 		assertEquals(1, executedActionCount.get());
 	}
@@ -102,11 +102,11 @@ public class ActRepeatedTest {
 	 * Tests whether the action is executed repeatedly.
 	 */
 	@Test
-	public void testActRepeatedlyWhenInitialValueWasCorrect() {
+	public void testExecuteWhenRepeatedlyWhenInitialValueWasCorrect() {
 		observable.setValue(ACTION_STRING);
-		ActRepeated<String> act = new ActRepeated<>(observable, ACTION_GATEWAY, action);
+		ExecuteAlwaysWhen<String> execute = new ExecuteAlwaysWhen<>(observable, ACTION_GATEWAY, action);
 		// this executes the action for the first time
-		act.act();
+		execute.executeWhen();
 
 		// change the value and set the action string again; this must execute the action again
 		observable.setValue(NO_ACTION_STRING);
@@ -120,9 +120,9 @@ public class ActRepeatedTest {
 	 * after waiting began.
 	 */
 	@Test
-	public void testActWhenCorrectValueIsObserved() {
-		ActRepeated<String> act = new ActRepeated<>(observable, ACTION_GATEWAY, action);
-		act.act();
+	public void testExecuteWhenWhenCorrectValueIsObserved() {
+		ExecuteAlwaysWhen<String> execute = new ExecuteAlwaysWhen<>(observable, ACTION_GATEWAY, action);
+		execute.executeWhen();
 
 		observable.setValue(ACTION_STRING);
 
@@ -133,9 +133,9 @@ public class ActRepeatedTest {
 	 * Tests whether the action is executed repeatedly.
 	 */
 	@Test
-	public void testActRepeatedlyWhenCorrectValueWasObserved() {
-		ActRepeated<String> act = new ActRepeated<>(observable, ACTION_GATEWAY, action);
-		act.act();
+	public void testExecuteWhenRepeatedlyWhenCorrectValueWasObserved() {
+		ExecuteAlwaysWhen<String> execute = new ExecuteAlwaysWhen<>(observable, ACTION_GATEWAY, action);
+		execute.executeWhen();
 
 		// this executes the action for the first time
 		observable.setValue(ACTION_STRING);
@@ -148,34 +148,34 @@ public class ActRepeatedTest {
 	}
 
 	/**
-	 * Tests whether {@link ActRepeated#cancel()} correctly prevents the execution of the action if it was not yet
+	 * Tests whether {@link ExecuteAlwaysWhen#cancel()} correctly prevents the execution of the action if it was not yet
 	 * executed.
 	 */
 	@Test
 	public void testCancelAfterNoAction() {
-		ActRepeated<String> act = new ActRepeated<>(observable, ACTION_GATEWAY, action);
-		act.act();
+		ExecuteAlwaysWhen<String> execute = new ExecuteAlwaysWhen<>(observable, ACTION_GATEWAY, action);
+		execute.executeWhen();
 
 		// cancel and then set the value, which would lead to action execution
-		act.cancel();
+		execute.cancel();
 		observable.setValue(ACTION_STRING);
 
 		assertEquals(0, executedActionCount.get());
 	}
 
 	/**
-	 * Tests whether {@link ActRepeated#cancel()} correctly prevents the execution of the action if the initial value
-	 * was correct.
+	 * Tests whether {@link ExecuteAlwaysWhen#cancel()} correctly prevents the execution of the action if the initial
+	 * value was correct.
 	 */
 	@Test
 	public void testCancelAfterInitialValueWasCorrect() {
 		observable.setValue(ACTION_STRING);
-		ActRepeated<String> act = new ActRepeated<>(observable, ACTION_GATEWAY, action);
+		ExecuteAlwaysWhen<String> execute = new ExecuteAlwaysWhen<>(observable, ACTION_GATEWAY, action);
 		// this executes the action for the first time
-		act.act();
+		execute.executeWhen();
 
 		// cancel and then reset the value, which would lead to action execution
-		act.cancel();
+		execute.cancel();
 		observable.setValue(NO_ACTION_STRING);
 		observable.setValue(ACTION_STRING);
 
@@ -183,18 +183,18 @@ public class ActRepeatedTest {
 	}
 
 	/**
-	 * Tests whether {@link ActRepeated#cancel()} correctly prevents the execution of the action if the correct value
-	 * was already observed.
+	 * Tests whether {@link ExecuteAlwaysWhen#cancel()} correctly prevents the execution of the action if the correct
+	 * value was already observed.
 	 */
 	@Test
 	public void testCancelAfterCorrectValueWasObserved() {
-		ActRepeated<String> act = new ActRepeated<>(observable, ACTION_GATEWAY, action);
-		act.act();
+		ExecuteAlwaysWhen<String> execute = new ExecuteAlwaysWhen<>(observable, ACTION_GATEWAY, action);
+		execute.executeWhen();
 		// this executes the action for the first time
 		observable.setValue(ACTION_STRING);
 
 		// cancel and then reset the value, which would lead to action execution
-		act.cancel();
+		execute.cancel();
 		observable.setValue(NO_ACTION_STRING);
 		observable.setValue(ACTION_STRING);
 

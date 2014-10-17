@@ -1,8 +1,6 @@
-package org.codefx.libfx.concurrent.act;
+package org.codefx.libfx.concurrent.when;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,29 +18,29 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Tests the class {@link ActOnce}.
+ * Tests the class {@link ExecuteOnceWhen}.
  */
-public class ActOnceTest {
+public class ExecuteOnceWhenTest {
 
 	// #region ATTRIBUTES & INITIALIZATION
 
 	/**
-	 * The string which passes the {@link #ACTION_GATEWAY}.
+	 * The string which passes the {@link #ACTION_CONDITION}.
 	 */
 	private static final String ACTION_STRING = "action!";
 
 	/**
-	 * A string which does not pass the {@link #ACTION_GATEWAY}.
+	 * A string which does not pass the {@link #ACTION_CONDITION}.
 	 */
 	private static final String NO_ACTION_STRING = "no action...";
 
 	/**
-	 * The gateway which has to be passed for the action to be executed.
+	 * The condition which has to be passed for the action to be executed.
 	 */
-	private static final Predicate<String> ACTION_GATEWAY = string -> Objects.equals(string, ACTION_STRING);
+	private static final Predicate<String> ACTION_CONDITION = string -> Objects.equals(string, ACTION_STRING);
 
 	/**
-	 * The observable on which is acted.
+	 * The observable on which the execution depends.
 	 */
 	private Property<String> observable;
 
@@ -71,49 +69,49 @@ public class ActOnceTest {
 	// #region SINGLE-THREADED TESTS
 
 	/**
-	 * Tests whether an {@link IllegalStateException} is thrown when {@link ActOnce#act() act()} is called for the
-	 * second time.
+	 * Tests whether an {@link IllegalStateException} is thrown when {@link ExecuteOnceWhen#executeWhen() executeWhen()}
+	 * is called for the second time.
 	 */
 	@Test(expected = IllegalStateException.class)
 	public void testThrowExceptionIfCallActTwice() {
-		ActOnce<String> act = new ActOnce<>(observable, ACTION_GATEWAY, action);
-		act.act();
-		act.act();
+		ExecuteOnceWhen<String> execute = new ExecuteOnceWhen<>(observable, ACTION_CONDITION, action);
+		execute.executeWhen();
+		execute.executeWhen();
 	}
 
 	/**
-	 * Tests whether no action is executed if the initial value does not pass the {@link #ACTION_GATEWAY}.
+	 * Tests whether no action is executed if the initial value does not pass the {@link #ACTION_CONDITION}.
 	 */
 	@Test
 	public void testDoNotActIfInitialValueWrong() {
-		ActOnce<String> act = new ActOnce<>(observable, ACTION_GATEWAY, action);
-		act.act();
+		ExecuteOnceWhen<String> execute = new ExecuteOnceWhen<>(observable, ACTION_CONDITION, action);
+		execute.executeWhen();
 
 		assertEquals(0, executedActionCount.get());
 	}
 
 	/**
-	 * Tests whether the action is executed when the initial value passes the {@link #ACTION_GATEWAY}.
+	 * Tests whether the action is executed when the initial value passes the {@link #ACTION_CONDITION}.
 	 */
 	@Test
-	public void testActWhenInitialValueCorrect() {
+	public void testExecuteWhenWhenInitialValueCorrect() {
 		observable.setValue(ACTION_STRING);
-		ActOnce<String> act = new ActOnce<>(observable, ACTION_GATEWAY, action);
-		act.act();
+		ExecuteOnceWhen<String> execute = new ExecuteOnceWhen<>(observable, ACTION_CONDITION, action);
+		execute.executeWhen();
 
 		assertEquals(1, executedActionCount.get());
 	}
 
 	/**
-	 * Tests whether the action is executed only once after the initial value already passed the {@link #ACTION_GATEWAY}
-	 * .
+	 * Tests whether the action is executed only once after the initial value already passed the
+	 * {@link #ACTION_CONDITION} .
 	 */
 	@Test
-	public void testActOnlyOnceWhenInitialValueWasCorrect() {
+	public void testExecuteWhenOnlyOnceWhenInitialValueWasCorrect() {
 		observable.setValue(ACTION_STRING);
-		ActOnce<String> act = new ActOnce<>(observable, ACTION_GATEWAY, action);
+		ExecuteOnceWhen<String> execute = new ExecuteOnceWhen<>(observable, ACTION_CONDITION, action);
 		// this executes the action for the first time
-		act.act();
+		execute.executeWhen();
 
 		// change the value and set the action string again; if this executes the action again, there is a bug
 		observable.setValue(NO_ACTION_STRING);
@@ -123,13 +121,13 @@ public class ActOnceTest {
 	}
 
 	/**
-	 * Tests whether the action is executed when the value is changed to one which passes the {@link #ACTION_GATEWAY}
+	 * Tests whether the action is executed when the value is changed to one which passes the {@link #ACTION_CONDITION}
 	 * after waiting began.
 	 */
 	@Test
-	public void testActWhenCorrectValueIsObserved() {
-		ActOnce<String> act = new ActOnce<>(observable, ACTION_GATEWAY, action);
-		act.act();
+	public void testExecuteWhenWhenCorrectValueIsObserved() {
+		ExecuteOnceWhen<String> execute = new ExecuteOnceWhen<>(observable, ACTION_CONDITION, action);
+		execute.executeWhen();
 
 		observable.setValue(ACTION_STRING);
 
@@ -137,12 +135,12 @@ public class ActOnceTest {
 	}
 
 	/**
-	 * Tests whether the action is executed only once after some value already passed the {@link #ACTION_GATEWAY}.
+	 * Tests whether the action is executed only once after some value already passed the {@link #ACTION_CONDITION}.
 	 */
 	@Test
-	public void testActOnlyOnceWhenCorrectValueWasObserved() {
-		ActOnce<String> act = new ActOnce<>(observable, ACTION_GATEWAY, action);
-		act.act();
+	public void testExecuteWhenOnlyOnceWhenCorrectValueWasObserved() {
+		ExecuteOnceWhen<String> execute = new ExecuteOnceWhen<>(observable, ACTION_CONDITION, action);
+		execute.executeWhen();
 
 		// this executes the action for the first time
 		observable.setValue(ACTION_STRING);
@@ -155,41 +153,18 @@ public class ActOnceTest {
 	}
 
 	/**
-	 * Tests whether {@link ActOnce#cancel()} correctly prevents the execution of the action.
+	 * Tests whether {@link ExecuteOnceWhen#cancel()} correctly prevents the execution of the action.
 	 */
 	@Test
 	public void testCancel() {
-		ActOnce<String> act = new ActOnce<>(observable, ACTION_GATEWAY, action);
-		act.act();
+		ExecuteOnceWhen<String> execute = new ExecuteOnceWhen<>(observable, ACTION_CONDITION, action);
+		execute.executeWhen();
 
 		// cancel and then set the value, which would lead to action execution
-		act.cancel();
+		execute.cancel();
 		observable.setValue(ACTION_STRING);
 
 		assertEquals(0, executedActionCount.get());
-	}
-
-	/**
-	 * Tests whether {@link ActOnce#isWaiting()} correctly indicates waiting before the action is executed.
-	 */
-	@Test
-	public void testIsWaiting() {
-		ActOnce<String> act = new ActOnce<>(observable, ACTION_GATEWAY, action);
-		act.act();
-
-		assertTrue(act.isWaiting());
-	}
-
-	/**
-	 * Tests whether {@link ActOnce#isWaiting()} correctly indicates no waiting after the action was executed.
-	 */
-	@Test
-	public void testIsNotWaiting() {
-		ActOnce<String> act = new ActOnce<>(observable, ACTION_GATEWAY, action);
-		act.act();
-		observable.setValue(ACTION_STRING);
-
-		assertFalse(act.isWaiting());
 	}
 
 	// #end SINGLE-THREADED TESTS
@@ -259,8 +234,8 @@ public class ActOnceTest {
 	 */
 	private Thread createThreadWhichActs() {
 		Runnable runnable = () -> {
-			ActOnce<String> act = new ActOnce<>(observable, ACTION_GATEWAY, action);
-			act.act();
+			ExecuteOnceWhen<String> execute = new ExecuteOnceWhen<>(observable, ACTION_CONDITION, action);
+			execute.executeWhen();
 		};
 
 		return new Thread(runnable);
@@ -312,7 +287,7 @@ public class ActOnceTest {
 					observable.setValue(randomValue);
 				}
 			}
-			// set the correct value at the end to give acting threads which start afterwards a chance to act
+			// set the correct value at the end to give executing threads which start afterwards a chance to execute
 			observable.setValue(ACTION_STRING);
 
 			latch.countDown();
