@@ -70,6 +70,7 @@ public class ActOnce<T> {
 
 	public void cancel() {
 		actionIndicator.set(0);
+		observable.removeListener(listenerWhichExecutesAction);
 	}
 
 	public boolean isWaiting() {

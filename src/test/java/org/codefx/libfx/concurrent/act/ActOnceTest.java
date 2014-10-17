@@ -1,6 +1,8 @@
 package org.codefx.libfx.concurrent.act;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -152,7 +154,43 @@ public class ActOnceTest {
 		assertEquals(1, executedActionCount.get());
 	}
 
-	// TODO: tests for cancel and isWaiting
+	/**
+	 * Tests whether {@link ActOnce#cancel()} correctly prevents the execution of the action.
+	 */
+	@Test
+	public void testCancel() {
+		ActOnce<String> act = new ActOnce<>(observable, ACTION_GATEWAY, action);
+		act.act();
+
+		// cancel and then set the value, which would lead to action execution
+		act.cancel();
+		observable.setValue(ACTION_STRING);
+
+		assertEquals(0, executedActionCount.get());
+	}
+
+	/**
+	 * Tests whether {@link ActOnce#isWaiting()} correctly indicates waiting before the action is executed.
+	 */
+	@Test
+	public void testIsWaiting() {
+		ActOnce<String> act = new ActOnce<>(observable, ACTION_GATEWAY, action);
+		act.act();
+
+		assertTrue(act.isWaiting());
+	}
+
+	/**
+	 * Tests whether {@link ActOnce#isWaiting()} correctly indicates no waiting after the action was executed.
+	 */
+	@Test
+	public void testIsNotWaiting() {
+		ActOnce<String> act = new ActOnce<>(observable, ACTION_GATEWAY, action);
+		act.act();
+		observable.setValue(ACTION_STRING);
+
+		assertFalse(act.isWaiting());
+	}
 
 	// #end SINGLE THREADED TESTS
 
