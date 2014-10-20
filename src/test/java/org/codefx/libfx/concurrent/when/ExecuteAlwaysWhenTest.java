@@ -206,7 +206,12 @@ public class ExecuteAlwaysWhenTest {
 	// #region MULTI-THREADED TESTS
 
 	/*
-	 * Unfortunately I could not come up with multi-threaded tests... :(
+	 * Unfortunately I could not come up with multi-threaded tests... :( The problem is that the only interesting part
+	 * where threads interact is during the call to 'executeWhen'. So to check whether everything works as intended, it
+	 * would be necessary to precisely count the number of actions executed during that call. Due to threading this
+	 * seems impossible to do precisely; and because the time window in which the measurement would have to take place
+	 * is so tiny (the method doesn't do much after all), I expect the margin of error to be so big to make any result
+	 * meaningless.
 	 */
 
 	// #end MULTI-THREADED TESTS
