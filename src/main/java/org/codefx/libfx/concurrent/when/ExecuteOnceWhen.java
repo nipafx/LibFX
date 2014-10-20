@@ -16,14 +16,13 @@ import javafx.beans.value.ObservableValue;
  * This class guarantees that regardless of the way different threads interact with the {@code ObservableValue} the
  * action will be executed...
  * <ul>
+ * <li>... if the value held when {@code executeWhen()} returns passes the condition
+ * <li>... if a new value passes the condition (either during {@code executeWhen()} or after it returns)
  * <li>... at most once
- * <li>... once if the value held when {@code executeWhen()} returns passes the condition
- * <li>... once if a new value passes the condition after {@code executeWhen()} returns (and the action was not executed
- * before)
  * </ul>
  * If the observable is manipulated by several threads, this class does not guarantee that the first value to pass the
  * condition is the one handed to the action. Depending on the interaction of those threads it might be the initial
- * value or one of several which were set by them.
+ * value (the one tested during {@code executeWhen()}) or one of several which were set by those threads.
  *
  * @param <T>
  *            the type the observed {@link ObservableValue}'s wraps
