@@ -117,6 +117,18 @@ public final class SerializableOptional<T extends Serializable> implements Seria
 	}
 
 	/**
+	 * Creates a serializable optional which wraps an empty optional.
+	 *
+	 * @param <T>
+	 *            the type of the non-existent value
+	 * @return a {@link SerializableOptional} which wraps an {@link Optional#empty() empty} {@link Optional}
+	 * @see Optional#of(Object)
+	 */
+	public static <T extends Serializable> SerializableOptional<T> empty() {
+		return new SerializableOptional<>(Optional.empty());
+	}
+
+	/**
 	 * Creates a serializable optional for the specified value by wrapping it in an {@link Optional}.
 	 *
 	 * @param <T>

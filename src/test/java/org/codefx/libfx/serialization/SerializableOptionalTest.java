@@ -48,6 +48,16 @@ public class SerializableOptionalTest {
 	}
 
 	/**
+	 * Tests whether an empty {@code SerializableOptional} can be created.
+	 */
+	@Test
+	public void testEmpty() {
+		SerializableOptional<String> emptySerializable = SerializableOptional.empty();
+
+		assertFalse(emptySerializable.asOptional().isPresent());
+	}
+
+	/**
 	 * Tests whether calling {@link SerializableOptional#of(Serializable) of(null)} throws a
 	 * {@link NullPointerException}.
 	 */
@@ -63,9 +73,9 @@ public class SerializableOptionalTest {
 	@Test
 	public void testOfWithNonNull() {
 		String notNull = "Not Null!";
-		SerializableOptional<String> emptySerializable = SerializableOptional.of(notNull);
+		SerializableOptional<String> presentSerializable = SerializableOptional.of(notNull);
 
-		assertEquals(notNull, emptySerializable.asOptional().get());
+		assertEquals(notNull, presentSerializable.asOptional().get());
 	}
 
 	/**
@@ -86,9 +96,9 @@ public class SerializableOptionalTest {
 	@Test
 	public void testOfNullableWithNonNull() {
 		String notNull = "Not Null!";
-		SerializableOptional<String> emptySerializable = SerializableOptional.ofNullable(notNull);
+		SerializableOptional<String> presentSerializable = SerializableOptional.ofNullable(notNull);
 
-		assertEquals(notNull, emptySerializable.asOptional().get());
+		assertEquals(notNull, presentSerializable.asOptional().get());
 	}
 
 	// #end CONSTRUCTION
