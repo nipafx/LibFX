@@ -48,6 +48,27 @@ public class SerializableOptionalTest {
 	}
 
 	/**
+	 * Tests whether calling {@link SerializableOptional#of(Serializable) of(null)} throws a
+	 * {@link NullPointerException}.
+	 */
+	@Test(expected = NullPointerException.class)
+	public void testOfWithNull() {
+		SerializableOptional.of(null);
+	}
+
+	/**
+	 * Tests whether a {@code SerializableOptional} can be created from a non-null reference with
+	 * {@link SerializableOptional#of(Serializable) of(Serializable)}.
+	 */
+	@Test
+	public void testOfWithNonNull() {
+		String notNull = "Not Null!";
+		SerializableOptional<String> emptySerializable = SerializableOptional.of(notNull);
+
+		assertEquals(notNull, emptySerializable.asOptional().get());
+	}
+
+	/**
 	 * Tests whether a {@code SerializableOptional} can be created from a null reference with
 	 * {@link SerializableOptional#ofNullable(Serializable) ofNullable(Serializable)}.
 	 */

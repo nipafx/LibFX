@@ -117,20 +117,37 @@ public final class SerializableOptional<T extends Serializable> implements Seria
 	}
 
 	/**
-	 * Creates a serializable optional for the specified value by wrapping it in an {@link Optional}
+	 * Creates a serializable optional for the specified value by wrapping it in an {@link Optional}.
+	 *
+	 * @param <T>
+	 *            the type of the wrapped value; must be non-null
+	 * @param value
+	 *            the value which will be contained in the wrapped {@link Optional}; may be null
+	 * @return a {@link SerializableOptional} which wraps the an optional for the specified value
+	 * @throws NullPointerException
+	 *             if value is null
+	 * @see Optional#of(Object)
+	 */
+	public static <T extends Serializable> SerializableOptional<T> of(T value) throws NullPointerException {
+		return new SerializableOptional<>(Optional.of(value));
+	}
+
+	/**
+	 * Creates a serializable optional for the specified value by wrapping it in an {@link Optional}.
 	 *
 	 * @param <T>
 	 *            the type of the wrapped value
 	 * @param value
 	 *            the value which will be contained in the wrapped {@link Optional}; may be null
 	 * @return a {@link SerializableOptional} which wraps the an optional for the specified value
+	 * @see Optional#ofNullable(Object)
 	 */
 	public static <T extends Serializable> SerializableOptional<T> ofNullable(T value) {
 		return new SerializableOptional<>(Optional.ofNullable(value));
 	}
 
 	/**
-	 * Returns the {@code Optional} instance which with this instance was created.
+	 * Returns the {@code Optional} instance with which this instance was created.
 	 *
 	 * @return this instance as an {@link Optional}
 	 */
