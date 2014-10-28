@@ -128,7 +128,7 @@ public class ControlPropertyListenerBuilder<T> {
 	 * @return a {@link ControlPropertyListener}
 	 */
 	public ControlPropertyListener build() {
-		checkAttributes();
+		checkFields();
 
 		if (valueType.isPresent())
 			return new TypeCheckingControlPropertyListener<T>(properties, key, valueType.get(), valueProcessor);
@@ -139,7 +139,7 @@ public class ControlPropertyListenerBuilder<T> {
 	/**
 	 * Checks whether the attributes are valid so they can be used to {@link #build()} a listener.
 	 */
-	private void checkAttributes() {
+	private void checkFields() {
 		if (key == null)
 			throw new IllegalStateException("Set a key with 'forKey' before calling 'build'.");
 		if (valueProcessor == null)

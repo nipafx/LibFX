@@ -1,6 +1,6 @@
 /**
- * This package provides functionality around UI Controls. It might either provide additional functionality for existing
- * Swing or JavaFX controls or implement new ones.
+ * This package provides functionality around UI Controls. Subpackages might provide additional functionality for
+ * existing Swing or JavaFX controls, implement new ones or provide other features related to controls.
  */
 package org.codefx.libfx.control;
 
