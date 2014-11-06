@@ -11,6 +11,11 @@
  * filter it can be handed to {@code WebViews}'
  * {@link org.codefx.libfx.control.webview.WebViews#addHyperlinkListener(javafx.scene.web.WebView, WebViewHyperlinkListener)
  * addHyperlinkListener} method.
+ * <p>
+ * Adding listeners returns a {@link org.codefx.libfx.control.webview.WebViewHyperlinkListenerHandle
+ * WebViewHyperlinkListenerHandle} which can be used to easily attach and detach the listener.
+ *
+ * @see org.codefx.libfx.control.webview.WebViews WebViews
  */
 package org.codefx.libfx.control.webview;
 

@@ -3,7 +3,6 @@ package org.codefx.libfx.control.webview;
 import java.util.Objects;
 import java.util.Optional;
 
-import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
 import javax.swing.event.HyperlinkEvent;
@@ -28,39 +27,37 @@ public final class WebViews {
 
 	// #region HYPERLINK LISTENERS
 
+	// create listener handles
+
 	/**
-	 * Adds the specified listener to the specified WebView.
+	 * Creates a handle with which the specified listener can be {@link WebViewHyperlinkListenerHandle#attach()
+	 * attached} to the specified web view.
 	 * <p>
-	 * The listener will be called on any event on an hyperlink (i.e. any element with tag name "a") which can be
-	 * represented as a {@link HyperlinkEvent}. This is the case on {@link DomEventType#MOUSE_ENTER MOUSE_ENTER},
-	 * {@link DomEventType#MOUSE_LEAVE MOUSE_LEAVE} and {@link DomEventType#CLICK CLICK}.
-	 * <p>
-	 * This method can be called from any thread and regardless of the state of the {@code WebView}'s
-	 * {@link WebEngine#getLoadWorker() loadWorker}. If it is not called on the FX Application Thread, the listener will
-	 * be added at some unspecified time in the future.
+	 * Once attached, the listener will be called on any event on an hyperlink (i.e. any element with tag name "a")
+	 * which can be represented as a {@link HyperlinkEvent}. This is the case on {@link DomEventType#MOUSE_ENTER
+	 * MOUSE_ENTER}, {@link DomEventType#MOUSE_LEAVE MOUSE_LEAVE} and {@link DomEventType#CLICK CLICK}.
 	 *
 	 * @param webView
 	 *            the {@link WebView} to which the listener will be added
 	 * @param listener
 	 *            the {@link WebViewHyperlinkListener} to add to the web view
 	 * @return a handle on the created listener which allows to attach and detach it
+	 * @see WebViews#addHyperlinkListener(WebView, WebViewHyperlinkListener)
+	 * @see WebViewHyperlinkListenerHandle#attach()
 	 */
-	public static WebViewHyperlinkListenerHandle addHyperlinkListener(
+	public static WebViewHyperlinkListenerHandle createHyperlinkListenerHandle(
 			WebView webView, WebViewHyperlinkListener listener) {
 
-		return addHyperlinkListener(webView, listener, Optional.empty());
+		return addHyperlinkListenerDetached(webView, listener, Optional.empty());
 	}
 
 	/**
-	 * Adds the specified listener to the specified WebView.
+	 * Creates a handle with which the specified listener can be {@link WebViewHyperlinkListenerHandle#attach()
+	 * attached} to the specified web view.
 	 * <p>
-	 * The listener will be called on any event on an hyperlink (i.e. any element with tag name "a") which can be
-	 * represented as a {@link HyperlinkEvent} with the specified event type. See
+	 * Once attached, the listener will be called on any event on an hyperlink (i.e. any element with tag name "a")
+	 * which can be represented as a {@link HyperlinkEvent} with the specified event type. See
 	 * {@link DomEventType#toHyperlinkEventType()} for the transformation of event types.
-	 * <p>
-	 * This method can be called from any thread and regardless of the state of the {@code WebView}'s
-	 * {@link WebEngine#getLoadWorker() loadWorker}. If it is not called on the FX Application Thread, the listener will
-	 * be added at some unspecified time in the future.
 	 *
 	 * @param webView
 	 *            the {@link WebView} to which the listener will be added
@@ -69,12 +66,64 @@ public final class WebViews {
 	 * @param eventType
 	 *            the {@link EventType} of all events passed to the listener
 	 * @return a handle on the created listener which allows to attach and detach it
+	 * @see WebViews#addHyperlinkListener(WebView, WebViewHyperlinkListener, EventType)
+	 * @see WebViewHyperlinkListenerHandle#attach()
+	 */
+	public static WebViewHyperlinkListenerHandle createHyperlinkListenerHandle(
+			WebView webView, WebViewHyperlinkListener listener, EventType eventType) {
+
+		Objects.requireNonNull(eventType, "The argument 'eventType' must not be null.");
+		WebViewHyperlinkListenerHandle listenerHandle =
+				addHyperlinkListenerDetached(webView, listener, Optional.of(eventType));
+		listenerHandle.attach();
+		return listenerHandle;
+	}
+
+	// create and attach listener handles
+
+	/**
+	 * {@link #createHyperlinkListenerHandle(WebView, WebViewHyperlinkListener) Creates} a listener handle and
+	 * immediately {@link WebViewHyperlinkListenerHandle#attach() attaches} it.
+	 *
+	 * @param webView
+	 *            the {@link WebView} to which the listener will be added
+	 * @param listener
+	 *            the {@link WebViewHyperlinkListener} to add to the web view
+	 * @return a handle on the created listener which allows to attach and detach it
+	 * @see #createHyperlinkListenerHandle(WebView, WebViewHyperlinkListener)
+	 * @see WebViewHyperlinkListenerHandle#attach()
+	 */
+	public static WebViewHyperlinkListenerHandle addHyperlinkListener(
+			WebView webView, WebViewHyperlinkListener listener) {
+
+		WebViewHyperlinkListenerHandle listenerHandle = addHyperlinkListenerDetached(webView, listener,
+				Optional.empty());
+		listenerHandle.attach();
+		return listenerHandle;
+	}
+
+	/**
+	 * {@link #createHyperlinkListenerHandle(WebView, WebViewHyperlinkListener, EventType) Creates} a listener handle
+	 * and immediately {@link WebViewHyperlinkListenerHandle#attach() attaches} it.
+	 *
+	 * @param webView
+	 *            the {@link WebView} to which the listener will be added
+	 * @param listener
+	 *            the {@link WebViewHyperlinkListener} to add to the web view
+	 * @param eventType
+	 *            the {@link EventType} of all events passed to the listener
+	 * @return a handle on the created listener which allows to attach and detach it
+	 * @see #createHyperlinkListenerHandle(WebView, WebViewHyperlinkListener, EventType)
+	 * @see WebViewHyperlinkListenerHandle#attach()
 	 */
 	public static WebViewHyperlinkListenerHandle addHyperlinkListener(
 			WebView webView, WebViewHyperlinkListener listener, EventType eventType) {
 
 		Objects.requireNonNull(eventType, "The argument 'eventType' must not be null.");
-		return addHyperlinkListener(webView, listener, Optional.empty());
+		WebViewHyperlinkListenerHandle listenerHandle = addHyperlinkListenerDetached(webView, listener,
+				Optional.of(eventType));
+		listenerHandle.attach();
+		return listenerHandle;
 	}
 
 	/**
@@ -91,17 +140,15 @@ public final class WebViews {
 	 *            are passed
 	 * @return a handle on the created listener which allows to attach and detach it
 	 */
-	private static WebViewHyperlinkListenerHandle addHyperlinkListener(
+	private static WebViewHyperlinkListenerHandle addHyperlinkListenerDetached(
 			WebView webView, WebViewHyperlinkListener listener, Optional<EventType> eventTypeFilter) {
 
 		Objects.requireNonNull(webView, "The argument 'webView' must not be null.");
 		Objects.requireNonNull(listener, "The argument 'listener' must not be null.");
 		Objects.requireNonNull(eventTypeFilter, "The argument 'eventTypeFilter' must not be null.");
 
-		WebViewHyperlinkListenerHandle handle =
-				new WebViewHyperlinkListenerHandle(webView, listener, eventTypeFilter, new DefaultEventTransformer());
-		handle.attach();
-		return handle;
+		return new DefaultWebViewHyperlinkListenerHandle(
+				webView, listener, eventTypeFilter, new DefaultEventTransformer());
 	}
 
 	// #end HYPERLINK LISTENERS
