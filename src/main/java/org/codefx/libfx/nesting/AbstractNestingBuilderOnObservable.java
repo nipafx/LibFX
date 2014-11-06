@@ -9,7 +9,7 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
 
-import org.codefx.libfx.nesting.listener.NestedInvalidationListener;
+import org.codefx.libfx.nesting.listener.NestedInvalidationListenerHandle;
 import org.codefx.libfx.nesting.listener.NestedInvalidationListenerBuilder;
 
 /**
@@ -170,9 +170,9 @@ abstract class AbstractNestingBuilderOnObservable<T, O extends Observable> {
 	 *
 	 * @param listener
 	 *            the added {@link InvalidationListener}
-	 * @return the {@link NestedInvalidationListener} which can be used to check the nesting's state
+	 * @return the {@link NestedInvalidationListenerHandle} which can be used to check the nesting's state
 	 */
-	public NestedInvalidationListener addListener(InvalidationListener listener) {
+	public NestedInvalidationListenerHandle addListener(InvalidationListener listener) {
 		Nesting<O> nesting = buildNesting();
 		return NestedInvalidationListenerBuilder
 				.forNesting(nesting)

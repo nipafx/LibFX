@@ -213,9 +213,9 @@ public final class NestingObserver<O extends Observable> {
 		/**
 		 * Builds a observer from this builder's settings.
 		 */
-		@SuppressWarnings("unused")
 		public void observe() {
-			new NestingObserver<O>(this);
+			@SuppressWarnings("unused")
+			NestingObserver<O> observer = new NestingObserver<O>(this);
 		}
 
 	}

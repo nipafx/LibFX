@@ -10,9 +10,9 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
 		NestedChangeListenerBuilderTest.class,
-		NestedChangeListenerTest.class,
+		NestedChangeListenerHandleTest.class,
 		NestedInvalidationListenerBuilderTest.class,
-		NestedInvalidationListenerTest.class,
+		NestedInvalidationListenerHandleTest.class,
 })
 public class _AllNestedListenerTests {
 	// no body needed

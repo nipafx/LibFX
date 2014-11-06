@@ -4,7 +4,7 @@ import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
-import org.codefx.libfx.nesting.listener.NestedChangeListener;
+import org.codefx.libfx.nesting.listener.NestedChangeListenerHandle;
 import org.codefx.libfx.nesting.listener.NestedChangeListenerBuilder;
 
 /**
@@ -55,9 +55,9 @@ abstract class AbstractNestingBuilderOnObservableValue<T, O extends ObservableVa
 	 *
 	 * @param listener
 	 *            the added {@link ChangeListener}
-	 * @return the {@link NestedChangeListener} which can be used to check the nesting's state
+	 * @return the {@link NestedChangeListenerHandle} which can be used to check the nesting's state
 	 */
-	public NestedChangeListener<T> addListener(ChangeListener<? super T> listener) {
+	public NestedChangeListenerHandle<T> addListener(ChangeListener<? super T> listener) {
 		Nesting<O> nesting = buildNesting();
 		return NestedChangeListenerBuilder
 				.forNesting(nesting)

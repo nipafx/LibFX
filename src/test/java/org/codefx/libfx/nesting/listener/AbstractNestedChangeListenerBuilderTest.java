@@ -1,7 +1,7 @@
 package org.codefx.libfx.nesting.listener;
 
 import static org.junit.Assert.assertNotNull;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.Property;
 
 import org.codefx.libfx.nesting.Nesting;
 import org.junit.Before;
@@ -17,17 +17,28 @@ public abstract class AbstractNestedChangeListenerBuilderTest {
 	/**
 	 * The tested builder.
 	 */
-	private NestedChangeListenerBuilder<String, StringProperty> builder;
+	private NestedChangeListenerBuilder<String, Property<String>> builder;
 
 	//#end TESTED INSTANCES
+
+	// #region SETUP
 
 	/**
 	 * Creates a new builder before each test.
 	 */
 	@Before
 	public void setUp() {
-		builder = createBuilder();
+		builder = this.<String> createBuilder();
 	}
+
+	/**
+	 * Creates the tested builder. Each call must return a new instance
+	 *
+	 * @return a {@link NestedChangeListenerBuilder}
+	 */
+	protected abstract <T> NestedChangeListenerBuilder<T, Property<T>> createBuilder();
+
+	// #end SETUP
 
 	// #region TESTS
 
@@ -52,7 +63,7 @@ public abstract class AbstractNestedChangeListenerBuilderTest {
 	 */
 	@Test
 	public void testBuildCreatesInstance() {
-		NestedChangeListener<String> listener = builder
+		NestedChangeListenerHandle<String> listener = builder
 				.withListener((observable, oldValue, newValue) -> {/* don't do anything */})
 				.build();
 
@@ -64,7 +75,7 @@ public abstract class AbstractNestedChangeListenerBuilderTest {
 	 */
 	@Test(expected = IllegalStateException.class)
 	public void testBuildSeveralInstances() {
-		NestedChangeListenerBuilder<String, StringProperty>.Buildable buildable =
+		NestedChangeListenerBuilder<String, Property<String>>.Buildable buildable =
 				builder.withListener((observable, oldValue, newValue) -> {/* don't do anything */});
 
 		// first build must work (see other tests)
@@ -75,16 +86,5 @@ public abstract class AbstractNestedChangeListenerBuilderTest {
 	}
 
 	//#end TESTS
-
-	// #region ABSTRACT METHODS
-
-	/**
-	 * Creates the tested builder. Each call must return a new instance
-	 *
-	 * @return a {@link NestedChangeListenerBuilder}
-	 */
-	protected abstract NestedChangeListenerBuilder<String, StringProperty> createBuilder();
-
-	//#end ABSTRACT METHODS
 
 }
