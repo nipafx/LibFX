@@ -10,8 +10,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
 		ControlPropertiesTest.class,
-		CastingControlPropertyListenerTest.class,
-		TypeCheckingControlPropertyListenerTest.class })
+		CastingControlPropertyListenerHandleTest.class,
+		TypeCheckingControlPropertyListenerHandleTest.class })
 public class _AllPropertiesTests {
 	// no body needed
 }

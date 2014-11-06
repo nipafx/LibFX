@@ -7,11 +7,7 @@ import java.util.function.Consumer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 
-import org.codefx.libfx.control.properties.CastingControlPropertyListener;
-import org.codefx.libfx.control.properties.ControlProperties;
-import org.codefx.libfx.control.properties.ControlPropertyListener;
-import org.codefx.libfx.control.properties.ControlPropertyListenerBuilder;
-import org.codefx.libfx.control.properties.TypeCheckingControlPropertyListener;
+import org.codefx.libfx.listener.CreateListenerHandle;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -106,7 +102,7 @@ public class ControlPropertiesTest {
 		public void testIllegalStateExceptionOnBuildWithoutKey() {
 			ControlProperties.on(properties)
 					.processValue(VOID_PROCESSOR)
-					.build();
+					.buildDetached();
 		}
 
 		/**
@@ -116,7 +112,7 @@ public class ControlPropertiesTest {
 		public void testIllegalStateExceptionOnBuildWithoutValueProcessor() {
 			ControlProperties.on(properties)
 					.forKey(KEY)
-					.build();
+					.buildDetached();
 		}
 
 		// SUCCESSFUL CONSTRUCTION
@@ -128,7 +124,7 @@ public class ControlPropertiesTest {
 			ControlProperties.<String> on(properties)
 					.forKey(KEY)
 					.processValue(VOID_PROCESSOR)
-					.build();
+					.buildDetached();
 		}
 
 		/**
@@ -139,7 +135,7 @@ public class ControlPropertiesTest {
 					.forKey(KEY)
 					.forValueType(String.class)
 					.processValue(VOID_PROCESSOR)
-					.build();
+					.buildDetached();
 		}
 
 		// #end TESTS
@@ -149,24 +145,32 @@ public class ControlPropertiesTest {
 	// #region TESTS CREATED LISTENERS
 
 	/**
-	 * Tests the created {@link CastingControlPropertyListener}.
+	 * Tests the created {@link CastingControlPropertyListenerHandle}.
 	 */
-	public static class CreatedCastingControlPropertyListener extends AbstractControlPropertyListenerTest {
+	public static class CreatedCastingControlPropertyListener extends AbstractControlPropertyListenerHandleTest {
 
 		@Override
-		protected <T> ControlPropertyListener createListener(
+		protected <T> ControlPropertyListenerHandle createListener(
 				ObservableMap<Object, Object> properties, Object key,
-				Class<T> valueType, Consumer<T> valueProcessor) {
+				Class<T> valueType, Consumer<T> valueProcessor, CreateListenerHandle attachedOrDetached) {
 
+			// parameterize the builder
 			ControlPropertyListenerBuilder<T> builder = ControlProperties.<T> on(properties)
 					.forKey(key)
 					.processValue(valueProcessor);
-
 			// in order to create a casting listener, do not set the builder type;
 
-			// make to check whether the correct type was created
-			ControlPropertyListener listener = builder.build();
-			if (!(listener instanceof CastingControlPropertyListener))
+			// create the listener according to 'attachedOrDetached'
+			ControlPropertyListenerHandle listener;
+			if (attachedOrDetached == CreateListenerHandle.ATTACHED)
+				listener = builder.build();
+			else if (attachedOrDetached == CreateListenerHandle.DETACHED)
+				listener = builder.buildDetached();
+			else
+				throw new IllegalArgumentException();
+
+			// check whether the correct type was created
+			if (!(listener instanceof CastingControlPropertyListenerHandle))
 				fail();
 
 			return listener;
@@ -175,23 +179,32 @@ public class ControlPropertiesTest {
 	}
 
 	/**
-	 * Tests the created {@link TypeCheckingControlPropertyListener}.
+	 * Tests the created {@link TypeCheckingControlPropertyListenerHandle}.
 	 */
-	public static class CreatedTypeCheckingControlPropertyListener extends AbstractControlPropertyListenerTest {
+	public static class CreatedTypeCheckingControlPropertyListener extends AbstractControlPropertyListenerHandleTest {
 
 		@Override
-		protected <T> ControlPropertyListener createListener(
+		protected <T> ControlPropertyListenerHandle createListener(
 				ObservableMap<Object, Object> properties, Object key,
-				Class<T> valueType, Consumer<T> valueProcessor) {
+				Class<T> valueType, Consumer<T> valueProcessor, CreateListenerHandle attachedOrDetached) {
 
+			// parameterize the builder
 			ControlPropertyListenerBuilder<T> builder = ControlProperties.<T> on(properties)
 					.forKey(key)
 					.forValueType(valueType)
 					.processValue(valueProcessor);
 
-			// make to check whether the correct type was created
-			ControlPropertyListener listener = builder.build();
-			if (!(listener instanceof TypeCheckingControlPropertyListener))
+			// create the listener according to 'attachedOrDetached'
+			ControlPropertyListenerHandle listener;
+			if (attachedOrDetached == CreateListenerHandle.ATTACHED)
+				listener = builder.build();
+			else if (attachedOrDetached == CreateListenerHandle.DETACHED)
+				listener = builder.buildDetached();
+			else
+				throw new IllegalArgumentException();
+
+			// check whether the correct type was created
+			if (!(listener instanceof TypeCheckingControlPropertyListenerHandle))
 				fail();
 
 			return listener;

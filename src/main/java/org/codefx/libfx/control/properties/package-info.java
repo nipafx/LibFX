@@ -24,10 +24,10 @@
  * 	.processValue(valueString -> System.out.println(valueString))
  * 	.buildAndAttach();
  * </pre>
- * It returns an instance of {@link org.codefx.libfx.control.properties.ControlPropertyListener ControlPropertyListener} which can
- * be used to easily detach and reattach the listener.
+ * It returns an instance of {@link org.codefx.libfx.control.properties.ControlPropertyListenerHandle
+ * ControlPropertyListenerHandle} which can be used to easily detach and reattach the listener.
  *
- * @see org.codefx.libfx.control.properties.ControlPropertyListener ControlPropertyListener
+ * @see org.codefx.libfx.control.properties.ControlPropertyListenerHandle ControlPropertyListener
  * @see org.codefx.libfx.control.properties.ControlPropertyListenerBuilder ControlPropertyListenerBuilder
  */
 package org.codefx.libfx.control.properties;

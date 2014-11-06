@@ -6,11 +6,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 
 import org.codefx.libfx.control.properties.ControlProperties;
-import org.codefx.libfx.control.properties.ControlPropertyListener;
+import org.codefx.libfx.control.properties.ControlPropertyListenerHandle;
 
 /**
- * Demonstrates how to use the {@link ControlPropertyListener} and its builder.
+ * Demonstrates how to use the {@link ControlPropertyListenerHandle} and its builder.
  */
+@SuppressWarnings("static-method")
 public class ControlPropertyListenerDemo {
 
 	// #region CONSTRUCTION & MAIN
@@ -29,13 +30,15 @@ public class ControlPropertyListenerDemo {
 	 *            command line arguments (will not be used)
 	 */
 	public static void main(String[] args) {
-		simpleCase();
-		attachAndDetach();
+		ControlPropertyListenerDemo demo = new ControlPropertyListenerDemo();
 
-		timeNoTypeCheck();
-		timeWithTypeCheck();
+		demo.simpleCase();
+		demo.attachAndDetach();
 
-		castVsTypeChecking();
+		demo.timeNoTypeCheck();
+		demo.timeWithTypeCheck();
+
+		demo.castVsTypeChecking();
 	}
 
 	// #end CONSTRUCTION & MAIN
@@ -45,14 +48,14 @@ public class ControlPropertyListenerDemo {
 	/**
 	 * Demonstrates the simple case, in which a value processor is added for some key.
 	 */
-	public static void simpleCase() {
+	private void simpleCase() {
 		ObservableMap<Object, Object> properties = FXCollections.observableHashMap();
 
 		// build and attach the listener
 		ControlProperties.<String> on(properties)
 				.forKey("Key")
 				.processValue(value -> System.out.println(" -> " + value))
-				.buildAndAttach();
+				.build();
 
 		// set values of the correct type for the correct key
 		System.out.print("Set \"Value\" for the correct key for the first time: ");
@@ -74,14 +77,14 @@ public class ControlPropertyListenerDemo {
 	/**
 	 * Demonstrates how a listener can be attached and detached.
 	 */
-	private static void attachAndDetach() {
+	private void attachAndDetach() {
 		ObservableMap<Object, Object> properties = FXCollections.observableHashMap();
 
 		// build the listener (but don't attach it yet) and assign it to a variable
-		ControlPropertyListener listener = ControlProperties.<String> on(properties)
+		ControlPropertyListenerHandle listener = ControlProperties.<String> on(properties)
 				.forKey("Key")
 				.processValue(value -> System.out.println(" -> " + value))
-				.build();
+				.buildDetached();
 
 		// set a value when the listener is not yet attached
 		System.out.println(
@@ -105,7 +108,7 @@ public class ControlPropertyListenerDemo {
 	/**
 	 * Measures the time it takes to get a lot of {@link ClassCastException}.
 	 */
-	private static void timeNoTypeCheck() {
+	private void timeNoTypeCheck() {
 		ObservableMap<Object, Object> properties = FXCollections.observableHashMap();
 
 		Consumer<String> unreached = value -> {
@@ -116,7 +119,7 @@ public class ControlPropertyListenerDemo {
 		ControlProperties.<String> on(properties)
 				.forKey("Key")
 				.processValue(unreached)
-				.buildAndAttach();
+				.build();
 
 		// add a couple of values of the wrong type to average the time that takes
 		Integer valueOfWrongType = 5;
@@ -136,7 +139,7 @@ public class ControlPropertyListenerDemo {
 	/**
 	 * Demonstrates how type checking increases performance if values of an incorrect type are added frequently.
 	 */
-	private static void timeWithTypeCheck() {
+	private void timeWithTypeCheck() {
 		ObservableMap<Object, Object> properties = FXCollections.observableHashMap();
 
 		Consumer<String> unreached = value -> {
@@ -148,7 +151,7 @@ public class ControlPropertyListenerDemo {
 				.forKey("Key")
 				.forValueType(String.class)
 				.processValue(unreached)
-				.buildAndAttach();
+				.build();
 
 		// add a couple of values of the wrong type to average the time that takes
 		Integer valueOfWrongType = 5;
@@ -174,7 +177,7 @@ public class ControlPropertyListenerDemo {
 	 * Some days later: I ran this again and discovered that the time difference is now very measurable and looks
 	 * correct. Perhaps some JVM optimization because I ran it so often?
 	 */
-	private static void castVsTypeChecking() {
+	private void castVsTypeChecking() {
 		int runs = (int) 1e5;
 		Object integer = 3;
 

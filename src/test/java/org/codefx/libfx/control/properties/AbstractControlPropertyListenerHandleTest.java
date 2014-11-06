@@ -11,14 +11,14 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 
-import org.codefx.libfx.control.properties.ControlPropertyListener;
+import org.codefx.libfx.listener.CreateListenerHandle;
 import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Abstract superclass to all tests of {@link ControlPropertyListener}.
+ * Abstract superclass to all tests of {@link ControlPropertyListenerHandle}.
  */
-public abstract class AbstractControlPropertyListenerTest {
+public abstract class AbstractControlPropertyListenerHandleTest {
 
 	// #region ATTRIBUTES
 
@@ -50,7 +50,7 @@ public abstract class AbstractControlPropertyListenerTest {
 	}
 
 	/**
-	 * Creates the tested {@link ControlPropertyListener} from the specified arguments.
+	 * Creates the tested {@link ControlPropertyListenerHandle} from the specified arguments.
 	 *
 	 * @param <T>
 	 *            the type of values which the listener processes
@@ -62,31 +62,60 @@ public abstract class AbstractControlPropertyListenerTest {
 	 *            the type of values which the listener processes
 	 * @param valueProcessor
 	 *            the {@link Consumer} for the key's values
-	 * @return whether the value could be processed or not
+	 * @param attachedOrDetached
+	 *            indicates whether the created handle will be initially attached or detached
+	 * @return the created {@link ControlPropertyListenerHandle}
 	 */
-	protected abstract <T> ControlPropertyListener createListener(
+	protected abstract <T> ControlPropertyListenerHandle createListener(
 			ObservableMap<Object, Object> properties, Object key,
-			Class<T> valueType, Consumer<T> valueProcessor);
+			Class<T> valueType, Consumer<T> valueProcessor, CreateListenerHandle attachedOrDetached);
 
 	/**
-	 * Creates the tested {@link ControlPropertyListener} form the specified arguments, using {@link #properties} and
-	 * {@link #LISTENED_KEY} as default values.
+	 * Creates the tested {@link ControlPropertyListenerHandle}. It will operate on {@link #properties}, listen to
+	 * {@link #LISTENED_KEY} and values of type {@link String}. The created listener is initially
+	 * {@link CreateListenerHandle#DETACHED detached}.
 	 *
-	 * @param <T>
-	 *            the type of values which the listener processes
-	 * @param valueType
-	 *            the type of values which the listener processes
 	 * @param valueProcessor
-	 *            the {@link Consumer} for the key's values
-	 * @return whether the value could be processed or not
+	 *            the {@link Consumer} for the key's string values
+	 * @return the created {@link ControlPropertyListenerHandle}
 	 */
-	private <T> ControlPropertyListener createDefaultListener(Class<T> valueType, Consumer<T> valueProcessor) {
-		return createListener(properties, LISTENED_KEY, valueType, valueProcessor);
+	private ControlPropertyListenerHandle createDetachedDefaultListener(Consumer<String> valueProcessor) {
+		return createListener(properties, LISTENED_KEY, String.class, valueProcessor, CreateListenerHandle.DETACHED);
+	}
+
+	/**
+	 * Creates the tested {@link ControlPropertyListenerHandle}. It will operate on {@link #properties}, listen to
+	 * {@link #LISTENED_KEY} and values of type {@link String}. The created listener is initially
+	 * {@link CreateListenerHandle#ATTACHED attached}.
+	 *
+	 * @param valueProcessor
+	 *            the {@link Consumer} for the key's string values
+	 * @return the created {@link ControlPropertyListenerHandle}
+	 */
+	private ControlPropertyListenerHandle createAttachedDefaultListener(Consumer<String> valueProcessor) {
+		return createListener(properties, LISTENED_KEY, String.class, valueProcessor, CreateListenerHandle.ATTACHED);
 	}
 
 	// #end SETUP
 
 	// #region TESTS
+
+	/**
+	 * Tests whether the listener correctly processes a value for the correct key if the listener is initially attached.
+	 */
+	@Test
+	public void testSettingListenedKeyOnceWhenInitiallyAttached() {
+		// setup
+		Property<String> listenedValue = new SimpleStringProperty();
+		createAttachedDefaultListener(value -> listenedValue.setValue(value));
+
+		// put a value
+		String addedValue = "This value is put into the map.";
+		properties.put(LISTENED_KEY, addedValue);
+
+		// check
+		assertSame(addedValue, listenedValue.getValue());
+	}
 
 	/**
 	 * Tests whether the listener correctly processes a value for the correct key.
@@ -95,7 +124,7 @@ public abstract class AbstractControlPropertyListenerTest {
 	public void testSettingListenedKeyOnce() {
 		// setup
 		Property<String> listenedValue = new SimpleStringProperty();
-		ControlPropertyListener listener = createDefaultListener(String.class, value -> listenedValue.setValue(value));
+		ControlPropertyListenerHandle listener = createDetachedDefaultListener(value -> listenedValue.setValue(value));
 		listener.attach();
 
 		// put a value
@@ -113,7 +142,7 @@ public abstract class AbstractControlPropertyListenerTest {
 	public void testSettingListenedKeyRepeatedly() {
 		// setup
 		Property<String> listenedValue = new SimpleStringProperty();
-		ControlPropertyListener listener = createDefaultListener(String.class, value -> listenedValue.setValue(value));
+		ControlPropertyListenerHandle listener = createDetachedDefaultListener(value -> listenedValue.setValue(value));
 		listener.attach();
 
 		// put and check the same value over and over
@@ -134,7 +163,7 @@ public abstract class AbstractControlPropertyListenerTest {
 	public void testSettingListenedKeyRandomly() {
 		// setup
 		Property<String> listenedValue = new SimpleStringProperty();
-		ControlPropertyListener listener = createDefaultListener(String.class, value -> listenedValue.setValue(value));
+		ControlPropertyListenerHandle listener = createDetachedDefaultListener(value -> listenedValue.setValue(value));
 		listener.attach();
 
 		// put and check some random values
@@ -157,7 +186,8 @@ public abstract class AbstractControlPropertyListenerTest {
 	public void testSettingListenedKeyOfWrongType() {
 		// setup
 		Consumer<Integer> failsTestIfCalled = value -> fail();
-		ControlPropertyListener listener = createDefaultListener(Integer.class, failsTestIfCalled);
+		ControlPropertyListenerHandle listener = createListener(
+				properties, LISTENED_KEY, Integer.class, failsTestIfCalled, CreateListenerHandle.ATTACHED);
 		listener.attach();
 
 		// put a value of the wrong type
@@ -171,7 +201,7 @@ public abstract class AbstractControlPropertyListenerTest {
 	public void testSettingIgnoredKey() {
 		// setup
 		Consumer<String> failsTestIfCalled = value -> fail();
-		ControlPropertyListener listener = createDefaultListener(String.class, failsTestIfCalled);
+		ControlPropertyListenerHandle listener = createDetachedDefaultListener(failsTestIfCalled);
 		listener.attach();
 
 		// put a value of the wrong type
@@ -185,7 +215,7 @@ public abstract class AbstractControlPropertyListenerTest {
 	public void testProcessingPresentValueOnAttach() {
 		// setup
 		Property<String> listenedValue = new SimpleStringProperty();
-		ControlPropertyListener listener = createDefaultListener(String.class, value -> listenedValue.setValue(value));
+		ControlPropertyListenerHandle listener = createDetachedDefaultListener(value -> listenedValue.setValue(value));
 		String existingValue = "some existing value";
 		properties.put(LISTENED_KEY, existingValue);
 
@@ -199,10 +229,24 @@ public abstract class AbstractControlPropertyListenerTest {
 	 * Tests whether the listener ignores values after it was detached.
 	 */
 	@Test
+	public void testSettingListenedKeyAfterDetachWhenInitiallyAttached() {
+		// setup
+		Consumer<String> failsTestIfCalled = value -> fail();
+		ControlPropertyListenerHandle listener = createAttachedDefaultListener(failsTestIfCalled);
+		listener.detach();
+
+		// put a value of the wrong type
+		properties.put(LISTENED_KEY, "some value");
+	}
+
+	/**
+	 * Tests whether the listener ignores values after it was detached.
+	 */
+	@Test
 	public void testSettingListenedKeyAfterDetach() {
 		// setup
 		Consumer<String> failsTestIfCalled = value -> fail();
-		ControlPropertyListener listener = createDefaultListener(String.class, failsTestIfCalled);
+		ControlPropertyListenerHandle listener = createDetachedDefaultListener(failsTestIfCalled);
 		listener.attach();
 		listener.detach();
 
@@ -217,7 +261,7 @@ public abstract class AbstractControlPropertyListenerTest {
 	public void testSettingListenedAfterReattach() {
 		// setup
 		Property<String> listenedValue = new SimpleStringProperty();
-		ControlPropertyListener listener = createDefaultListener(String.class, value -> listenedValue.setValue(value));
+		ControlPropertyListenerHandle listener = createDetachedDefaultListener(value -> listenedValue.setValue(value));
 		listener.attach();
 		listener.detach();
 		listener.attach();
