@@ -98,12 +98,10 @@ class DomEventToHyperlinkEventTransformer {
 	 */
 	private EventType getEventTypeForDomEvent() throws IllegalArgumentException {
 		Optional<EventType> eventType = getEventTypeFrom(domEvent);
-		if (eventType.isPresent())
-			return eventType.get();
-		else
-			throw new IllegalArgumentException(
-					"The DOM event '" + domEvent + "' of type '" + domEvent.getType()
-							+ "' can not be transformed to a hyperlink event.");
+		return eventType.orElseThrow(
+				() -> new IllegalArgumentException(
+						"The DOM event '" + domEvent + "' of type '" + domEvent.getType()
+								+ "' can not be transformed to a hyperlink event."));
 	}
 
 	/**
