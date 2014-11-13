@@ -2,6 +2,10 @@ package org.codefx.libfx.control.properties;
 
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import java.util.Random;
 import java.util.function.Consumer;
@@ -37,6 +41,16 @@ public abstract class AbstractControlPropertyListenerHandleTest {
 	 */
 	private ObservableMap<Object, Object> properties;
 
+	/**
+	 * The default value processor. Will be mocked to verify interactions.
+	 */
+	private Consumer<String> valueProcessor;
+
+	/**
+	 * A value processor which fails the test if it is called.
+	 */
+	private Consumer<String> valueProcessorWhichFailsTestWhenCalled;
+
 	// #end ATTRIBUTES
 
 	// #region SETUP
@@ -45,8 +59,11 @@ public abstract class AbstractControlPropertyListenerHandleTest {
 	 * Initializes attributes for tests.
 	 */
 	@Before
+	@SuppressWarnings("unchecked")
 	public void setUp() {
 		properties = FXCollections.observableHashMap();
+		valueProcessor = mock(Consumer.class);
+		valueProcessorWhichFailsTestWhenCalled = any -> fail();
 	}
 
 	/**
@@ -68,7 +85,7 @@ public abstract class AbstractControlPropertyListenerHandleTest {
 	 */
 	protected abstract <T> ControlPropertyListenerHandle createListener(
 			ObservableMap<Object, Object> properties, Object key,
-			Class<T> valueType, Consumer<T> valueProcessor, CreateListenerHandle attachedOrDetached);
+			Class<T> valueType, Consumer<? super T> valueProcessor, CreateListenerHandle attachedOrDetached);
 
 	/**
 	 * Creates the tested {@link ControlPropertyListenerHandle}. It will operate on {@link #properties}, listen to
@@ -79,7 +96,7 @@ public abstract class AbstractControlPropertyListenerHandleTest {
 	 *            the {@link Consumer} for the key's string values
 	 * @return the created {@link ControlPropertyListenerHandle}
 	 */
-	private ControlPropertyListenerHandle createDetachedDefaultListener(Consumer<String> valueProcessor) {
+	private ControlPropertyListenerHandle createDetachedDefaultListener(Consumer<? super String> valueProcessor) {
 		return createListener(properties, LISTENED_KEY, String.class, valueProcessor, CreateListenerHandle.DETACHED);
 	}
 
@@ -92,7 +109,7 @@ public abstract class AbstractControlPropertyListenerHandleTest {
 	 *            the {@link Consumer} for the key's string values
 	 * @return the created {@link ControlPropertyListenerHandle}
 	 */
-	private ControlPropertyListenerHandle createAttachedDefaultListener(Consumer<String> valueProcessor) {
+	private ControlPropertyListenerHandle createAttachedDefaultListener(Consumer<? super String> valueProcessor) {
 		return createListener(properties, LISTENED_KEY, String.class, valueProcessor, CreateListenerHandle.ATTACHED);
 	}
 
@@ -106,33 +123,33 @@ public abstract class AbstractControlPropertyListenerHandleTest {
 	@Test
 	public void testSettingListenedKeyOnceWhenInitiallyAttached() {
 		// setup
-		Property<String> listenedValue = new SimpleStringProperty();
-		createAttachedDefaultListener(value -> listenedValue.setValue(value));
+		createAttachedDefaultListener(valueProcessor);
 
 		// put a value
 		String addedValue = "This value is put into the map.";
 		properties.put(LISTENED_KEY, addedValue);
 
 		// check
-		assertSame(addedValue, listenedValue.getValue());
+		verify(valueProcessor, times(1)).accept(addedValue);
+		verifyNoMoreInteractions(valueProcessor);
 	}
 
 	/**
 	 * Tests whether the listener correctly processes a value for the correct key.
 	 */
 	@Test
-	public void testSettingListenedKeyOnce() {
+	public void testSettingListenedKeyOnceWhenAttachedAfterConstruction() {
 		// setup
-		Property<String> listenedValue = new SimpleStringProperty();
-		ControlPropertyListenerHandle listener = createDetachedDefaultListener(value -> listenedValue.setValue(value));
-		listener.attach();
+		ControlPropertyListenerHandle listenerHandle = createDetachedDefaultListener(valueProcessor);
+		listenerHandle.attach();
 
 		// put a value
 		String addedValue = "This value is put into the map.";
 		properties.put(LISTENED_KEY, addedValue);
 
 		// check
-		assertSame(addedValue, listenedValue.getValue());
+		verify(valueProcessor, times(1)).accept(addedValue);
+		verifyNoMoreInteractions(valueProcessor);
 	}
 
 	/**
@@ -141,19 +158,16 @@ public abstract class AbstractControlPropertyListenerHandleTest {
 	@Test
 	public void testSettingListenedKeyRepeatedly() {
 		// setup
-		Property<String> listenedValue = new SimpleStringProperty();
-		ControlPropertyListenerHandle listener = createDetachedDefaultListener(value -> listenedValue.setValue(value));
-		listener.attach();
+		createAttachedDefaultListener(valueProcessor);
 
-		// put and check the same value over and over
+		// put the same value over and over
 		String addedValue = "This value is put into the map.";
-		for (int i = 0; i < 10; i++) {
-			// put and check
+		for (int i = 0; i < 10; i++)
 			properties.put(LISTENED_KEY, addedValue);
-			assertSame(addedValue, listenedValue.getValue());
-			// reset the property to null to see whether it is really set the next time
-			listenedValue.setValue(null);
-		}
+
+		// check
+		verify(valueProcessor, times(10)).accept(addedValue);
+		verifyNoMoreInteractions(valueProcessor);
 	}
 
 	/**
@@ -163,8 +177,7 @@ public abstract class AbstractControlPropertyListenerHandleTest {
 	public void testSettingListenedKeyRandomly() {
 		// setup
 		Property<String> listenedValue = new SimpleStringProperty();
-		ControlPropertyListenerHandle listener = createDetachedDefaultListener(value -> listenedValue.setValue(value));
-		listener.attach();
+		createAttachedDefaultListener(listenedValue::setValue);
 
 		// put and check some random values
 		Random random = new Random();
@@ -184,11 +197,10 @@ public abstract class AbstractControlPropertyListenerHandleTest {
 	 */
 	@Test
 	public void testSettingListenedKeyOfWrongType() {
+		Consumer<Integer> valueProcessorWhichFailsTestWhenCalled = any -> fail();
 		// setup
-		Consumer<Integer> failsTestIfCalled = value -> fail();
-		ControlPropertyListenerHandle listener = createListener(
-				properties, LISTENED_KEY, Integer.class, failsTestIfCalled, CreateListenerHandle.ATTACHED);
-		listener.attach();
+		createListener(properties, LISTENED_KEY, Integer.class,
+				valueProcessorWhichFailsTestWhenCalled, CreateListenerHandle.ATTACHED);
 
 		// put a value of the wrong type
 		properties.put(LISTENED_KEY, "some non integer");
@@ -200,11 +212,11 @@ public abstract class AbstractControlPropertyListenerHandleTest {
 	@Test
 	public void testSettingIgnoredKey() {
 		// setup
-		Consumer<String> failsTestIfCalled = value -> fail();
-		ControlPropertyListenerHandle listener = createDetachedDefaultListener(failsTestIfCalled);
-		listener.attach();
+		ControlPropertyListenerHandle listenerHandle =
+				createDetachedDefaultListener(valueProcessorWhichFailsTestWhenCalled);
+		listenerHandle.attach();
 
-		// put a value of the wrong type
+		// put a value for a key to which the listener does not listen
 		properties.put(IGNORED_KEY, "some value");
 	}
 
@@ -214,28 +226,28 @@ public abstract class AbstractControlPropertyListenerHandleTest {
 	@Test
 	public void testProcessingPresentValueOnAttach() {
 		// setup
-		Property<String> listenedValue = new SimpleStringProperty();
-		ControlPropertyListenerHandle listener = createDetachedDefaultListener(value -> listenedValue.setValue(value));
+		ControlPropertyListenerHandle listenerHandle = createDetachedDefaultListener(valueProcessor);
 		String existingValue = "some existing value";
 		properties.put(LISTENED_KEY, existingValue);
 
 		// this should trigger processing the value
-		listener.attach();
+		listenerHandle.attach();
 
-		assertSame(existingValue, listenedValue.getValue());
+		verify(valueProcessor, times(1)).accept(existingValue);
+		verifyNoMoreInteractions(valueProcessor);
 	}
 
 	/**
 	 * Tests whether the listener ignores values after it was detached.
 	 */
 	@Test
-	public void testSettingListenedKeyAfterDetachWhenInitiallyAttached() {
+	public void testDetachWhenInitiallyAttached() {
 		// setup
-		Consumer<String> failsTestIfCalled = value -> fail();
-		ControlPropertyListenerHandle listener = createAttachedDefaultListener(failsTestIfCalled);
-		listener.detach();
+		ControlPropertyListenerHandle listenerHandle =
+				createAttachedDefaultListener(valueProcessorWhichFailsTestWhenCalled);
+		listenerHandle.detach();
 
-		// put a value of the wrong type
+		// put a value of the correct type for the listened key
 		properties.put(LISTENED_KEY, "some value");
 	}
 
@@ -243,14 +255,31 @@ public abstract class AbstractControlPropertyListenerHandleTest {
 	 * Tests whether the listener ignores values after it was detached.
 	 */
 	@Test
-	public void testSettingListenedKeyAfterDetach() {
+	public void testDetachAfterAttach() {
 		// setup
-		Consumer<String> failsTestIfCalled = value -> fail();
-		ControlPropertyListenerHandle listener = createDetachedDefaultListener(failsTestIfCalled);
-		listener.attach();
-		listener.detach();
+		ControlPropertyListenerHandle listenerHandle =
+				createDetachedDefaultListener(valueProcessorWhichFailsTestWhenCalled);
+		listenerHandle.attach();
+		listenerHandle.detach();
 
-		// put a value of the wrong type
+		// put a value of the correct type for the listened key
+		properties.put(LISTENED_KEY, "some value");
+	}
+
+	/**
+	 * Tests whether the listener ignores values after it was detached repeatedly.
+	 */
+	@Test
+	public void testMultipleDetach() {
+		// setup
+		ControlPropertyListenerHandle listenerHandle =
+				createDetachedDefaultListener(valueProcessorWhichFailsTestWhenCalled);
+		listenerHandle.attach();
+		listenerHandle.detach();
+		listenerHandle.detach();
+		listenerHandle.detach();
+
+		// put a value of the correct type for the listened key
 		properties.put(LISTENED_KEY, "some value");
 	}
 
@@ -258,20 +287,39 @@ public abstract class AbstractControlPropertyListenerHandleTest {
 	 * Tests whether the listener processes values after it was detached and then reattached.
 	 */
 	@Test
-	public void testSettingListenedAfterReattach() {
+	public void testReattach() {
 		// setup
-		Property<String> listenedValue = new SimpleStringProperty();
-		ControlPropertyListenerHandle listener = createDetachedDefaultListener(value -> listenedValue.setValue(value));
-		listener.attach();
-		listener.detach();
-		listener.attach();
+		ControlPropertyListenerHandle listenerHandle = createDetachedDefaultListener(valueProcessor);
+		listenerHandle.attach();
+		listenerHandle.detach();
+		listenerHandle.attach();
 
-		// put a value
+		// put a value of the correct type for the listened key
 		String addedValue = "This value is put into the map.";
 		properties.put(LISTENED_KEY, addedValue);
 
 		// check
-		assertSame(addedValue, listenedValue.getValue());
+		verify(valueProcessor, times(1)).accept(addedValue);
+		verifyNoMoreInteractions(valueProcessor);
+	}
+
+	/**
+	 * Tests whether the listener is only called once even when attached is called repeatedly.
+	 */
+	@Test
+	public void testMultipleAttach() {
+		ControlPropertyListenerHandle listenerHandle = createDetachedDefaultListener(valueProcessor);
+		listenerHandle.attach();
+		listenerHandle.attach();
+		listenerHandle.attach();
+
+		// put a value of the correct type for the listened key
+		String addedValue = "Some value...";
+		properties.put(LISTENED_KEY, addedValue);
+
+		// check
+		verify(valueProcessor, times(1)).accept(addedValue);
+		verifyNoMoreInteractions(valueProcessor);
 	}
 
 	// #end TESTS

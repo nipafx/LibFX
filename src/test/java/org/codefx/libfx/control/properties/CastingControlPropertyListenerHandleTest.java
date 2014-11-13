@@ -14,7 +14,8 @@ public class CastingControlPropertyListenerHandleTest extends AbstractControlPro
 	@Override
 	protected <T> ControlPropertyListenerHandle createListener(
 			ObservableMap<Object, Object> properties, Object key,
-			Class<T> valueType, Consumer<T> valueProcessor, CreateListenerHandle attachedOrDetached) {
+			Class<T> valueType, Consumer<? super T> valueProcessor,
+			CreateListenerHandle attachedOrDetached) {
 
 		ControlPropertyListenerHandle handle =
 				new CastingControlPropertyListenerHandle<T>(properties, key, valueProcessor);

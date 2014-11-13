@@ -56,10 +56,29 @@ public class ControlPropertyListenerBuilder<T> {
 	 * @param properties
 	 *            the properties which will be observed by the built listener
 	 */
-	public ControlPropertyListenerBuilder(ObservableMap<Object, Object> properties) {
+	private ControlPropertyListenerBuilder(ObservableMap<Object, Object> properties) {
 		Objects.requireNonNull(properties, "The argument 'properties' must not be null.");
 		this.properties = properties;
 		this.valueType = Optional.empty();
+	}
+
+	/**
+	 * Creates a builder for a {@link ControlPropertyListenerHandle} which observes the specified property map.
+	 * <p>
+	 * Note that it is often necessary to explicitly specify the type parameter {@code T} like so:
+	 *
+	 * <pre>
+	 * ControlProperties.&lt;String&gt; on(...)
+	 * </pre>
+	 *
+	 * @param <T>
+	 *            the type of values which the listener processes
+	 * @param properties
+	 *            the {@link ObservableMap} holding the properties
+	 * @return a {@link ControlPropertyListenerBuilder}
+	 */
+	public static <T> ControlPropertyListenerBuilder<T> on(ObservableMap<Object, Object> properties) {
+		return new ControlPropertyListenerBuilder<T>(properties);
 	}
 
 	/**

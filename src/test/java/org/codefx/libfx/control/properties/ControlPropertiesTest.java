@@ -152,7 +152,8 @@ public class ControlPropertiesTest {
 		@Override
 		protected <T> ControlPropertyListenerHandle createListener(
 				ObservableMap<Object, Object> properties, Object key,
-				Class<T> valueType, Consumer<T> valueProcessor, CreateListenerHandle attachedOrDetached) {
+				Class<T> valueType, Consumer<? super T> valueProcessor,
+				CreateListenerHandle attachedOrDetached) {
 
 			// parameterize the builder
 			ControlPropertyListenerBuilder<T> builder = ControlProperties.<T> on(properties)
@@ -186,7 +187,8 @@ public class ControlPropertiesTest {
 		@Override
 		protected <T> ControlPropertyListenerHandle createListener(
 				ObservableMap<Object, Object> properties, Object key,
-				Class<T> valueType, Consumer<T> valueProcessor, CreateListenerHandle attachedOrDetached) {
+				Class<T> valueType, Consumer<? super T> valueProcessor,
+				CreateListenerHandle attachedOrDetached) {
 
 			// parameterize the builder
 			ControlPropertyListenerBuilder<T> builder = ControlProperties.<T> on(properties)

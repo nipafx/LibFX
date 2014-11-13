@@ -28,6 +28,11 @@ abstract class AbstractControlPropertyListenerHandle implements ControlPropertyL
 	 */
 	private final MapChangeListener<Object, Object> listener;
 
+	/**
+	 * Indicates whether the {@link #listener} is currently attached to the {@link #properties} map.
+	 */
+	private boolean attached;
+
 	// #end ATTRIBUTES
 
 	// #region CONSTRUCTION
@@ -97,7 +102,10 @@ abstract class AbstractControlPropertyListenerHandle implements ControlPropertyL
 
 	@Override
 	public void attach() {
-		// TODO under threading this can lead to processing the same value twice.
+		if (attached)
+			return;
+
+		attached = true;
 		properties.addListener(listener);
 		if (properties.containsKey(key))
 			processAndRemoveValue(properties.get(key));
@@ -105,6 +113,7 @@ abstract class AbstractControlPropertyListenerHandle implements ControlPropertyL
 
 	@Override
 	public void detach() {
+		attached = false;
 		properties.removeListener(listener);
 	}
 

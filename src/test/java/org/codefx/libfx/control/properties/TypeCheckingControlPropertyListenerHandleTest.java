@@ -14,7 +14,8 @@ public class TypeCheckingControlPropertyListenerHandleTest extends AbstractContr
 	@Override
 	protected <T> ControlPropertyListenerHandle createListener(
 			ObservableMap<Object, Object> properties, Object key,
-			Class<T> valueType, Consumer<T> valueProcessor, CreateListenerHandle attachedOrDetached) {
+			Class<T> valueType, Consumer<? super T> valueProcessor,
+			CreateListenerHandle attachedOrDetached) {
 
 		ControlPropertyListenerHandle handle =
 				new TypeCheckingControlPropertyListenerHandle<T>(properties, key, valueType, valueProcessor);
