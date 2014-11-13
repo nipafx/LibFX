@@ -7,6 +7,9 @@ import org.codefx.libfx.listener.ListenerHandle;
 
 /**
  * A {@link ListenerHandle} for a {@link WebViewHyperlinkListener}.
+ *
+ * @see ListenerHandle
+ * @see WebViewHyperlinkListener
  */
 public interface WebViewHyperlinkListenerHandle extends ListenerHandle {
 
@@ -17,6 +20,8 @@ public interface WebViewHyperlinkListenerHandle extends ListenerHandle {
 	 * {@link WebEngine#getLoadWorker() loadWorker}. If it is not called on the FX Application Thread, the listener will
 	 * be added at some unspecified time in the future. If the {@code loadWorker} is currently loading, the listener is
 	 * attached as soon as it is done.
+	 *
+	 * @see ListenerHandle#attach()
 	 */
 	@Override
 	void attach();
@@ -26,6 +31,8 @@ public interface WebViewHyperlinkListenerHandle extends ListenerHandle {
 	 * <p>
 	 * This method can be called from any thread and regardless of the state of the {@code WebView}'s
 	 * {@link WebEngine#getLoadWorker() loadWorker}.
+	 *
+	 * @see ListenerHandle#detach()
 	 */
 	@Override
 	void detach();

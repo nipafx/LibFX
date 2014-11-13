@@ -69,14 +69,19 @@ class DefaultWebViewHyperlinkListenerHandle implements WebViewHyperlinkListenerH
 	 * Executes {@link #attachListenerInApplicationThread()} each time the web view's load worker changes its state to
 	 * {@link State#SUCCEEDED SUCCEEDED}.
 	 * <p>
-	 * The executer is only present while the listener is attached.
+	 * The executer is only present while the listener is {@link #attached}.
 	 */
 	private Optional<ExecuteAlwaysWhen<State>> attachWhenLoadSucceeds;
+
+	/**
+	 * Indicates whether the listener is currently attached.
+	 */
+	private boolean attached;
 
 	// #end ATTRIBUTES
 
 	/**
-	 * Creates a new listener handle for the specified arguments.
+	 * Creates a new listener handle for the specified arguments. The listener is not attached to the web view.
 	 *
 	 * @param webView
 	 *            the {@link WebView} to which the {@code eventListener} will be attached
@@ -103,6 +108,10 @@ class DefaultWebViewHyperlinkListenerHandle implements WebViewHyperlinkListenerH
 
 	@Override
 	public void attach() {
+		if (attached)
+			return;
+
+		attached = true;
 		if (Platform.isFxApplicationThread())
 			attachInApplicationThreadEachTimeLoadSucceeds();
 		else
@@ -144,6 +153,10 @@ class DefaultWebViewHyperlinkListenerHandle implements WebViewHyperlinkListenerH
 
 	@Override
 	public void detach() {
+		if (!attached)
+			return;
+
+		attached = false;
 		if (Platform.isFxApplicationThread())
 			detachInApplicationThread();
 		else
