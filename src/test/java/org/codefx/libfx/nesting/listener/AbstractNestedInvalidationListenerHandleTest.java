@@ -6,11 +6,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
@@ -41,9 +41,14 @@ public abstract class AbstractNestedInvalidationListenerHandleTest {
 	private NestingAccess.EditableNesting<StringProperty> nesting;
 
 	/**
-	 * The added listener. This {@link InvalidationListener} will be mocked to verify possible invocations.
+	 * The default listener. This {@link InvalidationListener} will be mocked to verify possible invocations.
 	 */
 	private InvalidationListener listener;
+
+	/**
+	 * A listener which fails the test when being called.
+	 */
+	private InvalidationListener listenerWhichFailsWhenCalled;
 
 	/**
 	 * The tested nested listener, which adds the {@link #listener} to the {@link #nesting}.
@@ -65,6 +70,7 @@ public abstract class AbstractNestedInvalidationListenerHandleTest {
 		innerObservable = new SimpleStringProperty();
 		nesting = NestingAccess.EditableNesting.createWithInnerObservable(innerObservable);
 		listener = mock(InvalidationListener.class);
+		listenerWhichFailsWhenCalled = any -> fail();
 	}
 
 	/**
@@ -104,6 +110,8 @@ public abstract class AbstractNestedInvalidationListenerHandleTest {
 	 *            the {@link Nesting} to which the listener will be added
 	 * @param listener
 	 *            the {@link ChangeListener} which will be added to the nesting
+	 * @param attachedOrDetached
+	 *            indicates whether the listener will be initially attached or detached
 	 * @return a new {@link NestedChangeListenerHandle}
 	 */
 	protected abstract NestedInvalidationListenerHandle createNestedListenerHandle(
@@ -140,11 +148,8 @@ public abstract class AbstractNestedInvalidationListenerHandleTest {
 	 */
 	@Test
 	public void testNoInteractionWithListenerDuringConstruction() {
-		nestedListenerHandle = createDetachedNestedListenerHandle(nesting, listener);
-		verifyZeroInteractions(listener);
-
-		nestedListenerHandle = createAttachedNestedListenerHandle(nesting, listener);
-		verifyZeroInteractions(listener);
+		nestedListenerHandle = createDetachedNestedListenerHandle(nesting, listenerWhichFailsWhenCalled);
+		nestedListenerHandle = createAttachedNestedListenerHandle(nesting, listenerWhichFailsWhenCalled);
 	}
 
 	// changing value
@@ -155,10 +160,8 @@ public abstract class AbstractNestedInvalidationListenerHandleTest {
 	 */
 	@Test
 	public void testChangingValueWhenInitiallyDetached() {
-		nestedListenerHandle = createDetachedNestedListenerHandle(nesting, listener);
+		nestedListenerHandle = createDetachedNestedListenerHandle(nesting, listenerWhichFailsWhenCalled);
 		innerObservable.set("new value");
-
-		verifyZeroInteractions(listener);
 	}
 
 	/**
@@ -174,36 +177,18 @@ public abstract class AbstractNestedInvalidationListenerHandleTest {
 		verifyNoMoreInteractions(listener);
 	}
 
-	/**
-	 * Tests whether no listener invocation occurs when the nesting's inner observable's value is changed after the
-	 * listener was detached.
-	 */
-	@Test
-	public void testChangingValueAfterDetach() {
-		nestedListenerHandle = createAttachedNestedListenerHandle(nesting, listener);
-		// change something while attached
-		innerObservable.set("new value");
-
-		// detach and change something
-		nestedListenerHandle.detach();
-		innerObservable.set("new value while detached");
-
-		// assert that 'invalidated' was called only
-		verify(listener, times(1)).invalidated(innerObservable);
-		verifyNoMoreInteractions(listener);
-	}
+	// changing observable
 
 	/**
 	 * Tests whether no listener invocation occurs when the nesting's inner observable is changed.
 	 */
 	@Test
 	public void testChangingObservable() {
-		nestedListenerHandle = createAttachedNestedListenerHandle(nesting, listener);
+		nestedListenerHandle = createAttachedNestedListenerHandle(nesting, listenerWhichFailsWhenCalled);
 		StringProperty newObservable = new SimpleStringProperty();
 		setNestingObservable(nesting, newObservable);
 
 		assertTrue(nestedListenerHandle.isInnerObservablePresent());
-		verifyZeroInteractions(listener);
 	}
 
 	/**
@@ -211,12 +196,13 @@ public abstract class AbstractNestedInvalidationListenerHandleTest {
 	 */
 	@Test
 	public void testChangingObservableToNull() {
-		nestedListenerHandle = createAttachedNestedListenerHandle(nesting, listener);
+		nestedListenerHandle = createAttachedNestedListenerHandle(nesting, listenerWhichFailsWhenCalled);
 		setNestingObservable(nesting, null);
 
 		assertFalse(nestedListenerHandle.isInnerObservablePresent());
-		verifyZeroInteractions(listener);
 	}
+
+	// changing observable and value
 
 	/**
 	 * Tests whether the listener is correctly invoked when the nesting's new observable gets a new value.
@@ -243,7 +229,7 @@ public abstract class AbstractNestedInvalidationListenerHandleTest {
 	 */
 	@Test
 	public void testChangingOldObservablesValue() {
-		nestedListenerHandle = createAttachedNestedListenerHandle(nesting, listener);
+		nestedListenerHandle = createAttachedNestedListenerHandle(nesting, listenerWhichFailsWhenCalled);
 		// set a new observable ...
 		StringProperty newObservable = new SimpleStringProperty();
 		setNestingObservable(nesting, newObservable);
@@ -252,9 +238,65 @@ public abstract class AbstractNestedInvalidationListenerHandleTest {
 
 		// ... and change the old observable's value
 		innerObservable.setValue("intial observable's new value");
+	}
 
-		// assert the listener was not invoked
-		verifyZeroInteractions(listener);
+	// attach & detach
+
+	/**
+	 * Tests whether no listener invocation occurs when the nesting's inner observable's value is changed after the
+	 * listener was detached.
+	 */
+	@Test
+	public void testDetach() {
+		nestedListenerHandle = createAttachedNestedListenerHandle(nesting, listenerWhichFailsWhenCalled);
+		nestedListenerHandle.detach();
+
+		innerObservable.set("new value while detached");
+	}
+
+	/**
+	 * Tests whether the listener ignores values after it was detached repeatedly.
+	 */
+	@Test
+	public void testMultipleDetach() {
+		nestedListenerHandle = createAttachedNestedListenerHandle(nesting, listenerWhichFailsWhenCalled);
+		nestedListenerHandle.detach();
+		nestedListenerHandle.detach();
+		nestedListenerHandle.detach();
+
+		innerObservable.set("new value while detached");
+	}
+
+	/**
+	 * Tests whether the listener is correctly invoked when the nesting's observable changes its value after the
+	 * listener was detached and reattached.
+	 */
+	@Test
+	public void testReattach() {
+		nestedListenerHandle = createAttachedNestedListenerHandle(nesting, listener);
+		nestedListenerHandle.detach();
+		nestedListenerHandle.attach();
+		innerObservable.set("new value");
+
+		// assert that 'invalidated' was called once and with the right arguments
+		verify(listener, times(1)).invalidated(innerObservable);
+		verifyNoMoreInteractions(listener);
+	}
+
+	/**
+	 * Tests whether the listener is only called once even when attached is called repeatedly.
+	 */
+	@Test
+	public void testMultipleAttach() {
+		nestedListenerHandle = createAttachedNestedListenerHandle(nesting, listener);
+		nestedListenerHandle.attach();
+		nestedListenerHandle.attach();
+		nestedListenerHandle.attach();
+		innerObservable.set("new value");
+
+		// assert that 'invalidated' was called only once
+		verify(listener, times(1)).invalidated(innerObservable);
+		verifyNoMoreInteractions(listener);
 	}
 
 	//#end TESTS

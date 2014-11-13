@@ -32,6 +32,9 @@ public class NestedChangeListenerHandle<T> implements NestedListenerHandle {
 
 	// #region PROPERTIES
 
+	/**
+	 * The {@link Nesting} to whose inner observable the {@link #listener} is attached.
+	 */
 	private final Nesting<? extends ObservableValue<T>> nesting;
 
 	/**
@@ -39,8 +42,14 @@ public class NestedChangeListenerHandle<T> implements NestedListenerHandle {
 	 */
 	private final BooleanProperty innerObservablePresent;
 
+	/**
+	 * The {@link ChangeListener} which is added to the {@link #nesting}'s inner observable.
+	 */
 	private final ChangeListener<? super T> listener;
 
+	/**
+	 * Indicates whether the {@link #listener} is currently attached to the {@link #nesting}'s inner observable.
+	 */
 	private boolean attached;
 
 	//#end PROPERTIES
@@ -80,11 +89,23 @@ public class NestedChangeListenerHandle<T> implements NestedListenerHandle {
 
 	// #region ADD & REMOVE
 
+	/**
+	 * Adds the {@link #listener} to the specified observable, when indicated by {@link #attached}.
+	 *
+	 * @param observable
+	 *            the {@link ObservableValue} to which the listener will be added
+	 */
 	private void addIfAttached(ObservableValue<T> observable) {
 		if (attached)
 			observable.addListener(listener);
 	}
 
+	/**
+	 * Removes the {@link #listener} from the specified observable.
+	 * 
+	 * @param observable
+	 *            the {@link ObservableValue} from which the listener will be removed.
+	 */
 	private void remove(ObservableValue<T> observable) {
 		observable.removeListener(listener);
 	}

@@ -34,6 +34,9 @@ public abstract class AbstractNestedChangeListenerBuilderTest {
 	/**
 	 * Creates the tested builder. Each call must return a new instance
 	 *
+	 * @param <T>
+	 *            the value wrapped by the nesting's inner observable, which is also the type observed by the change
+	 *            listener
 	 * @return a {@link NestedChangeListenerBuilder}
 	 */
 	protected abstract <T> NestedChangeListenerBuilder<T, Property<T>> createBuilder();

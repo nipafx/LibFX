@@ -29,6 +29,9 @@ public class NestedInvalidationListenerHandle implements NestedListenerHandle {
 
 	// #region PROPERTIES
 
+	/**
+	 * The {@link Nesting} to whose inner observable the {@link #listener} is attached.
+	 */
 	private final Nesting<? extends Observable> nesting;
 
 	/**
@@ -36,8 +39,14 @@ public class NestedInvalidationListenerHandle implements NestedListenerHandle {
 	 */
 	private final BooleanProperty innerObservablePresent;
 
+	/**
+	 * The {@link InvalidationListener} which is added to the {@link #nesting}'s inner observable.
+	 */
 	private final InvalidationListener listener;
 
+	/**
+	 * Indicates whether the {@link #listener} is currently attached to the {@link #nesting}'s inner observable.
+	 */
 	private boolean attached;
 
 	//#end PROPERTIES
@@ -75,11 +84,23 @@ public class NestedInvalidationListenerHandle implements NestedListenerHandle {
 
 	// #region ADD & REMOVE
 
+	/**
+	 * Adds the {@link #listener} to the specified observable, when indicated by {@link #attached}.
+	 *
+	 * @param observable
+	 *            the {@link Observable} to which the listener will be added
+	 */
 	private void addIfAttached(Observable observable) {
 		if (attached)
 			observable.addListener(listener);
 	}
 
+	/**
+	 * Removes the {@link #listener} from the specified observable.
+	 *
+	 * @param observable
+	 *            the {@link Observable} from which the listener will be removed.
+	 */
 	private void remove(Observable observable) {
 		observable.removeListener(listener);
 	}
