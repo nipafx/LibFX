@@ -5,7 +5,8 @@ import java.util.Optional;
 import java.util.function.BiConsumer;
 
 /**
- * A builder for a {@link ListenerHandle}.
+ * A builder for a {@link ListenerHandle}. Note that it is abstract enough to be used for all kinds of
+ * observable/listener relation and not just for those occurring in JavaFX.
  * <p>
  * The created handle manages whether the listener is currently attached. The functions specified to
  * {@link #onAttach(BiConsumer)} and {@link #onDetach(BiConsumer)} are only called when necessary. This is the case
@@ -16,7 +17,8 @@ import java.util.function.BiConsumer;
  * This implies that they can be stateless functions which simply add and remove the listener. The functions are called
  * with the observable and listener specified during construction.
  * <p>
- * The {@link ListenerHandle} returned by this builder is not yet attached.
+ * The {@link ListenerHandle} returned by this builder is not yet attached, i.e. it does not initially call the
+ * functions give to {@code onAttach} or {@code onDetach}.
  * <p>
  * <h2>Example</h2> A typical use looks like this:
  *
