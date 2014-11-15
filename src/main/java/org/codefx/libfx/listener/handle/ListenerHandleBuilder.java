@@ -16,6 +16,8 @@ import java.util.function.BiConsumer;
  * This implies that they can be stateless functions which simply add and remove the listener. The functions are called
  * with the observable and listener specified during construction.
  * <p>
+ * The {@link ListenerHandle} returned by this builder is not yet attached.
+ * <p>
  * <h2>Example</h2> A typical use looks like this:
  *
  * <pre>
