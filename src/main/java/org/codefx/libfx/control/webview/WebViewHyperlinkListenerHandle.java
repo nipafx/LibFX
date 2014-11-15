@@ -3,7 +3,7 @@ package org.codefx.libfx.control.webview;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 
-import org.codefx.libfx.listener.ListenerHandle;
+import org.codefx.libfx.listener.handle.ListenerHandle;
 
 /**
  * A {@link ListenerHandle} for a {@link WebViewHyperlinkListener}.

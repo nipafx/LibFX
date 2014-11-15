@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkEvent.EventType;
 
-import org.codefx.libfx.listener.ListenerHandle;
+import org.codefx.libfx.listener.handle.ListenerHandle;
 
 /**
  * Demonstrates how to use the {@link WebViewHyperlinkListener}.

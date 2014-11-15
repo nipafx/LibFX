@@ -17,7 +17,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 
-import org.codefx.libfx.listener.CreateListenerHandle;
+import org.codefx.libfx.listener.handle.CreateListenerHandle;
 import org.codefx.libfx.nesting.Nesting;
 import org.codefx.libfx.nesting.testhelper.NestingAccess;
 import org.junit.Before;

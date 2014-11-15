@@ -7,7 +7,7 @@ import java.util.function.Consumer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableMap;
 
-import org.codefx.libfx.listener.CreateListenerHandle;
+import org.codefx.libfx.listener.handle.CreateListenerHandle;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

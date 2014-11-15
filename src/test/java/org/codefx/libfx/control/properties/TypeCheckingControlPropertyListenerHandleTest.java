@@ -4,7 +4,7 @@ import java.util.function.Consumer;
 
 import javafx.collections.ObservableMap;
 
-import org.codefx.libfx.listener.CreateListenerHandle;
+import org.codefx.libfx.listener.handle.CreateListenerHandle;
 
 /**
  * Tests {@link TypeCheckingControlPropertyListenerHandle}.

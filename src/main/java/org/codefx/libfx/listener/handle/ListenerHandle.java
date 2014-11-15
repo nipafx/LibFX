@@ -1,4 +1,4 @@
-package org.codefx.libfx.listener;
+package org.codefx.libfx.listener.handle;
 
 /**
  * A listener handle can be used to {@link #attach() attach} and {@link #detach() detach} a listener to/from some

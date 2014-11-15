@@ -1,6 +1,6 @@
 package org.codefx.libfx.control.properties;
 
-import org.codefx.libfx.listener.ListenerHandle;
+import org.codefx.libfx.listener.handle.ListenerHandle;
 
 /**
  * This is a {@link ListenerHandle handle} on a {@code ControlPropertyListener}, which can be used to {@link #attach()}

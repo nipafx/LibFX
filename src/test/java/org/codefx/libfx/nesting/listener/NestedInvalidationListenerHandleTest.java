@@ -3,7 +3,7 @@ package org.codefx.libfx.nesting.listener;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 
-import org.codefx.libfx.listener.CreateListenerHandle;
+import org.codefx.libfx.listener.handle.CreateListenerHandle;
 import org.codefx.libfx.nesting.Nesting;
 
 /**

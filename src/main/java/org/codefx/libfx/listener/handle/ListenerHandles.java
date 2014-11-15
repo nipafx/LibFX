@@ -1,4 +1,4 @@
-package org.codefx.libfx.listener;
+package org.codefx.libfx.listener.handle;
 
 /**
  * Utility class for functionality surrounding {@link ListenerHandle}s.

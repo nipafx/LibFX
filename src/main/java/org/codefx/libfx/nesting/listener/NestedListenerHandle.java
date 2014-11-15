@@ -1,6 +1,6 @@
 package org.codefx.libfx.nesting.listener;
 
-import org.codefx.libfx.listener.ListenerHandle;
+import org.codefx.libfx.listener.handle.ListenerHandle;
 import org.codefx.libfx.nesting.Nested;
 
 /**

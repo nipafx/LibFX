@@ -1,4 +1,6 @@
-package org.codefx.libfx.listener;
+package org.codefx.libfx.listener.handle;
+
+import org.codefx.libfx.listener.handle.ListenerHandle;
 
 /**
  * Indicates how to create the {@link ListenerHandle}. If the handle is created by a builder, the corresponding method

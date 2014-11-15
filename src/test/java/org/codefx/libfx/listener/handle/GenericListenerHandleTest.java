@@ -1,4 +1,4 @@
-package org.codefx.libfx.listener;
+package org.codefx.libfx.listener.handle;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -8,6 +8,8 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 
 import java.util.function.BiConsumer;
 
+import org.codefx.libfx.listener.handle.GenericListenerHandle;
+import org.codefx.libfx.listener.handle.ListenerHandle;
 import org.junit.Before;
 import org.junit.Test;
 
