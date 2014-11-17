@@ -47,7 +47,7 @@ public class ListenerHandleDemo {
 		ChangeListener<String> listener = (obs, oldValue, newValue) -> { /* do nothing for this demo */};
 
 		// create the handle; this one is initially attached, i.e. the listener is added to the property
-		ListenerHandle handle = ListenerHandles.create(property, listener);
+		ListenerHandle handle = ListenerHandles.createAttached(property, listener);
 		// the handle can be used to easily detach and reattach the listener
 		handle.detach();
 		handle.attach();

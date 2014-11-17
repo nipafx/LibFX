@@ -55,7 +55,7 @@ public class ListenerHandles {
 	 *            the {@link InvalidationListener} which will be added to the {@code observable}
 	 * @return a {@link ListenerHandle} for the specified arguments; the listener is initially attached
 	 */
-	public static ListenerHandle create(Observable observable, InvalidationListener invalidationListener) {
+	public static ListenerHandle createAttached(Observable observable, InvalidationListener invalidationListener) {
 		ListenerHandle handle = createDetached(observable, invalidationListener);
 		handle.attach();
 		return handle;
@@ -91,7 +91,7 @@ public class ListenerHandles {
 	 *            the {@link ChangeListener} which will be added to the {@code observableValue}
 	 * @return a {@link ListenerHandle} for the specified arguments; the listener is initially attached
 	 */
-	public static <T> ListenerHandle create(
+	public static <T> ListenerHandle createAttached(
 			ObservableValue<T> observableValue, ChangeListener<? super T> changeListener) {
 
 		ListenerHandle handle = createDetached(observableValue, changeListener);
@@ -133,7 +133,7 @@ public class ListenerHandles {
 	 *            the {@link ArrayChangeListener} which will be added to the {@code observableArray}
 	 * @return a {@link ListenerHandle} for the specified arguments; the listener is initially attached
 	 */
-	public static <T extends ObservableArray<T>> ListenerHandle create(
+	public static <T extends ObservableArray<T>> ListenerHandle createAttached(
 			ObservableArray<T> observableArray, ArrayChangeListener<T> changeListener) {
 
 		ListenerHandle handle = createDetached(observableArray, changeListener);
@@ -175,7 +175,7 @@ public class ListenerHandles {
 	 *            the {@link ListChangeListener} which will be added to the {@code observableList}
 	 * @return a {@link ListenerHandle} for the specified arguments; the listener is initially attached
 	 */
-	public static <E> ListenerHandle create(
+	public static <E> ListenerHandle createAttached(
 			ObservableList<E> observableList, ListChangeListener<? super E> changeListener) {
 
 		ListenerHandle handle = createDetached(observableList, changeListener);
@@ -217,7 +217,7 @@ public class ListenerHandles {
 	 *            the {@link SetChangeListener} which will be added to the {@code observableSet}
 	 * @return a {@link ListenerHandle} for the specified arguments; the listener is initially attached
 	 */
-	public static <E> ListenerHandle create(
+	public static <E> ListenerHandle createAttached(
 			ObservableSet<E> observableSet, SetChangeListener<? super E> changeListener) {
 
 		ListenerHandle handle = createDetached(observableSet, changeListener);
@@ -261,7 +261,7 @@ public class ListenerHandles {
 	 *            the {@link MapChangeListener} which will be added to the {@code observableMap}
 	 * @return a {@link ListenerHandle} for the specified arguments; the listener is initially attached
 	 */
-	public static <K, V> ListenerHandle create(
+	public static <K, V> ListenerHandle createAttached(
 			ObservableMap<K, V> observableMap, MapChangeListener<? super K, ? super V> changeListener) {
 
 		ListenerHandle handle = createDetached(observableMap, changeListener);
