@@ -31,6 +31,7 @@ public class ListenerHandleDemo {
 
 		demo.createCommonListenerHandle();
 		demo.createCustomListenerHandle();
+		demo.attachAndDetach();
 	}
 
 	// #end CONSTRUCTION & MAIN
@@ -74,6 +75,49 @@ public class ListenerHandleDemo {
 				.onDetach((observable, listener) -> observable.removeListener(listener))
 				.build();
 		handleForCustomClasses.attach();
+	}
+
+	// attach & detach
+
+	/**
+	 * Demonstrates how to add and remove a listener with a {@link ListenerHandle} and compares this to the normal
+	 * approach.
+	 */
+	private void attachAndDetach() {
+		Property<String> observedProperty = new SimpleStringProperty("initial value");
+
+		// usually a listener is directly added to the property;
+		// but if the listener has to be removed later, the reference needs to be stored explicitly
+		ChangeListener<Object> changePrintingListener = (obs, oldValue, newValue) ->
+				System.out.println("[LISTENER] Value changed from \"" + oldValue + "\" to \"" + newValue + "\".");
+		observedProperty.addListener(changePrintingListener);
+
+		// this is the alternative with a 'ListenerHandle'
+		ListenerHandle newValuePrinter = ListenerHandles.createAttached(observedProperty,
+				(obs, oldValue, newValue) -> System.out.println("[HANDLE] New value: \"" + newValue + "\""));
+
+		// now lets change the value to see how it works
+		observedProperty.setValue("new value");
+		observedProperty.setValue("even newer value");
+
+		// removing a listener needs references to both the observable and the listener;
+		// depending on the situation this might not be feasible
+		observedProperty.removeListener(changePrintingListener);
+		// with a handle, the listener can be removed without giving the caller the possibility tp interact with
+		// the observable or the listener; it is also a little more readable
+		newValuePrinter.detach();
+
+		// some unobserved changes...
+		observedProperty.setValue("you won't see this on the console");
+		observedProperty.setValue("nor this");
+
+		// the same as above goes for adding the listener
+		observedProperty.addListener(changePrintingListener);
+		newValuePrinter.attach();
+
+		// now some more changes
+		observedProperty.setValue("but you will see this");
+		observedProperty.setValue("and this");
 	}
 
 	// #end DEMOS
