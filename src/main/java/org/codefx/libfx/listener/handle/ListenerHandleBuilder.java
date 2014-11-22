@@ -18,7 +18,7 @@ import java.util.function.BiConsumer;
  * with the observable and listener specified during construction.
  * <p>
  * The {@link ListenerHandle} returned by this builder is not yet attached, i.e. it does not initially call the
- * functions give to {@code onAttach} or {@code onDetach}.
+ * functions given to {@code onAttach} or {@code onDetach}.
  * <p>
  * <h2>Example</h2> A typical use looks like this:
  *
