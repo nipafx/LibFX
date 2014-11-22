@@ -15,10 +15,10 @@ import org.w3c.dom.events.Event;
 /**
  * Creates a {@link HyperlinkEvent} from the DOM-{@link Event} specified during construction.
  * <p>
- * In that sense it acts like an {@link EventTransformer} but because the {@link #domEvent} and its {@link #source} have
- * to be provided during construction it can not actually implement that interface.
+ * In does the actual work for the {@link DomEventConverter} but is a "one-shot" version in the sense that it can only
+ * convert the event specified during construction.
  */
-class DomEventToHyperlinkEventTransformer {
+class SingleDomEventConverter {
 
 	/**
 	 * The DOM-{@link Event} from which the {@link HyperlinkEvent} will be created.
@@ -31,14 +31,14 @@ class DomEventToHyperlinkEventTransformer {
 	private final Object source;
 
 	/**
-	 * Creates a new transformer for the specified arguments.
+	 * Creates a new converter for the specified arguments.
 	 *
 	 * @param domEvent
 	 *            the DOM-{@link Event} from which the {@link HyperlinkEvent} will be created
 	 * @param source
 	 *            the source of the {@code domEvent}
 	 */
-	public DomEventToHyperlinkEventTransformer(Event domEvent, Object source) {
+	public SingleDomEventConverter(Event domEvent, Object source) {
 		Objects.requireNonNull(domEvent, "The argument 'domEvent' must not be null.");
 		Objects.requireNonNull(source, "The argument 'source' must not be null.");
 
@@ -46,14 +46,14 @@ class DomEventToHyperlinkEventTransformer {
 		this.source = source;
 	}
 
-	// #region TRANSFORM
+	// #region CONVERT
 
 	/**
-	 * Indicates whether the DOM event specified during construction can be transformed to a {@link HyperlinkEvent}.
+	 * Indicates whether the DOM event specified during construction can be converted to a {@link HyperlinkEvent}.
 	 *
 	 * @return true if the event's {@link Event#getType() type} has an equivalent {@link EventType EventType}
 	 */
-	public boolean canTransform() {
+	public boolean canConvert() {
 		Optional<EventType> eventType = getEventTypeFrom(domEvent);
 		return eventType.isPresent();
 	}
@@ -74,14 +74,14 @@ class DomEventToHyperlinkEventTransformer {
 	}
 
 	/**
-	 * Transforms the event specified during construction to a hyperlink event.
+	 * Converts the event specified during construction to a hyperlink event.
 	 *
 	 * @return a {@link HyperlinkEvent}
 	 * @throws IllegalArgumentException
-	 *             if the specified event can not be transformed to a hyperlink event; this is the case if
-	 *             {@link #canTransform()} returns false
+	 *             if the specified event can not be converted to a hyperlink event; this is the case if
+	 *             {@link #canConvert()} returns false
 	 */
-	public HyperlinkEvent transform() throws IllegalArgumentException {
+	public HyperlinkEvent convert() throws IllegalArgumentException {
 		EventType type = getEventTypeForDomEvent();
 		Optional<URL> url = getURL();
 		String linkDescription = getTextContent();
@@ -103,7 +103,7 @@ class DomEventToHyperlinkEventTransformer {
 		else
 			throw new IllegalArgumentException(
 					"The DOM event '" + domEvent + "' of type '" + domEvent.getType()
-							+ "' can not be transformed to a hyperlink event.");
+							+ "' can not be converted to a hyperlink event.");
 	}
 
 	/**
@@ -208,6 +208,6 @@ class DomEventToHyperlinkEventTransformer {
 		return Optional.empty();
 	}
 
-	// #end TRANSFORM
+	// #end CONVERT
 
 }

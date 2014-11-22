@@ -6,8 +6,7 @@ import java.util.Optional;
 import javax.swing.event.HyperlinkEvent.EventType;
 
 /**
- * The types of DOM events names. Actually, this is only a selection of those needed to determine a hyperlink
- * {@link EventType EventType}s.
+ * The names of those types of DOM events for which an equivalent hyperlink {@link EventType EventType}s exists.
  * <p>
  *
  * @see <a href="http://www.w3.org/TR/DOM-Level-3-Events/#event-types-list">DOM Level 3 Events Specification - Event
@@ -83,7 +82,7 @@ public enum DomEventType {
 
 	/**
 	 * Returns the DOM event type for the specified event name.
-	 * 
+	 *
 	 * @param domEventName
 	 *            the name of the DOM event as per W3C specification
 	 * @return a {@link DomEventType} if it could be determined; otherwise {@link Optional#empty()}

@@ -8,9 +8,9 @@ import javafx.scene.web.WebView;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkEvent.EventType;
 
-import org.codefx.libfx.dom.DefaultEventTransformer;
+import org.codefx.libfx.dom.DomEventConverter;
 import org.codefx.libfx.dom.DomEventType;
-import org.codefx.libfx.dom.StaticEventTransformer;
+import org.codefx.libfx.dom.StaticDomEventConverter;
 import org.w3c.dom.events.Event;
 
 /**
@@ -57,7 +57,7 @@ public final class WebViews {
 	 * <p>
 	 * Once attached, the listener will be called on any event on an hyperlink (i.e. any element with tag name "a")
 	 * which can be represented as a {@link HyperlinkEvent} with the specified event type. See
-	 * {@link DomEventType#toHyperlinkEventType()} for the transformation of event types.
+	 * {@link DomEventType#toHyperlinkEventType()} for the conversion of event types.
 	 *
 	 * @param webView
 	 *            the {@link WebView} to which the listener will be added
@@ -148,7 +148,7 @@ public final class WebViews {
 		Objects.requireNonNull(eventTypeFilter, "The argument 'eventTypeFilter' must not be null.");
 
 		return new DefaultWebViewHyperlinkListenerHandle(
-				webView, listener, eventTypeFilter, new DefaultEventTransformer());
+				webView, listener, eventTypeFilter, new DomEventConverter());
 	}
 
 	// #end HYPERLINK LISTENERS
@@ -156,18 +156,18 @@ public final class WebViews {
 	// #region EVENTS
 
 	/**
-	 * Indicates whether the specified DOM event can be transformed to a {@link HyperlinkEvent}.
+	 * Indicates whether the specified DOM event can be converted to a {@link HyperlinkEvent}.
 	 *
 	 * @param domEvent
 	 *            the DOM-{@link Event}
 	 * @return true if the event's {@link Event#getType() type} has an equivalent {@link EventType EventType}
 	 */
-	public static boolean canTransformToHyperlinkEvent(Event domEvent) {
-		return StaticEventTransformer.canTransformToHyperlinkEvent(domEvent);
+	public static boolean canConvertToHyperlinkEvent(Event domEvent) {
+		return StaticDomEventConverter.canConvertToHyperlinkEvent(domEvent);
 	}
 
 	/**
-	 * Transforms the specified DOM event to a hyperlink event.
+	 * Converts the specified DOM event to a hyperlink event.
 	 *
 	 * @param domEvent
 	 *            the DOM-{@link Event} from which the {@link HyperlinkEvent} will be created
@@ -175,13 +175,13 @@ public final class WebViews {
 	 *            the source of the {@code domEvent}
 	 * @return a {@link HyperlinkEvent}
 	 * @throws IllegalArgumentException
-	 *             if the specified event can not be transformed to a hyperlink event; this is the case if
-	 *             {@link #canTransformToHyperlinkEvent(Event)} returns false
+	 *             if the specified event can not be converted to a hyperlink event; this is the case if
+	 *             {@link #canConvertToHyperlinkEvent(Event)} returns false
 	 */
-	public static HyperlinkEvent transformToHyperlinkEvent(Event domEvent, Object source)
+	public static HyperlinkEvent convertToHyperlinkEvent(Event domEvent, Object source)
 			throws IllegalArgumentException {
 
-		return StaticEventTransformer.transformToHyperlinkEvent(domEvent, source);
+		return StaticDomEventConverter.convertToHyperlinkEvent(domEvent, source);
 	}
 
 	/**

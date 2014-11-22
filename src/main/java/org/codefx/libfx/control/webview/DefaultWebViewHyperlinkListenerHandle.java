@@ -15,8 +15,8 @@ import javax.swing.event.HyperlinkEvent.EventType;
 
 import org.codefx.libfx.concurrent.when.ExecuteAlwaysWhen;
 import org.codefx.libfx.concurrent.when.ExecuteWhen;
+import org.codefx.libfx.dom.DomEventConverter;
 import org.codefx.libfx.dom.DomEventType;
-import org.codefx.libfx.dom.EventTransformer;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.events.Event;
 import org.w3c.dom.events.EventListener;
@@ -61,9 +61,9 @@ class DefaultWebViewHyperlinkListenerHandle implements WebViewHyperlinkListenerH
 	private final EventListener domEventListener;
 
 	/**
-	 * Transforms DOM {@link Event}s to {@link HyperlinkEvent}s.
+	 * Converts the observed DOM {@link Event}s to {@link HyperlinkEvent}s.
 	 */
-	private final EventTransformer eventTransformer;
+	private final DomEventConverter eventConverter;
 
 	/**
 	 * Executes {@link #attachListenerInApplicationThread()} each time the web view's load worker changes its state to
@@ -89,17 +89,17 @@ class DefaultWebViewHyperlinkListenerHandle implements WebViewHyperlinkListenerH
 	 *            the {@link WebViewHyperlinkListener} which will be attached to the {@code webView}
 	 * @param eventTypeFilter
 	 *            the filter for events by their {@link EventType}
-	 * @param eventTransformer
-	 *            the transformer for DOM {@link Event}s
+	 * @param eventConverter
+	 *            the converter for DOM {@link Event}s
 	 */
 	public DefaultWebViewHyperlinkListenerHandle(
 			WebView webView, WebViewHyperlinkListener eventListener, Optional<EventType> eventTypeFilter,
-			EventTransformer eventTransformer) {
+			DomEventConverter eventConverter) {
 
 		this.webView = webView;
 		this.eventListener = eventListener;
 		this.eventTypeFilter = eventTypeFilter;
-		this.eventTransformer = eventTransformer;
+		this.eventConverter = eventConverter;
 
 		domEventListener = this::callHyperlinkListenerWithEvent;
 	}
@@ -248,18 +248,18 @@ class DefaultWebViewHyperlinkListenerHandle implements WebViewHyperlinkListenerH
 	// #region PROCESS EVENT
 
 	/**
-	 * Transforms the specified {@code domEvent} into a {@link HyperlinkEvent} and calls the {@link #eventListener} with
+	 * Converts the specified {@code domEvent} into a {@link HyperlinkEvent} and calls the {@link #eventListener} with
 	 * it.
 	 *
 	 * @param domEvent
 	 *            the DOM-{@link Event}
 	 */
 	private void callHyperlinkListenerWithEvent(Event domEvent) {
-		boolean canNotTransformEvent = !eventTransformer.canTransformToHyperlinkEvent(domEvent);
-		if (canNotTransformEvent)
+		boolean canNotConvertEvent = !eventConverter.canConvertToHyperlinkEvent(domEvent);
+		if (canNotConvertEvent)
 			return;
 
-		HyperlinkEvent event = eventTransformer.transformToHyperlinkEvent(domEvent, webView);
+		HyperlinkEvent event = eventConverter.convertToHyperlinkEvent(domEvent, webView);
 		boolean cancel = eventListener.hyperlinkUpdate(event);
 		cancel(domEvent, cancel);
 	}

@@ -1,26 +1,38 @@
 package org.codefx.libfx.dom;
 
+import java.util.Objects;
+
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkEvent.EventType;
 
 import org.w3c.dom.events.Event;
 
 /**
- * Transforms {@link Event DOM Events} to Swing's {@link HyperlinkEvent HyperlinkEvents}.
+ * Converts {@link Event DOM Events} to Swing's {@link HyperlinkEvent HyperlinkEvents}.
+ * <p>
+ * This class is thread-safe, i.e. the provided methods can be called from different threads and concurrent executions
+ * do not interfere with each other.
  */
-public interface EventTransformer {
+public final class DomEventConverter {
 
 	/**
-	 * Indicates whether the specified DOM event can be transformed to a {@link HyperlinkEvent}.
+	 * Indicates whether the specified DOM event can be converted to a {@link HyperlinkEvent}.
 	 *
 	 * @param domEvent
 	 *            the DOM-{@link Event}
 	 * @return true if the event's {@link Event#getType() type} has an equivalent {@link EventType EventType}
 	 */
-	boolean canTransformToHyperlinkEvent(Event domEvent);
+	@SuppressWarnings("static-method")
+	public boolean canConvertToHyperlinkEvent(Event domEvent) {
+		Objects.requireNonNull(domEvent, "The argument 'domEvent' must not be null.");
+
+		Object source = "the source does not matter for this call";
+		SingleDomEventConverter converter = new SingleDomEventConverter(domEvent, source);
+		return converter.canConvert();
+	}
 
 	/**
-	 * Transforms the specified DOM event to a hyperlink event.
+	 * Converts the specified DOM event to a hyperlink event.
 	 *
 	 * @param domEvent
 	 *            the DOM-{@link Event} from which the {@link HyperlinkEvent} will be created
@@ -39,9 +51,13 @@ public interface EventTransformer {
 	 *         <li> {@link HyperlinkEvent#getSourceElement() getSourceElement()} returns null
 	 *         </ul>
 	 * @throws IllegalArgumentException
-	 *             if the specified event can not be transformed to a hyperlink event; this is the case if
-	 *             {@link #canTransformToHyperlinkEvent(Event)} returns false
+	 *             if the specified event can not be converted to a hyperlink event; this is the case if
+	 *             {@link #canConvertToHyperlinkEvent(Event)} returns false
 	 */
-	HyperlinkEvent transformToHyperlinkEvent(Event domEvent, Object source) throws IllegalArgumentException;
+	@SuppressWarnings("static-method")
+	public HyperlinkEvent convertToHyperlinkEvent(Event domEvent, Object source) throws IllegalArgumentException {
+		SingleDomEventConverter converter = new SingleDomEventConverter(domEvent, source);
+		return converter.convert();
+	}
 
 }
