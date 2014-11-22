@@ -8,7 +8,7 @@ import javafx.beans.value.ObservableValue;
 import org.codefx.libfx.nesting.Nesting;
 
 /**
- * A builder for a {@link NestedChangeListener}.
+ * A builder for a {@link NestedChangeListenerHandle}.
  *
  * @param <T>
  *            the type of the value wrapped by the {@link ObservableValue}
@@ -79,7 +79,7 @@ public class NestedChangeListenerBuilder<T, O extends ObservableValue<T>> {
 	 *
 	 * @param listener
 	 *            the {@link ChangeListener} which will be added to the nesting's inner observable value
-	 * @return a {@link NestedChangeListenerBuilder} which provides a {@link Buildable#build() build}-method
+	 * @return a {@link NestedChangeListenerBuilder} which provides a {@link Buildable#buildAttached() build}-method
 	 */
 	public Buildable withListener(ChangeListener<? super T> listener) {
 		Objects.requireNonNull(listener, "The argument 'listener' must not be null.");
@@ -93,7 +93,8 @@ public class NestedChangeListenerBuilder<T, O extends ObservableValue<T>> {
 	// #region PRIVATE CLASSES
 
 	/**
-	 * A subtype of {@link NestedChangeListenerBuilder} which can actually build a listener with {@link #build()}.
+	 * A subtype of {@link NestedChangeListenerBuilder} which can actually build a listener with
+	 * {@link #buildAttached()}.
 	 */
 	public class Buildable extends NestedChangeListenerBuilder<T, O> {
 
@@ -113,17 +114,38 @@ public class NestedChangeListenerBuilder<T, O extends ObservableValue<T>> {
 		}
 
 		/**
-		 * Builds a nested change listener. This method can only be called once as the same {@link ChangeListener}
-		 * should not be added more than once to the same {@link Nesting}.
+		 * Builds and {@link NestedChangeListenerHandle#attach() attaches} a nested change listener and returns the
+		 * handle for it.
+		 * <p>
+		 * This method can only be called once as the same {@link ChangeListener} should not be added more than once to
+		 * the same {@link Nesting}.
 		 *
-		 * @return a new instance of {@link NestedChangeListener}
+		 * @return a new instance of {@link NestedChangeListenerHandle}; initially attached
+		 * @see #buildDetached()
 		 */
-		public NestedChangeListener<T> build() {
+		public NestedChangeListenerHandle<T> buildAttached() {
+			NestedChangeListenerHandle<T> listenerHandle = buildDetached();
+			listenerHandle.attach();
+			return listenerHandle;
+		}
+
+		/**
+		 * Builds a nested change listener and returns the handle for it.
+		 * <p>
+		 * Note that the listener is not yet {@link NestedChangeListenerHandle#attach() attached}!
+		 * <p>
+		 * This method can only be called once as the same {@link ChangeListener} should not be added more than once to
+		 * the same {@link Nesting}.
+		 *
+		 * @return a new instance of {@link NestedChangeListenerHandle}; initially detached
+		 * @see #buildAttached()
+		 */
+		public NestedChangeListenerHandle<T> buildDetached() {
 			if (built)
-				throw new IllegalStateException("This builder can only build one 'NestedChangeListener'.");
+				throw new IllegalStateException("This builder can only build one 'NestedChangeListenerHandle'.");
 
 			built = true;
-			return new NestedChangeListener<T>(nesting, listener);
+			return new NestedChangeListenerHandle<T>(nesting, listener);
 		}
 
 	}

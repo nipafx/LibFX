@@ -5,6 +5,8 @@ import javafx.beans.Observable;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
+import org.codefx.libfx.listener.handle.CreateListenerHandle;
+import org.codefx.libfx.nesting.Nesting;
 import org.codefx.libfx.nesting.testhelper.NestingAccess.EditableNesting;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -37,16 +39,25 @@ public class NestedInvalidationListenerBuilderTest {
 	/**
 	 * Tests whether the created listeners behave well.
 	 */
-	public static class CreatedListeners extends AbstractNestedInvalidationListenerTest {
+	public static class CreatedListeners extends AbstractNestedInvalidationListenerHandleTest {
 
 		@Override
-		protected NestedInvalidationListener createNestedListener(
-				EditableNesting<? extends Observable> nesting, InvalidationListener listener) {
+		protected NestedInvalidationListenerHandle createNestedListenerHandle(
+				Nesting<? extends Observable> nesting,
+				InvalidationListener listener,
+				CreateListenerHandle attachedOrDetached) {
 
-			return NestedInvalidationListenerBuilder
-					.forNesting(nesting)
-					.withListener(listener)
-					.build();
+			NestedInvalidationListenerBuilder.Buildable builder =
+					NestedInvalidationListenerBuilder
+							.forNesting(nesting)
+							.withListener(listener);
+
+			if (attachedOrDetached == CreateListenerHandle.ATTACHED)
+				return builder.buildAttached();
+			else if (attachedOrDetached == CreateListenerHandle.DETACHED)
+				return builder.buildDetached();
+			else
+				throw new IllegalArgumentException();
 		}
 
 	}

@@ -182,7 +182,7 @@ final class DeepNesting<O extends Observable> implements Nesting<O> {
 		new NestingUpdater(startLevel).update();
 	}
 
-	// #region PROPERTY ACCESS
+	// #region ACCESSORS
 
 	/**
 	 * {@inheritDoc}
@@ -192,7 +192,7 @@ final class DeepNesting<O extends Observable> implements Nesting<O> {
 		return inner;
 	}
 
-	//#end PROPERTY ACCESS
+	//#end ACCESSORS
 
 	// #region PRIVATE CLASSES
 

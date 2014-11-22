@@ -7,7 +7,7 @@ import javafx.beans.InvalidationListener;
 import org.codefx.libfx.nesting.Nesting;
 
 /**
- * A builder for a {@link NestedInvalidationListener}.
+ * A builder for a {@link NestedInvalidationListenerHandle}.
  */
 public class NestedInvalidationListenerBuilder {
 
@@ -71,7 +71,7 @@ public class NestedInvalidationListenerBuilder {
 	 *
 	 * @param listener
 	 *            the {@link InvalidationListener} which will be added to the nesting's inner observable
-	 * @return a {@link NestedInvalidationListenerBuilder} which provides a {@link Buildable#build() build}-method
+	 * @return a {@link NestedInvalidationListenerBuilder} which provides a {@link Buildable#buildAttached() build}-method
 	 */
 	public Buildable withListener(InvalidationListener listener) {
 		Objects.requireNonNull(listener, "The argument 'listener' must not be null.");
@@ -85,7 +85,7 @@ public class NestedInvalidationListenerBuilder {
 	// #region PRIVATE CLASSES
 
 	/**
-	 * A subtype of {@link NestedInvalidationListenerBuilder} which can actually build a listener with {@link #build()}.
+	 * A subtype of {@link NestedInvalidationListenerBuilder} which can actually build a listener with {@link #buildAttached()}.
 	 */
 	public class Buildable extends NestedInvalidationListenerBuilder {
 
@@ -105,17 +105,38 @@ public class NestedInvalidationListenerBuilder {
 		}
 
 		/**
-		 * Builds a nested invalidation listener. This method can only be called once as the same
-		 * {@link InvalidationListener} should not be added more than once to the same {@link Nesting}.
+		 * Builds and {@link NestedInvalidationListenerHandle#attach() attaches} a nested invalidation listener and
+		 * returns the handle for it.
+		 * <p>
+		 * This method can only be called once as the same {@link InvalidationListener} should not be added more than
+		 * once to the same {@link Nesting}.
 		 *
-		 * @return a new instance of {@link NestedChangeListener}
+		 * @return a new instance of {@link NestedInvalidationListenerHandle}; initially attached
+		 * @see #buildDetached()
 		 */
-		public NestedInvalidationListener build() {
+		public NestedInvalidationListenerHandle buildAttached() {
+			NestedInvalidationListenerHandle listenerHandle = buildDetached();
+			listenerHandle.attach();
+			return listenerHandle;
+		}
+
+		/**
+		 * Builds a nested invalidation listener and returns the handle for it.
+		 * <p>
+		 * Note that the listener is not yet {@link NestedInvalidationListenerHandle#attach() attached}!
+		 * <p>
+		 * This method can only be called once as the same {@link InvalidationListener} should not be added more than
+		 * once to the same {@link Nesting}.
+		 *
+		 * @return a new instance of {@link NestedInvalidationListenerHandle}; initially detached
+		 * @see #buildAttached()
+		 */
+		public NestedInvalidationListenerHandle buildDetached() {
 			if (built)
-				throw new IllegalStateException("This builder can only build one 'NestedInvalidationListener'.");
+				throw new IllegalStateException("This builder can only build one 'NestedInvalidationListenerHandle'.");
 
 			built = true;
-			return new NestedInvalidationListener(nesting, listener);
+			return new NestedInvalidationListenerHandle(nesting, listener);
 		}
 
 	}

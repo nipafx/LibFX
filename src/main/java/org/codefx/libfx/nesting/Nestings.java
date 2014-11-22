@@ -6,8 +6,8 @@ import javafx.beans.property.Property;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
-import org.codefx.libfx.nesting.listener.NestedChangeListener;
-import org.codefx.libfx.nesting.listener.NestedInvalidationListener;
+import org.codefx.libfx.nesting.listener.NestedChangeListenerHandle;
+import org.codefx.libfx.nesting.listener.NestedInvalidationListenerHandle;
 import org.codefx.libfx.nesting.property.NestedDoubleProperty;
 import org.codefx.libfx.nesting.property.NestedProperty;
 
@@ -51,8 +51,8 @@ import org.codefx.libfx.nesting.property.NestedProperty;
  *
  * @see Nesting
  * @see NestedProperty
- * @see NestedChangeListener
- * @see NestedInvalidationListener
+ * @see NestedChangeListenerHandle
+ * @see NestedInvalidationListenerHandle
  */
 public class Nestings {
 

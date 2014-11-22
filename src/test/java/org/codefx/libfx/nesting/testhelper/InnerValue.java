@@ -68,7 +68,7 @@ public class InnerValue {
 
 // #end CONSTRUCTOR
 
-// #region PROPERTY ACCESS
+// #region ACCESSORS
 
 	/**
 	 * An observable.
@@ -97,6 +97,6 @@ public class InnerValue {
 		return integerProperty;
 	}
 
-// #end PROPERTY ACCESS
+// #end ACCESSORS
 
 }

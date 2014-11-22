@@ -8,7 +8,12 @@ This somewhat vague sentiment does not translate to quality! The code is clean, 
 
 These features are present in the latest release:
 
+* [ControlPropertyListener](https://github.com/CodeFX-org/LibFX/wiki/ControlPropertyListener): creating listeners for the property map of JavaFX controls
+* [ListenerHandle](https://github.com/CodeFX-org/LibFX/wiki/ListenerHandle): encapsulating an observable and a listener for easier add/remove of the listener
 * [Nestings](https://github.com/CodeFX-org/LibFX/wiki/Nestings): using all the power of JavaFX' properties for nested object aggregations
+* [SerializableOptional](https://github.com/CodeFX-org/LibFX/wiki/SerializableOptional): serializable wrapper for `Optional`
+* [WebViewHyperlinkListener](https://github.com/CodeFX-org/LibFX/wiki/WebViewHyperlinkListener): add hyperlink listeners to JavaFX' `WebView`
+
 
 ## Documentation
 
@@ -22,7 +27,25 @@ License details can be found in the *LICENSE* file in the project's root folder.
 
 ## Releases
 
-Releases are published [here](https://github.com/CodeFX-org/LibFX/releases). The release notes also contain the Maven coordinates for each version available in Maven Central.
+Releases are published [on GitHub](https://github.com/CodeFX-org/LibFX/releases). The release notes also contain a link to the artifact in Maven Central and its coordinates.
+
+The current version is [0.2.0](http://search.maven.org/#artifactdetails|org.codefx.libfx|LibFX|0.2.0|jar):
+
+**Maven**:
+
+``` XML
+<dependency>
+    <groupId>org.codefx.libfx</groupId>
+    <artifactId>LibFX</artifactId>
+    <version>0.2.0</version>
+</dependency>
+``` 
+
+**Gradle**:
+
+```
+	compile 'org.codefx.libfx:LibFX:0.2.0'
+```
 
 ## Development
 
@@ -42,7 +65,7 @@ The library has its home on [GitHub](https://github.com/CodeFX-org/LibFX) where 
 
 I have a blog at [codefx.org](http://blog.codefx.org) where I might occasionally blog about **LibFX**. Those posts are filed under [their own tag](http://blog.codefx.org/tag/libfx/).
 
-I use Eclipse and my project settings (like compiler warnings, formatter and save actions) can be found in the repository folder **.settings**. I do this to make it easier for contributors to cope with my obsession for warning free and consistently formatted code.
+I use Eclipse and my project settings (like compiler warnings, formatter and save actions) can be found in the repository folder **.settings**. I know this is a little unusual but it makes it easier for contributors to cope with my obsession for warning free and consistently formatted code.
 
 ## Contact
 
@@ -51,4 +74,5 @@ CodeFX
 
 Web: http://codefx.org <br>
 Mail: nipa@codefx.org <br>
-Key: http://keys.gnupg.net/pks/lookup?op=vindex&search=0xA47A795BA5BF8326 <br>
+Twitter: https://twitter.com/nipafx<br>
+PGP-Key: http://keys.gnupg.net/pks/lookup?op=vindex&search=0xA47A795BA5BF8326 <br>
