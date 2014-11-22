@@ -11,7 +11,7 @@ import javafx.collections.ObservableMap;
  */
 abstract class AbstractControlPropertyListenerHandle implements ControlPropertyListenerHandle {
 
-	// #region ATTRIBUTES
+	// #region FIELDS
 
 	/**
 	 * The properties to which the {@link #listener} will be added.
@@ -33,7 +33,7 @@ abstract class AbstractControlPropertyListenerHandle implements ControlPropertyL
 	 */
 	private boolean attached;
 
-	// #end ATTRIBUTES
+	// #end FIELDS
 
 	// #region CONSTRUCTION
 

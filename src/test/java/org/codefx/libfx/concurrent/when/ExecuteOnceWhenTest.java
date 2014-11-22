@@ -22,7 +22,7 @@ import org.junit.Test;
  */
 public class ExecuteOnceWhenTest {
 
-	// #region ATTRIBUTES & INITIALIZATION
+	// #region FIELDS & INITIALIZATION
 
 	/**
 	 * The string which passes the {@link #ACTION_CONDITION}.
@@ -64,7 +64,7 @@ public class ExecuteOnceWhenTest {
 		action = string -> executedActionCount.incrementAndGet();
 	}
 
-	// #end ATTRIBUTES & INITIALIZATION
+	// #end FIELDS & INITIALIZATION
 
 	// #region SINGLE-THREADED TESTS
 

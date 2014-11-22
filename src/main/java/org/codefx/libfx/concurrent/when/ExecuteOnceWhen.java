@@ -48,7 +48,7 @@ public class ExecuteOnceWhen<T> {
 	 * condition, it is checked (and set to false). If it contained true, the action will be executed.
 	 */
 
-	// #region ATTRIBUTES
+	// #region FIELDS
 
 	/**
 	 * The {@link ObservableValue} upon whose value the action's execution depends.
@@ -81,7 +81,7 @@ public class ExecuteOnceWhen<T> {
 	 */
 	private final AtomicBoolean executeWhenWasAlreadyCalled;
 
-	// #end ATTRIBUTES
+	// #end FIELDS
 
 	/**
 	 * Creates a new instance from the specified arguments.

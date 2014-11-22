@@ -266,7 +266,7 @@ public abstract class AbstractNestedPropertyTest<T, P extends Property<T>> {
 
 	//#end ABSTRACT METHODS
 
-	// #region ATTRIBUTE ACCESS
+	// #region ACCESSORS
 
 	/**
 	 * @return the nesting on which the tested property is based
@@ -289,6 +289,6 @@ public abstract class AbstractNestedPropertyTest<T, P extends Property<T>> {
 		return property.getValue();
 	}
 
-	//#end ATTRIBUTE ACCESS
+	//#end ACCESSORS
 
 }

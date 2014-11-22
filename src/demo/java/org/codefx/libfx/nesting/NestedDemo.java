@@ -17,14 +17,14 @@ import org.codefx.libfx.nesting.property.NestedStringProperty;
  */
 public class NestedDemo {
 
-	// #region ATTRIBUTES
+	// #region FIELDS
 
 	/**
 	 * The currently selected employee.
 	 */
 	private final Property<Employee> currentEmployee;
 
-	//#end ATTRIBUTES
+	//#end FIELDS
 
 	// #region CONSTRUCTION & MAIN
 

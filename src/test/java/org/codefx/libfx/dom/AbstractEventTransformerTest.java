@@ -28,7 +28,7 @@ import org.xml.sax.InputSource;
  */
 public abstract class AbstractEventTransformerTest {
 
-	// #region ATTRIBUTES & INITIALIZATION
+	// #region FIELDS & INITIALIZATION
 
 	/**
 	 * The URL used for all links.
@@ -74,11 +74,11 @@ public abstract class AbstractEventTransformerTest {
 		simpleLink = (EventTarget) htmlDocument.getElementById(SIMPLE_LINK_ID);
 	}
 
-	// #end ATTRIBUTES & INITIALIZATION
+	// #end FIELDS & INITIALIZATION
 
 	// #region TESTS
 
-	// #end ATTRIBUTES & INITIALIZATION
+	// #end FIELDS & INITIALIZATION
 
 	// #region TESTS
 

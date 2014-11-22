@@ -18,7 +18,7 @@ import org.junit.Test;
  */
 public class ExecuteAlwaysWhenTest {
 
-	// #region ATTRIBUTES & INITIALIZATION
+	// #region FIELDS & INITIALIZATION
 
 	/**
 	 * The string which passes the {@link #ACTION_GATEWAY}.
@@ -60,7 +60,7 @@ public class ExecuteAlwaysWhenTest {
 		action = string -> executedActionCount.incrementAndGet();
 	}
 
-	// #end ATTRIBUTES & INITIALIZATION
+	// #end FIELDS & INITIALIZATION
 
 	// #region SINGLE-THREADED TESTS
 

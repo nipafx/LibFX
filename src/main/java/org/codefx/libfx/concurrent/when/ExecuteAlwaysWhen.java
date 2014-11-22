@@ -58,7 +58,7 @@ public class ExecuteAlwaysWhen<T> {
 	 * on the first execution of the action.
 	 */
 
-	// #region ATTRIBUTES
+	// #region FIELDS
 
 	/**
 	 * The {@link ObservableValue} upon whose value the action's execution depends.
@@ -95,7 +95,7 @@ public class ExecuteAlwaysWhen<T> {
 	 */
 	private final AtomicBoolean alreadyExecuted;
 
-	// #end ATTRIBUTES
+	// #end FIELDS
 
 	/**
 	 * Creates a new instance from the specified arguments. *

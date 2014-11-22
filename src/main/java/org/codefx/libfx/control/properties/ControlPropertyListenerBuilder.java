@@ -24,7 +24,7 @@ import javafx.collections.ObservableMap;
  */
 public class ControlPropertyListenerBuilder<T> {
 
-	// #region ATTRIBUTES
+	// #region FIELDS
 
 	/**
 	 * The properties which will be observed.
@@ -46,7 +46,7 @@ public class ControlPropertyListenerBuilder<T> {
 	 */
 	private Optional<Class<T>> valueType;
 
-	// #end ATTRIBUTES
+	// #end FIELDS
 
 	// #region CONSTRUCTION & SETTING VALUES
 
@@ -160,7 +160,7 @@ public class ControlPropertyListenerBuilder<T> {
 	}
 
 	/**
-	 * Checks whether the attributes are valid so they can be used to {@link #buildDetached()} a listener.
+	 * Checks whether the fields are valid so they can be used to {@link #buildDetached() build} a listener.
 	 */
 	private void checkFields() {
 		if (key == null)

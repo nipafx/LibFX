@@ -29,7 +29,7 @@ public class ControlPropertiesTest {
 	 */
 	public static class BuilderContract {
 
-		// #region ATTRIBUTES
+		// #region FIELDS
 
 		/**
 		 * The key used to create the listeners.
@@ -46,10 +46,10 @@ public class ControlPropertiesTest {
 		 */
 		private ObservableMap<Object, Object> properties;
 
-		// #end ATTRIBUTES
+		// #end FIELDS
 
 		/**
-		 * Initializes the attributes.
+		 * Initializes the fields.
 		 */
 		@Before
 		public void setUp() {
@@ -118,7 +118,7 @@ public class ControlPropertiesTest {
 		// SUCCESSFUL CONSTRUCTION
 
 		/**
-		 * Tests whether building is successful when the minimum of attributes is set.
+		 * Tests whether building is successful when the minimum of values is set.
 		 */
 		public void testSuccessfulBuild() {
 			ControlProperties.<String> on(properties)

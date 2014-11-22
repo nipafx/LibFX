@@ -24,7 +24,7 @@ import org.junit.Test;
  */
 public abstract class AbstractControlPropertyListenerHandleTest {
 
-	// #region ATTRIBUTES
+	// #region FIELDS
 
 	/**
 	 * A key to which the created listeners listen.
@@ -51,12 +51,12 @@ public abstract class AbstractControlPropertyListenerHandleTest {
 	 */
 	private Consumer<String> valueProcessorWhichFailsTestWhenCalled;
 
-	// #end ATTRIBUTES
+	// #end FIELDS
 
 	// #region SETUP
 
 	/**
-	 * Initializes attributes for tests.
+	 * Initializes fields for tests.
 	 */
 	@Before
 	@SuppressWarnings("unchecked")

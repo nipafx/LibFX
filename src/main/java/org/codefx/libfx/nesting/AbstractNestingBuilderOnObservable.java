@@ -9,8 +9,8 @@ import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.value.ObservableValue;
 
-import org.codefx.libfx.nesting.listener.NestedInvalidationListenerHandle;
 import org.codefx.libfx.nesting.listener.NestedInvalidationListenerBuilder;
+import org.codefx.libfx.nesting.listener.NestedInvalidationListenerHandle;
 
 /**
  * A superclass for builders for all kinds of nested functionality. Holds the nesting hierarchy (outer observable and
@@ -217,7 +217,7 @@ abstract class AbstractNestingBuilderOnObservable<T, O extends Observable> {
 
 		//#end CONSTRUCTOR
 
-		// #region PROPERTY ACCESS
+		// #region ACCESSORS
 
 		/**
 		 * @return the outer {@link ObservableValue}
@@ -243,7 +243,7 @@ abstract class AbstractNestingBuilderOnObservable<T, O extends Observable> {
 			return nestingSteps;
 		}
 
-		//#end PROPERTY ACCESS
+		//#end ACCESSORS
 
 	}
 

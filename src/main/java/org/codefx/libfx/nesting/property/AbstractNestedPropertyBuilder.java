@@ -63,7 +63,7 @@ abstract class AbstractNestedPropertyBuilder<O extends Property<?>, P extends Ne
 
 	//#end ABSTRACT METHODS
 
-	// #region PROPERTY ACCESS
+	// #region ACCESSORS
 
 	/**
 	 * @return the nesting which will be used for all nested properties
@@ -133,6 +133,6 @@ abstract class AbstractNestedPropertyBuilder<O extends Property<?>, P extends Ne
 		return this;
 	}
 
-	//#end PROPERTY ACCESS
+	//#end ACCESSORS
 
 }

@@ -79,7 +79,7 @@ import java.util.Optional;
  */
 public final class SerializableOptional<T extends Serializable> implements Serializable {
 
-	// ATTRIBUTES
+	// FIELDS
 
 	@SuppressWarnings("javadoc")
 	private static final long serialVersionUID = -652697447004597911L;

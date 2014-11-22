@@ -37,7 +37,7 @@ class DefaultWebViewHyperlinkListenerHandle implements WebViewHyperlinkListenerH
 	 * it easier, all instances of org.w3c.dom classes carry a 'dom'-prefix.
 	 */
 
-	// #region ATTRIBUTES
+	// #region FIELDS
 
 	/**
 	 * The {@link WebView} to which the {@link #domEventListener} will be attached.
@@ -78,7 +78,7 @@ class DefaultWebViewHyperlinkListenerHandle implements WebViewHyperlinkListenerH
 	 */
 	private boolean attached;
 
-	// #end ATTRIBUTES
+	// #end FIELDS
 
 	/**
 	 * Creates a new listener handle for the specified arguments. The listener is not attached to the web view.

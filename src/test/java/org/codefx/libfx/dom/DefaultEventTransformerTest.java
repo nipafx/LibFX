@@ -9,7 +9,7 @@ import org.w3c.dom.events.Event;
  */
 public class DefaultEventTransformerTest extends AbstractEventTransformerTest {
 
-	// #region ATTRIBUTES & INITIALIZATION
+	// #region FIELDS & INITIALIZATION
 
 	/**
 	 * The tested {@link DefaultEventTransformer}.
@@ -22,7 +22,7 @@ public class DefaultEventTransformerTest extends AbstractEventTransformerTest {
 		transformer = new DefaultEventTransformer();
 	}
 
-	// #end ATTRIBUTES & INITIALIZATION
+	// #end FIELDS & INITIALIZATION
 
 	@Override
 	protected boolean canTransformToHyperlinkEvent(Event domEvent) {
