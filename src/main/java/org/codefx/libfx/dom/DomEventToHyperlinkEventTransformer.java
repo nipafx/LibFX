@@ -98,10 +98,12 @@ class DomEventToHyperlinkEventTransformer {
 	 */
 	private EventType getEventTypeForDomEvent() throws IllegalArgumentException {
 		Optional<EventType> eventType = getEventTypeFrom(domEvent);
-		return eventType.orElseThrow(
-				() -> new IllegalArgumentException(
-						"The DOM event '" + domEvent + "' of type '" + domEvent.getType()
-								+ "' can not be transformed to a hyperlink event."));
+		if (eventType.isPresent())
+			return eventType.get();
+		else
+			throw new IllegalArgumentException(
+					"The DOM event '" + domEvent + "' of type '" + domEvent.getType()
+							+ "' can not be transformed to a hyperlink event.");
 	}
 
 	/**
@@ -145,25 +147,25 @@ class DomEventToHyperlinkEventTransformer {
 	}
 
 	/**
-	 * Searches for an a-tag starting on the specified and recursing to its ancestors.
+	 * Searches for an a-tag starting on the specified node and recursing to its ancestors.
 	 *
 	 * @param domNode
 	 *            the node which is checked for the a-tag
 	 * @return an {@link Optional} containing an anchor if one was found; otherwise an empty {@code Optional}
 	 */
 	private static Optional<Element> getAnchorAncestor(Optional<Node> domNode) {
-		// if there is no node, there was no anchor, so return empty
+		// if there is no node, there can be no anchor, so return empty
 		if (!domNode.isPresent())
 			return Optional.empty();
 
 		Node node = domNode.get();
 
-		// if the node is no element, recurse to its parent
+		// only elements can be anchors, so if the node is no element, recurse to its parent
 		boolean nodeIsNoElement = !(node instanceof Element);
 		if (nodeIsNoElement)
 			return getAnchorAncestor(Optional.ofNullable(node.getParentNode()));
 
-		// if the node is an element, check whether it is an anchor
+		// if the node is an element, it might be an anchor
 		Element element = (Element) node;
 		boolean isAnchor = element.getTagName().equalsIgnoreCase("a");
 		if (isAnchor)
@@ -191,7 +193,6 @@ class DomEventToHyperlinkEventTransformer {
 		} catch (MalformedURLException e) {
 			// if LibFX supports logging, this could be logged:
 			//     "Could not create a URL context from the base URI \"" + baseURI + "\".", e
-			// until then return empty
 		}
 
 		// create URL from context and href
