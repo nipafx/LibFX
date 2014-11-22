@@ -68,7 +68,7 @@ public abstract class AbstractNestedChangeListenerBuilderTest {
 	public void testBuildCreatesInstance() {
 		NestedChangeListenerHandle<String> listener = builder
 				.withListener((observable, oldValue, newValue) -> {/* don't do anything */})
-				.build();
+				.buildAttached();
 
 		assertNotNull(listener);
 	}
@@ -82,10 +82,10 @@ public abstract class AbstractNestedChangeListenerBuilderTest {
 				builder.withListener((observable, oldValue, newValue) -> {/* don't do anything */});
 
 		// first build must work (see other tests)
-		buildable.build();
+		buildable.buildAttached();
 
 		// second build must fail
-		buildable.build();
+		buildable.buildAttached();
 	}
 
 	//#end TESTS

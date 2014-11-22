@@ -177,7 +177,7 @@ abstract class AbstractNestingBuilderOnObservable<T, O extends Observable> {
 		return NestedInvalidationListenerBuilder
 				.forNesting(nesting)
 				.withListener(listener)
-				.build();
+				.buildAttached();
 	}
 
 	//#end LISTENERS

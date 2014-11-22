@@ -62,7 +62,7 @@ abstract class AbstractNestingBuilderOnObservableValue<T, O extends ObservableVa
 		return NestedChangeListenerBuilder
 				.forNesting(nesting)
 				.withListener(listener)
-				.build();
+				.buildAttached();
 	}
 
 	//#end LISTENERS

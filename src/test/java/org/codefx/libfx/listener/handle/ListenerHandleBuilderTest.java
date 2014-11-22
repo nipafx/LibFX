@@ -8,8 +8,6 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import java.util.function.BiConsumer;
 
-import org.codefx.libfx.listener.handle.ListenerHandle;
-import org.codefx.libfx.listener.handle.ListenerHandleBuilder;
 import org.junit.Test;
 
 /**
@@ -79,7 +77,7 @@ public class ListenerHandleBuilderTest {
 	// build
 
 	/**
-	 * Tests whether {@link ListenerHandleBuilder#build() build} can not be called when neither
+	 * Tests whether {@link ListenerHandleBuilder#buildAttached() build} can not be called when neither
 	 * {@link ListenerHandleBuilder#onAttach(BiConsumer) onAttach} nor
 	 * {@link ListenerHandleBuilder#onDetach(BiConsumer) onDetach} were called.
 	 */
@@ -87,11 +85,11 @@ public class ListenerHandleBuilderTest {
 	public void testNotCallingOnAttachAndOnDetachBeforeBuild() {
 		ListenerHandleBuilder
 				.from(NOT_NULL, NOT_NULL)
-				.build();
+				.buildAttached();
 	}
 
 	/**
-	 * Tests whether {@link ListenerHandleBuilder#build() build} can not be called when
+	 * Tests whether {@link ListenerHandleBuilder#buildAttached() build} can not be called when
 	 * {@link ListenerHandleBuilder#onAttach(BiConsumer) onAttach} was not called.
 	 */
 	@Test(expected = IllegalStateException.class)
@@ -99,11 +97,11 @@ public class ListenerHandleBuilderTest {
 		ListenerHandleBuilder
 				.from(NOT_NULL, NOT_NULL)
 				.onDetach(NOT_NULL_CONSUMER)
-				.build();
+				.buildAttached();
 	}
 
 	/**
-	 * Tests whether {@link ListenerHandleBuilder#build() build} can not be called when
+	 * Tests whether {@link ListenerHandleBuilder#buildAttached() build} can not be called when
 	 * {@link ListenerHandleBuilder#onDetach(BiConsumer) onDetach} was not called.
 	 */
 	@Test(expected = IllegalStateException.class)
@@ -111,7 +109,7 @@ public class ListenerHandleBuilderTest {
 		ListenerHandleBuilder
 				.from(NOT_NULL, NOT_NULL)
 				.onAttach(NOT_NULL_CONSUMER)
-				.build();
+				.buildAttached();
 	}
 
 	/**
@@ -123,7 +121,7 @@ public class ListenerHandleBuilderTest {
 				.from(NOT_NULL, NOT_NULL)
 				.onAttach(NOT_NULL_CONSUMER)
 				.onDetach(NOT_NULL_CONSUMER)
-				.build();
+				.buildAttached();
 
 		assertNotNull(handle);
 	}
@@ -142,7 +140,7 @@ public class ListenerHandleBuilderTest {
 				.from(NOT_NULL, NOT_NULL)
 				.onAttach(add)
 				.onDetach(NOT_NULL_CONSUMER)
-				.build();
+				.buildDetached();
 
 		// trigger a call to 'add'
 		handle.attach();
@@ -164,7 +162,7 @@ public class ListenerHandleBuilderTest {
 				.from(NOT_NULL, NOT_NULL)
 				.onAttach(NOT_NULL_CONSUMER)
 				.onDetach(remove)
-				.build();
+				.buildDetached();
 
 		// trigger a call to 'remove'
 		handle.attach();

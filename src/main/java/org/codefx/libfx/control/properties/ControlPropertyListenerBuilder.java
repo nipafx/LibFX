@@ -20,7 +20,7 @@ import javafx.collections.ObservableMap;
  * case occurs frequently, specifying the type to allow the check will improve performance considerably.
  * <p>
  * A typical use looks like this:
- * 
+ *
  * <pre>
  * ControlProperties.<Boolean> on(control.getProperties())
  * 	.forKey("visible")
@@ -120,7 +120,7 @@ public class ControlPropertyListenerBuilder<T> {
 	}
 
 	/**
-	 * Sets the processor for the key's values. This must be called before {@link #build()}.
+	 * Sets the processor for the key's values. This must be called before {@link #buildAttached()}.
 	 *
 	 * @param valueProcessor
 	 *            the {@link Consumer} for the key's values
@@ -140,10 +140,10 @@ public class ControlPropertyListenerBuilder<T> {
 	 * Creates a new property listener according to the arguments specified before and
 	 * {@link ControlPropertyListenerHandle#attach() attaches} it.
 	 *
-	 * @return a {@link ControlPropertyListenerHandle}
-	 * @see ControlPropertyListenerHandle#attach()
+	 * @return a {@link ControlPropertyListenerHandle}; initially attached
+	 * @see #buildDetached()
 	 */
-	public ControlPropertyListenerHandle build() {
+	public ControlPropertyListenerHandle buildAttached() {
 		ControlPropertyListenerHandle listener = buildDetached();
 		listener.attach();
 		return listener;
@@ -155,9 +155,8 @@ public class ControlPropertyListenerBuilder<T> {
 	 * Note that this builder is not yet attached to the map! This can be done by calling
 	 * {@link ControlPropertyListenerHandle#attach() attach()} on the returned instance.
 	 *
-	 * @return a {@link ControlPropertyListenerHandle}
-	 * @see #build()
-	 * @see ControlPropertyListenerHandle#attach()
+	 * @return a {@link ControlPropertyListenerHandle}; initially detached
+	 * @see #buildAttached()
 	 */
 	public ControlPropertyListenerHandle buildDetached() {
 		checkFields();

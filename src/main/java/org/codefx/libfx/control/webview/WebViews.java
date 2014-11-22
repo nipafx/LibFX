@@ -41,9 +41,8 @@ public final class WebViews {
 	 *            the {@link WebView} to which the listener will be added
 	 * @param listener
 	 *            the {@link WebViewHyperlinkListener} to add to the web view
-	 * @return a handle on the created listener which allows to attach and detach it
+	 * @return a handle on the created listener which allows to attach and detach it; initially detached
 	 * @see WebViews#addHyperlinkListener(WebView, WebViewHyperlinkListener)
-	 * @see WebViewHyperlinkListenerHandle#attach()
 	 */
 	public static WebViewHyperlinkListenerHandle createHyperlinkListenerHandle(
 			WebView webView, WebViewHyperlinkListener listener) {
@@ -65,18 +64,14 @@ public final class WebViews {
 	 *            the {@link WebViewHyperlinkListener} to add to the web view
 	 * @param eventType
 	 *            the {@link EventType} of all events passed to the listener
-	 * @return a handle on the created listener which allows to attach and detach it
+	 * @return a handle on the created listener which allows to attach and detach it; initially detached
 	 * @see WebViews#addHyperlinkListener(WebView, WebViewHyperlinkListener, EventType)
-	 * @see WebViewHyperlinkListenerHandle#attach()
 	 */
 	public static WebViewHyperlinkListenerHandle createHyperlinkListenerHandle(
 			WebView webView, WebViewHyperlinkListener listener, EventType eventType) {
 
 		Objects.requireNonNull(eventType, "The argument 'eventType' must not be null.");
-		WebViewHyperlinkListenerHandle listenerHandle =
-				addHyperlinkListenerDetached(webView, listener, Optional.of(eventType));
-		listenerHandle.attach();
-		return listenerHandle;
+		return addHyperlinkListenerDetached(webView, listener, Optional.of(eventType));
 	}
 
 	// create and attach listener handles
@@ -89,9 +84,8 @@ public final class WebViews {
 	 *            the {@link WebView} to which the listener will be added
 	 * @param listener
 	 *            the {@link WebViewHyperlinkListener} to add to the web view
-	 * @return a handle on the created listener which allows to attach and detach it
+	 * @return a handle on the created listener which allows to attach and detach it; initially attached
 	 * @see #createHyperlinkListenerHandle(WebView, WebViewHyperlinkListener)
-	 * @see WebViewHyperlinkListenerHandle#attach()
 	 */
 	public static WebViewHyperlinkListenerHandle addHyperlinkListener(
 			WebView webView, WebViewHyperlinkListener listener) {
@@ -112,9 +106,8 @@ public final class WebViews {
 	 *            the {@link WebViewHyperlinkListener} to add to the web view
 	 * @param eventType
 	 *            the {@link EventType} of all events passed to the listener
-	 * @return a handle on the created listener which allows to attach and detach it
+	 * @return a handle on the created listener which allows to attach and detach it; initially attached
 	 * @see #createHyperlinkListenerHandle(WebView, WebViewHyperlinkListener, EventType)
-	 * @see WebViewHyperlinkListenerHandle#attach()
 	 */
 	public static WebViewHyperlinkListenerHandle addHyperlinkListener(
 			WebView webView, WebViewHyperlinkListener listener, EventType eventType) {

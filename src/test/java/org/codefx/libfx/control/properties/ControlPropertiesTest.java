@@ -164,7 +164,7 @@ public class ControlPropertiesTest {
 			// create the listener according to 'attachedOrDetached'
 			ControlPropertyListenerHandle listener;
 			if (attachedOrDetached == CreateListenerHandle.ATTACHED)
-				listener = builder.build();
+				listener = builder.buildAttached();
 			else if (attachedOrDetached == CreateListenerHandle.DETACHED)
 				listener = builder.buildDetached();
 			else
@@ -199,7 +199,7 @@ public class ControlPropertiesTest {
 			// create the listener according to 'attachedOrDetached'
 			ControlPropertyListenerHandle listener;
 			if (attachedOrDetached == CreateListenerHandle.ATTACHED)
-				listener = builder.build();
+				listener = builder.buildAttached();
 			else if (attachedOrDetached == CreateListenerHandle.DETACHED)
 				listener = builder.buildDetached();
 			else

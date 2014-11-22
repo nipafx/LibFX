@@ -53,7 +53,7 @@ public class NestedInvalidationListenerBuilderTest {
 							.withListener(listener);
 
 			if (attachedOrDetached == CreateListenerHandle.ATTACHED)
-				return builder.build();
+				return builder.buildAttached();
 			else if (attachedOrDetached == CreateListenerHandle.DETACHED)
 				return builder.buildDetached();
 			else

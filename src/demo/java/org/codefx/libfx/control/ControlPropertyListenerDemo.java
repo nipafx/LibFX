@@ -55,7 +55,7 @@ public class ControlPropertyListenerDemo {
 		ControlProperties.<String> on(properties)
 				.forKey("Key")
 				.processValue(value -> System.out.println(" -> " + value))
-				.build();
+				.buildAttached();
 
 		// set values of the correct type for the correct key
 		System.out.print("Set \"Value\" for the correct key for the first time: ");
@@ -119,7 +119,7 @@ public class ControlPropertyListenerDemo {
 		ControlProperties.<String> on(properties)
 				.forKey("Key")
 				.processValue(unreached)
-				.build();
+				.buildAttached();
 
 		// add a couple of values of the wrong type to average the time that takes
 		Integer valueOfWrongType = 5;
@@ -151,7 +151,7 @@ public class ControlPropertyListenerDemo {
 				.forKey("Key")
 				.forValueType(String.class)
 				.processValue(unreached)
-				.build();
+				.buildAttached();
 
 		// add a couple of values of the wrong type to average the time that takes
 		Integer valueOfWrongType = 5;

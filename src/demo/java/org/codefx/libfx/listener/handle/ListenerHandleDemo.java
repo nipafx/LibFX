@@ -69,12 +69,11 @@ public class ListenerHandleDemo {
 
 		// use 'ListenerHandles' to get a 'ListenerHandleBuilder' which can be used to create a handle for this
 		// observable and listener
-		ListenerHandle handleForCustomClasses = ListenerHandles
+		ListenerHandles
 				.createFor(customObservable, customListener)
 				.onAttach((observable, listener) -> observable.addListener(listener))
 				.onDetach((observable, listener) -> observable.removeListener(listener))
-				.build();
-		handleForCustomClasses.attach();
+				.buildAttached();
 	}
 
 	// attach & detach

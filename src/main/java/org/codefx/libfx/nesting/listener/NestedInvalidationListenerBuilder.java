@@ -71,7 +71,7 @@ public class NestedInvalidationListenerBuilder {
 	 *
 	 * @param listener
 	 *            the {@link InvalidationListener} which will be added to the nesting's inner observable
-	 * @return a {@link NestedInvalidationListenerBuilder} which provides a {@link Buildable#build() build}-method
+	 * @return a {@link NestedInvalidationListenerBuilder} which provides a {@link Buildable#buildAttached() build}-method
 	 */
 	public Buildable withListener(InvalidationListener listener) {
 		Objects.requireNonNull(listener, "The argument 'listener' must not be null.");
@@ -85,7 +85,7 @@ public class NestedInvalidationListenerBuilder {
 	// #region PRIVATE CLASSES
 
 	/**
-	 * A subtype of {@link NestedInvalidationListenerBuilder} which can actually build a listener with {@link #build()}.
+	 * A subtype of {@link NestedInvalidationListenerBuilder} which can actually build a listener with {@link #buildAttached()}.
 	 */
 	public class Buildable extends NestedInvalidationListenerBuilder {
 
@@ -111,10 +111,10 @@ public class NestedInvalidationListenerBuilder {
 		 * This method can only be called once as the same {@link InvalidationListener} should not be added more than
 		 * once to the same {@link Nesting}.
 		 *
-		 * @return a new instance of {@link NestedInvalidationListenerHandle}
-		 * @see NestedInvalidationListenerHandle#attach()
+		 * @return a new instance of {@link NestedInvalidationListenerHandle}; initially attached
+		 * @see #buildDetached()
 		 */
-		public NestedInvalidationListenerHandle build() {
+		public NestedInvalidationListenerHandle buildAttached() {
 			NestedInvalidationListenerHandle listenerHandle = buildDetached();
 			listenerHandle.attach();
 			return listenerHandle;
@@ -128,9 +128,8 @@ public class NestedInvalidationListenerBuilder {
 		 * This method can only be called once as the same {@link InvalidationListener} should not be added more than
 		 * once to the same {@link Nesting}.
 		 *
-		 * @return a new instance of {@link NestedInvalidationListenerHandle}
-		 * @see #build()
-		 * @see NestedInvalidationListenerHandle#attach()
+		 * @return a new instance of {@link NestedInvalidationListenerHandle}; initially detached
+		 * @see #buildAttached()
 		 */
 		public NestedInvalidationListenerHandle buildDetached() {
 			if (built)

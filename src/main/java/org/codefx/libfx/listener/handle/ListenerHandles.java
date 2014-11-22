@@ -75,7 +75,7 @@ public class ListenerHandles {
 				.from(observable, invalidationListener)
 				.onAttach((obs, listener) -> obs.addListener(listener))
 				.onDetach((obs, listener) -> obs.removeListener(listener))
-				.build();
+				.buildDetached();
 	}
 
 	// ObservableValue + ChangeListener
@@ -117,7 +117,7 @@ public class ListenerHandles {
 				.from(observableValue, changeListener)
 				.onAttach((observable, listener) -> observable.addListener(listener))
 				.onDetach((observable, listener) -> observable.removeListener(listener))
-				.build();
+				.buildDetached();
 	}
 
 	// ObservableArray + ArrayChangeListener
@@ -159,7 +159,7 @@ public class ListenerHandles {
 				.from(observableArray, changeListener)
 				.onAttach((observable, listener) -> observable.addListener(listener))
 				.onDetach((observable, listener) -> observable.removeListener(listener))
-				.build();
+				.buildDetached();
 	}
 
 	// ObservableList + ListChangeListener
@@ -201,7 +201,7 @@ public class ListenerHandles {
 				.from(observableList, changeListener)
 				.onAttach((observable, listener) -> observable.addListener(listener))
 				.onDetach((observable, listener) -> observable.removeListener(listener))
-				.build();
+				.buildDetached();
 	}
 
 	// ObservableSet + SetChangeListener
@@ -243,7 +243,7 @@ public class ListenerHandles {
 				.from(observableSet, changeListener)
 				.onAttach((observable, listener) -> observable.addListener(listener))
 				.onDetach((observable, listener) -> observable.removeListener(listener))
-				.build();
+				.buildDetached();
 	}
 
 	// ObservableMap + MapChangeListener
@@ -289,7 +289,7 @@ public class ListenerHandles {
 				.from(observableMap, changeListener)
 				.onAttach((observable, listener) -> observable.addListener(listener))
 				.onDetach((observable, listener) -> observable.removeListener(listener))
-				.build();
+				.buildDetached();
 	}
 
 }

@@ -147,14 +147,28 @@ public final class ListenerHandleBuilder<O, L> {
 	}
 
 	/**
-	 * Creates a new listener handle. This will only succeed if {@link #onAttach(BiConsumer)} and
+	 * Creates a new listener handle and attaches the listener. This will only succeed if {@link #onAttach(BiConsumer)}
+	 * and {@link #onDetach(BiConsumer)} have been called.
+	 *
+	 * @return a new {@link ListenerHandle}; initially attached
+	 * @throws IllegalStateException
+	 *             if {@link #onAttach(BiConsumer)} or {@link #onDetach(BiConsumer)} have not been called
+	 */
+	public ListenerHandle buildAttached() throws IllegalStateException {
+		ListenerHandle handle = buildDetached();
+		handle.attach();
+		return handle;
+	}
+
+	/**
+	 * Creates a new, initially detached listener handle. This will only succeed if {@link #onAttach(BiConsumer)} and
 	 * {@link #onDetach(BiConsumer)} have been called.
 	 *
 	 * @return a new {@link ListenerHandle}; initially detached
 	 * @throws IllegalStateException
 	 *             if {@link #onAttach(BiConsumer)} or {@link #onDetach(BiConsumer)} have not been called
 	 */
-	public ListenerHandle build() throws IllegalStateException {
+	public ListenerHandle buildDetached() throws IllegalStateException {
 		verifyAddAndRemovePresent();
 		return new GenericListenerHandle<O, L>(observable, listener, add.get(), remove.get());
 	}

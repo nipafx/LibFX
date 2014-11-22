@@ -64,7 +64,7 @@ public abstract class AbstractNestedInvalidationListenerBuilderTest {
 	public void testBuildCreatesInstance() {
 		NestedInvalidationListenerHandle listener = builder
 				.withListener(observable -> {/* don't do anything */})
-				.build();
+				.buildAttached();
 
 		assertNotNull(listener);
 	}
@@ -78,10 +78,10 @@ public abstract class AbstractNestedInvalidationListenerBuilderTest {
 				builder.withListener(observable -> {/* don't do anything */});
 
 		// first build must work (see other tests)
-		buildable.build();
+		buildable.buildAttached();
 
 		// second build must fail
-		buildable.build();
+		buildable.buildAttached();
 	}
 
 	//#end TESTS
