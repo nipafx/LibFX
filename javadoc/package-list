@@ -1,3 +1,10 @@
+org.codefx.libfx.concurrent.when
+org.codefx.libfx.control
+org.codefx.libfx.control.properties
+org.codefx.libfx.control.webview
+org.codefx.libfx.dom
+org.codefx.libfx.listener.handle
 org.codefx.libfx.nesting
 org.codefx.libfx.nesting.listener
 org.codefx.libfx.nesting.property
+org.codefx.libfx.serialization
