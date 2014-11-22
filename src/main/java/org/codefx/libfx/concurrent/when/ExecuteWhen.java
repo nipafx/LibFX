@@ -8,15 +8,16 @@ import java.util.function.Predicate;
 import javafx.beans.value.ObservableValue;
 
 /**
- * Builder for {@link ExecuteAlwaysWhen} and {@link ExecuteOnceWhen}.
  * <p>
+ * Builder for {@link ExecuteAlwaysWhen} and {@link ExecuteOnceWhen}.
+ * </p>
  * <h2>Example</h2>A typical use would look like this:
  *
  * <pre>
- * 	ObservableValue<State> workerState;
+ * 	ObservableValue&lt;State&gt; workerState;
  *	ExecuteWhen.on(workerState)
- *		.when(state -> state == State.SUCCEEDED)
- *		.thenOnce(state -> logSuccess())
+ *		.when(state -&gt; state == State.SUCCEEDED)
+ *		.thenOnce(state -&gt; logSuccess())
  *		.executeWhen();
  * </pre>
  *

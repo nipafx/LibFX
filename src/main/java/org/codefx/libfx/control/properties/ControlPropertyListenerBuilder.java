@@ -18,11 +18,13 @@ import javafx.collections.ObservableMap;
  * it to check the type of the value before casting it to the type accepted by the value processor. If those types do
  * not match, this prevents {@link ClassCastException} (which would otherwise be caught and silently ignored). If that
  * case occurs frequently, specifying the type to allow the check will improve performance considerably.
+ * </p>
+ * <h2>Example</h2>
  * <p>
  * A typical use looks like this:
  *
  * <pre>
- * ControlProperties.<Boolean> on(control.getProperties())
+ * ControlProperties.&lt;Boolean&gt; on(control.getProperties())
  * 	.forKey("visible")
  * 	.processValue(this::setVisibility)
  * 	.buildDetached();

@@ -1,8 +1,11 @@
 /**
+ * <p>
  * This package provides functionality around JavaFX' {@link javafx.scene.web.WebView WebView}. All of it can be
  * accessed via the utility class {@link org.codefx.libfx.control.webview.WebViews WebViews}.
+ * </p>
+ * <h2>Hyperlink Listener</h2>
  * <p>
- * <h2>Hyperlink Listener</h2> The {@code WebView} provides no pleasant way to add an equivalent of Swing's
+ * The {@code WebView} provides no pleasant way to add an equivalent of Swing's
  * {@link javax.swing.event.HyperlinkListener HyperlinkListener}.
  * <p>
  * This can now be done by implementing a {@link org.codefx.libfx.control.webview.WebViewHyperlinkListener

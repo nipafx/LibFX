@@ -42,7 +42,7 @@ public final class WebViews {
 	 * @param listener
 	 *            the {@link WebViewHyperlinkListener} to add to the web view
 	 * @return a handle on the created listener which allows to attach and detach it; initially detached
-	 * @see WebViews#addHyperlinkListener(WebView, WebViewHyperlinkListener)
+	 * @see #addHyperlinkListener(WebView, WebViewHyperlinkListener)
 	 */
 	public static WebViewHyperlinkListenerHandle createHyperlinkListenerHandle(
 			WebView webView, WebViewHyperlinkListener listener) {
@@ -65,7 +65,7 @@ public final class WebViews {
 	 * @param eventType
 	 *            the {@link EventType} of all events passed to the listener
 	 * @return a handle on the created listener which allows to attach and detach it; initially detached
-	 * @see WebViews#addHyperlinkListener(WebView, WebViewHyperlinkListener, EventType)
+	 * @see #addHyperlinkListener(WebView, WebViewHyperlinkListener, HyperlinkEvent.EventType)
 	 */
 	public static WebViewHyperlinkListenerHandle createHyperlinkListenerHandle(
 			WebView webView, WebViewHyperlinkListener listener, EventType eventType) {
@@ -97,8 +97,8 @@ public final class WebViews {
 	}
 
 	/**
-	 * {@link #createHyperlinkListenerHandle(WebView, WebViewHyperlinkListener, EventType) Creates} a listener handle
-	 * and immediately {@link WebViewHyperlinkListenerHandle#attach() attaches} it.
+	 * {@link #createHyperlinkListenerHandle(WebView, WebViewHyperlinkListener, HyperlinkEvent.EventType) Creates} a
+	 * listener handle and immediately {@link WebViewHyperlinkListenerHandle#attach() attaches} it.
 	 *
 	 * @param webView
 	 *            the {@link WebView} to which the listener will be added
@@ -107,7 +107,7 @@ public final class WebViews {
 	 * @param eventType
 	 *            the {@link EventType} of all events passed to the listener
 	 * @return a handle on the created listener which allows to attach and detach it; initially attached
-	 * @see #createHyperlinkListenerHandle(WebView, WebViewHyperlinkListener, EventType)
+	 * @see #createHyperlinkListenerHandle(WebView, WebViewHyperlinkListener, HyperlinkEvent.EventType)
 	 */
 	public static WebViewHyperlinkListenerHandle addHyperlinkListener(
 			WebView webView, WebViewHyperlinkListener listener, EventType eventType) {

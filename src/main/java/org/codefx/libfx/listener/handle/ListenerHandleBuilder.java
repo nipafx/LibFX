@@ -19,17 +19,19 @@ import java.util.function.BiConsumer;
  * <p>
  * The {@link ListenerHandle} returned by this builder is not yet attached, i.e. it does not initially call the
  * functions given to {@code onAttach} or {@code onDetach}.
+ * </p>
+ * <h2>Example</h2>
  * <p>
- * <h2>Example</h2> A typical use looks like this:
+ * A typical use looks like this:
  *
  * <pre>
- * Property<String> textProperty;
- * ChangeListener<String> textListener;
+ * Property&lt;String&gt; textProperty;
+ * ChangeListener&lt;String&gt; textListener;
  *
  * ListenerHandle textListenerHandle = ListenerHandleBuilder
  * 	.from(textProperty, textListener)
- * 	.onAttach((property, listener) -> property.addListener(listener))
- * 	.onDetach((property, listener) -> property.removeListener(listener))
+ * 	.onAttach((property, listener) -&gt; property.addListener(listener))
+ * 	.onDetach((property, listener) -&gt; property.removeListener(listener))
  * 	.build();
  * </pre>
  *

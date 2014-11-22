@@ -18,15 +18,16 @@ import java.util.Optional;
  * The class can be used as an argument or return type for serialization-based RPC technologies like RMI.
  * <p>
  * There are three ways to use this class to serialize instances which have an optional field.
+ * </p>
+ * <h2>Transform On Serialization</h2>
  * <p>
- * <h2>Transform On Serialization</h2> The field can be declared as {@code transient Optional<T> optionalField}, which
- * will exclude it from serialization.
+ * The field can be declared as {@code transient Optional<T> optionalField}, which will exclude it from serialization.
  * <p>
  * The class then needs to implement custom (de)serialization methods {@code writeObject} and {@code readObject}. They
  * must transform the {@code optionalField} to a {@code SerializableOptional} when writing the object and after reading
  * such an instance transform it back to an {@code Optional}.
- * <p>
- * <h3>Code Example</h3>
+ * </p>
+ * <h3>Example</h3>
  *
  * <pre>
  * private void writeObject(ObjectOutputStream out) throws IOException {
@@ -40,36 +41,42 @@ import java.util.Optional;
  *
  * 	in.defaultReadObject();
  * 	optionalField =
- * 		((SerializableOptional<T>) in.readObject()).toOptional();
+ * 		((SerializableOptional&lt;T&gt;) in.readObject()).toOptional();
  * }
  * </pre>
+ *
+ * <h2>Transform On Replace</h2>
  * <p>
- * <h2>Transform On Replace</h2> If the class is serialized using the Serialization Proxy Pattern (see <i>Effective
- * Java, 2nd Edition</i> by Joshua Bloch, Item 78), the proxy can have an instance of {@link SerializableOptional} to
- * clearly denote the field as being optional.
+ * If the class is serialized using the Serialization Proxy Pattern (see <i>Effective Java, 2nd Edition</i> by Joshua
+ * Bloch, Item 78), the proxy can have an instance of {@link SerializableOptional} to clearly denote the field as being
+ * optional.
  * <p>
  * In this case, the proxy needs to transform the {@code Optional} to {@code SerializableOptional} in its constructor
  * (using {@link SerializableOptional#fromOptional(Optional)}) and the other way in {@code readResolve()} (with
  * {@link SerializableOptional#asOptional()}).
+ * </p>
+ * <h2>Transform On Access</h2>
  * <p>
- * <h2>Transform On Access</h2> The field can be declared as {@code SerializableOptional<T> optionalField}. This will
- * include it in the (de)serialization process so it does not need to be customized.
+ * The field can be declared as {@code SerializableOptional<T> optionalField}. This will include it in the
+ * (de)serialization process so it does not need to be customized.
  * <p>
  * But methods interacting with the field need to get an {@code Optional} instead. This can easily be done by writing
  * the accessor methods such that they transform the field on each access.
  * <p>
  * Note that {@link #asOptional()} simply returns the {@code Optional} which with this instance was created so no
  * constructor needs to be invoked.
+ * </p>
+ * <h3>Example</h3>
  * <p>
- * <h3>Code Example</h3> Note that it is rarely useful to expose an optional field via accessor methods. Hence the
- * following are private and for use inside the class.
+ * Note that it is rarely useful to expose an optional field via accessor methods. Hence the following are private and
+ * for use inside the class.
  *
  * <pre>
- * private Optional<T> getOptionalField() {
+ * private Optional&lt;T&gt; getOptionalField() {
  * 	return optionalField.asOptional();
  * }
  *
- * private void setOptionalField(Optional<T> optionalField) {
+ * private void setOptionalField(Optional&lt;T&gt; optionalField) {
  * 	this.optionalField = SerializableOptional.fromOptional(optionalField);
  * }
  * </pre>
