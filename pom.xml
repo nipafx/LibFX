@@ -136,6 +136,25 @@
 						</goals>
 					</execution>
 				</executions>
+				<configuration>
+					<!-- force links to Java 8 documentation (should happen automatically 
+						but doesn't) -->
+					<javaApiLinks>
+						<property>
+							<name>api_1.8</name>
+							<value>https://docs.oracle.com/javase/8/docs/api/</value>
+						</property>
+					</javaApiLinks>
+					<!-- add license notice -->
+					<bottom>
+						<![CDATA[
+							This documentation is licensed under
+							<a href="https://creativecommons.org/licenses/by/4.0/" title="CC-BY 4.0">CC-BY 4.0</a>,
+							attributed to Nicolai Parlog from 
+							<a href="http://codefx.org" title="CodeFX">CodeFX</a>.
+						]]>
+					</bottom>
+				</configuration>
 			</plugin>
 			<plugin>
 				<!-- sign all jars and pom -->
