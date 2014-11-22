@@ -7,11 +7,12 @@ import java.util.function.Consumer;
 import javafx.collections.ObservableMap;
 
 /**
- * A builder for {@link ControlPropertyListener}.
+ * A builder for a {@code ControlPropertyListener}. This is no type on its own as explained in
+ * {@link ControlPropertyListenerHandle}. Such a handle is returned by this builder.
  * <p>
  * It is best created by calling {@link ControlProperties#on(ObservableMap)} with the control's property map as an
  * argument. It is necessary to set a key (with {@link #forKey(Object)}) and a processor function for the value (with
- * {@link #processValue(Consumer)}) before calling {@link #build()}.
+ * {@link #processValue(Consumer)}) before calling {@link #buildDetached()}.
  * <p>
  * Specifying the value's type with {@link #forValueType(Class)} is optional. If it is done, the built listener will use
  * it to check the type of the value before casting it to the type accepted by the value processor. If those types do
@@ -31,12 +32,12 @@ public class ControlPropertyListenerBuilder<T> {
 	private final ObservableMap<Object, Object> properties;
 
 	/**
-	 * The key to which the listener will listen; must no be null by the time {@link #build()} is called.
+	 * The key to which the listener will listen; must no be null by the time {@link #buildDetached()} is called.
 	 */
 	private Object key;
 
 	/**
-	 * The processor of the key's values; must no be null by the time {@link #build()} is called.
+	 * The processor of the key's values; must no be null by the time {@link #buildDetached()} is called.
 	 */
 	private Consumer<? super T> valueProcessor;
 
@@ -55,14 +56,33 @@ public class ControlPropertyListenerBuilder<T> {
 	 * @param properties
 	 *            the properties which will be observed by the built listener
 	 */
-	public ControlPropertyListenerBuilder(ObservableMap<Object, Object> properties) {
+	private ControlPropertyListenerBuilder(ObservableMap<Object, Object> properties) {
 		Objects.requireNonNull(properties, "The argument 'properties' must not be null.");
 		this.properties = properties;
 		this.valueType = Optional.empty();
 	}
 
 	/**
-	 * Sets the key. This must be called before {@link #build()}.
+	 * Creates a builder for a {@link ControlPropertyListenerHandle} which observes the specified property map.
+	 * <p>
+	 * Note that it is often necessary to explicitly specify the type parameter {@code T} like so:
+	 *
+	 * <pre>
+	 * ControlProperties.&lt;String&gt; on(...)
+	 * </pre>
+	 *
+	 * @param <T>
+	 *            the type of values which the listener processes
+	 * @param properties
+	 *            the {@link ObservableMap} holding the properties
+	 * @return a {@link ControlPropertyListenerBuilder}
+	 */
+	public static <T> ControlPropertyListenerBuilder<T> on(ObservableMap<Object, Object> properties) {
+		return new ControlPropertyListenerBuilder<T>(properties);
+	}
+
+	/**
+	 * Sets the key. This must be called before {@link #buildDetached()}.
 	 *
 	 * @param key
 	 *            the key the built listener will observe
@@ -108,13 +128,14 @@ public class ControlPropertyListenerBuilder<T> {
 	// #region BUILD
 
 	/**
-	 * Usability method which calls {@link #build()} and (on the built listener)
-	 * {@link ControlPropertyListener#attach() attach()} before returning the new listener.
+	 * Creates a new property listener according to the arguments specified before and
+	 * {@link ControlPropertyListenerHandle#attach() attaches} it.
 	 *
-	 * @return a {@link ControlPropertyListener}
+	 * @return a {@link ControlPropertyListenerHandle}
+	 * @see ControlPropertyListenerHandle#attach()
 	 */
-	public ControlPropertyListener buildAndAttach() {
-		ControlPropertyListener listener = build();
+	public ControlPropertyListenerHandle build() {
+		ControlPropertyListenerHandle listener = buildDetached();
 		listener.attach();
 		return listener;
 	}
@@ -122,22 +143,24 @@ public class ControlPropertyListenerBuilder<T> {
 	/**
 	 * Creates a new property listener according to the arguments specified before.
 	 * <p>
-	 * Note that this builder is not yet added to the map! This can be done by calling
-	 * {@link ControlPropertyListener#attach() attach()} on the returned instance.
+	 * Note that this builder is not yet attached to the map! This can be done by calling
+	 * {@link ControlPropertyListenerHandle#attach() attach()} on the returned instance.
 	 *
-	 * @return a {@link ControlPropertyListener}
+	 * @return a {@link ControlPropertyListenerHandle}
+	 * @see #build()
+	 * @see ControlPropertyListenerHandle#attach()
 	 */
-	public ControlPropertyListener build() {
+	public ControlPropertyListenerHandle buildDetached() {
 		checkFields();
 
 		if (valueType.isPresent())
-			return new TypeCheckingControlPropertyListener<T>(properties, key, valueType.get(), valueProcessor);
+			return new TypeCheckingControlPropertyListenerHandle<T>(properties, key, valueType.get(), valueProcessor);
 		else
-			return new CastingControlPropertyListener<T>(properties, key, valueProcessor);
+			return new CastingControlPropertyListenerHandle<T>(properties, key, valueProcessor);
 	}
 
 	/**
-	 * Checks whether the attributes are valid so they can be used to {@link #build()} a listener.
+	 * Checks whether the attributes are valid so they can be used to {@link #buildDetached()} a listener.
 	 */
 	private void checkFields() {
 		if (key == null)

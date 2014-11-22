@@ -15,15 +15,15 @@
  * <h2>Nested Listeners</h2> A {@code Nesting} can also be used to add listeners to its inner observable. These
  * listeners are moved from one observable to the next as they are replaced.
  * <p>
- * See the comments on {@link org.codefx.libfx.nesting.listener.NestedChangeListener NestedChangeListener} and
- * {@link org.codefx.libfx.nesting.listener.NestedInvalidationListener NestedInvalidationListener} for details.
+ * See the comments on {@link org.codefx.libfx.nesting.listener.NestedChangeListenerHandle NestedChangeListener} and
+ * {@link org.codefx.libfx.nesting.listener.NestedInvalidationListenerHandle NestedInvalidationListener} for details.
  * <h2>Builders</h2> Instances of the classes described above can be build by starting with the methods in
  * {@link org.codefx.libfx.nesting.Nestings Nestings}.
  *
  * @see org.codefx.libfx.nesting.Nesting Nesting
  * @see org.codefx.libfx.nesting.property.NestedProperty NestedProperty
- * @see org.codefx.libfx.nesting.listener.NestedChangeListener NestedChangeListener
- * @see org.codefx.libfx.nesting.listener.NestedInvalidationListener NestedInvalidationListener
+ * @see org.codefx.libfx.nesting.listener.NestedChangeListenerHandle NestedChangeListener
+ * @see org.codefx.libfx.nesting.listener.NestedInvalidationListenerHandle NestedInvalidationListener
  */
 package org.codefx.libfx.nesting;
 

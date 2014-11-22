@@ -24,6 +24,8 @@ import javafx.beans.value.ObservableValue;
  * If the observable is manipulated by several threads during {@code executeWhen()}, this class does not guarantee that
  * the first value to pass the condition is the one handed to the action. Depending on the interaction of those threads
  * it might be the initial value or one of several which were set by those threads.
+ * <p>
+ * Use {@link ExecuteWhen} to build an instance of this class.
  *
  * @param <T>
  *            the type the observed {@link ObservableValue}'s wraps
@@ -66,17 +68,17 @@ public class ExecuteAlwaysWhen<T> {
 	/**
 	 * The condition the {@link #observable}'s value must fulfill for {@link #action} to be executed.
 	 */
-	private final Predicate<T> condition;
+	private final Predicate<? super T> condition;
 
 	/**
 	 * The action which will be executed.
 	 */
-	private final Consumer<T> action;
+	private final Consumer<? super T> action;
 
 	/**
 	 * The listener which executes {@link #action} and sets {@link #alreadyExecuted} accordingly.
 	 */
-	private final ChangeListener<T> listenerWhichExecutesAction;
+	private final ChangeListener<? super T> listenerWhichExecutesAction;
 
 	/**
 	 * Indicates whether {@link #executeWhen()} was already called. If so, it can not be called again.
@@ -107,7 +109,7 @@ public class ExecuteAlwaysWhen<T> {
 	 * @param action
 	 *            the action which will be executed
 	 */
-	public ExecuteAlwaysWhen(ObservableValue<T> observable, Predicate<T> condition, Consumer<T> action) {
+	ExecuteAlwaysWhen(ObservableValue<T> observable, Predicate<? super T> condition, Consumer<? super T> action) {
 		this.observable = observable;
 		this.condition = condition;
 		this.action = action;

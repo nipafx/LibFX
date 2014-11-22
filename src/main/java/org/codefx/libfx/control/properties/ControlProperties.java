@@ -8,10 +8,10 @@ import javafx.collections.ObservableMap;
 public class ControlProperties {
 
 	/**
-	 * Creates a builder for a {@link ControlPropertyListener} which observes the specified property map.
+	 * Creates a builder for a {@link ControlPropertyListenerHandle} which observes the specified property map.
 	 * <p>
 	 * Note that it is often necessary to explicitly specify the type parameter {@code T} like so:
-	 * 
+	 *
 	 * <pre>
 	 * ControlProperties.&lt;String&gt; on(...)
 	 * </pre>
@@ -23,7 +23,7 @@ public class ControlProperties {
 	 * @return a {@link ControlPropertyListenerBuilder}
 	 */
 	public static <T> ControlPropertyListenerBuilder<T> on(ObservableMap<Object, Object> properties) {
-		return new ControlPropertyListenerBuilder<T>(properties);
+		return ControlPropertyListenerBuilder.<T> on(properties);
 	}
 
 }

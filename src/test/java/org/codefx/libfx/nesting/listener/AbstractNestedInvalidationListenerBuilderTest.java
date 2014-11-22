@@ -20,6 +20,8 @@ public abstract class AbstractNestedInvalidationListenerBuilderTest {
 
 	//#end TESTED INSTANCES
 
+	// #region SETUP
+
 	/**
 	 * Creates a new builder before each test.
 	 */
@@ -27,6 +29,15 @@ public abstract class AbstractNestedInvalidationListenerBuilderTest {
 	public void setUp() {
 		builder = createBuilder();
 	}
+
+	/**
+	 * Creates the tested builder. Each call must return a new instance
+	 *
+	 * @return a {@link NestedInvalidationListenerBuilder}
+	 */
+	protected abstract NestedInvalidationListenerBuilder createBuilder();
+
+	// #end SETUP
 
 	// #region TESTS
 
@@ -51,7 +62,7 @@ public abstract class AbstractNestedInvalidationListenerBuilderTest {
 	 */
 	@Test
 	public void testBuildCreatesInstance() {
-		NestedInvalidationListener listener = builder
+		NestedInvalidationListenerHandle listener = builder
 				.withListener(observable -> {/* don't do anything */})
 				.build();
 
@@ -74,16 +85,5 @@ public abstract class AbstractNestedInvalidationListenerBuilderTest {
 	}
 
 	//#end TESTS
-
-	// #region ABSTRACT METHODS
-
-	/**
-	 * Creates the tested builder. Each call must return a new instance
-	 *
-	 * @return a {@link NestedInvalidationListenerBuilder}
-	 */
-	protected abstract NestedInvalidationListenerBuilder createBuilder();
-
-	//#end ABSTRACT METHODS
 
 }

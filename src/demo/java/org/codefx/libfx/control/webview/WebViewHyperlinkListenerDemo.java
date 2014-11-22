@@ -13,6 +13,8 @@ import javafx.stage.Stage;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkEvent.EventType;
 
+import org.codefx.libfx.listener.handle.ListenerHandle;
+
 /**
  * Demonstrates how to use the {@link WebViewHyperlinkListener}.
  */
@@ -110,7 +112,7 @@ public class WebViewHyperlinkListenerDemo extends Application {
 	private static void manageListener(WebView webView, WebViewHyperlinkListener listener,
 			BooleanProperty attachedProperty) {
 		attachedProperty.set(true);
-		WebViewHyperlinkListenerHandle listenerHandle = WebViews.addHyperlinkListener(webView, listener);
+		ListenerHandle listenerHandle = WebViews.addHyperlinkListener(webView, listener);
 
 		attachedProperty.addListener((obs, wasAttached, isAttached) -> {
 			if (isAttached) {

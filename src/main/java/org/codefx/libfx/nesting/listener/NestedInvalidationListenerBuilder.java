@@ -7,7 +7,7 @@ import javafx.beans.InvalidationListener;
 import org.codefx.libfx.nesting.Nesting;
 
 /**
- * A builder for a {@link NestedInvalidationListener}.
+ * A builder for a {@link NestedInvalidationListenerHandle}.
  */
 public class NestedInvalidationListenerBuilder {
 
@@ -105,17 +105,39 @@ public class NestedInvalidationListenerBuilder {
 		}
 
 		/**
-		 * Builds a nested invalidation listener. This method can only be called once as the same
-		 * {@link InvalidationListener} should not be added more than once to the same {@link Nesting}.
+		 * Builds and {@link NestedInvalidationListenerHandle#attach() attaches} a nested invalidation listener and
+		 * returns the handle for it.
+		 * <p>
+		 * This method can only be called once as the same {@link InvalidationListener} should not be added more than
+		 * once to the same {@link Nesting}.
 		 *
-		 * @return a new instance of {@link NestedChangeListener}
+		 * @return a new instance of {@link NestedInvalidationListenerHandle}
+		 * @see NestedInvalidationListenerHandle#attach()
 		 */
-		public NestedInvalidationListener build() {
+		public NestedInvalidationListenerHandle build() {
+			NestedInvalidationListenerHandle listenerHandle = buildDetached();
+			listenerHandle.attach();
+			return listenerHandle;
+		}
+
+		/**
+		 * Builds a nested invalidation listener and returns the handle for it.
+		 * <p>
+		 * Note that the listener is not yet {@link NestedInvalidationListenerHandle#attach() attached}!
+		 * <p>
+		 * This method can only be called once as the same {@link InvalidationListener} should not be added more than
+		 * once to the same {@link Nesting}.
+		 *
+		 * @return a new instance of {@link NestedInvalidationListenerHandle}
+		 * @see #build()
+		 * @see NestedInvalidationListenerHandle#attach()
+		 */
+		public NestedInvalidationListenerHandle buildDetached() {
 			if (built)
-				throw new IllegalStateException("This builder can only build one 'NestedInvalidationListener'.");
+				throw new IllegalStateException("This builder can only build one 'NestedInvalidationListenerHandle'.");
 
 			built = true;
-			return new NestedInvalidationListener(nesting, listener);
+			return new NestedInvalidationListenerHandle(nesting, listener);
 		}
 
 	}

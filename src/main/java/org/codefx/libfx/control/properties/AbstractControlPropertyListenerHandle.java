@@ -6,10 +6,10 @@ import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableMap;
 
 /**
- * Abstract superclass to implementations of {@link ControlPropertyListener}. Handles all aspects of listening except
- * the actual processing of the value which is delegated to the implementations.
+ * Abstract superclass to implementations of {@link ControlPropertyListenerHandle}. Handles all aspects of listening
+ * except the actual processing of the value which is delegated to the implementations.
  */
-abstract class AbstractControlPropertyListener implements ControlPropertyListener {
+abstract class AbstractControlPropertyListenerHandle implements ControlPropertyListenerHandle {
 
 	// #region ATTRIBUTES
 
@@ -28,19 +28,24 @@ abstract class AbstractControlPropertyListener implements ControlPropertyListene
 	 */
 	private final MapChangeListener<Object, Object> listener;
 
+	/**
+	 * Indicates whether the {@link #listener} is currently attached to the {@link #properties} map.
+	 */
+	private boolean attached;
+
 	// #end ATTRIBUTES
 
 	// #region CONSTRUCTION
 
 	/**
-	 * Creates a new listener.
+	 * Creates a new listener handle. Initially detached.
 	 *
 	 * @param properties
 	 *            the {@link ObservableMap} holding the properties
 	 * @param key
 	 *            the key to which the listener will listen
 	 */
-	protected AbstractControlPropertyListener(
+	protected AbstractControlPropertyListenerHandle(
 			ObservableMap<Object, Object> properties, Object key) {
 
 		Objects.requireNonNull(properties, "The argument 'properties' must not be null.");
@@ -93,10 +98,14 @@ abstract class AbstractControlPropertyListener implements ControlPropertyListene
 
 	// #end PROCESS VALUE
 
-	// #region IMPLEMENTATION OF 'ControlPropertyListener'
+	// #region IMPLEMENTATION OF 'ControlPropertyListenerHandle'
 
 	@Override
 	public void attach() {
+		if (attached)
+			return;
+
+		attached = true;
 		properties.addListener(listener);
 		if (properties.containsKey(key))
 			processAndRemoveValue(properties.get(key));
@@ -104,9 +113,10 @@ abstract class AbstractControlPropertyListener implements ControlPropertyListene
 
 	@Override
 	public void detach() {
+		attached = false;
 		properties.removeListener(listener);
 	}
 
-	// #end IMPLEMENTATION OF 'ControlPropertyListener'
+	// #end IMPLEMENTATION OF 'ControlPropertyListenerHandle'
 
 }
