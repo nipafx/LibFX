@@ -44,7 +44,7 @@ The current version is [0.2.0](http://search.maven.org/#artifactdetails|org.code
 **Gradle**:
 
 ```
-	compile 'org.codefx.libfx:LibFX:0.2.0'
+compile 'org.codefx.libfx:LibFX:0.2.0'
 ```
 
 ## Development
