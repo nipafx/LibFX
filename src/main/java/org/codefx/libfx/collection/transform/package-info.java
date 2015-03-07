@@ -40,8 +40,13 @@
  * <li>document concurrency details
  * <li>document used default methods
  * <li>document implementation of bulk operations
- * <li>document how functions are used to transform both ways and that (a) they must be inverse to each other and (b)
- * this means that the outer elements have no meaningful identity
+ * <li>document how functions are used to transform both ways:
+ * <ul>
+ * <li>they must be inverse to each other
+ * <li>this means that the outer elements have no meaningful identity
+ * <li>that if the transformation functions do not create new instances for both ways (which might not be necessary due
+ * to a type relationship) this detail might leak for methods like equals, hashCode, toString, ...
+ * </ul>
  * </ul>
  */
 package org.codefx.libfx.collection.transform;

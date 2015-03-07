@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import junit.framework.Test;
+import junit.framework.TestSuite;
 
 import org.codefx.libfx.collection.transform.ElementTypes.Cat;
 import org.codefx.libfx.collection.transform.ElementTypes.Feline;
@@ -15,27 +16,48 @@ import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.TestCollectionGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.features.Feature;
 
 public class TransformingCollectionTest {
 
 	public static Test suite() {
-		return new TransformingCollectionTest().testForBackingSetHasSupertype();
+		return new TransformingCollectionTest().allTests();
 	}
 
-	public Test testForBackingSetHasSupertype() {
+	public Test allTests() {
+		TestSuite suite = new TestSuite("org.codefx.libfx.collection.transform.TransformingCollection");
+		suite.addTest(testForBackingCollectionHasSupertype());
+		suite.addTest(testForBackingCollectionHasSubtype());
+		return suite;
+	}
+
+	private static Feature<?>[] features() {
+		return new Feature<?>[] {
+				// from 'TransformedCollection'
+				CollectionFeature.ALLOWS_NULL_QUERIES,
+				CollectionFeature.ALLOWS_NULL_VALUES,
+				CollectionFeature.SUPPORTS_ADD,
+				CollectionFeature.SUPPORTS_REMOVE,
+				// from the backing data structure 'ArrayList'
+				CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+				CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+				CollectionSize.ANY
+		};
+	}
+
+	public Test testForBackingCollectionHasSupertype() {
 		return CollectionTestSuiteBuilder
 				.using(new TransformingCollectionTestGenerator(Mammal.class))
 				.named("backed by supertype")
-				.withFeatures(
-						// from 'TransformedCollection'
-						CollectionFeature.ALLOWS_NULL_QUERIES,
-						CollectionFeature.ALLOWS_NULL_VALUES,
-						CollectionFeature.SUPPORTS_ADD,
-						CollectionFeature.SUPPORTS_REMOVE,
-						// from the backing data structure 'ArrayList'
-						CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
-						CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-						CollectionSize.ANY)
+				.withFeatures(features())
+				.createTestSuite();
+	}
+
+	public Test testForBackingCollectionHasSubtype() {
+		return CollectionTestSuiteBuilder
+				.using(new TransformingCollectionTestGenerator(Cat.class))
+				.named("backed by supertype")
+				.withFeatures(features())
 				.createTestSuite();
 	}
 
@@ -86,7 +108,7 @@ public class TransformingCollectionTest {
 			return new TransformingCollection<>(
 					mammals,
 					Mammal.class, mammal -> new Feline(mammal.getName()),
-					Feline.class, feline -> feline);
+					Feline.class, feline -> new Mammal(feline.getName()));
 		}
 
 		private Collection<Feline> createBackedByCat(Object[] felines) {
@@ -100,7 +122,7 @@ public class TransformingCollectionTest {
 				}
 			return new TransformingCollection<>(
 					cats,
-					Cat.class, cat -> cat,
+					Cat.class, cat -> new Feline(cat.getName()),
 					Feline.class, feline -> new Cat(feline.getName()));
 		}
 	}

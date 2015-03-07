@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import junit.framework.Test;
+import junit.framework.TestSuite;
 
 import org.codefx.libfx.collection.transform.ElementTypes.Cat;
 import org.codefx.libfx.collection.transform.ElementTypes.Feline;
@@ -15,27 +16,48 @@ import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.TestSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
+import com.google.common.collect.testing.features.Feature;
 
 public class TransformingSetTest {
 
 	public static Test suite() {
-		return new TransformingSetTest().testForBackingSetHasSupertype();
+		return new TransformingSetTest().allTests();
+	}
+
+	public Test allTests() {
+		TestSuite suite = new TestSuite("org.codefx.libfx.collection.transform.TransformingSet");
+		suite.addTest(testForBackingSetHasSupertype());
+		suite.addTest(testForBackingSetHasSubtype());
+		return suite;
+	}
+
+	private static Feature<?>[] features() {
+		return new Feature<?>[] {
+				// from 'TransformedSet'
+				CollectionFeature.ALLOWS_NULL_QUERIES,
+				CollectionFeature.ALLOWS_NULL_VALUES,
+				CollectionFeature.SUPPORTS_ADD,
+				CollectionFeature.SUPPORTS_REMOVE,
+				// from the backing data structure 'HashSet'
+				CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+				CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+				CollectionSize.ANY
+		};
 	}
 
 	public Test testForBackingSetHasSupertype() {
 		return SetTestSuiteBuilder
 				.using(new TransformingSetGenerator(Mammal.class))
-				.named("supertype")
-				.withFeatures(
-						// from 'TransformedSet'
-						CollectionFeature.ALLOWS_NULL_QUERIES,
-						CollectionFeature.ALLOWS_NULL_VALUES,
-						CollectionFeature.SUPPORTS_ADD,
-						CollectionFeature.SUPPORTS_REMOVE,
-						// from the backing data structure 'HashSet'
-						CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
-						CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-						CollectionSize.ANY)
+				.named("backed by supertype")
+				.withFeatures(features())
+				.createTestSuite();
+	}
+
+	public Test testForBackingSetHasSubtype() {
+		return SetTestSuiteBuilder
+				.using(new TransformingSetGenerator(Cat.class))
+				.named("backed by supertype")
+				.withFeatures(features())
 				.createTestSuite();
 	}
 
@@ -86,7 +108,7 @@ public class TransformingSetTest {
 			return new TransformingSet<>(
 					mammals,
 					Mammal.class, mammal -> new Feline(mammal.getName()),
-					Feline.class, feline -> feline);
+					Feline.class, feline -> new Mammal(feline.getName()));
 		}
 
 		private Set<Feline> createBackedByCatSet(Object[] felines) {
@@ -100,7 +122,7 @@ public class TransformingSetTest {
 				}
 			return new TransformingSet<>(
 					cats,
-					Cat.class, cat -> cat,
+					Cat.class, cat -> new Feline(cat.getName()),
 					Feline.class, feline -> new Cat(feline.getName()));
 		}
 	}
