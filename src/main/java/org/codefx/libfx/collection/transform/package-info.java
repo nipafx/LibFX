@@ -18,9 +18,9 @@
  * </p>
  * <h3>Apache Commons Collections</h3>
  * <p>
- * Commons provides the <a href="https://commons.apache.org/proper
- * /commons-collections/apidocs/org/apache/commons/collections4/collection/TransformedCollection.html">
- * {@code TransformedCollection}</a>. It only affects add methods,
+ * Commons provides the <a href=
+ * "https://commons.apache.org/proper/commons-collections/apidocs/org/apache/commons/collections4/collection/TransformedCollection.html"
+ * > {@code TransformedCollection}</a>. It only affects add methods,
  * "thus objects must be removed or searched for using their transformed form." The implementations in this package
  * suffers from no such limitation.
  * </p>
@@ -40,6 +40,8 @@
  * <li>document concurrency details
  * <li>document used default methods
  * <li>document implementation of bulk operations
+ * <li>document how functions are used to transform both ways and that (a) they must be inverse to each other and (b)
+ * this means that the outer elements have no meaningful identity
  * </ul>
  */
 package org.codefx.libfx.collection.transform;

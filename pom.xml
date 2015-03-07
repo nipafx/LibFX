@@ -87,6 +87,13 @@
 			<version>1.9.21</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<!-- GUAVA-TESTLIB to test collections -->
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava-testlib</artifactId>
+			<version>18.0</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
