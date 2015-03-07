@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 //  - document protected methods for call...AllOnInner and call...OnThis
 //  - document that arguments to abstract methods can be null
 //  - create decorator which catches all ClassCastExceptions thrown by various methods
+//  - should these abstract classes and the 'Transforming...' helper classes be public?
 
 //  - intermediate decision regarding null elements: is allowed on this level - might be disallowed by subclasses
 public abstract class AbstractTransformingCollection<I, O> implements Collection<O> {

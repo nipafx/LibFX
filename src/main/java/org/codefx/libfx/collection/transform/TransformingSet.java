@@ -7,7 +7,7 @@ import java.util.function.Function;
 // TODO document:
 //  - intermediate decision regarding null elements: is allowed
 //  - transformations do not need to handle nulls and must not create them (is this already documented somewhere?)
-public class TransformingSet<I, O> extends AbstractTransformingSet<I, O> {
+public final class TransformingSet<I, O> extends AbstractTransformingSet<I, O> {
 
 	// #region FIELDS
 

@@ -3,7 +3,7 @@ package org.codefx.libfx.collection.transform;
 import java.util.Collection;
 import java.util.Objects;
 
-public class TransformToReadOnlyInnerCollection<E, I, O> extends AbstractTransformingCollection<E, I> {
+public final class TransformToReadOnlyInnerCollection<E, I, O> extends AbstractTransformingCollection<E, I> {
 
 	private final AbstractTransformingCollection<I, O> clientCollection;
 
