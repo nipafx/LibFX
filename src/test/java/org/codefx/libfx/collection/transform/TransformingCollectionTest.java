@@ -33,15 +33,16 @@ public class TransformingCollectionTest {
 
 	private static Feature<?>[] features() {
 		return new Feature<?>[] {
-				// from 'TransformedCollection'
+				// since 'TransformedCollection' passes all calls along,
+				// the features are determined by the backing data structure (which is an 'ArrayList')
+				CollectionSize.ANY,
 				CollectionFeature.ALLOWS_NULL_QUERIES,
 				CollectionFeature.ALLOWS_NULL_VALUES,
-				CollectionFeature.SUPPORTS_ADD,
-				CollectionFeature.SUPPORTS_REMOVE,
-				// from the backing data structure 'ArrayList'
 				CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+				CollectionFeature.KNOWN_ORDER,
+				CollectionFeature.SUPPORTS_ADD,
 				CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
-				CollectionSize.ANY
+				CollectionFeature.SUPPORTS_REMOVE,
 		};
 	}
 
@@ -56,7 +57,7 @@ public class TransformingCollectionTest {
 	public Test testForBackingCollectionHasSubtype() {
 		return CollectionTestSuiteBuilder
 				.using(new TransformingCollectionTestGenerator(Cat.class))
-				.named("backed by supertype")
+				.named("backed by subtype")
 				.withFeatures(features())
 				.createTestSuite();
 	}
