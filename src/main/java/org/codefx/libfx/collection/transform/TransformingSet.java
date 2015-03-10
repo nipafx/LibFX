@@ -44,7 +44,7 @@ public final class TransformingSet<I, O> extends AbstractTransformingSet<I, O> {
 	// #region ABSTRACT METHODS FOM SUPERCLASS
 
 	@Override
-	protected Set<I> getInnerCollection() {
+	protected Set<I> getInnerSet() {
 		return innerSet;
 	}
 
