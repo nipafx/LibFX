@@ -1,99 +1,122 @@
 package org.codefx.libfx.collection.transform;
 
-import java.util.Collection;
 import java.util.Map;
-import java.util.Set;
+import java.util.Objects;
+import java.util.function.Function;
 
 public final class TransformingMap<IK, OK, IV, OV> extends AbstractTransformingMap<IK, OK, IV, OV> {
 
 	// #region FIELDS
 
-	// TODO make final and instantiate
+	private final Map<IK, IV> innerMap;
 
-	private Set<OK> outerKeys;
+	private final Class<OK> outerKeyTypeToken;
 
-	private Collection<OV> outerValues;
+	private final Class<IK> innerKeyTypeToken;
 
-	private Set<Entry<OK, OV>> outerEntries;
+	private final Function<IK, OK> transformToOuterKey;
+
+	private final Function<OK, IK> transformToInnerKey;
+
+	private final Class<OV> outerValueTypeToken;
+
+	private final Class<IV> innerValueTypeToken;
+
+	private final Function<IV, OV> transformToOuterValue;
+
+	private final Function<OV, IV> transformToInnerValue;
 
 	// #end FIELDS
+
+	// #region CONSTRUCTION
+
+	public TransformingMap(
+			Map<IK, IV> innerMap,
+			Class<IK> innerKeyTypeToken, Function<IK, OK> transformToOuterKey,
+			Class<OK> outerKeyTypeToken, Function<OK, IK> transformToInnerKey,
+			Class<IV> innerValueTypeToken, Function<IV, OV> transformToOuterValue,
+			Class<OV> outerValueTypeToken, Function<OV, IV> transformToInnerValue) {
+
+		this.innerMap = innerMap;
+		this.outerKeyTypeToken = outerKeyTypeToken;
+		this.innerKeyTypeToken = innerKeyTypeToken;
+		this.transformToOuterKey = transformToOuterKey;
+		this.transformToInnerKey = transformToInnerKey;
+		this.outerValueTypeToken = outerValueTypeToken;
+		this.innerValueTypeToken = innerValueTypeToken;
+		this.transformToOuterValue = transformToOuterValue;
+		this.transformToInnerValue = transformToInnerValue;
+	}
+
+	// #end CONSTRUCTION
 
 	// #region ABSTRACT METHODS FROM SUPERCLASS
 
 	@Override
 	protected Map<IK, IV> getInnerMap() {
-		// TODO Auto-generated method stub
-		return null;
+		return innerMap;
 	}
 
 	@Override
 	protected boolean isInnerKey(Object object) {
-		// TODO Auto-generated method stub
-		return false;
+		return object == null || innerKeyTypeToken.isInstance(object);
 	}
 
 	@Override
 	protected OK transformToOuterKey(IK innerKey) {
-		// TODO Auto-generated method stub
-		return null;
+		if (innerKey == null)
+			return null;
+
+		OK outerKey = transformToOuterKey.apply(innerKey);
+		Objects.requireNonNull(outerKey, "The transformation must not create null instances.");
+		return outerKey;
 	}
 
 	@Override
 	protected boolean isOuterKey(Object object) {
-		// TODO Auto-generated method stub
-		return false;
+		return object == null || outerKeyTypeToken.isInstance(object);
 	}
 
 	@Override
 	protected IK transformToInnerKey(OK outerKey) {
-		// TODO Auto-generated method stub
-		return null;
+		if (outerKey == null)
+			return null;
+
+		IK innerKey = transformToInnerKey.apply(outerKey);
+		Objects.requireNonNull(innerKey, "The transformation must not create null instances.");
+		return innerKey;
 	}
 
 	@Override
 	protected boolean isInnerValue(Object object) {
-		// TODO Auto-generated method stub
-		return false;
+		return object == null || innerValueTypeToken.isInstance(object);
 	}
 
 	@Override
 	protected OV transformToOuterValue(IV innerValue) {
-		// TODO Auto-generated method stub
-		return null;
+		if (innerValue == null)
+			return null;
+
+		OV outerValue = transformToOuterValue.apply(innerValue);
+		Objects.requireNonNull(outerValue, "The transformation must not create null instances.");
+		return outerValue;
 	}
 
 	@Override
 	protected boolean isOuterValue(Object object) {
-		// TODO Auto-generated method stub
-		return false;
+		return object == null || outerValueTypeToken.isInstance(object);
 	}
 
 	@Override
 	protected IV transformToInnerValue(OV outerValue) {
-		// TODO Auto-generated method stub
-		return null;
+		if (outerValue == null)
+			return null;
+
+		IV innerValue = transformToInnerValue.apply(outerValue);
+		Objects.requireNonNull(innerValue, "The transformation must not create null instances.");
+		return innerValue;
 	}
 
 	// #end ABSTRACT METHODS FROM SUPERCLASS
 
-	// #region IMPLEMENTATION OF 'Map'
-
-	// views
-
-	@Override
-	public Set<OK> keySet() {
-		return outerKeys;
-	}
-
-	@Override
-	public Collection<OV> values() {
-		return outerValues;
-	}
-
-	@Override
-	public Set<Entry<OK, OV>> entrySet() {
-		return outerEntries;
-	}
-
-	// #end IMPLEMENTATION OF 'Map'
 }
