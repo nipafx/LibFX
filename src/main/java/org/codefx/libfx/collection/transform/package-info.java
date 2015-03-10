@@ -22,7 +22,7 @@
  * "https://commons.apache.org/proper/commons-collections/apidocs/org/apache/commons/collections4/collection/TransformedCollection.html"
  * > {@code TransformedCollection}</a>. It only affects add methods,
  * "thus objects must be removed or searched for using their transformed form." The implementations in this package
- * suffers from no such limitation.
+ * suffer from no such limitation.
  * </p>
  * <h3>Google Guava</h3>
  * <p>
@@ -47,6 +47,9 @@
  * <li>that if the transformation functions do not create new instances for both ways (which might not be necessary due
  * to a type relationship) this detail might leak for methods like equals, hashCode, toString, ...
  * </ul>
+ * <li>create builders
+ * <li>determine whether a 'TransformingStream' is required
+ * <li>make sure that all default methods are transformed
  * </ul>
  */
 package org.codefx.libfx.collection.transform;

@@ -36,8 +36,7 @@ public class TransformingSetTest {
 				// since 'TransformedSet' passes all calls along,
 				// the features are determined by the backing data structure (which is a 'HashSet')
 				CollectionSize.ANY,
-				CollectionFeature.ALLOWS_NULL_QUERIES,
-				CollectionFeature.ALLOWS_NULL_VALUES,
+				CollectionFeature.ALLOWS_NULL_VALUES, // includes ALLOWS_NULL_QUERIES
 				CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
 				CollectionFeature.SUPPORTS_ADD,
 				CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
@@ -96,7 +95,7 @@ public class TransformingSetTest {
 			throw new UnsupportedOperationException();
 		}
 
-		private Set<Feline> createBackedByMammalSet(Object[] felines) {
+		private static Set<Feline> createBackedByMammalSet(Object[] felines) {
 			Set<Mammal> mammals = new HashSet<>();
 			for (Object feline : felines)
 				if (feline == null)
@@ -111,7 +110,7 @@ public class TransformingSetTest {
 					Feline.class, feline -> new Mammal(feline.getName()));
 		}
 
-		private Set<Feline> createBackedByCatSet(Object[] felines) {
+		private static Set<Feline> createBackedByCatSet(Object[] felines) {
 			Set<Cat> cats = new HashSet<>();
 			for (Object feline : felines)
 				if (feline == null)

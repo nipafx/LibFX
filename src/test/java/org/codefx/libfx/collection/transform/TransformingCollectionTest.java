@@ -36,8 +36,7 @@ public class TransformingCollectionTest {
 				// since 'TransformedCollection' passes all calls along,
 				// the features are determined by the backing data structure (which is an 'ArrayList')
 				CollectionSize.ANY,
-				CollectionFeature.ALLOWS_NULL_QUERIES,
-				CollectionFeature.ALLOWS_NULL_VALUES,
+				CollectionFeature.ALLOWS_NULL_VALUES, // includes ALLOWS_NULL_QUERIES
 				CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
 				CollectionFeature.KNOWN_ORDER,
 				CollectionFeature.SUPPORTS_ADD,
@@ -97,7 +96,7 @@ public class TransformingCollectionTest {
 			throw new UnsupportedOperationException();
 		}
 
-		private Collection<Feline> createBackedByMammal(Object[] felines) {
+		private static Collection<Feline> createBackedByMammal(Object[] felines) {
 			List<Mammal> mammals = new ArrayList<>();
 			for (Object feline : felines)
 				if (feline == null)
@@ -112,7 +111,7 @@ public class TransformingCollectionTest {
 					Feline.class, feline -> new Mammal(feline.getName()));
 		}
 
-		private Collection<Feline> createBackedByCat(Object[] felines) {
+		private static Collection<Feline> createBackedByCat(Object[] felines) {
 			List<Cat> cats = new ArrayList<>();
 			for (Object feline : felines)
 				if (feline == null)

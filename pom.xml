@@ -12,7 +12,7 @@
 	<!-- PROJECT META INFORMATION -->
 
 	<name>LibFX</name>
-	<description>LibFX provides utility classes for JavaFX.</description>
+	<description>LibFX provides usability classes for Java and JavaFX.</description>
 	<url>http://libfx.codefx.org</url>
 
 	<scm>
