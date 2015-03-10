@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Spliterator;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 // TODO
@@ -186,6 +187,17 @@ public abstract class AbstractTransformingCollection<I, O> implements Collection
 			return getInnerCollection().remove(innerElement);
 		} else
 			return false;
+	}
+
+	@Override
+	public boolean removeIf(Predicate<? super O> filter) {
+		Objects.requireNonNull(filter, "The argument 'filter' must not be null.");
+
+		Predicate<I> innerFilter = innerElement -> {
+			O outerElement = transformToOuter(innerElement);
+			return filter.test(outerElement);
+		};
+		return getInnerCollection().removeIf(innerFilter);
 	}
 
 	@Override
@@ -538,4 +550,5 @@ public abstract class AbstractTransformingCollection<I, O> implements Collection
 	protected abstract I transformToInner(O outerElement);
 
 	// #end ABSTRACT METHODS
+
 }
