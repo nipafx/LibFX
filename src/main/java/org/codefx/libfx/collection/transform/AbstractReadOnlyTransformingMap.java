@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
-public abstract class AbstractReadOnlyTransformingMap<IK, OK, IV, OV>
+abstract class AbstractReadOnlyTransformingMap<IK, OK, IV, OV>
 		extends AbstractTransformingMap<IK, OK, IV, OV> {
 
 	// prevent modification

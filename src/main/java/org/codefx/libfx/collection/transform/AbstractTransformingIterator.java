@@ -12,7 +12,7 @@ import java.util.function.Consumer;
  * @param <O>
  *            the outer type, i.e. the type of elements returned by this iterator
  */
-public abstract class AbstractTransformingIterator<I, O> implements Iterator<O> {
+abstract class AbstractTransformingIterator<I, O> implements Iterator<O> {
 
 	// #region IMPLEMENTATION OF 'Iterator<O>'
 

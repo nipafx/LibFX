@@ -3,7 +3,7 @@ package org.codefx.libfx.collection.transform;
 import java.util.Collection;
 import java.util.function.Predicate;
 
-public abstract class AbstractReadOnlyTransformingCollection<I, O> extends AbstractTransformingCollection<I, O> {
+abstract class AbstractReadOnlyTransformingCollection<I, O> extends AbstractTransformingCollection<I, O> {
 
 	// prevent modification
 

@@ -5,7 +5,7 @@ import java.util.Set;
 
 // TODO
 //  - point to AbstractTransformingCollection documentation
-public abstract class AbstractTransformingSet<I, O> extends AbstractTransformingCollection<I, O> implements Set<O> {
+abstract class AbstractTransformingSet<I, O> extends AbstractTransformingCollection<I, O> implements Set<O> {
 
 	@Override
 	protected final Collection<I> getInnerCollection() {

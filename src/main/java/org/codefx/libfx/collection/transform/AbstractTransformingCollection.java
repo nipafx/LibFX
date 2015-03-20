@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 //  - should these abstract classes and the 'Transforming...' helper classes be public?
 
 //  - intermediate decision regarding null elements: is allowed on this level - might be disallowed by subclasses
-public abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
+abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 
 	// #region CONSTANTS
 

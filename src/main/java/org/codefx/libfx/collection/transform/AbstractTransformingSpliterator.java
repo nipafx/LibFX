@@ -18,7 +18,7 @@ import java.util.function.Consumer;
  * @param <O>
  *            the outer type, i.e. the type of elements returned by this spliterator
  */
-public abstract class AbstractTransformingSpliterator<I, O> implements Spliterator<O> {
+abstract class AbstractTransformingSpliterator<I, O> implements Spliterator<O> {
 
 	// #region IMPLEMENTATION OF 'Spliterator<O>'
 

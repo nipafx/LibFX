@@ -9,7 +9,7 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
+abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 
 	// #region FIELDS
 
