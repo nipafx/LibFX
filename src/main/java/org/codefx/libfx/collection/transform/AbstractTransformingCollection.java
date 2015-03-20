@@ -110,7 +110,7 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 	 * @return result of the call to {@code containsAll}
 	 */
 	protected final boolean callContainsAllOnInner(Collection<?> otherCollection) {
-		Collection<I> asInnerCollection = new TransformToReadOnlyInnerCollection<>(this, otherCollection);
+		Collection<I> asInnerCollection = new TransformToReadOnlyInnerCollection<>(otherCollection);
 		return getInnerCollection().containsAll(asInnerCollection);
 	}
 
@@ -152,7 +152,7 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 	 * @return result of the call to {@code addAll}
 	 */
 	protected final boolean callAddAllOnInner(Collection<? extends O> otherCollection) {
-		Collection<I> asInnerCollection = new TransformToReadOnlyInnerCollection<>(this, otherCollection);
+		Collection<I> asInnerCollection = new TransformToReadOnlyInnerCollection<>(otherCollection);
 		return getInnerCollection().addAll(asInnerCollection);
 	}
 
@@ -231,7 +231,7 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 	 * @return result of the call to {@code removeAll}
 	 */
 	protected final boolean callRemoveAllOnInner(Collection<?> otherCollection) {
-		Collection<I> asInnerCollection = new TransformToReadOnlyInnerCollection<>(this, otherCollection);
+		Collection<I> asInnerCollection = new TransformToReadOnlyInnerCollection<>(otherCollection);
 		return getInnerCollection().removeAll(asInnerCollection);
 	}
 
@@ -267,7 +267,7 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 	 * @return result of the call to {@code retainAll}
 	 */
 	protected final boolean callRetainAllOnInner(Collection<?> otherCollection) {
-		Collection<I> asInnerCollection = new TransformToReadOnlyInnerCollection<>(this, otherCollection);
+		Collection<I> asInnerCollection = new TransformToReadOnlyInnerCollection<>(otherCollection);
 		return getInnerCollection().retainAll(asInnerCollection);
 	}
 
@@ -550,5 +550,92 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 	protected abstract I transformToInner(O outerElement);
 
 	// #end ABSTRACT METHODS
+
+	// #region INNER CLASSES
+
+	/**
+	 * Wraps a collection with any element type {@code E} into a transforming collection with the inner type {@code I}.
+	 * <p>
+	 * This works under the assumption that {@code E = O}. Of course, it is highly unsafe and can lead to
+	 * {@link ClassCastException}s when this is not the case and the collection is accessed.
+	 *
+	 * @param <E>
+	 *            the type of elements in the specified collection
+	 */
+	private class TransformToReadOnlyInnerCollection<E> extends AbstractReadOnlyTransformingCollection<E, I> {
+
+		private final Collection<E> transformedCollection;
+
+		public TransformToReadOnlyInnerCollection(Collection<E> transformedCollection) {
+			assert transformedCollection != null : "The argument 'innerCollection' must not be null.";
+
+			this.transformedCollection = transformedCollection;
+		}
+
+		@Override
+		protected Collection<E> getInnerCollection() {
+			return transformedCollection;
+		}
+
+		@Override
+		protected boolean isInnerElement(Object object) {
+			return AbstractTransformingCollection.this.isOuterElement(object);
+		}
+
+		@Override
+		protected I transformToOuter(E innerElement) {
+			@SuppressWarnings("unchecked")
+			/*
+			 * This cast can not fail due to erasure but the following call to 'transformToInner' might. In that case a
+			 * 'ClassCastException' will be thrown which is in accordance with the contract of the method which created
+			 * this wrapper.
+			 */
+			O asClientOuterElement = (O) innerElement;
+			return AbstractTransformingCollection.this.transformToInner(asClientOuterElement);
+		}
+
+		@Override
+		protected boolean isOuterElement(Object object) {
+			return AbstractTransformingCollection.this.isInnerElement(object);
+		}
+
+		@Override
+		protected E transformToInner(I outerElement) {
+			O transformedToClientOuterElement = AbstractTransformingCollection.this.transformToOuter(outerElement);
+			@SuppressWarnings("unchecked")
+			/*
+			 * This cast can not fail due to erasure but whatever happens next might. In that case a
+			 * 'ClassCastException' will be thrown which is in accordance with the contract of the method which created
+			 * this wrapper.
+			 */
+			E asThisInnerElement = (E) transformedToClientOuterElement;
+			return asThisInnerElement;
+		}
+
+		@Override
+		public boolean equals(Object object) {
+			if (object == this)
+				return true;
+			if (!(object instanceof Collection))
+				return false;
+
+			Collection<?> other = (Collection<?>) object;
+			if (isThisCollection(other))
+				return true;
+
+			return other.containsAll(this) && this.containsAll(other);
+		}
+
+		@Override
+		public int hashCode() {
+			int hashCode = 1;
+			for (I clientInnerElement : this)
+				hashCode = 31 * hashCode + (clientInnerElement == null ? 0 : clientInnerElement.hashCode());
+			return hashCode;
+		}
+
+	}
+
+	// #end INNER CLASSES
 
 }
