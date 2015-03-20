@@ -33,9 +33,9 @@ public final class TransformingCollection<I, O> extends AbstractTransformingColl
 
 	private final Collection<I> innerCollection;
 
-	private final Class<O> outerTypeToken;
+	private final Class<? super O> outerTypeToken;
 
-	private final Class<I> innerTypeToken;
+	private final Class<? super I> innerTypeToken;
 
 	private final Function<I, O> transformToOuter;
 
@@ -61,8 +61,8 @@ public final class TransformingCollection<I, O> extends AbstractTransformingColl
 	 */
 	public TransformingCollection(
 			Collection<I> innerCollection,
-			Class<I> innerTypeToken, Function<I, O> transformToOuter,
-			Class<O> outerTypeToken, Function<O, I> transformToInner) {
+			Class<? super I> innerTypeToken, Function<I, O> transformToOuter,
+			Class<? super O> outerTypeToken, Function<O, I> transformToInner) {
 
 		Objects.requireNonNull(innerCollection, "The argument 'innerCollection' must not be null.");
 		Objects.requireNonNull(outerTypeToken, "The argument 'outerTypeToken' must not be null.");

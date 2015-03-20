@@ -37,17 +37,17 @@ public final class TransformingMap<IK, OK, IV, OV> extends AbstractTransformingM
 
 	private final Map<IK, IV> innerMap;
 
-	private final Class<OK> outerKeyTypeToken;
+	private final Class<? super OK> outerKeyTypeToken;
 
-	private final Class<IK> innerKeyTypeToken;
+	private final Class<? super IK> innerKeyTypeToken;
 
 	private final Function<IK, OK> transformToOuterKey;
 
 	private final Function<OK, IK> transformToInnerKey;
 
-	private final Class<OV> outerValueTypeToken;
+	private final Class<? super OV> outerValueTypeToken;
 
-	private final Class<IV> innerValueTypeToken;
+	private final Class<? super IV> innerValueTypeToken;
 
 	private final Function<IV, OV> transformToOuterValue;
 
