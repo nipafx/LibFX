@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 
@@ -303,6 +304,14 @@ public abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK,
 	@Override
 	public int hashCode() {
 		return outerEntries.hashCode();
+	}
+
+	@Override
+	public String toString() {
+		return outerEntries
+				.stream()
+				.map(Objects::toString)
+				.collect(Collectors.joining(", ", "{", "}"));
 	}
 
 	// #end OBJECT
