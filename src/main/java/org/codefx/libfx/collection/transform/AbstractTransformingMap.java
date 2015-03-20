@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -136,6 +137,24 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 			return null;
 	}
 
+	@Override
+	public OV getOrDefault(Object key, OV defaultValue) {
+		if (isOuterKey(key)) {
+			@SuppressWarnings("unchecked")
+			/*
+			 * This cast can not fail due to erasure but the following call to 'transformToInnerKey' might. In that case
+			 * a 'ClassCastException' will be thrown which is in accordance with the contract of 'get'. If 'isOuterKey'
+			 * does its job well (which can be hard due to erasure) this will not happen.
+			 */
+			OK outerKey = (OK) key;
+			return transformToOuterValue(getInnerMap().getOrDefault(
+					transformToInnerKey(outerKey),
+					transformToInnerValue(defaultValue)
+					));
+		} else
+			return defaultValue;
+	}
+
 	// put / compute / merge / replace
 
 	@Override
@@ -163,7 +182,7 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 		Objects.requireNonNull(remappingFunction, "The argument 'remappingFunction' must not be null.");
 		return transformToOuterValue(getInnerMap().compute(
 				transformToInnerKey(key),
-				transformToInnerEntryValueBiFunction(remappingFunction)
+				transformToInnerKeyValueToValueFunction(remappingFunction)
 				));
 	}
 
@@ -172,7 +191,7 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 		Objects.requireNonNull(mappingFunction, "The argument 'mappingFunction' must not be null.");
 		return transformToOuterValue(getInnerMap().computeIfAbsent(
 				transformToInnerKey(key),
-				transformToInnerKeyValueFunction(mappingFunction)
+				transformToInnerToKeyValueFunction(mappingFunction)
 				));
 	}
 
@@ -181,7 +200,7 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 		Objects.requireNonNull(remappingFunction, "The argument 'remappingFunction' must not be null.");
 		return transformToOuterValue(getInnerMap().computeIfPresent(
 				transformToInnerKey(key),
-				transformToInnerEntryValueBiFunction(remappingFunction)
+				transformToInnerKeyValueToValueFunction(remappingFunction)
 				));
 	}
 
@@ -191,7 +210,7 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 		return transformToOuterValue(getInnerMap().merge(
 				transformToInnerKey(key),
 				transformToInnerValue(value),
-				transformToInnerValueBiFunction(remappingFunction)
+				transformToInnerValueValueToValueFunction(remappingFunction)
 				));
 	}
 
@@ -213,7 +232,7 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 
 	@Override
 	public void replaceAll(BiFunction<? super OK, ? super OV, ? extends OV> function) {
-		getInnerMap().replaceAll(transformToInnerEntryValueBiFunction(function));
+		getInnerMap().replaceAll(transformToInnerKeyValueToValueFunction(function));
 	}
 
 	// remove
@@ -259,6 +278,14 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 		getInnerMap().clear();
 	}
 
+	// process
+
+	@Override
+	public void forEach(BiConsumer<? super OK, ? super OV> action) {
+		Objects.requireNonNull(action, "The argument 'action' must not be null.");
+		getInnerMap().forEach(transformToInnerKeyValueConsumer(action));
+	}
+
 	// views
 
 	@Override
@@ -278,13 +305,13 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 
 	// function transformation
 
-	private Function<? super IK, ? extends IV> transformToInnerKeyValueFunction(
+	private Function<? super IK, ? extends IV> transformToInnerToKeyValueFunction(
 			Function<? super OK, ? extends OV> function) {
 
 		return innerKey -> transformToInnerValue(function.apply(transformToOuterKey(innerKey)));
 	}
 
-	private BiFunction<? super IK, ? super IV, ? extends IV> transformToInnerEntryValueBiFunction(
+	private BiFunction<? super IK, ? super IV, ? extends IV> transformToInnerKeyValueToValueFunction(
 			BiFunction<? super OK, ? super OV, ? extends OV> function) {
 
 		return (innerKey, innerValue) -> transformToInnerValue(function.apply(
@@ -292,12 +319,20 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 				transformToOuterValue(innerValue)));
 	}
 
-	private BiFunction<? super IV, ? super IV, ? extends IV> transformToInnerValueBiFunction(
+	private BiFunction<? super IV, ? super IV, ? extends IV> transformToInnerValueValueToValueFunction(
 			BiFunction<? super OV, ? super OV, ? extends OV> function) {
 
 		return (innerValue1, innerValue2) -> transformToInnerValue(function.apply(
 				transformToOuterValue(innerValue1),
 				transformToOuterValue(innerValue2)));
+	}
+
+	private BiConsumer<? super IK, ? super IV> transformToInnerKeyValueConsumer(
+			BiConsumer<? super OK, ? super OV> consumer) {
+
+		return (innerKey, innerValue) -> consumer.accept(
+				transformToOuterKey(innerKey),
+				transformToOuterValue(innerValue));
 	}
 
 	// #end IMPLEMENTATION OF 'Map<OK, OV>'
