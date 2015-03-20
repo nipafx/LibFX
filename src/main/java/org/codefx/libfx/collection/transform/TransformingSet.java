@@ -4,9 +4,29 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
 
-// TODO document:
-//  - intermediate decision regarding null elements: is allowed
-//  - transformations do not need to handle nulls and must not create them (is this already documented somewhere?)
+/**
+ * A {@link Set} which decorates another set and transforms the element type from the inner type {@code I} to an outer
+ * type {@code O}.
+ * <p>
+ * See the {@link org.codefx.libfx.collection.transform package} documentation for general comments.
+ * <p>
+ * This implementation mitigates the type safety problems by using a token of the inner and the outer type to check
+ * instances against them. This solves some of the critical situations but not all of them. In those other cases
+ * {@link ClassCastException}s might occur when an element can not be transformed by the transformation functions.
+ * <p>
+ * Null elements are allowed. These are handled explicitly and fixed to the transformation {@code null -> null}. The
+ * transforming functions specified during construction neither have to handle that case nor must they produce null
+ * elements.
+ * <p>
+ * All method calls (of abstract and default methods existing in JDK 8) are forwarded to <b>the same method</b> on the
+ * wrapped set. This implies that all all guarantees made by such methods (e.g. regarding atomicity) are upheld by the
+ * transformation.
+ *
+ * @param <I>
+ *            the inner type, i.e. the type of the elements contained in the wrapped/inner set
+ * @param <O>
+ *            the outer type, i.e. the type of elements appearing to be in this set
+ */
 public final class TransformingSet<I, O> extends AbstractTransformingSet<I, O> {
 
 	// #region FIELDS
@@ -23,6 +43,22 @@ public final class TransformingSet<I, O> extends AbstractTransformingSet<I, O> {
 
 	// #end FIELDS
 
+	/**
+	 * Creates a new transforming set.
+	 *
+	 * @param innerSet
+	 *            the wrapped set
+	 * @param innerTypeToken
+	 *            the token for the inner type
+	 * @param transformToOuter
+	 *            transforms an element from an inner to an outer type; will never be called with null argument and must
+	 *            not produce null
+	 * @param outerTypeToken
+	 *            the token for the outer type
+	 * @param transformToInner
+	 *            transforms an element from an outer to an inner type; will never be called with null argument and must
+	 *            not produce null
+	 */
 	public TransformingSet(
 			Set<I> innerSet,
 			Class<I> innerTypeToken, Function<I, O> transformToOuter,

@@ -3,8 +3,17 @@ package org.codefx.libfx.collection.transform;
 import java.util.Collection;
 import java.util.Set;
 
-// TODO
-//  - point to AbstractTransformingCollection documentation
+/**
+ * Abstract superclass to {@link Set}s which transform wrap another collection.
+ * <p>
+ * This class allows null elements. Subclasses might override that by implementing aggressive null checks.
+ *
+ * @param <I>
+ *            the inner type, i.e. the type of the elements contained in the wrapped/inner set
+ * @param <O>
+ *            the outer type, i.e. the type of elements appearing to be in this set
+ * @see AbstractTransformingCollection
+ */
 abstract class AbstractTransformingSet<I, O> extends AbstractTransformingCollection<I, O> implements Set<O> {
 
 	@Override
@@ -12,6 +21,9 @@ abstract class AbstractTransformingSet<I, O> extends AbstractTransformingCollect
 		return getInnerSet();
 	}
 
+	/**
+	 * @return the inner set wrapped by this transforming set
+	 */
 	protected abstract Set<I> getInnerSet();
 
 	// #region OBJECT

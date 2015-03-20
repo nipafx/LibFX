@@ -1,15 +1,33 @@
 package org.codefx.libfx.collection.transform;
 
-public class ElementTypes {
+import java.util.Objects;
 
+/**
+ * Contains inner classes which are used for {@code Transforming...Tests}.
+ */
+class ElementTypes {
+
+	/**
+	 * A mammal sits at the top of the inheritance hierarchy.
+	 */
 	public static class Mammal {
 
 		private final String name;
 
+		/**
+		 * Creates a new mammal with the specified name.
+		 *
+		 * @param name
+		 *            the animal's name
+		 */
 		public Mammal(String name) {
+			Objects.requireNonNull(name, "The argument 'name' must not be null.");
 			this.name = name;
 		}
 
+		/**
+		 * @return the animal's name
+		 */
 		public String getName() {
 			return name;
 		}
@@ -46,8 +64,17 @@ public class ElementTypes {
 
 	}
 
+	/**
+	 * A feline sits in the middle of the inheritance hierarchy.
+	 */
 	public static class Feline extends Mammal {
 
+		/**
+		 * Creates a new feline with the specified name.
+		 *
+		 * @param name
+		 *            the animal's name
+		 */
 		public Feline(String name) {
 			super(name);
 		}
@@ -59,8 +86,17 @@ public class ElementTypes {
 
 	}
 
+	/**
+	 * A cat sits at the bottom of the inheritance hierarchy.
+	 */
 	public static class Cat extends Feline {
 
+		/**
+		 * Creates a new cat with the specified name.
+		 *
+		 * @param name
+		 *            the animal's name
+		 */
 		public Cat(String name) {
 			super(name);
 		}

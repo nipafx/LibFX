@@ -18,13 +18,17 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
 
+/**
+ * Tests {@link TransformingCollection}.
+ */
 public class TransformingCollectionTest {
 
+	/**
+	 * JUnit-3-style method to create the tests run for this class.
+	 *
+	 * @return the tests to run
+	 */
 	public static Test suite() {
-		return new TransformingCollectionTest().allTests();
-	}
-
-	public Test allTests() {
 		TestSuite suite = new TestSuite("org.codefx.libfx.collection.transform.TransformingCollection");
 		suite.addTest(testForBackingCollectionHasSupertype());
 		suite.addTest(testForBackingCollectionHasSubtype());
@@ -45,7 +49,12 @@ public class TransformingCollectionTest {
 		};
 	}
 
-	public Test testForBackingCollectionHasSupertype() {
+	/**
+	 * Creates a test for a feline collection which us backed by a mammal collection (i.e. a supertype).
+	 *
+	 * @return the test case
+	 */
+	private static Test testForBackingCollectionHasSupertype() {
 		return CollectionTestSuiteBuilder
 				.using(new TransformingCollectionTestGenerator(Mammal.class))
 				.named("backed by supertype")
@@ -53,7 +62,12 @@ public class TransformingCollectionTest {
 				.createTestSuite();
 	}
 
-	public Test testForBackingCollectionHasSubtype() {
+	/**
+	 * Creates a test for a feline collection which us backed by a cat collection (i.e. a subtype).
+	 *
+	 * @return the test case
+	 */
+	private static Test testForBackingCollectionHasSubtype() {
 		return CollectionTestSuiteBuilder
 				.using(new TransformingCollectionTestGenerator(Cat.class))
 				.named("backed by subtype")
@@ -107,6 +121,10 @@ public class TransformingCollectionTest {
 				}
 			return new TransformingCollection<>(
 					mammals,
+					/*
+					 * Because 'Feline' does not uphold the Liskov Substitution Principle (by having its own 'toString'
+					 * method) felines can not masquerade as mammals. Hence create a new mammal for each feline.
+					 */
 					Mammal.class, mammal -> new Feline(mammal.getName()),
 					Feline.class, feline -> new Mammal(feline.getName()));
 		}
@@ -122,6 +140,10 @@ public class TransformingCollectionTest {
 				}
 			return new TransformingCollection<>(
 					cats,
+					/*
+					 * Because 'Cat' does not uphold the Liskov Substitution Principle (by having its own 'toString'
+					 * method) cats can not masquerade as felines. Hence create a new feline for each cat.
+					 */
 					Cat.class, cat -> new Feline(cat.getName()),
 					Feline.class, feline -> new Cat(feline.getName()));
 		}

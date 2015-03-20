@@ -9,6 +9,20 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * Abstract superclass to {@link Map}s which transform another map.
+ * <p>
+ * This class allows null keys and values. Subclasses might override that by implementing aggressive null checks.
+ *
+ * @param <IK>
+ *            the inner key type, i.e. the type of the keys contained in the wrapped/inner map
+ * @param <OK>
+ *            the outer key type, i.e. the type of keys appearing to be in this map
+ * @param <IV>
+ *            the inner value type, i.e. the type of the values contained in the wrapped/inner map
+ * @param <OV>
+ *            the outer value type, i.e. the type of values appearing to be in this map
+ */
 abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 
 	// #region FIELDS
@@ -23,7 +37,10 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 
 	// #region CONSTRUCTION
 
-	public AbstractTransformingMap() {
+	/**
+	 * Creates a new abstract transforming map.
+	 */
+	protected AbstractTransformingMap() {
 		outerKeys = new KeySetView();
 		outerValues = new ValueCollectionView();
 		outerEntries = new EntrySetView();
@@ -318,29 +335,125 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 
 	// #region ABSTRACT METHODS
 
+	/**
+	 * @return the inner map wrapped by this transforming map
+	 */
 	protected abstract Map<IK, IV> getInnerMap();
 
+	/**
+	 * Checks whether the specified object might be an inner key.
+	 * <p>
+	 * This method does not have to be exact (which might be impossible due to involved generic types) and might produce
+	 * false positives (but no false negatives).
+	 *
+	 * @param object
+	 *            the object to check; may be null
+	 * @return true if the object might be an inner key
+	 */
 	protected abstract boolean isInnerKey(Object object);
 
-	protected abstract OK transformToOuterKey(IK innerKey);
+	/**
+	 * Transforms the specified key to an instance of the outer key type.
+	 * <p>
+	 * It can not be guaranteed that the specified key is really of the inner key type. If not, an exception can be
+	 * thrown.
+	 *
+	 * @param innerKey
+	 *            the key to transform; may be null
+	 * @return the transformed key
+	 * @throws ClassCastException
+	 *             if the specified key is not of the correct type
+	 */
+	protected abstract OK transformToOuterKey(IK innerKey) throws ClassCastException;
 
+	/**
+	 * Checks whether the specified object might be an outer key.
+	 * <p>
+	 * This method does not have to be exact (which might be impossible due to involved generic types) and might produce
+	 * false positives (but no false negatives).
+	 *
+	 * @param object
+	 *            the object to check; may be null
+	 * @return true if the object might be an outer key
+	 */
 	protected abstract boolean isOuterKey(Object object);
 
-	protected abstract IK transformToInnerKey(OK outerKey);
+	/**
+	 * Transforms the specified key to an instance of the inner key type.
+	 * <p>
+	 * It can not be guaranteed that the specified key is really of the outer key type. If not, an exception can be
+	 * thrown.
+	 *
+	 * @param outerKey
+	 *            the key to transform; may be null
+	 * @return the transformed key
+	 * @throws ClassCastException
+	 *             if the specified key is not of the correct type
+	 */
+	protected abstract IK transformToInnerKey(OK outerKey) throws ClassCastException;
 
+	/**
+	 * Checks whether the specified object might be an inner value.
+	 * <p>
+	 * This method does not have to be exact (which might be impossible due to involved generic types) and might produce
+	 * false positives (but no false negatives).
+	 *
+	 * @param object
+	 *            the object to check; may be null
+	 * @return true if the object might be an inner value
+	 */
 	protected abstract boolean isInnerValue(Object object);
 
-	protected abstract OV transformToOuterValue(IV innerValue);
+	/**
+	 * Transforms the specified value to an instance of the outer value type.
+	 * <p>
+	 * It can not be guaranteed that the specified value is really of the inner value type. If not, an exception can be
+	 * thrown.
+	 *
+	 * @param innerValue
+	 *            the value to transform; may be null
+	 * @return the transformed value
+	 * @throws ClassCastException
+	 *             if the specified value is not of the correct type
+	 */
+	protected abstract OV transformToOuterValue(IV innerValue) throws ClassCastException;
 
+	/**
+	 * Checks whether the specified object might be an outer value.
+	 * <p>
+	 * This method does not have to be exact (which might be impossible due to involved generic types) and might produce
+	 * false positives (but no false negatives).
+	 *
+	 * @param object
+	 *            the object to check; may be null
+	 * @return true if the object might be an outer value
+	 */
 	protected abstract boolean isOuterValue(Object object);
 
-	protected abstract IV transformToInnerValue(OV outerValue);
+	/**
+	 * Transforms the specified value to an instance of the inner value type.
+	 * <p>
+	 * It can not be guaranteed that the specified value is really of the outer value type. If not, an exception can be
+	 * thrown.
+	 *
+	 * @param outerValue
+	 *            the value to transform; may be null
+	 * @return the transformed value
+	 * @throws ClassCastException
+	 *             if the specified value is not of the correct type
+	 */
+	protected abstract IV transformToInnerValue(OV outerValue) throws ClassCastException;
 
 	// #end ABSTRACT METHODS
 
 	// #region INNER CLASSES
 
-	protected class KeySetView extends AbstractTransformingSet<IK, OK> {
+	/**
+	 * The view on this map's key set.
+	 * <p>
+	 * This view is a {@link TransformingSet} on the inner map's key set.
+	 */
+	private class KeySetView extends AbstractTransformingSet<IK, OK> {
 
 		@Override
 		protected Set<IK> getInnerSet() {
@@ -367,7 +480,7 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 			return transformToInnerKey(outerElement);
 		}
 
-		// prevent adding elements
+		// prevent adding elements according to the contract of 'Map.keySet()'
 
 		@Override
 		public boolean add(OK element) {
@@ -381,7 +494,12 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 
 	}
 
-	protected class ValueCollectionView extends AbstractTransformingCollection<IV, OV> {
+	/**
+	 * The view on this map's values.
+	 * <p>
+	 * This view is a {@link TransformingCollection} on the inner map's values.
+	 */
+	private class ValueCollectionView extends AbstractTransformingCollection<IV, OV> {
 
 		@Override
 		protected Collection<IV> getInnerCollection() {
@@ -408,7 +526,7 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 			return transformToInnerValue(outerElement);
 		}
 
-		// prevent adding elements
+		// prevent adding elements according to the contract of 'Map.values()'
 
 		@Override
 		public boolean add(OV element) {
@@ -446,7 +564,12 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 
 	}
 
-	protected class EntrySetView extends AbstractTransformingSet<Entry<IK, IV>, Entry<OK, OV>> {
+	/**
+	 * The view on this map's entry set.
+	 * <p>
+	 * This view is a {@link TransformingSet} on the inner map's entry set.
+	 */
+	private class EntrySetView extends AbstractTransformingSet<Entry<IK, IV>, Entry<OK, OV>> {
 
 		@Override
 		protected Set<Entry<IK, IV>> getInnerSet() {
@@ -485,7 +608,7 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 			return new SimpleEntry<>(innerKey, innerValue);
 		}
 
-		// prevent adding elements
+		// prevent adding elements according to the contract of 'Map.entrySet()'
 
 		@Override
 		public boolean add(Entry<OK, OV> element) {

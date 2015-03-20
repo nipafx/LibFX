@@ -1,8 +1,18 @@
 package org.codefx.libfx.collection.transform;
 
 import java.util.Collection;
+import java.util.Set;
 import java.util.function.Predicate;
 
+/**
+ * Abstract superclass to read-only {@link Set}s which transform another set.
+ *
+ * @param <I>
+ *            the inner type, i.e. the type of the elements contained in the wrapped/inner set
+ * @param <O>
+ *            the outer type, i.e. the type of elements appearing to be in this set
+ * @see AbstractTransformingSet
+ */
 abstract class AbstractReadOnlyTransformingSet<I, O> extends AbstractTransformingSet<I, O> {
 
 	// prevent modification

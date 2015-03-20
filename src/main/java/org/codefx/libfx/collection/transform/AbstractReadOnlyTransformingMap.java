@@ -4,6 +4,19 @@ import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+/**
+ * Abstract superclass to read-only {@link Map}s which transform another map.
+ *
+ * @param <IK>
+ *            the inner key type, i.e. the type of the keys contained in the wrapped/inner map
+ * @param <OK>
+ *            the outer key type, i.e. the type of keys appearing to be in this map
+ * @param <IV>
+ *            the inner value type, i.e. the type of the values contained in the wrapped/inner map
+ * @param <OV>
+ *            the outer value type, i.e. the type of values appearing to be in this map
+ * @see AbstractTransformingMap
+ */
 abstract class AbstractReadOnlyTransformingMap<IK, OK, IV, OV>
 		extends AbstractTransformingMap<IK, OK, IV, OV> {
 

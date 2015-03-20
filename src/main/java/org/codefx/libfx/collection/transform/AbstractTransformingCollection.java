@@ -9,14 +9,16 @@ import java.util.Spliterator;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-// TODO
-//  - determine behavior regarding bulkOperations/ClassCastExceptions
-//  - document protected methods for call...AllOnInner and call...OnThis
-//  - document that arguments to abstract methods can be null
-//  - create decorator which catches all ClassCastExceptions thrown by various methods
-//  - should these abstract classes and the 'Transforming...' helper classes be public?
-
-//  - intermediate decision regarding null elements: is allowed on this level - might be disallowed by subclasses
+/**
+ * Abstract superclass to {@link Collection}s which transform another collection.
+ * <p>
+ * This class allows null elements. Subclasses might override that by implementing aggressive null checks.
+ *
+ * @param <I>
+ *            the inner type, i.e. the type of the elements contained in the wrapped/inner collection
+ * @param <O>
+ *            the outer type, i.e. the type of elements appearing to be in this collection
+ */
 abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 
 	// #region CONSTANTS
@@ -104,6 +106,11 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 	/**
 	 * Wraps the specified collection into a transformation and calls {@link Collection#containsAll(Collection)
 	 * containsAll} on the {@link #getInnerCollection() innerCollection}.
+	 * <p>
+	 * Subclasses may chose to use this method if they override {@link #containsAll(Collection)}.
+	 * <p>
+	 * Accessing the wrapped collection will lead to {@link ClassCastException}s when its elements are not of this
+	 * collection's outer type {@code O}. Consider using {@link #callContainsOnThis(Collection)}.
 	 *
 	 * @param otherCollection
 	 *            the parameter to {@code containsAll}
@@ -116,6 +123,12 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 
 	/**
 	 * Iterates over the specified collection and calls {@link #contains(Object)} (on this collection) for each element.
+	 * <p>
+	 * Subclasses may chose to use this method if they override {@link #containsAll(Collection)}.
+	 * <p>
+	 * Manually iterating over the specified collection and calling {@code this.}{@link #contains(Object)} individually
+	 * might break guarantees or optimizations made by the inner collection. Consider using
+	 * {@link #callContainsAllOnInner(Collection)}.
 	 *
 	 * @param otherCollection
 	 *            the collection whose elements are passed to {@code contains}
@@ -146,6 +159,11 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 	/**
 	 * Wraps the specified collection into a transformation and calls {@link Collection#addAll(Collection) addAll} on
 	 * the {@link #getInnerCollection() innerCollection}.
+	 * <p>
+	 * Subclasses may chose to use this method if they override {@link #addAll(Collection)}.
+	 * <p>
+	 * Accessing the wrapped collection will lead to {@link ClassCastException}s when its elements are not of this
+	 * collection's outer type {@code O}. Consider using {@link #callAddOnThis(Collection)}.
 	 *
 	 * @param otherCollection
 	 *            the parameter to {@code addAll}
@@ -159,6 +177,12 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 	/**
 	 * Iterates over the specified collection and calls {@link #add(Object) add(O)} (on this collection) for each
 	 * element.
+	 * <p>
+	 * Subclasses may chose to use this method if they override {@link #addAll(Collection)}.
+	 * <p>
+	 * Manually iterating over the specified collection and calling {@code this.}{@link #add(Object)} individually might
+	 * break guarantees (e.g. regarding atomicity) or optimizations made by the inner collection. Consider using
+	 * {@link #callAddAllOnInner(Collection)}.
 	 *
 	 * @param otherCollection
 	 *            the collection whose elements are passed to {@code add}
@@ -225,6 +249,11 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 	/**
 	 * Wraps the specified collection into a transformation and calls {@link Collection#removeAll(Collection) removeAll}
 	 * on the {@link #getInnerCollection() innerCollection}.
+	 * <p>
+	 * Subclasses may chose to use this method if they override {@link #removeAll(Collection)}.
+	 * <p>
+	 * Accessing the wrapped collection will lead to {@link ClassCastException}s when its elements are not of this
+	 * collection's outer type {@code O}. Consider using {@link #callRemoveOnThis(Collection)}.
 	 *
 	 * @param otherCollection
 	 *            the parameter to {@code removeAll}
@@ -237,6 +266,12 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 
 	/**
 	 * Iterates over the specified collection and calls {@link #remove(Object)} (on this collection) for each element.
+	 * <p>
+	 * Subclasses may chose to use this method if they override {@link #removeAll(Collection)}.
+	 * <p>
+	 * Manually iterating over the specified collection and calling {@code this.}{@link #remove(Object)} individually
+	 * might break guarantees (e.g. regarding atomicity) or optimizations made by the inner collection. Consider using
+	 * {@link #callRemoveAllOnInner(Collection)}.
 	 *
 	 * @param otherCollection
 	 *            the collection whose elements are passed to {@code remove}
@@ -261,6 +296,11 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 	/**
 	 * Wraps the specified collection into a transformation and calls {@link Collection#retainAll(Collection) retainAll}
 	 * on the {@link #getInnerCollection() innerCollection}.
+	 * <p>
+	 * Subclasses may chose to use this method if they override {@link #retainAll(Collection)}.
+	 * <p>
+	 * Accessing the wrapped collection will lead to {@link ClassCastException}s when its elements are not of this
+	 * collection's outer type {@code O}. Consider using {@link #retianByCallingRemoveOnThis(Collection)}.
 	 *
 	 * @param otherCollection
 	 *            the parameter to {@code retainAll}
@@ -274,6 +314,12 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 	/**
 	 * Iterates over this collection (i.e. over the outer elements) and removes each element which is not contained in
 	 * the specified collection.
+	 * <p>
+	 * Subclasses may chose to use this method if they override {@link #retainAll(Collection)}.
+	 * <p>
+	 * Manually iterating over this collection and calling {@code this.}{@link #remove(Object)} individually might break
+	 * guarantees (e.g. regarding atomicity) or optimizations made by the inner collection. Consider using
+	 * {@link #callRetainAllOnInner(Collection)}.
 	 *
 	 * @param otherCollection
 	 *            the collection whose elements are not removed from this collection
@@ -539,15 +585,62 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 
 	// #region ABSTRACT METHODS
 
+	/**
+	 * @return the inner collection wrapped by this transforming collection
+	 */
 	protected abstract Collection<I> getInnerCollection();
 
+	/**
+	 * Checks whether the specified object might be an inner element.
+	 * <p>
+	 * This method does not have to be exact (which might be impossible due to involved generic types) and might produce
+	 * false positives (but no false negatives).
+	 *
+	 * @param object
+	 *            the object to check; may be null
+	 * @return true if the object might be an inner element
+	 */
 	protected abstract boolean isInnerElement(Object object);
 
-	protected abstract O transformToOuter(I innerElement);
+	/**
+	 * Transforms the specified element to an instance of the outer type.
+	 * <p>
+	 * It can not be guaranteed that the specified element is really of the inner type. If not, an exception can be
+	 * thrown.
+	 *
+	 * @param innerElement
+	 *            the element to transform; may be null
+	 * @return the transformed element
+	 * @throws ClassCastException
+	 *             if the specified element is not of the correct type
+	 */
+	protected abstract O transformToOuter(I innerElement) throws ClassCastException;
 
+	/**
+	 * Checks whether the specified object might be an outer element.
+	 * <p>
+	 * This method does not have to be exact (which might be impossible due to involved generic types) and might produce
+	 * false positives (but no false negatives).
+	 *
+	 * @param object
+	 *            the object to check; may be null
+	 * @return true if the object might be an outer element
+	 */
 	protected abstract boolean isOuterElement(Object object);
 
-	protected abstract I transformToInner(O outerElement);
+	/**
+	 * Transforms the specified element to an instance of the inner type.
+	 * <p>
+	 * It can not be guaranteed that the specified element is really of the outer type. If not, an exception can be
+	 * thrown.
+	 *
+	 * @param outerElement
+	 *            the element to transform; may be null
+	 * @return the transformed element
+	 * @throws ClassCastException
+	 *             if the specified element is not of the correct type
+	 */
+	protected abstract I transformToInner(O outerElement) throws ClassCastException;
 
 	// #end ABSTRACT METHODS
 
