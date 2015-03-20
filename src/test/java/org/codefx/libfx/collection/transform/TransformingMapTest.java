@@ -16,6 +16,7 @@ import org.codefx.libfx.collection.transform.ElementTypes.Mammal;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.SampleElements;
 import com.google.common.collect.testing.TestMapGenerator;
+import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
 import com.google.common.collect.testing.features.MapFeature;
@@ -28,8 +29,8 @@ public class TransformingMapTest {
 
 	public Test allTests() {
 		TestSuite suite = new TestSuite("org.codefx.libfx.collection.transform.TransformingMap");
-//		suite.addTest(testForBackingMapHasSupertype());
-//		suite.addTest(testForBackingMapHasSubtype());
+		suite.addTest(testForBackingMapHasSupertype());
+		suite.addTest(testForBackingMapHasSubtype());
 		return suite;
 	}
 
@@ -42,6 +43,7 @@ public class TransformingMapTest {
 				MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
 				MapFeature.SUPPORTS_PUT,
 				MapFeature.SUPPORTS_REMOVE,
+				CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
 		};
 	}
 
