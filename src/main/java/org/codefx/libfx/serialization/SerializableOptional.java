@@ -88,7 +88,6 @@ public final class SerializableOptional<T extends Serializable> implements Seria
 
 	// FIELDS
 
-	@SuppressWarnings("javadoc")
 	private static final long serialVersionUID = -652697447004597911L;
 
 	/**
@@ -202,7 +201,6 @@ public final class SerializableOptional<T extends Serializable> implements Seria
 	 */
 	private static class SerializationProxy<T extends Serializable> implements Serializable {
 
-		@SuppressWarnings("javadoc")
 		private static final long serialVersionUID = -1326520485869949065L;
 
 		/**
