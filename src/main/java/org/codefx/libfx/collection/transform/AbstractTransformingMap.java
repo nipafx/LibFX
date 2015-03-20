@@ -358,7 +358,7 @@ public abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK,
 			return transformToInnerKey(outerElement);
 		}
 
-		// disallow adding
+		// prevent adding elements
 
 		@Override
 		public boolean add(OK element) {
@@ -399,7 +399,7 @@ public abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK,
 			return transformToInnerValue(outerElement);
 		}
 
-		// disallow adding
+		// prevent adding elements
 
 		@Override
 		public boolean add(OV element) {
@@ -476,7 +476,7 @@ public abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK,
 			return new SimpleEntry<>(innerKey, innerValue);
 		}
 
-		// disallow adding
+		// prevent adding elements
 
 		@Override
 		public boolean add(Entry<OK, OV> element) {
@@ -489,5 +489,69 @@ public abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK,
 		}
 
 	}
+
+	private class TransformToReadOnlyInnerMap extends AbstractReadOnlyTransformingMap<OK, IK, OV, IV> {
+
+		private final Map<? extends OK, ? extends OV> transformedMap;
+
+		public TransformToReadOnlyInnerMap(Map<? extends OK, ? extends OV> transformedMap) {
+			this.transformedMap = transformedMap;
+		}
+
+		// abstract methods
+
+		@Override
+		protected Map<OK, OV> getInnerMap() {
+			@SuppressWarnings("unchecked")
+			/*
+			 * This cast is not safe! But since this class only allows reading operations, it can not cause trouble.
+			 */
+			Map<OK, OV> unsafelyTypedMap = (Map<OK, OV>) transformedMap;
+			return unsafelyTypedMap;
+		}
+
+		@Override
+		protected boolean isInnerKey(Object object) {
+			return AbstractTransformingMap.this.isOuterKey(object);
+		}
+
+		@Override
+		protected IK transformToOuterKey(OK innerKey) {
+			return AbstractTransformingMap.this.transformToInnerKey(innerKey);
+		}
+
+		@Override
+		protected boolean isOuterKey(Object object) {
+			return AbstractTransformingMap.this.isInnerKey(object);
+		}
+
+		@Override
+		protected OK transformToInnerKey(IK outerKey) {
+			return AbstractTransformingMap.this.transformToOuterKey(outerKey);
+		}
+
+		@Override
+		protected boolean isInnerValue(Object object) {
+			return AbstractTransformingMap.this.isOuterValue(object);
+		}
+
+		@Override
+		protected IV transformToOuterValue(OV innerValue) {
+			return AbstractTransformingMap.this.transformToInnerValue(innerValue);
+		}
+
+		@Override
+		protected boolean isOuterValue(Object object) {
+			return AbstractTransformingMap.this.isInnerValue(object);
+		}
+
+		@Override
+		protected OV transformToInnerValue(IV outerValue) {
+			return AbstractTransformingMap.this.transformToOuterValue(outerValue);
+		}
+
+	}
+
+	// #end INNER CLASSES
 
 }
