@@ -75,8 +75,8 @@ public abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK,
 			 * 'isOuterKey' does its job well (which can be hard due to erasure) this will not happen.
 			 */
 			OK outerKey = (OK) key;
-			IK innerKey = transformToInnerKey(outerKey);
-			return getInnerMap().containsKey(innerKey);
+			return getInnerMap().containsKey(
+					transformToInnerKey(outerKey));
 		} else
 			return false;
 	}
@@ -91,8 +91,8 @@ public abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK,
 			 * If 'isOuterValue' does its job well (which can be hard due to erasure) this will not happen.
 			 */
 			OV outerValue = (OV) value;
-			IV innerValue = transformToInnerValue(outerValue);
-			return getInnerMap().containsValue(innerValue);
+			return getInnerMap().containsValue(
+					transformToInnerValue(outerValue));
 		} else
 			return false;
 	}
@@ -109,12 +109,8 @@ public abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK,
 			 * does its job well (which can be hard due to erasure) this will not happen.
 			 */
 			OK outerKey = (OK) key;
-			IK innerKey = transformToInnerKey(outerKey);
-
-			IV innerValue = getInnerMap().get(innerKey);
-
-			OV outerValue = transformToOuterValue(innerValue);
-			return outerValue;
+			return transformToOuterValue(getInnerMap().get(
+					transformToInnerKey(outerKey)));
 		} else
 			return null;
 	}
@@ -123,13 +119,11 @@ public abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK,
 
 	@Override
 	public OV put(OK key, OV value) {
-		IK innerKey = transformToInnerKey(key);
-		IV innerValue = transformToInnerValue(value);
+		return transformToOuterValue(getInnerMap().put(
+				transformToInnerKey(key),
+				transformToInnerValue(value)));
 
-		IV previousInnerValue = getInnerMap().put(innerKey, innerValue);
 
-		OV previousOuterValue = transformToOuterValue(previousInnerValue);
-		return previousOuterValue;
 	}
 
 	@Override
@@ -149,12 +143,8 @@ public abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK,
 			 * 'isOuterKey' does its job well (which can be hard due to erasure) this will not happen.
 			 */
 			OK outerKey = (OK) key;
-			IK innerKey = transformToInnerKey(outerKey);
-
-			IV previousInnerValue = getInnerMap().remove(innerKey);
-
-			OV previousOuterValue = transformToOuterValue(previousInnerValue);
-			return previousOuterValue;
+			return transformToOuterValue(getInnerMap().remove(
+					transformToInnerKey(outerKey)));
 		} else
 			return null;
 	}
