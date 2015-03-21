@@ -614,6 +614,8 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 		@Override
 		protected boolean isInnerElement(Object object) {
 			if (!(object instanceof Entry<?, ?>))
+				// this also returns 'false' if object is 'null';
+				// that is correct because an entrySet can not contain null values
 				return false;
 
 			Entry<?, ?> entry = (Entry<?, ?>) object;
@@ -622,6 +624,9 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 
 		@Override
 		protected Entry<OK, OV> transformToOuter(Entry<IK, IV> innerElement) {
+			// the entry view is based on an inner view, which should never contain null
+			Objects.requireNonNull(innerElement, "The argument 'innerElement' must not be null.");
+
 			OK outerKey = transformToOuterKey(innerElement.getKey());
 			OV outerValue = transformToOuterValue(innerElement.getValue());
 			return new SimpleEntry<>(outerKey, outerValue);
@@ -630,6 +635,8 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 		@Override
 		protected boolean isOuterElement(Object object) {
 			if (!(object instanceof Entry<?, ?>))
+				// this also returns 'false' if object is 'null';
+				// that is correct because an entrySet can not contain null values
 				return false;
 
 			Entry<?, ?> entry = (Entry<?, ?>) object;
@@ -638,6 +645,12 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 
 		@Override
 		protected Entry<IK, IV> transformToInner(Map.Entry<OK, OV> outerElement) {
+			// someone might hand null to a method of this view (e.g. 'contains');
+			// since there can never be null values in an entry view of a map, this mapping can be fixed to null -> null;
+			// the inner map's entry view will handle this case correctly
+			if (outerElement == null)
+				return null;
+
 			IK innerKey = transformToInnerKey(outerElement.getKey());
 			IV innerValue = transformToInnerValue(outerElement.getValue());
 			return new SimpleEntry<>(innerKey, innerValue);

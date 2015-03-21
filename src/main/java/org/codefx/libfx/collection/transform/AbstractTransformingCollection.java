@@ -347,14 +347,16 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 
 	@Override
 	public Iterator<O> iterator() {
-		Iterator<I> innerIterator = getInnerCollection().iterator();
-		return new TransformingIterator<>(innerIterator, this::transformToOuter);
+		// use an iterator which immediately forwards all transformation calls to this collection;
+		// this excludes the 'TransformingIterator' which does some null handling on its own
+		return new ForwardingTransformingIterator();
 	}
 
 	@Override
 	public Spliterator<O> spliterator() {
-		Spliterator<I> innerSpliterator = getInnerCollection().spliterator();
-		return new TransformingSpliterator<>(innerSpliterator, this::transformToOuter, this::transformToInner);
+		// use an spliterator which immediately forwards all transformation calls to this collection;
+		// this excludes the 'TransformingSpliterator' which does some null handling on its own
+		return new ForwardingTransformingSpliterator();
 	}
 
 	// #region TOARRAY
@@ -645,6 +647,56 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 	// #end ABSTRACT METHODS
 
 	// #region INNER CLASSES
+
+	/**
+	 * A transforming iterator which directly forwards all transformation calls to the abstract methods in this
+	 * collection.
+	 */
+	private class ForwardingTransformingIterator extends AbstractTransformingIterator<I, O> {
+
+		private final Iterator<I> innerIterator = getInnerCollection().iterator();
+
+		@Override
+		protected Iterator<I> getInnerIterator() {
+			return innerIterator;
+		}
+
+		@Override
+		protected O transformToOuter(I innerElement) {
+			return AbstractTransformingCollection.this.transformToOuter(innerElement);
+		}
+
+	}
+
+	/**
+	 * A transforming spliterator which directly forwards all transformation calls to the abstract methods in this
+	 * collection.
+	 */
+	private class ForwardingTransformingSpliterator extends AbstractTransformingSpliterator<I, O> {
+
+		private final Spliterator<I> innerSpliterator = getInnerCollection().spliterator();
+
+		@Override
+		protected Spliterator<I> getInnerSpliterator() {
+			return innerSpliterator;
+		}
+
+		@Override
+		protected O transformToOuter(I innerElement) {
+			return AbstractTransformingCollection.this.transformToOuter(innerElement);
+		}
+
+		@Override
+		protected I transformToInner(O outerElement) {
+			return AbstractTransformingCollection.this.transformToInner(outerElement);
+		}
+
+		@Override
+		protected Spliterator<O> wrapNewSpliterator(Spliterator<I> newSpliterator) {
+			return new ForwardingTransformingSpliterator();
+		}
+
+	}
 
 	/**
 	 * Wraps a collection with any element type {@code E} into a transforming collection with the inner type {@code I}.
