@@ -28,7 +28,8 @@ public class OptionalTransformingCollectionTest {
 	 */
 	public static Test suite() {
 		TestSuite suite = new TestSuite("org.codefx.libfx.collection.transform.TransformingCollection");
-		suite.addTest(testForObjectOptional());
+		suite.addTest(testForOptionalWithNullDefaultValue());
+		suite.addTest(testForOptionalWithNonNullDefaultValue());
 		return suite;
 	}
 
@@ -37,7 +38,7 @@ public class OptionalTransformingCollectionTest {
 				// since 'OptionalTransformingCollection' passes all calls along,
 				// the features are determined by the backing data structure (which is an 'ArrayList')
 				CollectionSize.ANY,
-				// exclude 'CollectionFeature.ALLOWS_NULL_VALUES' because nulls are handled in a special way TODO
+				// exclude 'CollectionFeature.ALLOWS_NULL_VALUES' because nulls are handled in a special way
 				CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
 				CollectionFeature.KNOWN_ORDER,
 				CollectionFeature.SUPPORTS_ADD,
@@ -47,29 +48,47 @@ public class OptionalTransformingCollectionTest {
 	}
 
 	/**
-	 * Creates a test for a collection which us backed by a collection of {@link Optional Optional&lt;String&gt;}.
+	 * Creates a test for a collection which us backed by a collection of {@link Optional Optional&lt;String&gt;}. The
+	 * empty Optional is represented with null.
 	 *
 	 * @return the test case
 	 */
-	private static Test testForObjectOptional() {
+	private static Test testForOptionalWithNullDefaultValue() {
 		return CollectionTestSuiteBuilder
-				.using(new ObjectOptionalTestGenerator(null))
-				.named("backed by supertype")
+				.using(new OptionalTestGenerator(null))
+				.named("Optional<String> with null as default")
+				.withFeatures(features())
+				// if null is the default value, the collection allows null values
+				.withFeatures(CollectionFeature.ALLOWS_NULL_VALUES)
+				.createTestSuite();
+	}
+
+	/**
+	 * Creates a test for a collection which us backed by a collection of {@link Optional Optional&lt;String&gt;}. The
+	 * empty Optional is represented with "DEFAULT".
+	 *
+	 * @return the test case
+	 */
+	private static Test testForOptionalWithNonNullDefaultValue() {
+		return CollectionTestSuiteBuilder
+				.using(new OptionalTestGenerator("DEFAULT"))
+				.named("Optional<String> with 'DEFAULT' as default")
+				// if null is not the default value, the collection does not allow null values
 				.withFeatures(features())
 				.createTestSuite();
 	}
 
-	private static class ObjectOptionalTestGenerator implements TestCollectionGenerator<String> {
+	private static class OptionalTestGenerator implements TestCollectionGenerator<String> {
 
 		private final String defaultValue;
 
-		public ObjectOptionalTestGenerator(String defaultValue) {
+		public OptionalTestGenerator(String defaultValue) {
 			this.defaultValue = defaultValue;
 		}
 
 		@Override
 		public SampleElements<String> samples() {
-			return new SampleElements<String>(defaultValue, "A", "B", "C", "D");
+			return new SampleElements<String>("A", "B", "C", "D", "E");
 		}
 
 		@Override

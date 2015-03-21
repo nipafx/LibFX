@@ -1,7 +1,6 @@
 package org.codefx.libfx.collection.transform;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -9,7 +8,22 @@ import java.util.Optional;
  * A transforming {@link Collection} which is a flattened view on a collection of {@link Optional}s, i.e. it only
  * presents the contained values.
  * <p>
- * TODO null not allowed in inner Collection and only in outer collection if default value; fix that behavior
+ * See the {@link org.codefx.libfx.collection.transform package} documentation for general comments.
+ * <p>
+ * This implementation mitigates the type safety problems by using type tokens. {@code Optional.class} is used as the
+ * inner type token. The outer type token can be specified during construction. This solves some of the critical
+ * situations but not all of them. In those other cases (e.g. if {@link #containsAll(Collection) containsAll} is called
+ * with a {@code Collection<Optional<?>>}) {@link ClassCastException}s might occur when an element can not be
+ * transformed by the transformation functions.
+ * <p>
+ * The inner collection must not contain null elements. The empty {@code Optional} is mapped to an outer element
+ * specified during construction. If null is chosen for this, this collection will accept null elements. Otherwise it
+ * will reject them with a {@link NullPointerException}. This transformation is handled explicitly and the transforming
+ * functions specified during construction do not have to handle that case.
+ * <p>
+ * All method calls (of abstract and default methods existing in JDK 8) are forwarded to <b>the same method</b> on the
+ * wrapped collection. This implies that all all guarantees made by such methods (e.g. regarding atomicity) are upheld
+ * by the transformation.
  *
  * @param <E>
  *            the type of elements contained in the {@code Optional}s
@@ -22,6 +36,9 @@ public final class OptionalTransformingCollection<E> extends AbstractTransformin
 
 	private final Class<? super E> outerTypeToken;
 
+	/**
+	 * The outer element used to represent {@link Optional#empty()}.
+	 */
 	private final E outerDefaultElement;
 
 	// #end FIELDS
@@ -36,9 +53,9 @@ public final class OptionalTransformingCollection<E> extends AbstractTransformin
 	 * @param outerTypeToken
 	 *            the token for the outer type
 	 * @param outerDefaultElement
-	 *            the element used to represent {@link Optional#empty()}; it is of crucial importance that this element
-	 *            does not occur inside an optional because then the transformations are from that optional to an
-	 *            element and back are not inverse
+	 *            the element used to represent {@link Optional#empty()}; can be null; it is of crucial importance that
+	 *            this element does not occur inside a non-empty optional because then the transformations from that
+	 *            optional to an element and back are not inverse, which will cause unexpected behavior
 	 */
 	public OptionalTransformingCollection(
 			Collection<Optional<E>> innerCollection,
@@ -80,9 +97,10 @@ public final class OptionalTransformingCollection<E> extends AbstractTransformin
 	 * @param innerCollection
 	 *            the wrapped collection
 	 * @param outerDefaultElement
-	 *            the element used to represent {@link Optional#empty()}; it is of crucial importance that this element
-	 *            does not occur inside an optional because then the transformations are from that optional to an
-	 *            element and back are not inverse
+	 *            the non-null element used to represent {@link Optional#empty()}; it is of crucial importance that this
+	 *            element does not occur inside an optional because then the transformations from that optional to an
+	 *            element and back are not inverse, which will cause unexpected behavior; the instance's class will be
+	 *            used as the outer type token
 	 */
 	public OptionalTransformingCollection(
 			Collection<Optional<E>> innerCollection,
@@ -98,15 +116,6 @@ public final class OptionalTransformingCollection<E> extends AbstractTransformin
 
 	// #end CONSTRUCTION
 
-	// #region OVERRIDING METHODS
-
-	@Override
-	public Iterator<E> iterator() {
-		return new OptionalTransformingIterator();
-	}
-
-	// #end OVERRIDING METHODS
-
 	// #region ABSTRACT METHODS FOM SUPERCLASS
 
 	@Override
@@ -116,7 +125,10 @@ public final class OptionalTransformingCollection<E> extends AbstractTransformin
 
 	@Override
 	protected boolean isInnerElement(Object object) {
-		// null can not be an element of the inner collection; 'isInstance' conforms to that
+		// reject nulls unless it is the outer default element
+		if (outerDefaultElement != null)
+			Objects.requireNonNull(object, "When the outer default element is not null, this collection rejects nulls.");
+
 		return Optional.class.isInstance(object);
 	}
 
@@ -135,6 +147,10 @@ public final class OptionalTransformingCollection<E> extends AbstractTransformin
 
 	@Override
 	protected Optional<E> transformToInner(E outerElement) {
+		// reject nulls unless it is the outer default element
+		if (outerDefaultElement != null)
+			Objects.requireNonNull(outerElement, "The argument 'outerElement' must not be null.");
+
 		return Objects.equals(outerElement, outerDefaultElement)
 				? Optional.empty()
 				: Optional.of(outerElement);
@@ -168,26 +184,4 @@ public final class OptionalTransformingCollection<E> extends AbstractTransformin
 
 	// #end OBJECT
 
-	// #region INNER CLASSES
-
-	private class OptionalTransformingIterator extends AbstractTransformingIterator<Optional<E>, E> {
-
-		/**
-		 * The wrapped/inner iterator.
-		 */
-		private final Iterator<Optional<E>> innerIterator = getInnerCollection().iterator();
-
-		@Override
-		protected Iterator<Optional<E>> getInnerIterator() {
-			return innerIterator;
-		}
-
-		@Override
-		protected E transformToOuter(Optional<E> innerElement) {
-			return OptionalTransformingCollection.this.transformToOuter(innerElement);
-		}
-
-	}
-
-	// #end INNER CLASSES
 }
