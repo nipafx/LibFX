@@ -10,6 +10,11 @@ import java.util.Optional;
  * <p>
  * See the {@link org.codefx.libfx.collection.transform package} documentation for general comments.
  * <p>
+ * The transformations used by this collection preserve object identity of outer elements with the exception of the
+ * default element. This means if (non-default) elements are added to this collection, an iteration over it will return
+ * the same instances. The same default value instance will be used to represent the empty {@code Optional}, so when
+ * elements equal to it are added, they will be retrieved as that instance (thus loosing their identity).
+ * <p>
  * This implementation mitigates the type safety problems by using type tokens. {@code Optional.class} is used as the
  * inner type token. The outer type token can be specified during construction. This solves some of the critical
  * situations but not all of them. In those other cases (e.g. if {@link #containsAll(Collection) containsAll} is called
