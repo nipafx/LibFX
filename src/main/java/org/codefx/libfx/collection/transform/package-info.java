@@ -19,14 +19,15 @@
  * keys and one for values.
  * <p>
  * The transforming functions must be inverse to each other with regard to {@link java.lang.Object#equals(Object)
- * equals}, i.e. {@code outer.equals(toOuter(toInner(outer))} and {@code inner.equals(toInner(toOuter(inner))} must
- * always be true. If this is not the case, the collections might behave in an unpredictable manner.
+ * equals}, i.e. {@code outer.equals(toOuter(toInner(outer))} and {@code inner.equals(toInner(toOuter(inner))} must be
+ * true for all {@code outer} and {@code inner} elements. If this is not the case, the collections might behave in an
+ * unpredictable manner.
  * <p>
- * Note that the same is not true for identity. It is explicitly allowed to create new outer elements from inner
- * elements and vice versa. This means that outer elements have no meaningful identity. E.g. on adding an outer instance
- * {@code outerOrg} it can be transformed to {@code inner} and on access back to {@code outer}. Whether
- * {@code outerOrg == outer} holds, depends on the transformation functions and is generally unspecified. It might
- * never, sometimes or always be true.
+ * Note that the same is not true for identity, i.e. {@code outer == toOuter(toInner(outer))} may be false. It is
+ * explicitly allowed to create new outer elements from inner elements and vice versa. This means that outer elements
+ * may have no meaningful identity. E.g. on adding an outer instance {@code outerOrg} it can be transformed to
+ * {@code inner} and on access back to {@code outer}. Whether {@code outerOrg == outer} holds, depends on the
+ * transformation functions and is generally unspecified. It might never, sometimes or always be true.
  * <p>
  * A special case of transformation occurs when the inner and outer type have a type relationship. This can shortcut one
  * of the transformations to the identity, i.e. because an instance of one type is also of the other type the
