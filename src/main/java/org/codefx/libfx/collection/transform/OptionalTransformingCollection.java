@@ -121,7 +121,7 @@ public final class OptionalTransformingCollection<E> extends AbstractTransformin
 
 	// #end CONSTRUCTION
 
-	// #region ABSTRACT METHODS FOM SUPERCLASS
+	// #region IMPLEMENTATION OF 'AbstractTransformingCollection'
 
 	@Override
 	protected Collection<Optional<E>> getInnerCollection() {
@@ -161,7 +161,7 @@ public final class OptionalTransformingCollection<E> extends AbstractTransformin
 				: Optional.of(outerElement);
 	}
 
-	// #end ABSTRACT METHODS FOM SUPERCLASS
+	// #end IMPLEMENTATION OF 'AbstractTransformingCollection'
 
 	// #region OBJECT
 

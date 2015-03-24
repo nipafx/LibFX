@@ -103,7 +103,7 @@ public final class TransformingMap<IK, OK, IV, OV> extends AbstractTransformingM
 
 	// #end CONSTRUCTION
 
-	// #region ABSTRACT METHODS FROM SUPERCLASS
+	// #region IMPLEMENTATION OF 'AbstractTransformingMap'
 
 	@Override
 	protected Map<IK, IV> getInnerMap() {
@@ -170,6 +170,6 @@ public final class TransformingMap<IK, OK, IV, OV> extends AbstractTransformingM
 		return innerValue;
 	}
 
-	// #end ABSTRACT METHODS FROM SUPERCLASS
+	// #end IMPLEMENTATION OF 'AbstractTransformingMap'
 
 }

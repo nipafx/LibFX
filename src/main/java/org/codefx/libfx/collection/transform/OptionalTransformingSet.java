@@ -122,7 +122,7 @@ public final class OptionalTransformingSet<E> extends AbstractTransformingSet<Op
 
 	// #end CONSTRUCTION
 
-	// #region ABSTRACT METHODS FOM SUPERCLASS
+	// #region IMPLEMENTATION OF 'AbstractTransformingSet'
 
 	@Override
 	protected Set<Optional<E>> getInnerSet() {
@@ -162,6 +162,6 @@ public final class OptionalTransformingSet<E> extends AbstractTransformingSet<Op
 				: Optional.of(outerElement);
 	}
 
-	// #end ABSTRACT METHODS FOM SUPERCLASS
+	// #end IMPLEMENTATION OF 'AbstractTransformingSet'
 
 }

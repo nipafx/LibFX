@@ -77,7 +77,7 @@ public final class TransformingSet<I, O> extends AbstractTransformingSet<I, O> {
 		this.transformToInner = transformToInner;
 	}
 
-	// #region ABSTRACT METHODS FOM SUPERCLASS
+	// #region IMPLEMENTATION OF 'AbstractTransformingSet'
 
 	@Override
 	protected Set<I> getInnerSet() {
@@ -114,6 +114,6 @@ public final class TransformingSet<I, O> extends AbstractTransformingSet<I, O> {
 		return innerElement;
 	}
 
-	// #end ABSTRACT METHODS FOM SUPERCLASS
+	// #end IMPLEMENTATION OF 'AbstractTransformingSet'
 
 }

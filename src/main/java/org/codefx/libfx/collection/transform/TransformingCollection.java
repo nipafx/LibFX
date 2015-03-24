@@ -77,7 +77,7 @@ public final class TransformingCollection<I, O> extends AbstractTransformingColl
 		this.transformToInner = transformToInner;
 	}
 
-	// #region ABSTRACT METHODS FOM SUPERCLASS
+	// #region IMPLEMENTATION OF 'AbstractTransformingCollection'
 
 	@Override
 	protected Collection<I> getInnerCollection() {
@@ -114,7 +114,7 @@ public final class TransformingCollection<I, O> extends AbstractTransformingColl
 		return innerElement;
 	}
 
-	// #end ABSTRACT METHODS FOM SUPERCLASS
+	// #end IMPLEMENTATION OF 'AbstractTransformingCollection'
 
 	// #region OBJECT
 
