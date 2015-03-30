@@ -33,8 +33,8 @@ public class TransformingMapTest {
 	 */
 	public static Test suite() {
 		TestSuite suite = new TestSuite("org.codefx.libfx.collection.transform.TransformingMap");
-		suite.addTest(testForBackingMapHasSupertype());
-		suite.addTest(testForBackingMapHasSubtype());
+		suite.addTest(backingMapHasSupertype());
+		suite.addTest(backingMapHasSubtype());
 		return suite;
 	}
 
@@ -56,7 +56,7 @@ public class TransformingMapTest {
 	 *
 	 * @return the test case
 	 */
-	private static Test testForBackingMapHasSupertype() {
+	private static Test backingMapHasSupertype() {
 		return MapTestSuiteBuilder
 				.using(new TransformingMapGenerator(Mammal.class))
 				.named("backed by supertype")
@@ -69,7 +69,7 @@ public class TransformingMapTest {
 	 *
 	 * @return the test case
 	 */
-	private static Test testForBackingMapHasSubtype() {
+	private static Test backingMapHasSubtype() {
 		return MapTestSuiteBuilder
 				.using(new TransformingMapGenerator(Cat.class))
 				.named("backed by subtype")

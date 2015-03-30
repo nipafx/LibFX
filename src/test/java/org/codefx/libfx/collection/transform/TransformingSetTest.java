@@ -30,8 +30,8 @@ public class TransformingSetTest {
 	 */
 	public static Test suite() {
 		TestSuite suite = new TestSuite("org.codefx.libfx.collection.transform.TransformingSet");
-		suite.addTest(testForBackingSetHasSupertype());
-		suite.addTest(testForBackingSetHasSubtype());
+		suite.addTest(backingSetHasSupertype());
+		suite.addTest(backingSetHasSubtype());
 		return suite;
 	}
 
@@ -53,7 +53,7 @@ public class TransformingSetTest {
 	 *
 	 * @return the test case
 	 */
-	private static Test testForBackingSetHasSupertype() {
+	private static Test backingSetHasSupertype() {
 		return SetTestSuiteBuilder
 				.using(new TransformingSetGenerator(Mammal.class))
 				.named("backed by supertype")
@@ -66,7 +66,7 @@ public class TransformingSetTest {
 	 *
 	 * @return the test case
 	 */
-	private static Test testForBackingSetHasSubtype() {
+	private static Test backingSetHasSubtype() {
 		return SetTestSuiteBuilder
 				.using(new TransformingSetGenerator(Cat.class))
 				.named("backed by subtype")

@@ -30,8 +30,8 @@ public class TransformingCollectionTest {
 	 */
 	public static Test suite() {
 		TestSuite suite = new TestSuite("org.codefx.libfx.collection.transform.TransformingCollection");
-		suite.addTest(testForBackingCollectionHasSupertype());
-		suite.addTest(testForBackingCollectionHasSubtype());
+		suite.addTest(backingCollectionHasSupertype());
+		suite.addTest(backingCollectionHasSubtype());
 		return suite;
 	}
 
@@ -54,7 +54,7 @@ public class TransformingCollectionTest {
 	 *
 	 * @return the test case
 	 */
-	private static Test testForBackingCollectionHasSupertype() {
+	private static Test backingCollectionHasSupertype() {
 		return CollectionTestSuiteBuilder
 				.using(new TransformingCollectionTestGenerator(Mammal.class))
 				.named("backed by supertype")
@@ -67,7 +67,7 @@ public class TransformingCollectionTest {
 	 *
 	 * @return the test case
 	 */
-	private static Test testForBackingCollectionHasSubtype() {
+	private static Test backingCollectionHasSubtype() {
 		return CollectionTestSuiteBuilder
 				.using(new TransformingCollectionTestGenerator(Cat.class))
 				.named("backed by subtype")

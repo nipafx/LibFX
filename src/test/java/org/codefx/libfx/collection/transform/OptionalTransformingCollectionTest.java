@@ -28,8 +28,8 @@ public class OptionalTransformingCollectionTest {
 	 */
 	public static Test suite() {
 		TestSuite suite = new TestSuite("org.codefx.libfx.collection.transform.TransformingCollection");
-		suite.addTest(testForOptionalWithNullDefaultValue());
-		suite.addTest(testForOptionalWithNonNullDefaultValue());
+		suite.addTest(optionalWithNullDefaultValue());
+		suite.addTest(optionalWithNonNullDefaultValue());
 		return suite;
 	}
 
@@ -53,7 +53,7 @@ public class OptionalTransformingCollectionTest {
 	 *
 	 * @return the test case
 	 */
-	private static Test testForOptionalWithNullDefaultValue() {
+	private static Test optionalWithNullDefaultValue() {
 		return CollectionTestSuiteBuilder
 				.using(new OptionalTestGenerator(null))
 				.named("Optional<String> with null as default")
@@ -69,7 +69,7 @@ public class OptionalTransformingCollectionTest {
 	 *
 	 * @return the test case
 	 */
-	private static Test testForOptionalWithNonNullDefaultValue() {
+	private static Test optionalWithNonNullDefaultValue() {
 		return CollectionTestSuiteBuilder
 				.using(new OptionalTestGenerator("DEFAULT"))
 				.named("Optional<String> with 'DEFAULT' as default")
