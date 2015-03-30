@@ -83,12 +83,12 @@ public class EqualityTransformingMapTest {
 
 	private static class TransformingMapGenerator implements TestMapGenerator<String, Integer> {
 
-		private final BiPredicate<String, String> equal;
+		private final BiPredicate<String, String> equals;
 
 		private final ToIntFunction<String> hash;
 
-		public TransformingMapGenerator(BiPredicate<String, String> equal, ToIntFunction<String> hash) {
-			this.equal = equal;
+		public TransformingMapGenerator(BiPredicate<String, String> equals, ToIntFunction<String> hash) {
+			this.equals = equals;
 			this.hash = hash;
 		}
 
@@ -126,8 +126,12 @@ public class EqualityTransformingMapTest {
 		@Override
 		@SuppressWarnings("unchecked")
 		public Map<String, Integer> create(Object... entries) {
-			Map<String, Integer> transformingMap =
-					new EqualityTransformingMap<>(HashMap::new, String.class, equal, hash);
+			Map<String, Integer> transformingMap = EqualityTransformingMap
+					.withKeyType(String.class)
+					.withInnerMap(() -> new HashMap<Integer, String>())
+					.withEquals(equals)
+					.withHash(hash)
+					.build();
 
 			Arrays.stream(entries)
 					.map(entry -> (Entry<String, Integer>) entry)
