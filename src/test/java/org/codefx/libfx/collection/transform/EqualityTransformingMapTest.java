@@ -1,5 +1,7 @@
 package org.codefx.libfx.collection.transform;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -9,8 +11,11 @@ import java.util.Map.Entry;
 import java.util.function.BiPredicate;
 import java.util.function.ToIntFunction;
 
+import junit.framework.JUnit4TestAdapter;
 import junit.framework.Test;
 import junit.framework.TestSuite;
+
+import org.junit.Before;
 
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.SampleElements;
@@ -31,9 +36,9 @@ public class EqualityTransformingMapTest {
 	 * @return the tests to run
 	 */
 	public static Test suite() {
-		TestSuite suite = new TestSuite("org.codefx.libfx.collection.transform.TransformingMap");
-		suite.addTest(testForOriginalEquality());
-		suite.addTest(testForLengthBasedEquality());
+		TestSuite suite = new TestSuite("org.codefx.libfx.collection.transform.EqualityTransformingMap");
+		suite.addTest(originalEquality());
+		suite.addTest(lengthBasedEquality());
 		return suite;
 	}
 
@@ -55,7 +60,7 @@ public class EqualityTransformingMapTest {
 	 *
 	 * @return the test case
 	 */
-	private static Test testForOriginalEquality() {
+	private static Test originalEquality() {
 		return MapTestSuiteBuilder
 				.using(new TransformingMapGenerator(String::equals, String::hashCode))
 				.named("original equality and hashCode")
@@ -68,17 +73,58 @@ public class EqualityTransformingMapTest {
 	 *
 	 * @return the test case
 	 */
-	private static Test testForLengthBasedEquality() {
-		BiPredicate<String, String> equal = (s1, s2) -> s1.length() == s2.length();
+	private static Test lengthBasedEquality() {
+		BiPredicate<String, String> equals = (s1, s2) -> s1.length() == s2.length();
 		ToIntFunction<String> hash = s -> s.length();
 
-		return MapTestSuiteBuilder
-				.using(new TransformingMapGenerator(equal, hash))
-				.named("original equality and hashCode - Guava tests")
+		Test generalTests = MapTestSuiteBuilder
+				.using(new TransformingMapGenerator(equals, hash))
+				.named("length-based equality and hashCode - general tests")
 				.withFeatures(features())
 				.createTestSuite();
+		TestSuite specificTests = new TestSuite("length-based equality and hashCode - specific tests");
+		specificTests.addTest(new JUnit4TestAdapter(LengthBasedEqualityAndHashCodeTests.class));
 
-		// TODO test to verify whether transformation actually works and length is the determining factor
+		TestSuite tests = new TestSuite("length-based equality and hashCode");
+		tests.addTest(generalTests);
+		tests.addTest(specificTests);
+		return tests;
+	}
+
+	/**
+	 * Tests {@link EqualityTransformingMap} with a specific set of tests geared towards its special functionality, i.e.
+	 * transforming equals and hashCode.
+	 */
+	public static class LengthBasedEqualityAndHashCodeTests {
+
+		private Map<String, Integer> testedMap;
+
+		private final BiPredicate<String, String> equals = (s1, s2) -> s1.length() == s2.length();
+
+		private final ToIntFunction<String> hash = s -> s.length();
+
+		@Before
+		@SuppressWarnings("javadoc")
+		public void createMap() {
+			testedMap = EqualityTransformingMap
+					.withKeyType(String.class)
+					.withInnerMap(() -> new HashMap<Integer, String>())
+					.withEquals(equals)
+					.withHash(hash)
+					.build();
+		}
+
+		@org.junit.Test
+		@SuppressWarnings("javadoc")
+		public void put_getWithSameLengthKey_exists() {
+			Integer associatedValue = 1000;
+			testedMap.put("aaa", associatedValue);
+
+			assertEquals(associatedValue, testedMap.get("bbb"));
+		}
+
+		// TODO add more tests
+
 	}
 
 	private static class TransformingMapGenerator implements TestMapGenerator<String, Integer> {
