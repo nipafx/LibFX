@@ -14,6 +14,7 @@ import java.util.Objects;
 import org.codefx.libfx.collection.pool.ResourcePoolStrategy.BorrowInstruction;
 import org.codefx.libfx.collection.pool.ResourcePoolStrategy.BorrowResult;
 import org.codefx.libfx.collection.pool.ResourcePoolStrategy.ForfeitInstruction;
+import org.codefx.libfx.collection.pool.ResourcePoolStrategy.ForfeitResult;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -110,14 +111,11 @@ public class StrategyBasedResourcePoolTest {
 	@Test
 	@SuppressWarnings("javadoc")
 	public void borrow_returnResourceFromQueue_correctInteractionsWithFactoryAndStrategy() throws Exception {
-		// let the strategy return a pooled resource for "a key";
-		// to achieve this, first borrow and forfeit a resource for that key
+		// let the strategy return a pooled resource for "a key"; use the pool's "backdoor" to add the resource
 		Key key = new Key("a key");
 		PooledResource resource = new PooledResource("a resource");
-		when(strategy.borrowRequest(key)).thenReturn(BorrowInstruction.CREATE);
-		when(strategy.forfeitRequest(key)).thenReturn(ForfeitInstruction.ADD_TO_QUEUE_AND_IF_FULL_EVICT);
 		when(resourceFactory.createForKey(key)).thenReturn(resource);
-		pool.borrow(key).forfeit();
+		pool.addNewResourcesForKeyNonBlocking(key, 1);
 		reset(strategy, resourceFactory);
 
 		when(strategy.borrowRequest(key)).thenReturn(BorrowInstruction.QUERY_QUEUE_AND_IF_EMPTY_CREATE);
@@ -132,6 +130,57 @@ public class StrategyBasedResourcePoolTest {
 	}
 
 	// #end BORROW
+
+	// #region FORFEIT
+
+	@Test(expected = NullPointerException.class)
+	@SuppressWarnings("javadoc")
+	public void forfeit_null_throwNullPointerException() throws Exception {
+		pool.forfeit(null);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	@SuppressWarnings({ "javadoc", "unchecked" })
+	public void forfeit_resourceNotFromPool_throwIllegalArgumentException() throws Exception {
+		DefaultResource<Key, PooledResource> resourceNotFromPool = DefaultResource
+				.<Key, PooledResource> create(mock(ResourcePool.class), new Key(""), new PooledResource(""));
+		pool.forfeit(resourceNotFromPool);
+	}
+
+	@Test
+	@SuppressWarnings("javadoc")
+	public void forfeit_evictFromPool_correctInteractionsWithFactoryAndStrategy() throws Exception {
+		Key key = new Key("a key");
+		PooledResource resource = new PooledResource("a resource");
+		DefaultResource<Key, PooledResource> resourceFromPool = DefaultResource.create(pool, key, resource);
+		when(strategy.forfeitRequest(key)).thenReturn(ForfeitInstruction.EVICT);
+
+		pool.forfeit(resourceFromPool);
+
+		verify(resourceFactory).prepareToForfeit(resource);
+		verify(resourceFactory).prepareToEvict(resource);
+		verify(strategy).forfeitRequest(key);
+		verify(strategy).forfeited(key, ForfeitResult.EVICTED);
+		verifyNoMoreInteractions(strategy, resourceFactory);
+	}
+
+	@Test
+	@SuppressWarnings("javadoc")
+	public void forfeit_addToPool_correctInteractionsWithFactoryAndStrategy() throws Exception {
+		Key key = new Key("a key");
+		PooledResource resource = new PooledResource("a resource");
+		DefaultResource<Key, PooledResource> resourceFromPool = DefaultResource.create(pool, key, resource);
+		when(strategy.forfeitRequest(key)).thenReturn(ForfeitInstruction.ADD_TO_QUEUE_AND_IF_FULL_EVICT);
+
+		pool.forfeit(resourceFromPool);
+
+		verify(resourceFactory).prepareToForfeit(resource);
+		verify(strategy).forfeitRequest(key);
+		verify(strategy).forfeited(key, ForfeitResult.ADDED_TO_QUEUE);
+		verifyNoMoreInteractions(strategy, resourceFactory);
+	}
+
+	// #end FORFEIT
 
 	// #region NESTED CLASSES
 
