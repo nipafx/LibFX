@@ -446,19 +446,5 @@ public final class StrategyBasedResourcePool<K, R> implements ResourcePool<K, R>
 
 	}
 
-	@FunctionalInterface
-	private interface TakeFromQueue<K, R> {
-
-		DefaultResource<K, R> take() throws InterruptedException;
-
-	}
-
-	@FunctionalInterface
-	private interface AddToQueue<K, R> {
-
-		boolean add(DefaultResource<K, R> resource) throws InterruptedException;
-
-	}
-
 	// #end NESTED CLASSES
 }
