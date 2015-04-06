@@ -93,4 +93,9 @@ final class DefaultResource<K, R> implements Resource<R> {
 				&& this.resource == other.resource;
 	}
 
+	@Override
+	public String toString() {
+		return "Pooled Resource [key: " + key + " / res: " + resource + "]";
+	}
+
 }
