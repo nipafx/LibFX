@@ -11,7 +11,25 @@ import org.codefx.libfx.collection.pool.ResourcePoolStrategy.ForfeitInstruction;
 import org.codefx.libfx.collection.pool.ResourcePoolStrategy.ForfeitResult;
 import org.codefx.libfx.collection.pool.ResourcePoolStrategy.MaintenanceInstruction;
 
+/**
+ * A {@link ResourcePool} whose behavior is defined by a {@code ResourcePoolStrategy} which is specified during
+ * construction.
+ * <p>
+ * The strategy defines how borrow and forfeit requests are handled, when and how maintenance is being run and which
+ * eviction strategy (if any) is employed. It depends on the strategy whether borrowed resources must eventually be
+ * forfeited. For details about the contract between the pool and the strategy, see {@link ResourcePoolStrategy}.
+ * <p>
+ * Resources returned by this pool might hold a reference to it and can thus keep it from being garbage collected. This
+ * pool implementation is thread-safe.
+ *
+ * @param <K>
+ *            the type of keys used to identify resources
+ * @param <R>
+ *            the type of resources maintained by this pool
+ */
 public final class StrategyBasedResourcePool<K, R> implements ResourcePool<K, R> {
+
+	// #region FIELDS
 
 	private final ConcurrentMap<K, ResourceQueue<K, R>> pool;
 
@@ -19,6 +37,16 @@ public final class StrategyBasedResourcePool<K, R> implements ResourcePool<K, R>
 
 	private final ResourcePoolStrategy<K> strategy;
 
+	// #end FIELDS
+
+	/**
+	 * Creates a new pool.
+	 *
+	 * @param resourceFactory
+	 *            the factory used to create resources and prepare the for borrowing, forfeiting and eviction
+	 * @param strategy
+	 *            the strategy which defines the pool's behavior
+	 */
 	public StrategyBasedResourcePool(
 			ResourceFactory<? super K, R> resourceFactory, ResourcePoolStrategy<K> strategy) {
 
@@ -208,14 +236,16 @@ public final class StrategyBasedResourcePool<K, R> implements ResourcePool<K, R>
 	// #region MAINTENANCE
 
 	private void runMaintenancePossiblyBlocking() throws InterruptedException {
-		for (MaintenanceInstruction<K> instruction : strategy.instructMaintenance())
-			executeMaintenanceInstruction(instruction, true);
+		boolean canBlock = true;
+		for (MaintenanceInstruction<K> instruction : strategy.instructMaintenance(canBlock))
+			executeMaintenanceInstruction(instruction, canBlock);
 	}
 
 	private void runMaintenanceNonBlocking() {
 		try {
-			for (MaintenanceInstruction<K> instruction : strategy.instructMaintenance())
-				executeMaintenanceInstruction(instruction, false);
+			boolean canBlock = false;
+			for (MaintenanceInstruction<K> instruction : strategy.instructMaintenance(canBlock))
+				executeMaintenanceInstruction(instruction, canBlock);
 		} catch (InterruptedException ex) {
 			String message = "Implementation error: maintenance was supposed to be run without blocking but caused InterruptedException.";
 			throw new RuntimeException(message, ex);
@@ -224,31 +254,35 @@ public final class StrategyBasedResourcePool<K, R> implements ResourcePool<K, R>
 
 	private void executeMaintenanceInstruction(MaintenanceInstruction<K> instruction, boolean canBlock)
 			throws InterruptedException {
-		switch (instruction.function()) {
-			case CREATE_RESOURCES:
+		switch (instruction.action()) {
+			case ADD_NEW_RESOURCES:
 				addNewResourcesForKeyNonBlocking(instruction.forKey(), instruction.argument().getAsInt());
 				break;
-			case CREATE_RESOURCES_EXACTLY:
+			case ADD_NEW_RESOURCES_POSSIBLY_BLOCKING:
 				if (canBlock)
 					addNewResourcesForKeyBlocking(instruction.forKey(), instruction.argument().getAsInt());
 				else
-					addNewResourcesForKeyNonBlocking(instruction.forKey(), instruction.argument().getAsInt());
+					throw new IllegalArgumentException(
+							"The strategy instructed a possibly blocking maintenance act in a case "
+									+ "where blocking is not allowed: " + instruction);
 				break;
 			case EVICT_RESOURCES:
 				evictResourcesForKeyNonBlocking(instruction.forKey(), instruction.argument().getAsInt());
 				break;
-			case EVICT_RESOURCES_EXACTLY:
+			case EVICT_RESOURCES_POSSIBLY_BLOCKING:
 				if (canBlock)
 					evictResourcesForKeyBlocking(instruction.forKey(), instruction.argument().getAsInt());
 				else
-					evictResourcesForKeyNonBlocking(instruction.forKey(), instruction.argument().getAsInt());
+					throw new IllegalArgumentException(
+							"The strategy instructed a possibly blocking maintenance act in a case "
+									+ "where blocking is not allowed: " + instruction);
 				break;
 			case REMOVE_QUEUE:
 				removeQueue(instruction.forKey());
 				break;
 			default:
 				throw new RuntimeException("Implementation error: unimplemented maintenance instruction "
-						+ instruction.function() + ".");
+						+ instruction.action() + ".");
 		}
 	}
 
@@ -277,7 +311,7 @@ public final class StrategyBasedResourcePool<K, R> implements ResourcePool<K, R>
 				nrOfAddedResources++;
 		}
 
-		strategy.createdDuringMaintenance(key, nrOfAddedResources);
+		strategy.addedDuringMaintenance(key, nrOfAddedResources);
 		return nrOfAddedResources;
 	}
 
@@ -303,7 +337,7 @@ public final class StrategyBasedResourcePool<K, R> implements ResourcePool<K, R>
 			queueForKey.addBlocking(resource);
 		}
 
-		strategy.createdDuringMaintenance(key, nrOfResourcesToAdd);
+		strategy.addedDuringMaintenance(key, nrOfResourcesToAdd);
 	}
 
 	/**

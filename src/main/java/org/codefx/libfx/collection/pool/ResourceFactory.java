@@ -7,6 +7,11 @@ package org.codefx.libfx.collection.pool;
  * prepareToBorrow} before a resource is borrowed, {@link #prepareToForfeit(Object) prepareToForfeit} when it is
  * forfeited and {@link #prepareToEvict(Object) prepareToEvict} before it is evicted.
  * <p>
+ * No guarantee is made as to how often these methods will be called while a resource is processed. While the pool will
+ * naturally try to make as few calls as possible, this can not be relied upon. It is hence not generally possible to
+ * make valid assumptions the pool's behavior from these calls. This implies that, e.g., no statistics about the number
+ * of created, borrowed, forfeited and evicted resources can be created by observing the factory.
+ * <p>
  * If the {@code ResourcePool} implementation is thread-safe, the factory must be as well. Still, the
  * {@code prepareTo...}-methods will never be called concurrently with the same instance.
  *

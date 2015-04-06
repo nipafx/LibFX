@@ -20,10 +20,12 @@ package org.codefx.libfx.collection.pool;
  * instance is not borrowed twice without forfeiting it in between. Together, this ensures that a resource can not be
  * used by more than one client at a time. Resources must only be forfeited to the same pool. Violating this requirement
  * might not be detectable at runtime and can lead to unexpected behavior. Implementations might require that each
- * borrowed resource is eventually forfeited.
+ * borrowed resource is eventually forfeited. Even if they do not, this is good practice and should be the default way
+ * to use resources.
  * <p>
  * The pool might (and most likely will) employ some kind of eviction strategy to prevent memory leaks and
- * ever-increasing memory use. Whether and how the size of the pool is managed depends on the implementation.
+ * ever-increasing memory use (this is called maintenance). Whether and how the size of the pool is managed depends on
+ * the implementation.
  * <p>
  * Pools might or might not be thread-safe. If they are, all of the guarantees also hold under concurrent use by
  * multiple threads.
