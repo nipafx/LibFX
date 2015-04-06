@@ -11,7 +11,7 @@ import org.codefx.libfx.collection.pool.ResourcePoolStrategy.ForfeitInstruction;
 import org.codefx.libfx.collection.pool.ResourcePoolStrategy.ForfeitResult;
 import org.codefx.libfx.collection.pool.ResourcePoolStrategy.MaintenanceInstruction;
 
-public class StrategyBasedResourcePool<K, R> implements ResourcePool<K, R> {
+public final class StrategyBasedResourcePool<K, R> implements ResourcePool<K, R> {
 
 	private final ConcurrentMap<K, ResourceQueue<K, R>> pool;
 
@@ -226,17 +226,22 @@ public class StrategyBasedResourcePool<K, R> implements ResourcePool<K, R> {
 			throws InterruptedException {
 		switch (instruction.function()) {
 			case CREATE_RESOURCES:
-				addNewResourcesForKeyToQueue(instruction.forKey(), instruction.argument().getAsInt(), false);
+				addNewResourcesForKeyNonBlocking(instruction.forKey(), instruction.argument().getAsInt());
 				break;
 			case CREATE_RESOURCES_EXACTLY:
-				addNewResourcesForKeyToQueue(instruction.forKey(), instruction.argument().getAsInt(), true && canBlock);
+				if (canBlock)
+					addNewResourcesForKeyBlocking(instruction.forKey(), instruction.argument().getAsInt());
+				else
+					addNewResourcesForKeyNonBlocking(instruction.forKey(), instruction.argument().getAsInt());
 				break;
 			case EVICT_RESOURCES:
-				removeResourcesForKeyFromQueue(instruction.forKey(), instruction.argument().getAsInt(), false);
+				evictResourcesForKeyNonBlocking(instruction.forKey(), instruction.argument().getAsInt());
 				break;
 			case EVICT_RESOURCES_EXACTLY:
-				removeResourcesForKeyFromQueue(
-						instruction.forKey(), instruction.argument().getAsInt(), true && canBlock);
+				if (canBlock)
+					evictResourcesForKeyBlocking(instruction.forKey(), instruction.argument().getAsInt());
+				else
+					evictResourcesForKeyNonBlocking(instruction.forKey(), instruction.argument().getAsInt());
 				break;
 			case REMOVE_QUEUE:
 				removeQueue(instruction.forKey());
@@ -247,74 +252,109 @@ public class StrategyBasedResourcePool<K, R> implements ResourcePool<K, R> {
 		}
 	}
 
-	private void addNewResourcesForKeyToQueue(K key, int nrOfResourcesToAdd, boolean canBlock)
-			throws InterruptedException {
-
+	/**
+	 * Tries to add the specified number of newly created resources to the queue for the specified key.
+	 * <p>
+	 * Note that adding new resources might conflict with a possibly capacity restricted queue. If it does, not all
+	 * resources are added and the number of actually added resources is returned.
+	 *
+	 * @apiNote This method is package-visible to allow its use in tests.
+	 * @param key
+	 *            the key for which resource will be created and added
+	 * @param nrOfResourcesToAdd
+	 *            the number of resources to create and add
+	 * @return the number of added resources; possibly less than {@code nrOfResourcesToAdd} if the queue is full
+	 * @see #addNewResourcesForKeyBlocking(Object, int)
+	 */
+	int addNewResourcesForKeyNonBlocking(K key, int nrOfResourcesToAdd) {
 		ResourceQueue<K, R> queueForKey = getQueueForKey(key);
-
-		// add non blocking as long as possible
-		int nrOfAddedResources = addResourcesUntilFull(key, queueForKey::addNonBlocking, nrOfResourcesToAdd);
-
-		// try blocking if necessary and indicated
-		int nrOfNotAddedResources = nrOfResourcesToAdd - nrOfAddedResources;
-		boolean continueWithBlocking = nrOfNotAddedResources > 0 && canBlock;
-		if (continueWithBlocking)
-			nrOfAddedResources += addResourcesUntilFull(
-					key,
-					res -> {
-						queueForKey.addBlocking(res);
-						return true;
-					},
-					nrOfNotAddedResources);
-
-		strategy.createdDuringMaintenance(key, nrOfAddedResources);
-	}
-
-	private int addResourcesUntilFull(K key, AddToQueue<K, R> add, int nrOfResourcesToAdd) throws InterruptedException {
 		int nrOfAddedResources = 0;
-		while (nrOfAddedResources < nrOfResourcesToAdd) {
+		boolean queueNotFull = true;
+		while (nrOfAddedResources < nrOfResourcesToAdd && queueNotFull) {
 			DefaultResource<K, R> resource = DefaultResource.create(this, key, resourceFactory.createForKey(key));
-			boolean added = add.add(resource);
-			if (added)
+			queueNotFull = queueForKey.addNonBlocking(resource);
+			if (queueNotFull)
 				nrOfAddedResources++;
-			else
-				return nrOfAddedResources;
 		}
 
+		strategy.createdDuringMaintenance(key, nrOfAddedResources);
 		return nrOfAddedResources;
 	}
 
-	private void removeResourcesForKeyFromQueue(K key, int nrOfResourcesToRemove, boolean canBlock)
-			throws InterruptedException {
-
+	/**
+	 * Adds the specified number of newly created resources to the queue for the specified key.
+	 * <p>
+	 * Note that adding new resources might conflict with a possibly capacity restricted queue. If it does, this call
+	 * will block until all resources were added.
+	 *
+	 * @apiNote This method is package-visible to allow its use in tests.
+	 * @param key
+	 *            the key for which resource will be created and added
+	 * @param nrOfResourcesToAdd
+	 *            the number of resources to create and add
+	 * @throws InterruptedException
+	 *             thrown if the call blocked and was interrupted
+	 * @see #addNewResourcesForKeyNonBlocking(Object, int)
+	 */
+	void addNewResourcesForKeyBlocking(K key, int nrOfResourcesToAdd) throws InterruptedException {
 		ResourceQueue<K, R> queueForKey = getQueueForKey(key);
-
-		// remove non blocking as long as possible
-		int nrOfRemovedResources = removeResourcesUntilNull(queueForKey::takeNonBlocking, nrOfResourcesToRemove);
-
-		// try blocking if necessary and indicated
-		int nrOfUnremovedResources = nrOfResourcesToRemove - nrOfRemovedResources;
-		boolean continueWithBlocking = nrOfUnremovedResources > 0 && canBlock;
-		if (continueWithBlocking)
-			nrOfRemovedResources += removeResourcesUntilNull(queueForKey::takeBlocking, nrOfUnremovedResources);
-
-		strategy.evictedDuringMaintenance(key, nrOfRemovedResources);
-	}
-
-	private int removeResourcesUntilNull(TakeFromQueue<K, R> take, int nrOfResourcesToRemove)
-			throws InterruptedException {
-
-		int nrOfRemovedResources = 0;
-		while (nrOfRemovedResources < nrOfResourcesToRemove) {
-			DefaultResource<K, R> removedResource = take.take();
-			boolean removed = removedResource != null;
-			if (removed)
-				nrOfRemovedResources++;
-			else
-				return nrOfRemovedResources;
+		for (int nrOfAddedResources = 0; nrOfAddedResources < nrOfResourcesToAdd; nrOfAddedResources++) {
+			DefaultResource<K, R> resource = DefaultResource.create(this, key, resourceFactory.createForKey(key));
+			queueForKey.addBlocking(resource);
 		}
 
-		return nrOfRemovedResources;
+		strategy.createdDuringMaintenance(key, nrOfResourcesToAdd);
+	}
+
+	/**
+	 * Tries to evict the specified number of resources from the queue for the specified key.
+	 * <p>
+	 * Note that evicting resources might conflict with a possibly empty queue. If it does, the maximum possible number
+	 * of resources is evicted and that number is returned.
+	 *
+	 * @apiNote This method is package-visible to allow its use in tests.
+	 * @param key
+	 *            the key for which resource will be removed
+	 * @param nrOfResourcesToEvict
+	 *            the number of resources to evict
+	 * @return the number of evicted resources; possibly less than {@code nrOfResourcesToEvict} if the queue is empty
+	 */
+	int evictResourcesForKeyNonBlocking(K key, int nrOfResourcesToEvict) {
+		ResourceQueue<K, R> queueForKey = getQueueForKey(key);
+		int nrOfEvictedResources = 0;
+		boolean queueNotEmpty = true;
+		while (nrOfEvictedResources < nrOfResourcesToEvict && queueNotEmpty) {
+			queueNotEmpty = queueForKey.takeNonBlocking() != null;
+			if (queueNotEmpty)
+				nrOfEvictedResources++;
+		}
+
+		strategy.evictedDuringMaintenance(key, nrOfEvictedResources);
+		return nrOfEvictedResources;
+	}
+
+	/**
+	 * Evicts the specified number of resources from the queue for the specified key.
+	 * <p>
+	 * Note that evicting resources might conflict with a possibly empty queue. If it does, this call will block until
+	 * all resources were evicted.
+	 *
+	 * @apiNote This method is package-visible to allow its use in tests.
+	 * @param key
+	 *            the key for which resource will be removed
+	 * @param nrOfResourcesToEvict
+	 *            the number of resources to evict
+	 * @throws InterruptedException
+	 *             thrown if the call blocked and was interrupted
+	 */
+	void evictResourcesForKeyBlocking(K key, int nrOfResourcesToEvict) throws InterruptedException {
+		ResourceQueue<K, R> queueForKey = getQueueForKey(key);
+		for (int nrOfEvictedResources = 0; nrOfEvictedResources < nrOfResourcesToEvict; nrOfEvictedResources++) {
+			DefaultResource<K, R> resource = DefaultResource.create(this, key, resourceFactory.createForKey(key));
+			queueForKey.addBlocking(resource);
+		}
+
+		strategy.evictedDuringMaintenance(key, nrOfResourcesToEvict);
 	}
 
 	private void removeQueue(K key) {
