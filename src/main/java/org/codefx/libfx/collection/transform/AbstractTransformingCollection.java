@@ -297,10 +297,10 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 	 * Wraps the specified collection into a transformation and calls {@link Collection#retainAll(Collection) retainAll}
 	 * on the {@link #getInnerCollection() innerCollection}.
 	 * <p>
-	 * Subclasses may chose to use this method if they override {@link #retainAll(Collection)}.
+	 * Subclasses may choose to use this method if they override {@link #retainAll(Collection)}.
 	 * <p>
 	 * Accessing the wrapped collection will lead to {@link ClassCastException}s when its elements are not of this
-	 * collection's outer type {@code O}. Consider using {@link #retianByCallingRemoveOnThis(Collection)}.
+	 * collection's outer type {@code O}. Consider using {@link #retainByCallingRemoveOnThis(Collection)}.
 	 *
 	 * @param otherCollection
 	 *            the parameter to {@code retainAll}
@@ -315,7 +315,7 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 	 * Iterates over this collection (i.e. over the outer elements) and removes each element which is not contained in
 	 * the specified collection.
 	 * <p>
-	 * Subclasses may chose to use this method if they override {@link #retainAll(Collection)}.
+	 * Subclasses may choose to use this method if they override {@link #retainAll(Collection)}.
 	 * <p>
 	 * Manually iterating over this collection and calling {@code this.}{@link #remove(Object)} individually might break
 	 * guarantees (e.g. regarding atomicity) or optimizations made by the inner collection. Consider using
@@ -325,7 +325,7 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 	 *            the collection whose elements are not removed from this collection
 	 * @return true if at least one element was removed; otherwise false
 	 */
-	protected final boolean retianByCallingRemoveOnThis(Collection<?> otherCollection) {
+	protected final boolean retainByCallingRemoveOnThis(Collection<?> otherCollection) {
 		boolean changed = false;
 		for (Iterator<O> iterator = iterator(); iterator.hasNext();) {
 			O element = iterator.next();
@@ -354,7 +354,7 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 
 	@Override
 	public Spliterator<O> spliterator() {
-		// use an spliterator which immediately forwards all transformation calls to this collection;
+		// use a spliterator which immediately forwards all transformation calls to this collection;
 		// this excludes the 'TransformingSpliterator' which does some null handling on its own
 		return new ForwardingTransformingSpliterator();
 	}
@@ -707,10 +707,16 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 	 * @param <E>
 	 *            the type of elements in the specified collection
 	 */
-	private class TransformToReadOnlyInnerCollection<E> extends AbstractReadOnlyTransformingCollection<E, I> {
+	protected final class TransformToReadOnlyInnerCollection<E> extends AbstractReadOnlyTransformingCollection<E, I> {
 
 		private final Collection<E> transformedCollection;
 
+		/**
+		 * Creates a new read only collection which transforms the specified one to the inner type
+		 *
+		 * @param transformedCollection
+		 *            the collection to transform
+		 */
 		public TransformToReadOnlyInnerCollection(Collection<E> transformedCollection) {
 			assert transformedCollection != null : "The argument 'innerCollection' must not be null.";
 
