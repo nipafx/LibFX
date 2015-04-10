@@ -4,7 +4,7 @@ import java.util.ListIterator;
 
 /**
  * Abstract superclass to {@link ListIterator}s which wrap another list iterator and transform elements from an inner
- * type {@code I} to an outer type {@code O} and vice versa
+ * type {@code I} to an outer type {@code O} and vice versa.
  *
  * @param <I>
  *            the inner type, i.e. the type of the elements returned by the wrapped/inner iterator
