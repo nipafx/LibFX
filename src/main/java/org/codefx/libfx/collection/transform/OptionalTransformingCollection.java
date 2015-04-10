@@ -8,27 +8,25 @@ import java.util.Optional;
  * A transforming {@link Collection} which is a flattened view on a collection of {@link Optional}s, i.e. it only
  * presents the contained values.
  * <p>
- * See the {@link org.codefx.libfx.collection.transform package} documentation for general comments.
+ * See the {@link org.codefx.libfx.collection.transform package} documentation for general comments on transformation.
+ * <p>
+ * The inner collection must not contain null elements. The empty {@code Optional} is mapped to an outer element
+ * specified during construction. If null is chosen for this, this collection will accept null elements. Otherwise it
+ * will reject them with a {@link NullPointerException}.
  * <p>
  * The transformations used by this collection preserve object identity of outer elements with the exception of the
  * default element. This means if (non-default) elements are added to this collection, an iteration over it will return
- * the same instances. The same default value instance will be used to represent the empty {@code Optional}, so when
+ * the same instances. The same default value instance will be used to represent all empty {@code Optional}s, so when
  * elements equal to it are added, they will be retrieved as that instance (thus loosing their identity).
  * <p>
  * This implementation mitigates the type safety problems by using type tokens. {@code Optional.class} is used as the
  * inner type token. The outer type token can be specified during construction. This solves some of the critical
  * situations but not all of them. In those other cases (e.g. if {@link #containsAll(Collection) containsAll} is called
- * with a {@code Collection<Optional<?>>}) {@link ClassCastException}s might occur when an element can not be
- * transformed by the transformation functions.
- * <p>
- * The inner collection must not contain null elements. The empty {@code Optional} is mapped to an outer element
- * specified during construction. If null is chosen for this, this collection will accept null elements. Otherwise it
- * will reject them with a {@link NullPointerException}. This transformation is handled explicitly and the transforming
- * functions specified during construction do not have to handle that case.
+ * with a {@code Collection<Optional<?>>}) {@link ClassCastException}s might occur.
  * <p>
  * All method calls (of abstract and default methods existing in JDK 8) are forwarded to <b>the same method</b> on the
- * wrapped collection. This implies that all all guarantees made by such methods (e.g. regarding atomicity) are upheld
- * by the transformation.
+ * wrapped collection. This implies that all guarantees made by such methods (e.g. regarding atomicity) are upheld by
+ * the transformation.
  *
  * @param <E>
  *            the type of elements contained in the {@code Optional}s

@@ -11,8 +11,8 @@ import java.util.function.Function;
  * Note the comment on {@link AbstractTransformingSpliterator} regarding sorting.
  * <p>
  * The transformation of null elements of either inner or outer type is fixed to {@code null -> null}. The
- * transformation functions specified during construction do not have to handle null input elements and must not produce
- * a null result.
+ * transformation functions specified during construction do not have to handle null input elements and are not allowed
+ * to produce a null result.
  *
  * @param <I>
  *            the inner type, i.e. the type of the elements returned by the wrapped/inner spliterator

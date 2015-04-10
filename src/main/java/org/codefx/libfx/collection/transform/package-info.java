@@ -27,7 +27,8 @@
  * explicitly allowed to create new outer elements from inner elements and vice versa. This means that outer elements
  * may have no meaningful identity. E.g. on adding an outer instance {@code outerOrg} it can be transformed to
  * {@code inner} and on access back to {@code outer}. Whether {@code outerOrg == outer} holds, depends on the
- * transformation functions and is generally unspecified. It might never, sometimes or always be true.
+ * transformation functions and is generally unspecified - it might never, sometimes or always be true. Transforming
+ * collections might give more details on their behavior regarding this.
  * <p>
  * A special case of transformation occurs when the inner and outer type have a type relationship. This can shortcut one
  * of the transformations to the identity, i.e. because an instance of one type is also of the other type the
@@ -42,7 +43,7 @@
  * methods from the collection interfaces allow {@link java.lang.Object Object}s (e.g
  * {@link java.util.Collection#contains(Object) Collection.contains(Object)}) or collections of unknown generic type
  * (e.g {@link java.util.Collection#addAll(java.util.Collection) Collection.addAll(Collection&lt;?&gt;)}) as arguments,
- * this does not cover all use cases.
+ * this does not cover all cases which can occur at runtime.
  * <p>
  * If one of those methods is called with a type which does not match the transforming collection's outer type the
  * method may throw a {@link java.lang.ClassCastException ClassCastException}. While this is in accordance with the
@@ -53,10 +54,10 @@
  * </p>
  * <h2>Similar Features From Other Libraries</h2>
  * <p>
- * To my (nipa's) knowledge two other libraries offer similar functionality, namely <a
- * href="http://commons.apache.org/proper/commons-collections/">Apache Commons Collections</a> and <a
- * href="https://github.com/google/guava">Google Guava</a>. Both have shortcomings which this implementation aims to
- * overcome.
+ * To my (<a href="http://blog.codefx.org/about-nicolai-parlog/">nipa</a>'s) knowledge two other libraries offer similar
+ * functionality, namely <a href="http://commons.apache.org/proper/commons-collections/">Apache Commons Collections</a>
+ * and <a href="https://github.com/google/guava">Google Guava</a>. Both have shortcomings which this implementation aims
+ * to overcome.
  * </p>
  * <h3>Apache Commons Collections</h3>
  * <p>

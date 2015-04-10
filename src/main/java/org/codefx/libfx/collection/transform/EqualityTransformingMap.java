@@ -25,7 +25,7 @@ import org.codefx.libfx.collection.transform.EqualityTransformingMap.EqHash;
  * By default the inner map will be a {@link HashMap} but the constructor for another map can be provided to the
  * builder. Any instances created by it must be empty and not be referenced anywhere else. All method calls (of abstract
  * and default methods existing in JDK 8) are forwarded to <b>the same method</b> on the inner map. This implies that
- * all all guarantees made by such methods (e.g. regarding atomicity) are upheld by the transformation.
+ * all guarantees made by such methods (e.g. regarding atomicity) are upheld by the transformation.
  * <p>
  * The implementations of {@code equals} and {@code hashCode} are provided as functions to the builder. They must of
  * course fulfill the general contract between those two methods (see {@link Object#hashCode() here}). The functions can

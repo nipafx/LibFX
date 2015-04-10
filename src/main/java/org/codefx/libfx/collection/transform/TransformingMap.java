@@ -8,18 +8,18 @@ import java.util.function.Function;
  * A {@link Map} which decorates another map and transforms the key and value types from the inner types {@code IK},
  * {@code IV} to outer types {@code OK}, {@code OV}.
  * <p>
- * See the {@link org.codefx.libfx.collection.transform package} documentation for general comments.
+ * See the {@link org.codefx.libfx.collection.transform package} documentation for general comments on transformation.
  * <p>
  * This implementation mitigates the type safety problems by using tokens of the inner and the outer types to check
  * instances against them. This solves some of the critical situations but not all of them. In those other cases
  * {@link ClassCastException}s might occur when an element can not be transformed by the transformation functions.
  * <p>
- * Null keys and values are allowed. These are handled explicitly and fixed to the transformation {@code null -> null}.
- * The transforming functions specified during construction neither have to handle that case nor must they produce null
- * elements.
+ * Null keys and values are allowed unless the inner map does not accept them. These are handled explicitly and fixed to
+ * the transformation {@code null -> null}. The transforming functions specified during construction neither have to
+ * handle that case nor are they allowed to produce null elements.
  * <p>
  * All method calls (of abstract and default methods existing in JDK 8) are forwarded to <b>the same method</b> on the
- * wrapped map. This implies that all all guarantees made by such methods (e.g. regarding atomicity) are upheld by the
+ * wrapped map. This implies that all guarantees made by such methods (e.g. regarding atomicity) are upheld by the
  * transformation.
  *
  * @param <IK>

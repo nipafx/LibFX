@@ -9,7 +9,7 @@ import java.util.function.Function;
  * to an outer type {@code O}.
  * <p>
  * The transformation of null elements is fixed to {@code null -> null}. The transformation function specified during
- * construction does not have to handle null input elements and must not produce a null result.
+ * construction does not have to handle null input elements and is not allowed to produce a null result.
  *
  * @param <I>
  *            the inner type, i.e. the type of the elements returned by the wrapped/inner iterator
