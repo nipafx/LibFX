@@ -11,7 +11,7 @@ import java.util.function.Consumer;
  * Note that this spliterator reports the exact same {@link Spliterator#SORTED SORTED} {@link #characteristics()
  * characteristic} as the inner one. It's {@link #getComparator()} transforms the elements it should compare from the
  * outer to the inner type and calls the inner spliterator's {@link Spliterator#getComparator() comparator} with it.
- * This means that sorting is always done by the inner spliterator's logic.
+ * This means that sorting streams is always done by the inner spliterator's logic.
  *
  * @param <I>
  *            the inner type, i.e. the type of the elements returned by the wrapped/inner spliterator

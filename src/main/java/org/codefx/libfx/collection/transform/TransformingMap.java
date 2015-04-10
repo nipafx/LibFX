@@ -21,6 +21,10 @@ import java.util.function.Function;
  * All method calls (of abstract and default methods existing in JDK 8) are forwarded to <b>the same method</b> on the
  * wrapped map. This implies that all guarantees made by such methods (e.g. regarding atomicity) are upheld by the
  * transformation.
+ * <p>
+ * If the {@link java.util.stream.Stream streams} returned by this map's views are told to
+ * {@link java.util.stream.Stream#sorted() sort} themself, they will do so on the base of the comparator returned by the
+ * inner map view's spliterator (e.g. based on the natural order of {@code IK} or {@code IV} if it has one).
  *
  * @param <IK>
  *            the inner key type, i.e. the type of the keys contained in the wrapped/inner map
