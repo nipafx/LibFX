@@ -123,8 +123,6 @@ public class EqualityTransformingMapTest {
 			assertEquals(associatedValue, testedMap.get("bbb"));
 		}
 
-		// TODO add more tests
-
 	}
 
 	private static class TransformingMapGenerator implements TestMapGenerator<String, Integer> {
