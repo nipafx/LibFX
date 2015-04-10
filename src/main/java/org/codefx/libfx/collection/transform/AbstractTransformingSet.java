@@ -29,7 +29,7 @@ abstract class AbstractTransformingSet<I, O> extends AbstractTransformingCollect
 	// #region OBJECT
 
 	@Override
-	public boolean equals(Object object) {
+	public final boolean equals(Object object) {
 		if (object == this)
 			return true;
 		if (!(object instanceof Set))
@@ -51,7 +51,7 @@ abstract class AbstractTransformingSet<I, O> extends AbstractTransformingCollect
 	}
 
 	@Override
-	public int hashCode() {
+	public final int hashCode() {
 		int hashCode = 0;
 		for (O outerElement : this)
 			if (outerElement != null)
