@@ -12,7 +12,7 @@
 	<!-- PROJECT META INFORMATION -->
 
 	<name>LibFX</name>
-	<description>LibFX provides utility classes for JavaFX.</description>
+	<description>LibFX provides usability classes for Java and JavaFX.</description>
 	<url>http://libfx.codefx.org</url>
 
 	<scm>
@@ -85,6 +85,14 @@
 			<groupId>net.sourceforge.nekohtml</groupId>
 			<artifactId>nekohtml</artifactId>
 			<version>1.9.21</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<!-- GUAVA-TESTLIB to test collections -->
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava-testlib</artifactId>
+			<version>18.0</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

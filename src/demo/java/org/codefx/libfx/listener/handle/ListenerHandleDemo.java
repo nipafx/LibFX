@@ -129,12 +129,12 @@ public class ListenerHandleDemo {
 	 */
 	private static class MyCustomObservable {
 
-		@SuppressWarnings({ "javadoc", "unused" })
+		@SuppressWarnings({ "unused" })
 		public void addListener(MyCustomListener listener) {
 			// do nothing - just for demo
 		}
 
-		@SuppressWarnings({ "javadoc", "unused" })
+		@SuppressWarnings({ "unused" })
 		public void removeListener(MyCustomListener listener) {
 			// do nothing - just for demo
 		}

@@ -1,6 +1,5 @@
 package org.codefx.libfx.serialization;
 
-import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -88,7 +87,6 @@ public final class SerializableOptional<T extends Serializable> implements Seria
 
 	// FIELDS
 
-	@SuppressWarnings("javadoc")
 	private static final long serialVersionUID = -652697447004597911L;
 
 	/**
@@ -188,9 +186,14 @@ public final class SerializableOptional<T extends Serializable> implements Seria
 	/**
 	 * Since this class should never be deserialized directly, this method should not be called. If it is, someone
 	 * purposely created a serialization of this class to bypass that mechanism, so throw an exception.
+	 * 
+	 * @param in
+	 *            the {@link ObjectInputStream} from which the instance should be read
+	 * @throws InvalidObjectException
+	 *             always throws this exception
 	 */
-	@SuppressWarnings({ "static-method", "javadoc", "unused" })
-	private void readObject(ObjectInputStream in) throws IOException {
+	@SuppressWarnings({ "static-method", "unused" })
+	private void readObject(ObjectInputStream in) throws InvalidObjectException {
 		throw new InvalidObjectException("Serialization proxy expected.");
 	}
 
@@ -202,7 +205,6 @@ public final class SerializableOptional<T extends Serializable> implements Seria
 	 */
 	private static class SerializationProxy<T extends Serializable> implements Serializable {
 
-		@SuppressWarnings("javadoc")
 		private static final long serialVersionUID = -1326520485869949065L;
 
 		/**
