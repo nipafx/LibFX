@@ -340,7 +340,7 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 	// #region OBJECT
 
 	@Override
-	public boolean equals(Object object) {
+	public final boolean equals(Object object) {
 		if (object == this)
 			return true;
 		if (!(object instanceof Map))
@@ -354,7 +354,7 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 	}
 
 	@Override
-	public int hashCode() {
+	public final int hashCode() {
 		return outerEntries.hashCode();
 	}
 
