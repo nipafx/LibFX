@@ -16,7 +16,7 @@ import java.util.Optional;
  * <p>
  * The transformations used by this collection preserve object identity of outer elements with the exception of the
  * default element. This means if (non-default) elements are added to this collection, an iteration over it will return
- * the same instances. The same default value instance will be used to represent all empty {@code Optional}s, so when
+ * the same instances. The default value instance will be used to represent the empty {@code Optional}s, so when
  * elements equal to it are added, they will be retrieved as that instance (thus loosing their identity).
  * <p>
  * This implementation mitigates the type safety problems by using type tokens. {@code Optional.class} is used as the

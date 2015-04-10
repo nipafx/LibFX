@@ -1,22 +1,22 @@
 package org.codefx.libfx.collection.transform;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 
 /**
- * A transforming {@link Set} which is a flattened view on a set of {@link Optional}s, i.e. it only presents the
+ * A transforming {@link List} which is a flattened view on a list of {@link Optional}s, i.e. it only presents the
  * contained values.
  * <p>
  * See the {@link org.codefx.libfx.collection.transform package} documentation for general comments on transformation.
  * <p>
- * The inner set must not contain null elements. The empty {@code Optional} is mapped to an outer element specified
- * during construction. If null is chosen for this, this set will accept null elements. Otherwise it will reject them
+ * The inner list must not contain null elements. The empty {@code Optional} is mapped to an outer element specified
+ * during construction. If null is chosen for this, this list will accept null elements. Otherwise it will reject them
  * with a {@link NullPointerException}.
  * <p>
- * The transformations used by this set preserve object identity of outer elements with the exception of the default
- * element. This means if (non-default) elements are added to this set, an iteration over it will return the same
+ * The transformations used by this list preserve object identity of outer elements with the exception of the default
+ * element. This means if (non-default) elements are added to this list, an iteration over it will return the same
  * instances. The default value instance will be used to represent the empty {@code Optional}, so when elements equal to
  * it are added, they will be retrieved as that instance (thus loosing their identity).
  * <p>
@@ -32,11 +32,11 @@ import java.util.Set;
  * @param <E>
  *            the type of elements contained in the {@code Optional}s
  */
-public final class OptionalTransformingSet<E> extends AbstractTransformingSet<Optional<E>, E> {
+public final class OptionalTransformingList<E> extends AbstractTransformingList<Optional<E>, E> {
 
 	// #region FIELDS
 
-	private final Set<Optional<E>> innerSet;
+	private final List<Optional<E>> innerList;
 
 	private final Class<? super E> outerTypeToken;
 
@@ -50,10 +50,10 @@ public final class OptionalTransformingSet<E> extends AbstractTransformingSet<Op
 	// #region CONSTRUCTION
 
 	/**
-	 * Creates a new transforming set which uses a type token to identify the outer elements.
+	 * Creates a new transforming list which uses a type token to identify the outer elements.
 	 *
-	 * @param innerSet
-	 *            the wrapped set
+	 * @param innerList
+	 *            the wrapped list
 	 * @param outerTypeToken
 	 *            the token for the outer type
 	 * @param outerDefaultElement
@@ -61,55 +61,55 @@ public final class OptionalTransformingSet<E> extends AbstractTransformingSet<Op
 	 *            this element does not occur inside a non-empty optional because then the transformations from that
 	 *            optional to an element and back are not inverse, which will cause unexpected behavior
 	 */
-	public OptionalTransformingSet(
-			Set<Optional<E>> innerSet,
+	public OptionalTransformingList(
+			List<Optional<E>> innerList,
 			Class<? super E> outerTypeToken, E outerDefaultElement) {
-		Objects.requireNonNull(innerSet, "The argument 'innerSet' must not be null.");
+		Objects.requireNonNull(innerList, "The argument 'innerList' must not be null.");
 		Objects.requireNonNull(outerTypeToken, "The argument 'outerTypeToken' must not be null.");
 
-		this.innerSet = innerSet;
+		this.innerList = innerList;
 		this.outerTypeToken = outerTypeToken;
 		this.outerDefaultElement = outerDefaultElement;
 	}
 
 	/**
-	 * Creates a new transforming set.
+	 * Creates a new transforming list.
 	 *
-	 * @param innerSet
-	 *            the wrapped set
+	 * @param innerList
+	 *            the wrapped list
 	 */
-	public OptionalTransformingSet(Set<Optional<E>> innerSet) {
-		this(innerSet, Object.class, null);
+	public OptionalTransformingList(List<Optional<E>> innerList) {
+		this(innerList, Object.class, null);
 	}
 
 	/**
-	 * Creates a new transforming set which uses a type token to identify the outer elements.
+	 * Creates a new transforming list which uses a type token to identify the outer elements.
 	 *
-	 * @param innerSet
+	 * @param innerList
 	 *            the wrapped set
 	 * @param outerTypeToken
 	 *            the token for the outer type
 	 */
-	public OptionalTransformingSet(Set<Optional<E>> innerSet, Class<? super E> outerTypeToken) {
-		this(innerSet, outerTypeToken, null);
+	public OptionalTransformingList(List<Optional<E>> innerList, Class<? super E> outerTypeToken) {
+		this(innerList, outerTypeToken, null);
 	}
 
 	/**
-	 * Creates a new transforming set which uses the type of the specified default element as a token to identify the
+	 * Creates a new transforming list which uses the type of the specified default element as a token to identify the
 	 * outer elements.
 	 *
-	 * @param innerSet
-	 *            the wrapped set
+	 * @param innerList
+	 *            the wrapped list
 	 * @param outerDefaultElement
 	 *            the non-null element used to represent {@link Optional#empty()}; it is of crucial importance that this
 	 *            element does not occur inside an optional because then the transformations from that optional to an
 	 *            element and back are not inverse, which will cause unexpected behavior; the instance's class will be
 	 *            used as the outer type token
 	 */
-	public OptionalTransformingSet(
-			Set<Optional<E>> innerSet,
+	public OptionalTransformingList(
+			List<Optional<E>> innerList,
 			E outerDefaultElement) {
-		this(innerSet, getClassOfDefaultElement(outerDefaultElement), outerDefaultElement);
+		this(innerList, getClassOfDefaultElement(outerDefaultElement), outerDefaultElement);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -120,11 +120,11 @@ public final class OptionalTransformingSet<E> extends AbstractTransformingSet<Op
 
 	// #end CONSTRUCTION
 
-	// #region IMPLEMENTATION OF 'AbstractTransformingSet'
+	// #region IMPLEMENTATION OF 'AbstractTransformingList'
 
 	@Override
-	protected Set<Optional<E>> getInnerSet() {
-		return innerSet;
+	protected List<Optional<E>> getInnerList() {
+		return innerList;
 	}
 
 	@Override
@@ -160,6 +160,6 @@ public final class OptionalTransformingSet<E> extends AbstractTransformingSet<Op
 				: Optional.of(outerElement);
 	}
 
-	// #end IMPLEMENTATION OF 'AbstractTransformingSet'
+	// #end IMPLEMENTATION OF 'AbstractTransformingList'
 
 }
