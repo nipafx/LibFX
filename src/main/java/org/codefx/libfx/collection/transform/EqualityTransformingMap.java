@@ -51,7 +51,7 @@ import org.codefx.libfx.collection.transform.EqualityTransformingMap.EqHash;
  * @param <V>
  *            the type of mapped values
  */
-public class EqualityTransformingMap<K, V> extends AbstractTransformingMap<EqHash<K>, K, V, V> {
+public final class EqualityTransformingMap<K, V> extends AbstractTransformingMap<EqHash<K>, K, V, V> {
 
 	// #region FIELDS
 
