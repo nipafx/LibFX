@@ -99,6 +99,26 @@ public final class DfsTreeIterationStrategy<E> implements TreeIterationStrategy<
 		this(navigator, TreePathFactory.createWithSingleNode(root));
 	}
 
+	/**
+	 * Creates a new depth-first search strategy starting with the specified start node.
+	 * <p>
+	 * The constructor will create an initial path from the root to the start node. See
+	 * {@link DfsTreeIterationStrategy#DfsTreeIterationStrategy(TreeNavigator, List) this constructor} for comments on
+	 * this path.
+	 *
+	 * @param navigator
+	 *            the navigator used to navigate the tree
+	 * @param root
+	 *            the root of the (sub-)tree iterated by this strategy
+	 * @param startNode
+	 *            the node where the strategy starts; the first call to {@link #goToNextNode()} will return this node
+	 * @throws IllegalArgumentException
+	 *             if the {@code root} is no ancestor of the {@code startNode}
+	 */
+	public DfsTreeIterationStrategy(TreeNavigator<E> navigator, E root, E startNode) throws IllegalArgumentException {
+		this(navigator, TreePathFactory.createFromNodeToDescendant(navigator, root, startNode));
+	}
+
 	// #end CONSTRUCTION
 
 	// #region GO TO NEXT NODE

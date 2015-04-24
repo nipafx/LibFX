@@ -169,6 +169,22 @@ public class DfsTreeIteratorStrategyTest {
 				treeContent);
 	}
 
+	@Test
+	@SuppressWarnings("javadoc")
+	public void iterateOverDeepBinaryTree_startFromWithin_returnsCorrectElements() {
+		Node fullTree = createDeepBinaryTree();
+		Node partialTree = fullTree
+				.children.get(0) // returns the tree rooted in "2"
+				.children.get(1); // returns the tree rooted in "6"
+		TreeIterationStrategy<Node> strategy = new DfsTreeIterationStrategy<>(NAVIGATOR, fullTree, partialTree);
+
+		String[] treeContent = iterateTreeContent(strategy);
+
+		assertArrayEquals(
+				new String[] { "6", "7", "8", "9", "10", "11", "12", "13", "14", "15" },
+				treeContent);
+	}
+
 	// HELPER
 
 	private static String[] iterateTreeContent(TreeIterationStrategy<Node> strategy) {
