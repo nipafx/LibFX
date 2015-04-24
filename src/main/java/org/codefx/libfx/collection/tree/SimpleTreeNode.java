@@ -69,17 +69,11 @@ public final class SimpleTreeNode<E> implements TreeNode<E> {
 		return new SimpleTreeNode<>(element, OptionalInt.of(childIndex));
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public E getElement() {
 		return element;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public OptionalInt getChildIndex() {
 		return childIndex;

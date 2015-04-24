@@ -5,9 +5,14 @@ import java.util.OptionalInt;
 
 /**
  * A tree navigator allows to walk through a tree (i.e. a connected, directed, acyclic graph).
+ * <p>
+ * This interface can be implemented to navigate arbitrary tree-like data structures without requiring them to implement
+ * some fixed interface.
+ * <p>
+ * The navigation relies on child nodes having some fixed order so they can be accessed via an index.
  *
  * @param <E>
- *            the type of nodes contained in the tree
+ *            the type of elements contained in the tree
  */
 public interface TreeNavigator<E> {
 

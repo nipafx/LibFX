@@ -4,7 +4,12 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
- * A path in a tree.
+ * A path in a tree from some node to an ancestor.
+ * <p>
+ * A {@code TreePath} is useful to create a {@link TreeIterationStrategy}. Such strategies (usually) only instrument the
+ * end of the current path (e.g. when appending nodes to move down the tree or removing them to move up). This interface
+ * is hence geared towards that use case and limits interaction with the path to its end, which can be {@link #getEnd()
+ * retrieved}, {@link #append(Object) appended} to and {@link #removeEnd() removed}.
  *
  * @param <N>
  *            the type of nodes
@@ -34,7 +39,7 @@ public interface TreePath<N> {
 	 *
 	 * @return the former end node of this path
 	 * @throws NoSuchElementException
-	 *             if the path is {@link #isEmpty() isEmpty}
+	 *             if the path {@link #isEmpty() isEmpty}
 	 */
 	N removeEnd() throws NoSuchElementException;
 
