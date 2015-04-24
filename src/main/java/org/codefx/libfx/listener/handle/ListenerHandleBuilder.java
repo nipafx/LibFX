@@ -182,9 +182,9 @@ public final class ListenerHandleBuilder<O, L> {
 	 *             if {@link #add} or {@link #remove} is empty.
 	 */
 	private void verifyAddAndRemovePresent() throws IllegalStateException {
-		boolean onAttachNotCalled = !add.isPresent();
-		boolean onDetachNotCalled = !remove.isPresent();
-		boolean canBuild = !onAttachNotCalled && !onDetachNotCalled;
+		boolean onAttachCalled = add.isPresent();
+		boolean onDetachCalled = remove.isPresent();
+		boolean canBuild = onAttachCalled && onDetachCalled;
 
 		if (canBuild)
 			return;
