@@ -1,10 +1,8 @@
 package org.codefx.libfx.collection.tree;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.OptionalInt;
 
 /**
  * A {@link TreeIterationStrategy} which uses <a href="https://en.wikipedia.org/wiki/Depth-first_search">depth-first
@@ -28,7 +26,8 @@ public final class DfsTreeIterationStrategy<E> implements TreeIterationStrategy<
 	 * The path will also contain at least one node before the first call to {@link #goToNextNode()}. These are the
 	 * nodes specified during construction and the one at the end of the path must be returned by the first call to
 	 * {@code goToNextNode()}. Otherwise the end of the path (e.g. the root specified during construction) would never
-	 * be returned by the strategy. Whether {@code goToNextNode()} is indicated by {@link #beforeFirst}.
+	 * be returned by the strategy. Whether {@code goToNextNode()} must return this node or find a new one is indicated
+	 * by {@link #beforeFirst}.
 	 * <p>
 	 * If the path is empty, no more nodes will be returned.
 	 */
@@ -44,7 +43,7 @@ public final class DfsTreeIterationStrategy<E> implements TreeIterationStrategy<
 	// #region CONSTRUCTION
 
 	/**
-	 * Creates a new depth-first search strategy starting with a specified initial path.
+	 * Creates a new depth-first search strategy starting with the specified initial path.
 	 * <p>
 	 * See {@link DfsTreeIterationStrategy#DfsTreeIterationStrategy(TreeNavigator, List) this constructor} for comments
 	 * on the initial path.
@@ -67,7 +66,7 @@ public final class DfsTreeIterationStrategy<E> implements TreeIterationStrategy<
 	}
 
 	/**
-	 * Creates a new depth-first search strategy starting with a specified initial path.
+	 * Creates a new depth-first search strategy starting with the specified initial path.
 	 * <p>
 	 * The iteration will begin with the node at the end of the initial path. Note that this does not make the node the
 	 * root of the iterated (sub-)tree over which this strategy iterates. Instead it will at some point try to find
@@ -84,24 +83,7 @@ public final class DfsTreeIterationStrategy<E> implements TreeIterationStrategy<
 	 *            element; the last element in the path will be returned by the first call to {@link #goToNextNode()}
 	 */
 	public DfsTreeIterationStrategy(TreeNavigator<E> navigator, List<E> initialPath) {
-		this(navigator, createTreePathFromElementList(navigator, initialPath));
-	}
-
-	private static <E> TreePath<TreeNode<E>> createTreePathFromElementList(
-			TreeNavigator<E> navigator, List<E> initialPath) {
-
-		Objects.requireNonNull(navigator, "The argument 'navigator' must not be null.");
-		Objects.requireNonNull(initialPath, "The argument 'initialPath' must not be null.");
-
-		TreePath<TreeNode<E>> path = new StackTreePath<>();
-		initialPath.forEach(element -> appendNodeToPath(navigator, path, element));
-		return path;
-	}
-
-	private static <E> void appendNodeToPath(TreeNavigator<E> navigator, TreePath<TreeNode<E>> path, E nodeElement) {
-		OptionalInt childIndex = navigator.getChildIndex(nodeElement);
-		TreeNode<E> node = SimpleTreeNode.node(nodeElement, childIndex);
-		path.append(node);
+		this(navigator, TreePathFactory.createFromElementList(navigator, initialPath));
 	}
 
 	/**
@@ -114,7 +96,7 @@ public final class DfsTreeIterationStrategy<E> implements TreeIterationStrategy<
 	 *            return this node
 	 */
 	public DfsTreeIterationStrategy(TreeNavigator<E> navigator, E root) {
-		this(navigator, Collections.singletonList(root));
+		this(navigator, TreePathFactory.createWithSingleNode(root));
 	}
 
 	// #end CONSTRUCTION
