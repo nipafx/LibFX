@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * A {@link TreeIterationStrategy} which iterates a tree's nodes with a <b>backwards</b> <a
+ * A {@link TreeIterationStrategy} which iterates a tree's nodes with a <em>backwards</em> <a
  * href="https://en.wikipedia.org/wiki/Depth-first_search">depth-first search</a>.
  * <p>
  * This means that given an initial path from the root {@code R} to some node {@code N} , this strategy will start with
