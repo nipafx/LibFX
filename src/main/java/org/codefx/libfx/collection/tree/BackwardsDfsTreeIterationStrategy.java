@@ -18,7 +18,7 @@ import java.util.Optional;
  * @param <E>
  *            the type of elements contained in the tree
  */
-public final class BackwardsDfsTreeIterationStrategy<E> implements TreeIterationStrategy<E> {
+final class BackwardsDfsTreeIterationStrategy<E> implements TreeIterationStrategy<E> {
 
 	// #region FIELDS
 

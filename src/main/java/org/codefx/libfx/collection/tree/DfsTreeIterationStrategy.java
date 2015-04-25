@@ -13,7 +13,7 @@ import java.util.Optional;
  * @param <E>
  *            the type of elements contained in the tree
  */
-public final class DfsTreeIterationStrategy<E> implements TreeIterationStrategy<E> {
+final class DfsTreeIterationStrategy<E> implements TreeIterationStrategy<E> {
 
 	// #region FIELDS
 
