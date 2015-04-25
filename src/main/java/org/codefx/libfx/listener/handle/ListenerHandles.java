@@ -73,8 +73,8 @@ public class ListenerHandles {
 	public static ListenerHandle createDetached(Observable observable, InvalidationListener invalidationListener) {
 		return ListenerHandleBuilder
 				.from(observable, invalidationListener)
-				.onAttach((obs, listener) -> obs.addListener(listener))
-				.onDetach((obs, listener) -> obs.removeListener(listener))
+				.onAttach(Observable::addListener)
+				.onDetach(Observable::removeListener)
 				.buildDetached();
 	}
 
@@ -115,8 +115,8 @@ public class ListenerHandles {
 
 		return ListenerHandleBuilder
 				.from(observableValue, changeListener)
-				.onAttach((observable, listener) -> observable.addListener(listener))
-				.onDetach((observable, listener) -> observable.removeListener(listener))
+				.onAttach(ObservableValue::addListener)
+				.onDetach(ObservableValue::removeListener)
 				.buildDetached();
 	}
 
@@ -157,8 +157,8 @@ public class ListenerHandles {
 
 		return ListenerHandleBuilder
 				.from(observableArray, changeListener)
-				.onAttach((observable, listener) -> observable.addListener(listener))
-				.onDetach((observable, listener) -> observable.removeListener(listener))
+				.onAttach(ObservableArray::addListener)
+				.onDetach(ObservableArray::removeListener)
 				.buildDetached();
 	}
 
@@ -199,8 +199,8 @@ public class ListenerHandles {
 
 		return ListenerHandleBuilder
 				.from(observableList, changeListener)
-				.onAttach((observable, listener) -> observable.addListener(listener))
-				.onDetach((observable, listener) -> observable.removeListener(listener))
+				.onAttach(ObservableList::addListener)
+				.onDetach(ObservableList::removeListener)
 				.buildDetached();
 	}
 
@@ -241,8 +241,8 @@ public class ListenerHandles {
 
 		return ListenerHandleBuilder
 				.from(observableSet, changeListener)
-				.onAttach((observable, listener) -> observable.addListener(listener))
-				.onDetach((observable, listener) -> observable.removeListener(listener))
+				.onAttach(ObservableSet::addListener)
+				.onDetach(ObservableSet::removeListener)
 				.buildDetached();
 	}
 
@@ -287,8 +287,8 @@ public class ListenerHandles {
 
 		return ListenerHandleBuilder
 				.from(observableMap, changeListener)
-				.onAttach((observable, listener) -> observable.addListener(listener))
-				.onDetach((observable, listener) -> observable.removeListener(listener))
+				.onAttach(ObservableMap::addListener)
+				.onDetach(ObservableMap::removeListener)
 				.buildDetached();
 	}
 

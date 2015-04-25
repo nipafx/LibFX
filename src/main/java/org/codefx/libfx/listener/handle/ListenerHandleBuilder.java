@@ -34,6 +34,18 @@ import java.util.function.BiConsumer;
  * 	.onDetach((property, listener) -&gt; property.removeListener(listener))
  * 	.build();
  * </pre>
+ * Or, with method references:
+ *
+ * <pre>
+ * Property&lt;String&gt; textProperty;
+ * ChangeListener&lt;String&gt; textListener;
+ *
+ * ListenerHandle textListenerHandle = ListenerHandleBuilder
+ * 	.from(textProperty, textListener)
+ * 	.onAttach(Property::addListener))
+ * 	.onDetach(Property::removeListener)
+ * 	.build();
+ * </pre>
  *
  * @param <O>
  *            the type of the observable instance (e.g {@link javafx.beans.value.ObservableValue ObservableValue} or
