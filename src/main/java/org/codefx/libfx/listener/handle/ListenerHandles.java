@@ -116,7 +116,7 @@ public class ListenerHandles {
 		return ListenerHandleBuilder
 				.from(observableValue, changeListener)
 				.onAttach(ObservableValue::addListener)
-				.onDetach(ObservableValueremoveListener
+				.onDetach(ObservableValue::removeListener)
 				.buildDetached();
 	}
 
@@ -158,7 +158,7 @@ public class ListenerHandles {
 		return ListenerHandleBuilder
 				.from(observableArray, changeListener)
 				.onAttach(ObservableArray::addListener)
-				.onDetach(ObservableArray::removeListener
+				.onDetach(ObservableArray::removeListener)
 				.buildDetached();
 	}
 
