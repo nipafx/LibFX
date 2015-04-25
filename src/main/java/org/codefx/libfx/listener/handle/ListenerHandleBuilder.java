@@ -182,37 +182,37 @@ public final class ListenerHandleBuilder<O, L> {
 	 *             if {@link #add} or {@link #remove} is empty.
 	 */
 	private void verifyAddAndRemovePresent() throws IllegalStateException {
-		boolean onAttachNotCalled = !add.isPresent();
-		boolean onDetachNotCalled = !remove.isPresent();
-		boolean canBuild = !onAttachNotCalled && !onDetachNotCalled;
+		boolean onAttachCalled = add.isPresent();
+		boolean onDetachCalled = remove.isPresent();
+		boolean canBuild = onAttachCalled && onDetachCalled;
 
 		if (canBuild)
 			return;
 		else
-			throwExceptionForMissingCall(onAttachNotCalled, onDetachNotCalled);
+			throwExceptionForMissingCall(onAttachCalled, onDetachCalled);
 	}
 
 	/**
 	 * Throws an {@link IllegalStateException} for a missing call.
 	 *
-	 * @param onAttachNotCalled
+	 * @param onAttachCalled
 	 *            indicates whether {@link #onAttach(BiConsumer)} has been called
-	 * @param onDetachNotCalled
+	 * @param onDetachCalled
 	 *            indicates whether {@link #onDetach(BiConsumer)} has been called
 	 * @throws IllegalStateException
 	 *             if at least one of the specified booleans is true
 	 */
-	private static void throwExceptionForMissingCall(boolean onAttachNotCalled, boolean onDetachNotCalled)
+	private static void throwExceptionForMissingCall(boolean onAttachCalled, boolean onDetachCalled)
 			throws IllegalStateException {
 
-		if (onAttachNotCalled && onDetachNotCalled)
+		if (!onAttachCalled && !onDetachCalled)
 			throw new IllegalStateException(
 					"A listener handle can not be build until 'onAttach' and 'onDetach' have been called.");
 
-		if (onAttachNotCalled)
+		if (!onAttachCalled)
 			throw new IllegalStateException("A listener handle can not be build until 'onAttach' has been called.");
 
-		if (onDetachNotCalled)
+		if (!onDetachCalled)
 			throw new IllegalStateException("A listener handle can not be build until 'onDetach' has been called.");
 	}
 
