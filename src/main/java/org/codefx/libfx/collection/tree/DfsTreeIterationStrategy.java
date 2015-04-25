@@ -1,6 +1,5 @@
 package org.codefx.libfx.collection.tree;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -45,8 +44,15 @@ public final class DfsTreeIterationStrategy<E> implements TreeIterationStrategy<
 	/**
 	 * Creates a new depth-first search strategy starting with the specified initial path.
 	 * <p>
-	 * See {@link DfsTreeIterationStrategy#DfsTreeIterationStrategy(TreeNavigator, List) this constructor} for comments
-	 * on the initial path.
+	 * The iteration will begin with the node at the end of the initial path. Note that this does not make the node the
+	 * root of the (sub-)tree over which this strategy iterates. Instead it will at some point try to find right
+	 * siblings or uncles of this node. It will only stop when backtracking to the first node in that path, i.e. the
+	 * subtree's root.
+	 * <p>
+	 * The specified path must correspond to the navigator's view on the tree, i.e. each element in the path must be the
+	 * parent (in the tree) of the next one.
+	 * <p>
+	 * See {@link TreePathFactory} for easy ways to create an initial path.
 	 *
 	 * @param navigator
 	 *            the navigator used to navigate the tree
@@ -63,60 +69,6 @@ public final class DfsTreeIterationStrategy<E> implements TreeIterationStrategy<
 		this.navigator = navigator;
 		this.path = initialPath;
 		this.beforeFirst = true;
-	}
-
-	/**
-	 * Creates a new depth-first search strategy starting with the specified initial path.
-	 * <p>
-	 * The iteration will begin with the node at the end of the initial path. Note that this does not make the node the
-	 * root of the iterated (sub-)tree over which this strategy iterates. Instead it will at some point try to find
-	 * right siblings or uncles of this node. It will only stop when backtracking to the first node in that path, i.e.
-	 * the root.
-	 * <p>
-	 * The specified path must correspond to what the {@code navigator} would return for the corresponding calls. This
-	 * means that each element in the list must be the parent (in the tree) of the next one.
-	 *
-	 * @param navigator
-	 *            the navigator used to navigate the tree
-	 * @param initialPath
-	 *            the initial path from the root of the (sub-)tree iterated by this strategy; must contain at least one
-	 *            element; the last element in the path will be returned by the first call to {@link #goToNextNode()}
-	 */
-	public DfsTreeIterationStrategy(TreeNavigator<E> navigator, List<E> initialPath) {
-		this(navigator, TreePathFactory.createFromElementList(navigator, initialPath));
-	}
-
-	/**
-	 * Creates a new depth-first search strategy.
-	 *
-	 * @param navigator
-	 *            the navigator used to navigate the tree
-	 * @param root
-	 *            the root of the (sub-)tree iterated by this strategy; the first call to {@link #goToNextNode()} will
-	 *            return this node
-	 */
-	public DfsTreeIterationStrategy(TreeNavigator<E> navigator, E root) {
-		this(navigator, TreePathFactory.createWithSingleNode(root));
-	}
-
-	/**
-	 * Creates a new depth-first search strategy starting with the specified start node.
-	 * <p>
-	 * The constructor will create an initial path from the root to the start node. See
-	 * {@link DfsTreeIterationStrategy#DfsTreeIterationStrategy(TreeNavigator, List) this constructor} for comments on
-	 * this path.
-	 *
-	 * @param navigator
-	 *            the navigator used to navigate the tree
-	 * @param root
-	 *            the root of the (sub-)tree iterated by this strategy
-	 * @param startNode
-	 *            the node where the strategy starts; the first call to {@link #goToNextNode()} will return this node
-	 * @throws IllegalArgumentException
-	 *             if the {@code root} is no ancestor of the {@code startNode}
-	 */
-	public DfsTreeIterationStrategy(TreeNavigator<E> navigator, E root, E startNode) throws IllegalArgumentException {
-		this(navigator, TreePathFactory.createFromNodeToDescendant(navigator, root, startNode));
 	}
 
 	// #end CONSTRUCTION

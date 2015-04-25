@@ -70,6 +70,27 @@ class TreeTestHelper {
 
 	// #end TREES
 
+	// #region UTIL
+
+	/**
+	 * @param strategy
+	 *            the strategy to iterate the nodes
+	 * @return an array which contains each node the strategy returns
+	 */
+	public static String[] iterateTreeContent(TreeIterationStrategy<Node> strategy) {
+		List<String> treeContent = new ArrayList<>();
+
+		Optional<Node> nextNode = strategy.goToNextNode();
+		while (nextNode.isPresent()) {
+			treeContent.add(nextNode.get().content);
+			nextNode = strategy.goToNextNode();
+		}
+
+		return treeContent.toArray(new String[0]);
+	}
+
+	// #end UTIL
+
 	// #region INNER CLASSES
 
 	/**
