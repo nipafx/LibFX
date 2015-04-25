@@ -77,7 +77,8 @@ public class TreePathFactory {
 			TreeNavigator<E> navigator, E node, E descendant) {
 
 		List<TreeNode<E>> pathFromDescendantToNode = createPathWithSingleNode(navigator, descendant);
-		Optional<E> parent = addAllAncestorNodesToPath(navigator, node, descendant, pathFromDescendantToNode);
+		Optional<E> parent = addAllAncestorsToPathUntilReachingNode(
+				navigator, node, descendant, pathFromDescendantToNode);
 		addNodeToPathOrThrowException(navigator, node, parent, descendant, pathFromDescendantToNode);
 		return pathFromDescendantToNode;
 	}
@@ -89,7 +90,7 @@ public class TreePathFactory {
 		return pathFromStartBackToNode;
 	}
 
-	private static <E> Optional<E> addAllAncestorNodesToPath(
+	private static <E> Optional<E> addAllAncestorsToPathUntilReachingNode(
 			TreeNavigator<E> navigator, E node, E descendant, List<TreeNode<E>> pathFromStartBackToNode) {
 
 		Optional<E> parent = navigator.getParent(descendant);
@@ -120,6 +121,42 @@ public class TreePathFactory {
 		for (int i = pathFromDescendantBackToNode.size() - 1; i >= 0; i--)
 			treePath.append(pathFromDescendantBackToNode.get(i));
 		return treePath;
+	}
+
+	/**
+	 * @param <E>
+	 *            the type of elements contained in the tree
+	 * @param navigator
+	 *            the navigator used to navigate the tree
+	 * @param node
+	 *            a node in the tree
+	 * @return a tree path leading from the root to the node
+	 */
+	public static <E> TreePath<TreeNode<E>> createFromRootToNode(TreeNavigator<E> navigator, E node) {
+		Objects.requireNonNull(navigator, "The argument 'navigator' must not be null.");
+		Objects.requireNonNull(node, "The argument 'node' must not be null.");
+
+		List<TreeNode<E>> pathFromDescendantBackToNode = createPathFromNodeBackToRoot(navigator, node);
+		return createPathByInverting(pathFromDescendantBackToNode);
+	}
+
+	private static <E> List<TreeNode<E>> createPathFromNodeBackToRoot(
+			TreeNavigator<E> navigator, E node) {
+
+		List<TreeNode<E>> pathFromNodeToRoot = createPathWithSingleNode(navigator, node);
+		addAllAncestorNodesToPath(navigator, node, pathFromNodeToRoot);
+		return pathFromNodeToRoot;
+	}
+
+	private static <E> void addAllAncestorNodesToPath(
+			TreeNavigator<E> navigator, E node, List<TreeNode<E>> pathFromStartBackToNode) {
+
+		Optional<E> parent = navigator.getParent(node);
+		while (parent.isPresent()) {
+			TreeNode<E> parentNode = SimpleTreeNode.node(parent.get(), navigator.getChildIndex(parent.get()));
+			pathFromStartBackToNode.add(parentNode);
+			parent = navigator.getParent(parent.get());
+		}
 	}
 
 }
