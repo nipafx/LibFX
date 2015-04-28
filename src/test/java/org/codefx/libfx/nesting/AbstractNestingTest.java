@@ -44,6 +44,16 @@ public abstract class AbstractNestingTest<OO extends Observable, IO extends Obse
 
 	// #region TESTS
 
+	// construction
+
+	/**
+	 * Tests whether creating a nesting with on a null outer observable throws an exception.
+	 */
+	@Test(expected = NullPointerException.class)
+	public void testExceptionWhenNullObservable() {
+		nesting = createNewNestingFromOuterObservable(null);
+	}
+
 	/**
 	 * Tests whether the {@link #nesting}'s {@link Nesting#innerObservableProperty() innerObservable} property contains
 	 * the correct observable, which is the {@link #outerObservable}'s inner observable.
