@@ -2,6 +2,8 @@ package org.codefx.libfx.collection.tree.stream;
 
 import java.util.OptionalInt;
 
+import org.codefx.libfx.collection.tree.navigate.TreeNavigator;
+
 /**
  * Encapsulates an element in a tree.
  * <p>

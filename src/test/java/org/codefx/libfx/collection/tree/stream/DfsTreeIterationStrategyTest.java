@@ -13,6 +13,7 @@ import static org.mockito.Mockito.mock;
 
 import java.util.Arrays;
 
+import org.codefx.libfx.collection.tree.navigate.TreeNavigator;
 import org.codefx.libfx.collection.tree.stream.TreeTestHelper.Node;
 import org.junit.Before;
 import org.junit.Test;

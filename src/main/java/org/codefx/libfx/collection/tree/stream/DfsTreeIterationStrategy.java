@@ -3,6 +3,8 @@ package org.codefx.libfx.collection.tree.stream;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.codefx.libfx.collection.tree.navigate.TreeNavigator;
+
 /**
  * A {@link TreeIterationStrategy} which uses <a href="https://en.wikipedia.org/wiki/Depth-first_search">depth-first
  * search</a> to iterate a tree's nodes.
@@ -120,7 +122,7 @@ final class DfsTreeIterationStrategy<E> implements TreeIterationStrategy<E> {
 				int rightSiblingIndex = currentNode.getChildIndex().getAsInt() + 1;
 				siblingOrUncle = navigator
 						.getChild(parentElement, rightSiblingIndex)
-						.map(child -> SimpleTreeNode.innerNode(child, rightSiblingIndex));
+						.map(sibling -> SimpleTreeNode.innerNode(sibling, rightSiblingIndex));
 			}
 		}
 

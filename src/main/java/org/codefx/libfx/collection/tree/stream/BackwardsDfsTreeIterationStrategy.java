@@ -3,6 +3,8 @@ package org.codefx.libfx.collection.tree.stream;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.codefx.libfx.collection.tree.navigate.TreeNavigator;
+
 /**
  * A {@link TreeIterationStrategy} which iterates a tree's nodes with a <em>backwards</em> <a
  * href="https://en.wikipedia.org/wiki/Depth-first_search">depth-first search</a>.

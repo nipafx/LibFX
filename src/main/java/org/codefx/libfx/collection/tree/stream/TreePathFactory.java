@@ -7,6 +7,8 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.OptionalInt;
 
+import org.codefx.libfx.collection.tree.navigate.TreeNavigator;
+
 /**
  * Utility class to easily create {@link TreePath}s for recurring situations.
  */

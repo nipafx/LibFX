@@ -6,6 +6,8 @@ import java.util.Spliterators;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import org.codefx.libfx.collection.tree.navigate.TreeNavigator;
+
 /**
  * Creates streams of nodes.
  * <p>

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.OptionalInt;
 
-import org.codefx.libfx.collection.tree.stream.TreeNavigator;
+import org.codefx.libfx.collection.tree.navigate.TreeNavigator;
 import org.codefx.libfx.collection.tree.stream.TreeNode;
 import org.codefx.libfx.collection.tree.stream.TreePath;
 import org.codefx.libfx.collection.tree.stream.TreePathFactory;

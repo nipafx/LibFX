@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.OptionalInt;
 
+import org.codefx.libfx.collection.tree.navigate.TreeNavigator;
 import org.codefx.libfx.collection.tree.stream.TreeIterationStrategy;
-import org.codefx.libfx.collection.tree.stream.TreeNavigator;
 
 /**
  * Supports testing by providing sample trees and a {@link Navigator} for them.

@@ -1,4 +1,4 @@
-package org.codefx.libfx.collection.tree.stream;
+package org.codefx.libfx.collection.tree.navigate;
 
 import java.util.Optional;
 import java.util.OptionalInt;
