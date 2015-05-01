@@ -29,6 +29,17 @@ public abstract class AbstractDeepNestingTestForDefaultNesting<O extends Observa
 	}
 
 	@Override
+	protected Property<OuterValue> createNewNestingHierarchyWhereOuterObservableHasNullValue() {
+		return new SimpleObjectProperty<>(null);
+	}
+
+	@Override
+	protected Property<OuterValue> createNewNestingHierarchyWhereNestedObservableHasNullValue() {
+		OuterValue outer = OuterValue.createWithNull();
+		return new SimpleObjectProperty<>(outer);
+	}
+
+	@Override
 	protected void setNewValue(Property<OuterValue> outerObservable, Level level, Value kindOfNewValue) {
 
 		switch (level) {

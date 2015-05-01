@@ -1,6 +1,8 @@
 package org.codefx.libfx.nesting;
 
 import static org.codefx.libfx.nesting.testhelper.NestingAccess.getNestingObservable;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import javafx.beans.Observable;
@@ -21,6 +23,37 @@ public abstract class AbstractDeepNestingTest<OO extends Observable, IO extends 
 		extends AbstractNestingTest<OO, IO> {
 
 	// #region TESTS
+
+	// construction
+
+	/**
+	 * Tests whether creating a {@link DeepNesting} on an outer observable which contains null works correctly.
+	 * <p>
+	 * This ensures that a "broken" hierarchy is correctly initialized.
+	 */
+	@Test
+	public void testCreatingWhenOuterObservableHasValueNull() {
+		outerObservable = createNewNestingHierarchyWhereOuterObservableHasNullValue();
+		nesting = createNewNestingFromOuterObservable(outerObservable);
+
+		assertNotNull(nesting.innerObservableProperty().getValue());
+		assertFalse(nesting.innerObservableProperty().getValue().isPresent());
+	}
+
+	/**
+	 * Tests whether creating a {@link DeepNesting} on a hierarchy where on of the nested observables contains null
+	 * works correctly.
+	 * <p>
+	 * This ensures that a "broken" hierarchy is correctly initialized.
+	 */
+	@Test
+	public void testCreatingWhenNestedObservableHasValueNull() {
+		outerObservable = createNewNestingHierarchyWhereNestedObservableHasNullValue();
+		nesting = createNewNestingFromOuterObservable(outerObservable);
+
+		assertNotNull(nesting.innerObservableProperty().getValue());
+		assertFalse(nesting.innerObservableProperty().getValue().isPresent());
+	}
 
 	// nested value
 
@@ -89,6 +122,21 @@ public abstract class AbstractDeepNestingTest<OO extends Observable, IO extends 
 	//#end TESTS
 
 	// #region ABSTRACT METHODS
+
+	/**
+	 * Creates a new outer observable with a null value. The returned instances must be new for each call.
+	 *
+	 * @return an {@link ObservableValue} containing null
+	 */
+	protected abstract OO createNewNestingHierarchyWhereOuterObservableHasNullValue();
+
+	/**
+	 * Creates a new nesting hierarchy where one of the nested observables contains null and returns the outer
+	 * observable. All returned instances must be new for each call.
+	 *
+	 * @return an {@link ObservableValue} containing the outer value of a nesting hierarchy
+	 */
+	protected abstract OO createNewNestingHierarchyWhereNestedObservableHasNullValue();
 
 	/**
 	 * Sets a new value of the specified kind on the specified level of the nesting hierarchy contained in the specified
