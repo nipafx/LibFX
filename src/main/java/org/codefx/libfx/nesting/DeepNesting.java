@@ -74,6 +74,9 @@ final class DeepNesting<O extends Observable> implements Nesting<O> {
 
 	/**
 	 * The values currently held by the observables.
+	 * <p>
+	 * Before the initialization these will be non-null "uninitialized" objects. This is done to distinguish them from
+	 * null values which could be held by the observables.
 	 */
 	private final Object[] values;
 
@@ -120,12 +123,23 @@ final class DeepNesting<O extends Observable> implements Nesting<O> {
 		maxLevel = nestingSteps.size();
 
 		this.observables = createObservables(outerObservable, maxLevel);
-		this.values = new Object[maxLevel];
+		this.values = createUnitializedValues();
 		this.nestingSteps = nestingSteps.toArray(new NestingStep[maxLevel]);
 		this.changeListeners = createChangeListeners(maxLevel);
 		this.inner = new SimpleObjectProperty<>(this, "inner");
 
 		initializeNesting();
+	}
+
+	/**
+	 * @return an array of uninitialized values (i.e. non-null values which do not equal any other instances occurring
+	 *         "in the wild")
+	 */
+	private Object[] createUnitializedValues() {
+		Object[] values = new Object[maxLevel];
+		for (int i = 0; i < maxLevel; i++)
+			values[i] = new Unitialized();
+		return values;
 	}
 
 	/**
@@ -234,8 +248,8 @@ final class DeepNesting<O extends Observable> implements Nesting<O> {
 	 * identical and nothing more needs to be updated.
 	 * <p>
 	 * Note that the loop will not stop on null observables and null values. Instead it continues and replaces all
-	 * stored observables and values with null. This is the desired behavior as the hierarchy is in now an incomplete
-	 * state and the old observables and values are obsolete and have to be replaced.
+	 * stored observables and values with null. This is the desired behavior as the hierarchy is now in an incomplete
+	 * state where the old observables and values are obsolete and have to be replaced.
 	 */
 	private class NestingUpdater {
 
@@ -392,6 +406,13 @@ final class DeepNesting<O extends Observable> implements Nesting<O> {
 			}
 		}
 
+	}
+
+	/**
+	 * Represents an uninitialized entry in the {@link #values} array.
+	 */
+	private static class Unitialized {
+		// no body needed
 	}
 
 	//#end PRIVATE CLASSES
