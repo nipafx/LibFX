@@ -1,10 +1,12 @@
-package org.codefx.libfx.collection.tree;
+package org.codefx.libfx.collection.tree.stream;
 
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
 import java.util.List;
 
+import org.codefx.libfx.collection.tree.stream.StackTreePath;
+import org.codefx.libfx.collection.tree.stream.TreePath;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

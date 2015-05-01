@@ -1,4 +1,4 @@
-package org.codefx.libfx.collection.tree;
+package org.codefx.libfx.collection.tree.stream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -13,6 +13,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.OptionalInt;
 
+import org.codefx.libfx.collection.tree.stream.TreeNavigator;
+import org.codefx.libfx.collection.tree.stream.TreeNode;
+import org.codefx.libfx.collection.tree.stream.TreePath;
+import org.codefx.libfx.collection.tree.stream.TreePathFactory;
 import org.junit.Test;
 
 /**

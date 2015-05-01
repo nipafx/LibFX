@@ -1,4 +1,4 @@
-package org.codefx.libfx.collection.tree;
+package org.codefx.libfx.collection.tree.stream;
 
 import java.util.OptionalInt;
 
@@ -12,7 +12,7 @@ import java.util.OptionalInt;
  * @param <E>
  *            the type of the contained element
  */
-public interface TreeNode<E> {
+interface TreeNode<E> {
 
 	/**
 	 * @return the encapsulated element

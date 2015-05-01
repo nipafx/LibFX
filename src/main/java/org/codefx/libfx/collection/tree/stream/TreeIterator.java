@@ -1,4 +1,4 @@
-package org.codefx.libfx.collection.tree;
+package org.codefx.libfx.collection.tree.stream;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -11,7 +11,7 @@ import java.util.Optional;
  * @param <E>
  *            the type of elements returned by this iterator
  */
-public class TreeIterator<E> implements Iterator<E> {
+class TreeIterator<E> implements Iterator<E> {
 
 	/*
 	 * The important task of choosing the next node in the tree is delegated to the iteration strategy. This class

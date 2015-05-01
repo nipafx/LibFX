@@ -1,4 +1,4 @@
-package org.codefx.libfx.collection.tree;
+package org.codefx.libfx.collection.tree.stream;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -13,7 +13,7 @@ import java.util.Optional;
  * @param <N>
  *            the type of nodes in this path
  */
-public class StackTreePath<N> implements TreePath<N> {
+final class StackTreePath<N> implements TreePath<N> {
 
 	/**
 	 * The path from the root to the current node as a stack with the root at the bottom and the most recently visited

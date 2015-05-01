@@ -1,4 +1,4 @@
-package org.codefx.libfx.collection.tree;
+package org.codefx.libfx.collection.tree.stream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -6,6 +6,7 @@ import static org.junit.Assert.assertSame;
 
 import java.util.OptionalInt;
 
+import org.codefx.libfx.collection.tree.stream.SimpleTreeNode;
 import org.junit.Test;
 
 /**

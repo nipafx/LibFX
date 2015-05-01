@@ -1,4 +1,4 @@
-package org.codefx.libfx.collection.tree;
+package org.codefx.libfx.collection.tree.stream;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
@@ -12,6 +12,8 @@ import static org.mockito.Mockito.when;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import org.codefx.libfx.collection.tree.stream.TreeIterationStrategy;
+import org.codefx.libfx.collection.tree.stream.TreeIterator;
 import org.junit.Before;
 import org.junit.Test;
 

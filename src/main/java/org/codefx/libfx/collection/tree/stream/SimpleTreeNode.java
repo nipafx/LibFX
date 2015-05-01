@@ -1,4 +1,4 @@
-package org.codefx.libfx.collection.tree;
+package org.codefx.libfx.collection.tree.stream;
 
 import java.util.Objects;
 import java.util.OptionalInt;
@@ -9,7 +9,7 @@ import java.util.OptionalInt;
  * @param <E>
  *            the type of the contained element
  */
-public final class SimpleTreeNode<E> implements TreeNode<E> {
+final class SimpleTreeNode<E> implements TreeNode<E> {
 
 	private final E element;
 

@@ -1,4 +1,4 @@
-package org.codefx.libfx.collection.tree;
+package org.codefx.libfx.collection.tree.stream;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -10,7 +10,7 @@ import java.util.OptionalInt;
 /**
  * Utility class to easily create {@link TreePath}s for recurring situations.
  */
-public class TreePathFactory {
+class TreePathFactory {
 
 	/**
 	 * @param <E>

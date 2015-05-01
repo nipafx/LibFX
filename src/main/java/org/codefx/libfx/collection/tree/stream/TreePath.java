@@ -1,4 +1,4 @@
-package org.codefx.libfx.collection.tree;
+package org.codefx.libfx.collection.tree.stream;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -14,7 +14,7 @@ import java.util.Optional;
  * @param <N>
  *            the type of nodes
  */
-public interface TreePath<N> {
+interface TreePath<N> {
 
 	/**
 	 * @return whether this path is empty
