@@ -145,6 +145,7 @@ public final class EqualityTransformingMap<K, V> extends AbstractTransformingMap
 	 * @return a new builder
 	 */
 	public static <K> Builder<K> withKeyType(Class<? super K> keyTypeToken) {
+		Objects.requireNonNull(keyTypeToken, "The argument 'keyTypeToken' must not be null.");
 		return new Builder<>(keyTypeToken);
 	}
 
@@ -217,6 +218,8 @@ public final class EqualityTransformingMap<K, V> extends AbstractTransformingMap
 		private final K outerKey;
 
 		private EqHash(EqualityTransformingMap<K, ?> transformingMap, K outerKey) {
+			assert transformingMap != null : "The argument 'transformingMap' must not be null.";
+
 			this.transformingMap = transformingMap;
 			this.outerKey = outerKey;
 		}
@@ -289,6 +292,7 @@ public final class EqualityTransformingMap<K, V> extends AbstractTransformingMap
 		 * @return this builder
 		 */
 		public Builder<K> withEqualsHandlingNull(BiPredicate<? super K, ? super K> equals) {
+			Objects.requireNonNull(equals, "The argument 'equals' must not be null.");
 			this.equals = equals;
 			return this;
 		}
@@ -299,6 +303,7 @@ public final class EqualityTransformingMap<K, V> extends AbstractTransformingMap
 		 * @return this builder
 		 */
 		public Builder<K> withEquals(BiPredicate<? super K, ? super K> equals) {
+			Objects.requireNonNull(equals, "The argument 'equals' must not be null.");
 			return withEqualsHandlingNull(makeNullSafe(equals));
 		}
 
@@ -319,6 +324,7 @@ public final class EqualityTransformingMap<K, V> extends AbstractTransformingMap
 		 * @return this builder
 		 */
 		public Builder<K> withHashHandlingNull(ToIntFunction<? super K> hash) {
+			Objects.requireNonNull(hash, "The argument 'hash' must not be null.");
 			this.hash = hash;
 			return this;
 		}
@@ -329,6 +335,7 @@ public final class EqualityTransformingMap<K, V> extends AbstractTransformingMap
 		 * @return this builder
 		 */
 		public Builder<K> withHash(ToIntFunction<? super K> hash) {
+			Objects.requireNonNull(hash, "The argument 'hash' must not be null.");
 			return withHashHandlingNull(makeNullSafe(hash));
 		}
 

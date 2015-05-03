@@ -62,9 +62,11 @@ public final class OptionalTransformingCollection<E> extends AbstractTransformin
 	 */
 	public OptionalTransformingCollection(
 			Collection<Optional<E>> innerCollection,
-			Class<? super E> outerTypeToken, E outerDefaultElement) {
+			Class<? super E> outerTypeToken,
+			E outerDefaultElement) {
 		Objects.requireNonNull(innerCollection, "The argument 'innerCollection' must not be null.");
 		Objects.requireNonNull(outerTypeToken, "The argument 'outerTypeToken' must not be null.");
+		// 'outerDefaultElement' can be null
 
 		this.innerCollection = innerCollection;
 		this.outerTypeToken = outerTypeToken;

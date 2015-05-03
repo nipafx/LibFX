@@ -63,9 +63,11 @@ public final class OptionalTransformingSet<E> extends AbstractTransformingSet<Op
 	 */
 	public OptionalTransformingSet(
 			Set<Optional<E>> innerSet,
-			Class<? super E> outerTypeToken, E outerDefaultElement) {
+			Class<? super E> outerTypeToken,
+			E outerDefaultElement) {
 		Objects.requireNonNull(innerSet, "The argument 'innerSet' must not be null.");
 		Objects.requireNonNull(outerTypeToken, "The argument 'outerTypeToken' must not be null.");
+		// 'outerDefaultElement' can be null
 
 		this.innerSet = innerSet;
 		this.outerTypeToken = outerTypeToken;

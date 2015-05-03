@@ -63,9 +63,11 @@ public final class OptionalTransformingList<E> extends AbstractTransformingList<
 	 */
 	public OptionalTransformingList(
 			List<Optional<E>> innerList,
-			Class<? super E> outerTypeToken, E outerDefaultElement) {
+			Class<? super E> outerTypeToken,
+			E outerDefaultElement) {
 		Objects.requireNonNull(innerList, "The argument 'innerList' must not be null.");
 		Objects.requireNonNull(outerTypeToken, "The argument 'outerTypeToken' must not be null.");
+		// 'outerDefaultElement' can be null
 
 		this.innerList = innerList;
 		this.outerTypeToken = outerTypeToken;

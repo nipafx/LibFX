@@ -94,6 +94,16 @@ public final class TransformingMap<IK, OK, IV, OV> extends AbstractTransformingM
 			Class<IV> innerValueTypeToken, Function<IV, OV> transformToOuterValue,
 			Class<OV> outerValueTypeToken, Function<OV, IV> transformToInnerValue) {
 
+		Objects.requireNonNull(innerMap, "The argument 'innerMap' must not be null.");
+		Objects.requireNonNull(innerKeyTypeToken, "The argument 'innerKeyTypeToken' must not be null.");
+		Objects.requireNonNull(transformToOuterKey, "The argument 'transformToOuterKey' must not be null.");
+		Objects.requireNonNull(outerKeyTypeToken, "The argument 'outerKeyTypeToken' must not be null.");
+		Objects.requireNonNull(transformToInnerKey, "The argument 'transformToInnerKey' must not be null.");
+		Objects.requireNonNull(innerValueTypeToken, "The argument 'innerValueTypeToken' must not be null.");
+		Objects.requireNonNull(transformToOuterValue, "The argument 'transformToOuterValue' must not be null.");
+		Objects.requireNonNull(outerValueTypeToken, "The argument 'outerValueTypeToken' must not be null.");
+		Objects.requireNonNull(transformToInnerValue, "The argument 'transformToInnerValue' must not be null.");
+
 		this.innerMap = innerMap;
 		this.outerKeyTypeToken = outerKeyTypeToken;
 		this.innerKeyTypeToken = innerKeyTypeToken;

@@ -40,7 +40,6 @@ public final class TransformingIterator<I, O> extends AbstractTransformingIterat
 	 *            transforms elements from the inner type {@code I} to the outer type {@code O}
 	 */
 	public TransformingIterator(Iterator<I> innerIterator, Function<I, O> transformToOuter) {
-
 		Objects.requireNonNull(innerIterator, "The argument 'innerIterator' must not be null.");
 		Objects.requireNonNull(transformToOuter, "The argument 'transformToOuter' must not be null.");
 
