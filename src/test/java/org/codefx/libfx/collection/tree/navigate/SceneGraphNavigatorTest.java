@@ -7,8 +7,14 @@ import javafx.scene.control.TextArea;
 import org.codefx.tarkastus.JavaFXRule;
 import org.junit.Rule;
 
+/**
+ * Tests {@link SceneGraphNavigator}.
+ */
 public class SceneGraphNavigatorTest extends AbstractTreeNavigatorTest<Node> {
 
+	/**
+	 * Runs all tests in the JavaFX platform thread.
+	 */
 	@Rule
 	public JavaFXRule javaFXRule = new JavaFXRule();
 
