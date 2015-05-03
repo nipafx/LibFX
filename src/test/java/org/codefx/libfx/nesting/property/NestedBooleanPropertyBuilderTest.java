@@ -6,17 +6,13 @@ import javafx.beans.property.SimpleBooleanProperty;
 import org.codefx.libfx.nesting.Nesting;
 import org.codefx.libfx.nesting.testhelper.NestingAccess.EditableNesting;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+
+import com.nitorcreations.junit.runners.NestedRunner;
 
 /**
  * Tests the class {@link NestedBooleanPropertyBuilder}.
  */
-@RunWith(Suite.class)
-@SuiteClasses({
-		NestedBooleanPropertyBuilderTest.AbstractBuilderContract.class,
-		NestedBooleanPropertyBuilderTest.CreatedProperties.class,
-})
+@RunWith(NestedRunner.class)
 public class NestedBooleanPropertyBuilderTest {
 
 	/**

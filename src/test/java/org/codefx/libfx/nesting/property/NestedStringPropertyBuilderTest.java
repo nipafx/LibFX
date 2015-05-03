@@ -6,24 +6,20 @@ import javafx.beans.property.StringProperty;
 import org.codefx.libfx.nesting.Nesting;
 import org.codefx.libfx.nesting.testhelper.NestingAccess.EditableNesting;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+
+import com.nitorcreations.junit.runners.NestedRunner;
 
 /**
  * Tests the class {@link NestedStringPropertyBuilder}.
  */
-@RunWith(Suite.class)
-@SuiteClasses({
-	NestedStringPropertyBuilderTest.AbstractBuilderContract.class,
-	NestedStringPropertyBuilderTest.CreatedProperties.class,
-})
+@RunWith(NestedRunner.class)
 public class NestedStringPropertyBuilderTest {
 
 	/**
 	 * Tests whether the builder fulfills the contract defined by {@link AbstractNestedPropertyBuilder}.
 	 */
 	public static class AbstractBuilderContract
-	extends AbstractNestedPropertyBuilderTest<StringProperty, NestedStringProperty> {
+			extends AbstractNestedPropertyBuilderTest<StringProperty, NestedStringProperty> {
 
 		@Override
 		protected AbstractNestedPropertyBuilder<StringProperty, NestedStringProperty> createBuilder() {

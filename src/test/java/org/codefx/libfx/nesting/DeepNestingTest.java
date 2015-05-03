@@ -8,26 +8,18 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.Property;
 import javafx.beans.value.ObservableValue;
 
-import org.codefx.libfx.nesting.DeepNesting;
-import org.codefx.libfx.nesting.Nesting;
-import org.codefx.libfx.nesting.NestingStep;
 import org.codefx.libfx.nesting.testhelper.InnerValue;
 import org.codefx.libfx.nesting.testhelper.NestingAccess;
 import org.codefx.libfx.nesting.testhelper.OuterValue;
 import org.codefx.libfx.nesting.testhelper.SomeValue;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+
+import com.nitorcreations.junit.runners.NestedRunner;
 
 /**
  * Tests the {@link Nesting} implementation {@link DeepNesting}.
  */
-@RunWith(Suite.class)
-@SuiteClasses({
-	DeepNestingTest.WithObservable.class,
-	DeepNestingTest.WithProperty.class,
-	DeepNestingTest.WithIntegerProperty.class,
-})
+@RunWith(NestedRunner.class)
 public class DeepNestingTest {
 
 	/**

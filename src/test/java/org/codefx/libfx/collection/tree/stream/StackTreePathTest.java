@@ -5,21 +5,15 @@ import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 import java.util.List;
 
-import org.codefx.libfx.collection.tree.stream.StackTreePath;
-import org.codefx.libfx.collection.tree.stream.TreePath;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+
+import com.nitorcreations.junit.runners.NestedRunner;
 
 /**
  * Tests {@link StackTreePath}.
  */
-@RunWith(Suite.class)
-@SuiteClasses({
-		StackTreePathTest.Construction.class,
-		StackTreePathTest.TreePathContract.class,
-})
+@RunWith(NestedRunner.class)
 public class StackTreePathTest {
 
 	/**

@@ -6,17 +6,13 @@ import javafx.beans.property.SimpleDoubleProperty;
 import org.codefx.libfx.nesting.Nesting;
 import org.codefx.libfx.nesting.testhelper.NestingAccess.EditableNesting;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+
+import com.nitorcreations.junit.runners.NestedRunner;
 
 /**
  * Tests the class {@link NestedDoublePropertyBuilder}.
  */
-@RunWith(Suite.class)
-@SuiteClasses({
-		NestedDoublePropertyBuilderTest.AbstractBuilderContract.class,
-		NestedDoublePropertyBuilderTest.CreatedProperties.class,
-})
+@RunWith(NestedRunner.class)
 public class NestedDoublePropertyBuilderTest {
 
 	/**

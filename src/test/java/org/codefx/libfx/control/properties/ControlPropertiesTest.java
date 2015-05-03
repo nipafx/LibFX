@@ -11,17 +11,13 @@ import org.codefx.libfx.listener.handle.CreateListenerHandle;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+
+import com.nitorcreations.junit.runners.NestedRunner;
 
 /**
  * Tests the {@link ControlPropertyListenerBuilder}.
  */
-@RunWith(Suite.class)
-@SuiteClasses({
-		ControlPropertiesTest.BuilderContract.class,
-		ControlPropertiesTest.CreatedCastingControlPropertyListener.class,
-		ControlPropertiesTest.CreatedTypeCheckingControlPropertyListener.class })
+@RunWith(NestedRunner.class)
 public class ControlPropertiesTest {
 
 	/**
