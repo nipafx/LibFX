@@ -10,7 +10,7 @@ import java.util.OptionalInt;
  * A {@link TreeNavigator} for an AWT component hierarchy.
  * <p>
  * This implementation is thread-safe in the sense that individual method calls will not fail if the component hierarchy
- * is changed concurrently. But it can not prevent return values form getting stale so chaining calls night lead to
+ * is changed concurrently. But it can not prevent return values from getting stale so chaining calls might lead to
  * unexpected results, e.g.:
  *
  * <pre>

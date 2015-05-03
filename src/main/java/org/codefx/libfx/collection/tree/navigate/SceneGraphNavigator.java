@@ -11,7 +11,7 @@ import javafx.scene.Parent;
  * A {@link TreeNavigator} for a JavaFX scene graph.
  * <p>
  * This implementation is thread-safe in the sense that individual method calls will not fail if the scene graph is
- * changed concurrently. But it can not prevent return values form getting stale so chaining calls night lead to
+ * changed concurrently. But it can not prevent return values from getting stale so chaining calls might lead to
  * unexpected results, e.g.:
  *
  * <pre>

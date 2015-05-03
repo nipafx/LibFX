@@ -12,13 +12,13 @@ import javax.swing.JComponent;
  * A {@link TreeNavigator} for a Swing component hierarchy.
  * <p>
  * Note that {@link #getParent(JComponent) getParent} will return an (optional) {@link JComponent}. This is not possible
- * if the parent is of another type (e.g. a {@link javax.swing.JFrame JFrame}) in which case an empty {@code Optional}
+ * if the parent is not of a subtype (e.g. a {@link javax.swing.JFrame JFrame}) in which case an empty {@code Optional}
  * is returned. Similarly, children of {@code JComponent}s might not be {@code JComponent}s themselves. For this reason
  * {@link #getChild(JComponent, int) getChild} will return an empty {@code Optional} for a child which is no
  * {@code JComponent}. If this is undesired, consider using a {@link ComponentHierarchyNavigator} instead.
  * <p>
  * This implementation is thread-safe in the sense that individual method calls will not fail if the component hierarchy
- * is changed concurrently. But it can not prevent return values form getting stale so chaining calls night lead to
+ * is changed concurrently. But it can not prevent return values from getting stale so chaining calls might lead to
  * unexpected results, e.g.:
  *
  * <pre>
