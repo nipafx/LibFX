@@ -139,6 +139,8 @@ abstract class AbstractTransformingList<I, O> extends AbstractTransformingCollec
 
 	@Override
 	public void replaceAll(UnaryOperator<O> operator) {
+		Objects.requireNonNull(operator, "The argument 'operator' must not be null.");
+
 		UnaryOperator<I> operatorOnInner = inner -> transformToInner(operator.apply(transformToOuter(inner)));
 		getInnerList().replaceAll(operatorOnInner);
 	}
@@ -153,6 +155,8 @@ abstract class AbstractTransformingList<I, O> extends AbstractTransformingCollec
 
 	@Override
 	public void sort(Comparator<? super O> comparator) {
+		Objects.requireNonNull(comparator, "The argument 'comparator' must not be null.");
+
 		Comparator<I> comparatorOfInner = (leftInner, rightInner) ->
 				comparator.compare(
 						transformToOuter(leftInner),
