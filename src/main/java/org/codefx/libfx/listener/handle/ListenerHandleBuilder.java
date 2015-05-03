@@ -55,7 +55,7 @@ import java.util.function.BiConsumer;
  */
 public final class ListenerHandleBuilder<O, L> {
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	/**
 	 * The observable instance to which the {@link #listener} will be added.
@@ -79,7 +79,7 @@ public final class ListenerHandleBuilder<O, L> {
 
 	// #end FIELDS
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a builder for a generic {@link ListenerHandle}.
@@ -120,7 +120,7 @@ public final class ListenerHandleBuilder<O, L> {
 
 	// #end CONSTRUCTION
 
-	// #region SET AND BUILD
+	// #begin SET AND BUILD
 
 	/**
 	 * Sets the function which is executed when the built {@link ListenerHandle} must add the listener because

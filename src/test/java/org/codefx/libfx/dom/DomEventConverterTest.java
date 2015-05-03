@@ -9,7 +9,7 @@ import org.w3c.dom.events.Event;
  */
 public class DomEventConverterTest extends AbstractDomEventConverterTest {
 
-	// #region FIELDS & INITIALIZATION
+	// #begin FIELDS & INITIALIZATION
 
 	/**
 	 * The tested {@link DomEventConverter}.

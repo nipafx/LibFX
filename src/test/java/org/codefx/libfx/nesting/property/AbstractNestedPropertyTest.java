@@ -29,7 +29,7 @@ import org.junit.Test;
  */
 public abstract class AbstractNestedPropertyTest<T, P extends Property<T>> {
 
-	// #region INSTANCES USED FOR TESTING
+	// #begin INSTANCES USED FOR TESTING
 
 	/**
 	 * The nesting on which the tested property is based.
@@ -53,7 +53,7 @@ public abstract class AbstractNestedPropertyTest<T, P extends Property<T>> {
 		property = createNestedPropertyFromNesting(nesting);
 	}
 
-	// #region TESTS
+	// #begin TESTS
 
 	/**
 	 * Tests whether the properties the tested property owns have the correct bean.
@@ -221,7 +221,7 @@ public abstract class AbstractNestedPropertyTest<T, P extends Property<T>> {
 
 	//#end TESTS
 
-	// #region ABSTRACT METHODS
+	// #begin ABSTRACT METHODS
 
 	/**
 	 * Indicates whether the tested nested property allows null values.
@@ -266,7 +266,7 @@ public abstract class AbstractNestedPropertyTest<T, P extends Property<T>> {
 
 	//#end ABSTRACT METHODS
 
-	// #region ACCESSORS
+	// #begin ACCESSORS
 
 	/**
 	 * @return the nesting on which the tested property is based

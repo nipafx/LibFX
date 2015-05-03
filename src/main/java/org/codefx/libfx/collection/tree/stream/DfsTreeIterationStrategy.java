@@ -17,7 +17,7 @@ import org.codefx.libfx.collection.tree.navigate.TreeNavigator;
  */
 final class DfsTreeIterationStrategy<E> implements TreeIterationStrategy<E> {
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	private final TreeNavigator<E> navigator;
 
@@ -41,7 +41,7 @@ final class DfsTreeIterationStrategy<E> implements TreeIterationStrategy<E> {
 
 	// #end FIELDS
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new depth-first search strategy starting with the specified initial path.
@@ -75,7 +75,7 @@ final class DfsTreeIterationStrategy<E> implements TreeIterationStrategy<E> {
 
 	// #end CONSTRUCTION
 
-	// #region GO TO NEXT NODE
+	// #begin GO TO NEXT NODE
 
 	@Override
 	public Optional<E> goToNextNode() {

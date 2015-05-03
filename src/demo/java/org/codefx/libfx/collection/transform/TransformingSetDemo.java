@@ -14,7 +14,7 @@ import java.util.Set;
  */
 public class TransformingSetDemo {
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	/**
 	 * The set of strings which will be the inner/transformed set.
@@ -28,7 +28,7 @@ public class TransformingSetDemo {
 
 	// #end FIELDS
 
-	// #region CONSTRUCTION, MAIN & TRANSFORMATION
+	// #begin CONSTRUCTION, MAIN & TRANSFORMATION
 
 	/**
 	 * Creates a new demo.
@@ -68,7 +68,7 @@ public class TransformingSetDemo {
 
 	// #end CONSTRUCTION, MAIN & TRANSFORMATION
 
-	// #region DEMOS
+	// #begin DEMOS
 
 	private void modifyingInnerSet() {
 		print("-- Modifying the inner set --");

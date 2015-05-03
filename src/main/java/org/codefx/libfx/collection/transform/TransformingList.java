@@ -33,7 +33,7 @@ import java.util.function.Function;
  */
 public final class TransformingList<I, O> extends AbstractTransformingList<I, O> {
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	private final List<I> innerList;
 
@@ -81,7 +81,7 @@ public final class TransformingList<I, O> extends AbstractTransformingList<I, O>
 		this.transformToInner = transformToInner;
 	}
 
-	// #region IMPLEMENTATION OF 'AbstractTransformingList'
+	// #begin IMPLEMENTATION OF 'AbstractTransformingList'
 
 	@Override
 	protected List<I> getInnerList() {

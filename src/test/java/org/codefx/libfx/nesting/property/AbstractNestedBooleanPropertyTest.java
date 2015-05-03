@@ -45,7 +45,7 @@ public abstract class AbstractNestedBooleanPropertyTest extends AbstractNestedPr
 		return createNewObservableWithValue(false);
 	}
 
-	// #region OVERRIDDEN TEST METHODS
+	// #begin OVERRIDDEN TEST METHODS
 
 	@Override
 	@Test

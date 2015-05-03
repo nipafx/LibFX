@@ -149,7 +149,7 @@ public abstract class AbstractTreeNavigatorTest<E> {
 		}
 	}
 
-	// #region ABSTRACT METHODS
+	// #begin ABSTRACT METHODS
 
 	/**
 	 * @return the tested navigator

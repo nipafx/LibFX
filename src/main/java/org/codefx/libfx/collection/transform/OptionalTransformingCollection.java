@@ -33,7 +33,7 @@ import java.util.Optional;
  */
 public final class OptionalTransformingCollection<E> extends AbstractTransformingCollection<Optional<E>, E> {
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	private final Collection<Optional<E>> innerCollection;
 
@@ -46,7 +46,7 @@ public final class OptionalTransformingCollection<E> extends AbstractTransformin
 
 	// #end FIELDS
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new transforming collection which uses a type token to identify the outer elements.
@@ -119,7 +119,7 @@ public final class OptionalTransformingCollection<E> extends AbstractTransformin
 
 	// #end CONSTRUCTION
 
-	// #region IMPLEMENTATION OF 'AbstractTransformingCollection'
+	// #begin IMPLEMENTATION OF 'AbstractTransformingCollection'
 
 	@Override
 	protected Collection<Optional<E>> getInnerCollection() {
@@ -161,7 +161,7 @@ public final class OptionalTransformingCollection<E> extends AbstractTransformin
 
 	// #end IMPLEMENTATION OF 'AbstractTransformingCollection'
 
-	// #region OBJECT
+	// #begin OBJECT
 
 	@Override
 	public boolean equals(Object object) {

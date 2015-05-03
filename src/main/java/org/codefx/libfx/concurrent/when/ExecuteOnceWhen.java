@@ -48,7 +48,7 @@ public class ExecuteOnceWhen<T> {
 	 * condition, it is checked (and set to false). If it contained true, the action will be executed.
 	 */
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	/**
 	 * The {@link ObservableValue} upon whose value the action's execution depends.
@@ -105,7 +105,7 @@ public class ExecuteOnceWhen<T> {
 		willExecute = new AtomicBoolean(true);
 	}
 
-	// #region METHODS
+	// #begin METHODS
 
 	/**
 	 * Executes the action (once) when the observable's value passes the condition.

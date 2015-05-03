@@ -11,7 +11,7 @@ import org.codefx.libfx.nesting.Nesting;
  */
 public class NestedFloatPropertyBuilder extends AbstractNestedPropertyBuilder<FloatProperty, NestedFloatProperty> {
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new builder which uses the specified nesting.
@@ -36,7 +36,7 @@ public class NestedFloatPropertyBuilder extends AbstractNestedPropertyBuilder<Fl
 
 	//#end CONSTRUCTION
 
-	// #region METHODS
+	// #begin METHODS
 
 	@Override
 	public NestedFloatProperty build() {

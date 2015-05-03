@@ -28,7 +28,7 @@ import org.xml.sax.InputSource;
  */
 public abstract class AbstractDomEventConverterTest {
 
-	// #region FIELDS & INITIALIZATION
+	// #begin FIELDS & INITIALIZATION
 
 	/**
 	 * The URL used for all links.
@@ -76,11 +76,11 @@ public abstract class AbstractDomEventConverterTest {
 
 	// #end FIELDS & INITIALIZATION
 
-	// #region TESTS
+	// #begin TESTS
 
 	// #end FIELDS & INITIALIZATION
 
-	// #region TESTS
+	// #begin TESTS
 
 	/**
 	 * Tests whether all DOM events[1] which have a corresponding {@link EventType HyperlinkEventType} are correctly
@@ -201,7 +201,7 @@ public abstract class AbstractDomEventConverterTest {
 
 	// #end TESTS
 
-	// #region ABSTRACT METHODS
+	// #begin ABSTRACT METHODS
 
 	/**
 	 * Implemented by subclasses to check whether the specified event can be converted.
@@ -225,7 +225,7 @@ public abstract class AbstractDomEventConverterTest {
 
 	// #end ABSTRACT METHODS
 
-	// #region HELPER METHODS
+	// #begin HELPER METHODS
 
 	/**
 	 * Creates a DOM event and dispatches it with the specified target. A listener on the same target catches any event

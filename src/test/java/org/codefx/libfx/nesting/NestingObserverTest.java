@@ -20,7 +20,7 @@ import org.junit.Test;
  */
 public class NestingObserverTest {
 
-	// #region INSTANCES USED FOR TESTING
+	// #begin INSTANCES USED FOR TESTING
 
 	/**
 	 * The nesting's initial {@link Nesting#innerObservableProperty() innerObservable}.
@@ -39,7 +39,7 @@ public class NestingObserverTest {
 
 	//#end INSTANCES USED FOR TESTING
 
-	// #region INITIALIZATION
+	// #begin INITIALIZATION
 
 	/**
 	 * Creates instances of {@link #initialInnerObservable}, {@link #nesting}, {@link #verifier} and a
@@ -75,7 +75,7 @@ public class NestingObserverTest {
 
 	//#end INITIALIZATION
 
-	// #region TESTS
+	// #begin TESTS
 
 	/**
 	 * Tests whether the observer's construction leads to a correct initialization of the methods if the nesting's
@@ -185,7 +185,7 @@ public class NestingObserverTest {
 
 	//#end TESTS
 
-	// #region INNER CLASSES
+	// #begin INNER CLASSES
 
 	/**
 	 * The {@link NestingObserver NestingObservers} created in this test call this class' methods when the nesting

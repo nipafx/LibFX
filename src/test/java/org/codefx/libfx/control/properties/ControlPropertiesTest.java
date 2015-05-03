@@ -25,7 +25,7 @@ public class ControlPropertiesTest {
 	 */
 	public static class BuilderContract {
 
-		// #region FIELDS
+		// #begin FIELDS
 
 		/**
 		 * The key used to create the listeners.
@@ -52,7 +52,7 @@ public class ControlPropertiesTest {
 			properties = FXCollections.observableHashMap();
 		}
 
-		// #region TESTS
+		// #begin TESTS
 
 		// EXCEPTIONS DURING CONSTRUCTION
 
@@ -138,7 +138,7 @@ public class ControlPropertiesTest {
 
 	}
 
-	// #region TESTS CREATED LISTENERS
+	// #begin TESTS CREATED LISTENERS
 
 	/**
 	 * Tests the created {@link CastingControlPropertyListenerHandle}.

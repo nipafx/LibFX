@@ -177,7 +177,7 @@ abstract class AbstractTransformingList<I, O> extends AbstractTransformingCollec
 		return new ForwardingSubList(fromIndex, toIndex);
 	}
 
-	// #region OBJECT
+	// #begin OBJECT
 
 	@Override
 	public final boolean equals(Object object) {
@@ -209,7 +209,7 @@ abstract class AbstractTransformingList<I, O> extends AbstractTransformingCollec
 
 	// #end OBJECT
 
-	// #region INNER CLASSES
+	// #begin INNER CLASSES
 
 	/**
 	 * A transforming list iterator which directly forwards all transformation calls to the abstract methods in this

@@ -32,7 +32,7 @@ abstract class AbstractNestingBuilderOnObservable<T, O extends Observable> {
 	 * indicates which kind of builder this is.
 	 */
 
-	//#region PROPERTIES
+	//#begin PROPERTIES
 
 	/**
 	 * The outer observable upon which all nestings depend. This is only non-null for the outer builder (indicated by
@@ -54,7 +54,7 @@ abstract class AbstractNestingBuilderOnObservable<T, O extends Observable> {
 
 	//#end PROPERTIES
 
-	//#region CONSTRUCTION
+	//#begin CONSTRUCTION
 
 	/**
 	 * Creates a new nesting builder which acts as the outer builder, i.e. has the specified {@link #outerObservable} .
@@ -94,7 +94,7 @@ abstract class AbstractNestingBuilderOnObservable<T, O extends Observable> {
 
 	//#end CONSTRUCTION
 
-	// #region BUILD
+	// #begin BUILD
 
 	/**
 	 * Creates a new nesting from this builder's settings. This method can be called arbitrarily often and each call
@@ -163,7 +163,7 @@ abstract class AbstractNestingBuilderOnObservable<T, O extends Observable> {
 
 	//#end BUILD
 
-	// #region LISTENERS
+	// #begin LISTENERS
 
 	/**
 	 * Adds the specified invalidation listener to the nesting hierarchy's inner {@link Observable}.
@@ -182,7 +182,7 @@ abstract class AbstractNestingBuilderOnObservable<T, O extends Observable> {
 
 	//#end LISTENERS
 
-	// #region PRIVATE CLASSES
+	// #begin PRIVATE CLASSES
 
 	/**
 	 * An editable class which can be used to collect all instances needed to call
@@ -191,7 +191,7 @@ abstract class AbstractNestingBuilderOnObservable<T, O extends Observable> {
 	@SuppressWarnings("rawtypes")
 	protected static class NestingConstructionKit {
 
-		// #region PROPERTIES
+		// #begin PROPERTIES
 
 		/**
 		 * The outer {@link ObservableValue}
@@ -206,7 +206,7 @@ abstract class AbstractNestingBuilderOnObservable<T, O extends Observable> {
 
 		//#end PROPERTIES
 
-		// #region CONSTRUCTOR
+		// #begin CONSTRUCTOR
 
 		/**
 		 * Creates a new empty construction kit.
@@ -217,7 +217,7 @@ abstract class AbstractNestingBuilderOnObservable<T, O extends Observable> {
 
 		//#end CONSTRUCTOR
 
-		// #region ACCESSORS
+		// #begin ACCESSORS
 
 		/**
 		 * @return the outer {@link ObservableValue}

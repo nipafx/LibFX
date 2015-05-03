@@ -28,7 +28,7 @@ import org.junit.Test;
  */
 public abstract class AbstractNestedInvalidationListenerHandleTest {
 
-	// #region INSTANCES USED FOR TESTING
+	// #begin INSTANCES USED FOR TESTING
 
 	/**
 	 * The nesting's inner observable.
@@ -57,7 +57,7 @@ public abstract class AbstractNestedInvalidationListenerHandleTest {
 
 	//#end INSTANCES USED FOR TESTING
 
-	// #region SETUP
+	// #begin SETUP
 
 	/**
 	 * Creates a new instance of {@link #nesting} and {@link #listener}.
@@ -121,7 +121,7 @@ public abstract class AbstractNestedInvalidationListenerHandleTest {
 
 	//end SETUP
 
-	// #region TESTS
+	// #begin TESTS
 
 	// construction
 

@@ -10,7 +10,7 @@ import org.codefx.libfx.nesting.property.NestedDoublePropertyBuilder;
  */
 public class DoublePropertyNestingBuilder extends AbstractNestingBuilderOnProperty<Number, DoubleProperty> {
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new nesting builder which acts as a nested builder.
@@ -31,7 +31,7 @@ public class DoublePropertyNestingBuilder extends AbstractNestingBuilderOnProper
 
 	//#end CONSTRUCTION
 
-	// #region BUILD
+	// #begin BUILD
 
 	/**
 	 * Creates a nested property from this builder's settings. This method can be called arbitrarily often and each call

@@ -22,7 +22,7 @@ import org.codefx.libfx.collection.tree.navigate.TreeNavigator;
  */
 final class BackwardsDfsTreeIterationStrategy<E> implements TreeIterationStrategy<E> {
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	private final TreeNavigator<E> navigator;
 
@@ -45,7 +45,7 @@ final class BackwardsDfsTreeIterationStrategy<E> implements TreeIterationStrateg
 
 	// #end FIELDS
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new backwards depth-first search strategy starting with the specified initial path.

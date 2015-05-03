@@ -58,7 +58,7 @@ public class ExecuteAlwaysWhen<T> {
 	 * on the first execution of the action.
 	 */
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	/**
 	 * The {@link ObservableValue} upon whose value the action's execution depends.
@@ -120,7 +120,7 @@ public class ExecuteAlwaysWhen<T> {
 		alreadyExecuted = new AtomicBoolean(false);
 	}
 
-	// #region METHODS
+	// #begin METHODS
 
 	/**
 	 * Executes the action (every time) when the observable's value passes the condition.

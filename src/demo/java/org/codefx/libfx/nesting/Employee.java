@@ -54,7 +54,7 @@ class Employee {
 		return address;
 	}
 
-	// #region INNER CLASSES
+	// #begin INNER CLASSES
 
 	/**
 	 * A simple demo class which represents an employee's address.

@@ -14,7 +14,7 @@ import org.codefx.libfx.nesting.Nesting;
  */
 public class NestedBooleanProperty extends SimpleBooleanProperty implements NestedProperty<Boolean> {
 
-	// #region PROPERTIES
+	// #begin PROPERTIES
 
 	/**
 	 * The property indicating whether the nesting's inner observable is currently present, i.e. not null.
@@ -23,7 +23,7 @@ public class NestedBooleanProperty extends SimpleBooleanProperty implements Nest
 
 	//#end PROPERTIES
 
-	// #region CONSTUCTION
+	// #begin CONSTUCTION
 
 	/**
 	 * Creates a new property. Except {@code nesting} all arguments can be null.
@@ -45,7 +45,7 @@ public class NestedBooleanProperty extends SimpleBooleanProperty implements Nest
 
 	//#end CONSTUCTION
 
-	// #region IMPLEMENTATION OF 'NestedProperty'
+	// #begin IMPLEMENTATION OF 'NestedProperty'
 
 	@Override
 	public ReadOnlyBooleanProperty innerObservablePresentProperty() {

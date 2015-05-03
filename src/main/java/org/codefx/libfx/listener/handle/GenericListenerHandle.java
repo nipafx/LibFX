@@ -15,7 +15,7 @@ import java.util.function.BiConsumer;
  */
 final class GenericListenerHandle<O, L> implements ListenerHandle {
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	/**
 	 * The observable instance to which the {@link #listener} will be added.
@@ -44,7 +44,7 @@ final class GenericListenerHandle<O, L> implements ListenerHandle {
 
 	// #end FIELDS
 
-	// #region CONSTRUCITON
+	// #begin CONSTRUCITON
 
 	/**
 	 * Creates a new listener handle for the specified arguments. The listener is initially detached.
@@ -74,7 +74,7 @@ final class GenericListenerHandle<O, L> implements ListenerHandle {
 
 	// #end CONSTRUCITON
 
-	// #region IMPLEMENTATION OF 'ListenerHandle'
+	// #begin IMPLEMENTATION OF 'ListenerHandle'
 
 	@Override
 	public void attach() {

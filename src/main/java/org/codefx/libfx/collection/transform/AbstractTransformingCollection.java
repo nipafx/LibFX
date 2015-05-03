@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  */
 abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 
-	// #region CONSTANTS
+	// #begin CONSTANTS
 
 	/**
 	 * The largest possible (non-power of two) array size.
@@ -40,7 +40,7 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 
 	// #end CONSTANTS
 
-	// #region IMPLEMENTATION OF 'Collection<O>'
+	// #begin IMPLEMENTATION OF 'Collection<O>'
 
 	/**
 	 * Indicates whether the specified collection is equivalent to this one. This is the case if it is also an
@@ -359,7 +359,7 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 		return new ForwardingTransformingSpliterator();
 	}
 
-	// #region TOARRAY
+	// #begin TOARRAY
 
 	@Override
 	public Object[] toArray() {
@@ -568,7 +568,7 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 
 	// #end IMPLEMENTATION OF 'Collection<O>'
 
-	// #region OBJECT
+	// #begin OBJECT
 
 	@Override
 	public abstract boolean equals(Object object);
@@ -585,7 +585,7 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 
 	// #end OBJECT
 
-	// #region ABSTRACT METHODS
+	// #begin ABSTRACT METHODS
 
 	/**
 	 * @return the inner collection wrapped by this transforming collection
@@ -646,7 +646,7 @@ abstract class AbstractTransformingCollection<I, O> implements Collection<O> {
 
 	// #end ABSTRACT METHODS
 
-	// #region INNER CLASSES
+	// #begin INNER CLASSES
 
 	/**
 	 * A transforming iterator which directly forwards all transformation calls to the abstract methods in this

@@ -10,7 +10,7 @@ import org.codefx.libfx.nesting.property.NestedFloatPropertyBuilder;
  */
 public class FloatPropertyNestingBuilder extends AbstractNestingBuilderOnProperty<Number, FloatProperty> {
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new nesting builder which acts as a nested builder.
@@ -31,7 +31,7 @@ public class FloatPropertyNestingBuilder extends AbstractNestingBuilderOnPropert
 
 	//#end CONSTRUCTION
 
-	// #region BUILD
+	// #begin BUILD
 
 	/**
 	 * Creates a nested property from this builder's settings. This method can be called arbitrarily often and each call

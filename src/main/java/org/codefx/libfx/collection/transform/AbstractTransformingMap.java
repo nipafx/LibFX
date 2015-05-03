@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
  */
 abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	private final Set<OK> outerKeys;
 
@@ -36,7 +36,7 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 
 	// #end FIELDS
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new abstract transforming map.
@@ -49,7 +49,7 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 
 	// #end CONSTRUCTION
 
-	// #region IMPLEMENTATION OF 'Map<OK, OV>'
+	// #begin IMPLEMENTATION OF 'Map<OK, OV>'
 
 	/**
 	 * Indicates whether the specified collection is equivalent to this one. This is the case if it is also an
@@ -337,7 +337,7 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 
 	// #end IMPLEMENTATION OF 'Map<OK, OV>'
 
-	// #region OBJECT
+	// #begin OBJECT
 
 	@Override
 	public final boolean equals(Object object) {
@@ -368,7 +368,7 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 
 	// #end OBJECT
 
-	// #region ABSTRACT METHODS
+	// #begin ABSTRACT METHODS
 
 	/**
 	 * @return the inner map wrapped by this transforming map
@@ -481,7 +481,7 @@ abstract class AbstractTransformingMap<IK, OK, IV, OV> implements Map<OK, OV> {
 
 	// #end ABSTRACT METHODS
 
-	// #region INNER CLASSES
+	// #begin INNER CLASSES
 
 	/**
 	 * The view on this map's key set.

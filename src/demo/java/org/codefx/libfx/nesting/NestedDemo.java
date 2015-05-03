@@ -17,7 +17,7 @@ import org.codefx.libfx.nesting.property.NestedStringProperty;
  */
 public class NestedDemo {
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	/**
 	 * The currently selected employee.
@@ -26,7 +26,7 @@ public class NestedDemo {
 
 	//#end FIELDS
 
-	// #region CONSTRUCTION & MAIN
+	// #begin CONSTRUCTION & MAIN
 
 	/**
 	 * Creates a new demo.
@@ -56,7 +56,7 @@ public class NestedDemo {
 
 	//#end CONSTRUCTION & MAIN
 
-	// #region DEMOS
+	// #begin DEMOS
 
 	/**
 	 * Demonstrates how to create a {@link Nesting}.

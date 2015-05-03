@@ -14,7 +14,7 @@ import java.util.ListIterator;
 abstract class AbstractTransformingListIterator<I, O> extends AbstractTransformingIterator<I, O> implements
 		ListIterator<O> {
 
-	// #region IMPLEMENTATION OF 'ListIterator'
+	// #begin IMPLEMENTATION OF 'ListIterator'
 
 	@Override
 	public boolean hasPrevious() {
@@ -51,7 +51,7 @@ abstract class AbstractTransformingListIterator<I, O> extends AbstractTransformi
 
 	// #end IMPLEMENTATION OF 'ListIterator'
 
-	// #region ABSTRACT METHODS
+	// #begin ABSTRACT METHODS
 
 	@Override
 	protected abstract ListIterator<I> getInnerIterator();

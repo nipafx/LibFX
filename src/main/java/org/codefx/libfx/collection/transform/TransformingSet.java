@@ -33,7 +33,7 @@ import java.util.function.Function;
  */
 public final class TransformingSet<I, O> extends AbstractTransformingSet<I, O> {
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	private final Set<I> innerSet;
 
@@ -81,7 +81,7 @@ public final class TransformingSet<I, O> extends AbstractTransformingSet<I, O> {
 		this.transformToInner = transformToInner;
 	}
 
-	// #region IMPLEMENTATION OF 'AbstractTransformingSet'
+	// #begin IMPLEMENTATION OF 'AbstractTransformingSet'
 
 	@Override
 	protected Set<I> getInnerSet() {

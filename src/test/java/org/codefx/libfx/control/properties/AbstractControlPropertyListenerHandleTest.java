@@ -24,7 +24,7 @@ import org.junit.Test;
  */
 public abstract class AbstractControlPropertyListenerHandleTest {
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	/**
 	 * A key to which the created listeners listen.
@@ -53,7 +53,7 @@ public abstract class AbstractControlPropertyListenerHandleTest {
 
 	// #end FIELDS
 
-	// #region SETUP
+	// #begin SETUP
 
 	/**
 	 * Initializes fields for tests.
@@ -115,7 +115,7 @@ public abstract class AbstractControlPropertyListenerHandleTest {
 
 	// #end SETUP
 
-	// #region TESTS
+	// #begin TESTS
 
 	/**
 	 * Tests whether the listener correctly processes a value for the correct key if the listener is initially attached.

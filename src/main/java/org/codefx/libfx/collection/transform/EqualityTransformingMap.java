@@ -53,7 +53,7 @@ import org.codefx.libfx.collection.transform.EqualityTransformingMap.EqHash;
  */
 public final class EqualityTransformingMap<K, V> extends AbstractTransformingMap<EqHash<K>, K, V, V> {
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	/**
 	 * The default hash code used for null keys.
@@ -80,7 +80,7 @@ public final class EqualityTransformingMap<K, V> extends AbstractTransformingMap
 
 	// #end FIELDS
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	private EqualityTransformingMap(
 			Supplier<Map<?, ?>> innerMapConstructor,
@@ -150,7 +150,7 @@ public final class EqualityTransformingMap<K, V> extends AbstractTransformingMap
 
 	// #end CONSTRUCTION
 
-	// #region IMPLEMENTATION OF 'AbstractTransformingMap'
+	// #begin IMPLEMENTATION OF 'AbstractTransformingMap'
 
 	@Override
 	protected Map<EqHash<K>, V> getInnerMap() {
@@ -200,7 +200,7 @@ public final class EqualityTransformingMap<K, V> extends AbstractTransformingMap
 
 	// #end IMPLEMENTATION OF 'AbstractTransformingMap'
 
-	// #region INNER CLASSES
+	// #begin INNER CLASSES
 
 	/**
 	 * Wraps the keys before they go into the inner map and delegates {@link #equals(Object)} and {@link #hashCode()} to

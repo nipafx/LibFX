@@ -37,7 +37,7 @@ import java.util.function.Function;
  */
 public final class TransformingMap<IK, OK, IV, OV> extends AbstractTransformingMap<IK, OK, IV, OV> {
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	private final Map<IK, IV> innerMap;
 
@@ -59,7 +59,7 @@ public final class TransformingMap<IK, OK, IV, OV> extends AbstractTransformingM
 
 	// #end FIELDS
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new transforming map.
@@ -107,7 +107,7 @@ public final class TransformingMap<IK, OK, IV, OV> extends AbstractTransformingM
 
 	// #end CONSTRUCTION
 
-	// #region IMPLEMENTATION OF 'AbstractTransformingMap'
+	// #begin IMPLEMENTATION OF 'AbstractTransformingMap'
 
 	@Override
 	protected Map<IK, IV> getInnerMap() {

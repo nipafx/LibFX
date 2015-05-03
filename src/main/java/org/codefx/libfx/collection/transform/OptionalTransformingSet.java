@@ -34,7 +34,7 @@ import java.util.Set;
  */
 public final class OptionalTransformingSet<E> extends AbstractTransformingSet<Optional<E>, E> {
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	private final Set<Optional<E>> innerSet;
 
@@ -47,7 +47,7 @@ public final class OptionalTransformingSet<E> extends AbstractTransformingSet<Op
 
 	// #end FIELDS
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new transforming set which uses a type token to identify the outer elements.
@@ -120,7 +120,7 @@ public final class OptionalTransformingSet<E> extends AbstractTransformingSet<Op
 
 	// #end CONSTRUCTION
 
-	// #region IMPLEMENTATION OF 'AbstractTransformingSet'
+	// #begin IMPLEMENTATION OF 'AbstractTransformingSet'
 
 	@Override
 	protected Set<Optional<E>> getInnerSet() {

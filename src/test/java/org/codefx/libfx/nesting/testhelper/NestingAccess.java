@@ -19,7 +19,7 @@ import org.codefx.libfx.nesting.Nesting;
  */
 public class NestingAccess {
 
-	// #region NESTING
+	// #begin NESTING
 
 	/**
 	 * @param <O>
@@ -97,7 +97,7 @@ public class NestingAccess {
 
 	//#end NESTING
 
-	// #region NESTED HIERARCHY
+	// #begin NESTED HIERARCHY
 
 	/**
 	 * @param outerObservable
@@ -192,7 +192,7 @@ public class NestingAccess {
 
 	//#end NESTED HIERARCHY
 
-	// #region INNER CLASSES
+	// #begin INNER CLASSES
 
 	/**
 	 * An implementation of {@link Nesting} which does no real nesting. Instead it allows to directly edit the

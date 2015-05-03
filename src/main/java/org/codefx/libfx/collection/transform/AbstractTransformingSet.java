@@ -26,7 +26,7 @@ abstract class AbstractTransformingSet<I, O> extends AbstractTransformingCollect
 	 */
 	protected abstract Set<I> getInnerSet();
 
-	// #region OBJECT
+	// #begin OBJECT
 
 	@Override
 	public final boolean equals(Object object) {

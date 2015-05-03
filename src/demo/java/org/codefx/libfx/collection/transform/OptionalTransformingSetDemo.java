@@ -12,7 +12,7 @@ import java.util.Set;
  */
 public class OptionalTransformingSetDemo {
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	/**
 	 * The inner set, which - for some strange
@@ -23,7 +23,7 @@ public class OptionalTransformingSetDemo {
 
 	// #end FIELDS
 
-	// #region CONSTRUCTION & MAIN
+	// #begin CONSTRUCTION & MAIN
 
 	/**
 	 * Creates a new demo.
@@ -53,7 +53,7 @@ public class OptionalTransformingSetDemo {
 
 	// #end CONSTRUCTION & MAIN
 
-	// #region DEMOS
+	// #begin DEMOS
 
 	private void modifyingInnerSet() {
 		print("-- Modifying the inner set --");

@@ -35,7 +35,7 @@ import javafx.collections.ObservableMap;
  */
 public class ControlPropertyListenerBuilder<T> {
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	/**
 	 * The properties which will be observed.
@@ -59,7 +59,7 @@ public class ControlPropertyListenerBuilder<T> {
 
 	// #end FIELDS
 
-	// #region CONSTRUCTION & SETTING VALUES
+	// #begin CONSTRUCTION & SETTING VALUES
 
 	/**
 	 * Creates a new builder.
@@ -136,7 +136,7 @@ public class ControlPropertyListenerBuilder<T> {
 
 	// #end CONSTRUCTION & SETTING VALUES
 
-	// #region BUILD
+	// #begin BUILD
 
 	/**
 	 * Creates a new property listener according to the arguments specified before and

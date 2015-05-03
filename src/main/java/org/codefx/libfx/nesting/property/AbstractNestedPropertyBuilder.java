@@ -17,7 +17,7 @@ import org.codefx.libfx.nesting.Nesting;
  */
 abstract class AbstractNestedPropertyBuilder<O extends Property<?>, P extends NestedProperty<?>> {
 
-	// #region PROPERTIES
+	// #begin PROPERTIES
 
 	/**
 	 * The nesting which will be used for all nested properties.
@@ -36,7 +36,7 @@ abstract class AbstractNestedPropertyBuilder<O extends Property<?>, P extends Ne
 
 	//#end PROPERTIES
 
-	// #region CONSTRUCTOR
+	// #begin CONSTRUCTOR
 
 	/**
 	 * Creates a new abstract builder which uses the specified nesting.
@@ -51,7 +51,7 @@ abstract class AbstractNestedPropertyBuilder<O extends Property<?>, P extends Ne
 
 	//#end CONSTRUCTOR
 
-	// #region ABSTRACT METHODS
+	// #begin ABSTRACT METHODS
 
 	/**
 	 * Creates a new property instance. This method can be called arbitrarily often and each call returns a new
@@ -63,7 +63,7 @@ abstract class AbstractNestedPropertyBuilder<O extends Property<?>, P extends Ne
 
 	//#end ABSTRACT METHODS
 
-	// #region ACCESSORS
+	// #begin ACCESSORS
 
 	/**
 	 * @return the nesting which will be used for all nested properties

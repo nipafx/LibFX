@@ -14,7 +14,7 @@ import org.codefx.libfx.control.properties.ControlPropertyListenerHandle;
 @SuppressWarnings("static-method")
 public class ControlPropertyListenerDemo {
 
-	// #region CONSTRUCTION & MAIN
+	// #begin CONSTRUCTION & MAIN
 
 	/**
 	 * Creates a new demo.
@@ -43,7 +43,7 @@ public class ControlPropertyListenerDemo {
 
 	// #end CONSTRUCTION & MAIN
 
-	// #region DEMOS
+	// #begin DEMOS
 
 	/**
 	 * Demonstrates the simple case, in which a value processor is added for some key.

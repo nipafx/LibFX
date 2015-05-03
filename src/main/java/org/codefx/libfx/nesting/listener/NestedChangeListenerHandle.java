@@ -30,7 +30,7 @@ import org.codefx.libfx.nesting.property.NestedProperty;
  */
 public class NestedChangeListenerHandle<T> implements NestedListenerHandle {
 
-	// #region PROPERTIES
+	// #begin PROPERTIES
 
 	/**
 	 * The {@link Nesting} to whose inner observable the {@link #listener} is attached.
@@ -54,7 +54,7 @@ public class NestedChangeListenerHandle<T> implements NestedListenerHandle {
 
 	//#end PROPERTIES
 
-	// #region CONSTUCTION
+	// #begin CONSTUCTION
 
 	/**
 	 * Creates a new {@link NestedChangeListenerHandle} which can {@link #attach() attach} the specified listener to the
@@ -87,7 +87,7 @@ public class NestedChangeListenerHandle<T> implements NestedListenerHandle {
 
 	//#end CONSTUCTION
 
-	// #region ADD & REMOVE
+	// #begin ADD & REMOVE
 
 	/**
 	 * Adds the {@link #listener} to the specified observable, when indicated by {@link #attached}.
@@ -112,7 +112,7 @@ public class NestedChangeListenerHandle<T> implements NestedListenerHandle {
 
 	// #end ADD & REMOVE
 
-	// #region IMPLEMENTATION OF 'NestedListenerHandle'
+	// #begin IMPLEMENTATION OF 'NestedListenerHandle'
 
 	@Override
 	public void attach() {

@@ -19,7 +19,7 @@ class TreeTestHelper {
 	 */
 	public static final Navigator NAVIGATOR = new Navigator();
 
-	// #region TREES
+	// #begin TREES
 
 	/**
 	 * @return a tree with the single node [singleton].
@@ -73,7 +73,7 @@ class TreeTestHelper {
 
 	// #end TREES
 
-	// #region UTIL
+	// #begin UTIL
 
 	/**
 	 * @param strategy
@@ -94,7 +94,7 @@ class TreeTestHelper {
 
 	// #end UTIL
 
-	// #region INNER CLASSES
+	// #begin INNER CLASSES
 
 	/**
 	 * A {@link TreeNavigator} for the {@link Node}-based trees available in this class.

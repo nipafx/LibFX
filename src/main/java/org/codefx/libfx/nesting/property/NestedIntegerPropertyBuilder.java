@@ -11,7 +11,7 @@ import org.codefx.libfx.nesting.Nesting;
  */
 public class NestedIntegerPropertyBuilder extends AbstractNestedPropertyBuilder<IntegerProperty, NestedIntegerProperty> {
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new builder which uses the specified nesting.
@@ -36,7 +36,7 @@ public class NestedIntegerPropertyBuilder extends AbstractNestedPropertyBuilder<
 
 	//#end CONSTRUCTION
 
-	// #region METHODS
+	// #begin METHODS
 
 	@Override
 	public NestedIntegerProperty build() {

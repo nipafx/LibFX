@@ -19,7 +19,7 @@ import org.junit.Test;
  */
 public abstract class AbstractNestingTest<OO extends Observable, IO extends Observable> {
 
-	// #region INSTANCES USED FOR TESTING
+	// #begin INSTANCES USED FOR TESTING
 
 	/**
 	 * The outer observable of the nesting hierarchy contained in {@link #nesting}.
@@ -42,7 +42,7 @@ public abstract class AbstractNestingTest<OO extends Observable, IO extends Obse
 		nesting = createNewNestingFromOuterObservable(outerObservable);
 	}
 
-	// #region TESTS
+	// #begin TESTS
 
 	// construction
 
@@ -65,7 +65,7 @@ public abstract class AbstractNestingTest<OO extends Observable, IO extends Obse
 
 	//#end TESTS
 
-	// #region ABSTRACT METHODS
+	// #begin ABSTRACT METHODS
 
 	/**
 	 * Creates a new nesting hierarchy and returns its outer observable. All returned instances must be new for each

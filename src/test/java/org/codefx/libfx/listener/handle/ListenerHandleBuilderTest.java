@@ -25,7 +25,7 @@ public class ListenerHandleBuilderTest {
 	 */
 	private static final BiConsumer<Object, Object> NOT_NULL_CONSUMER = (o, l) -> { /* do nothing */};
 
-	// #region TESTS
+	// #begin TESTS
 
 	// construction
 

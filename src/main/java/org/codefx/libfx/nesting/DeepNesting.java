@@ -55,7 +55,7 @@ final class DeepNesting<O extends Observable> implements Nesting<O> {
 
 	//#formatter:on
 
-	// #region PROPERTIES
+	// #begin PROPERTIES
 
 	/**
 	 * The level of the nesting, which is also the length of the arrays.
@@ -92,7 +92,7 @@ final class DeepNesting<O extends Observable> implements Nesting<O> {
 
 	//#end PROPERTIES
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new deep nesting which depends on the specified outer observable and uses specified nesting steps.
@@ -196,7 +196,7 @@ final class DeepNesting<O extends Observable> implements Nesting<O> {
 		new NestingUpdater(startLevel).update();
 	}
 
-	// #region ACCESSORS
+	// #begin ACCESSORS
 
 	/**
 	 * {@inheritDoc}
@@ -208,7 +208,7 @@ final class DeepNesting<O extends Observable> implements Nesting<O> {
 
 	//#end ACCESSORS
 
-	// #region PRIVATE CLASSES
+	// #begin PRIVATE CLASSES
 
 	/**
 	 * Initializes {@link DeepNesting#observables}, {@link DeepNesting#values} and {@link DeepNesting#inner} as well as

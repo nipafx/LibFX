@@ -11,7 +11,7 @@ import javafx.beans.property.SimpleObjectProperty;
  */
 public class InnerValue {
 
-// #region PROPERTIES
+// #begin PROPERTIES
 
 	/**
 	 * An observable.
@@ -30,7 +30,7 @@ public class InnerValue {
 
 // #end PROPERTIES
 
-// #region CONSTRUCTOR
+// #begin CONSTRUCTOR
 
 	/**
 	 * Creates a new inner value with the specified observables.
@@ -68,7 +68,7 @@ public class InnerValue {
 
 // #end CONSTRUCTOR
 
-// #region ACCESSORS
+// #begin ACCESSORS
 
 	/**
 	 * An observable.

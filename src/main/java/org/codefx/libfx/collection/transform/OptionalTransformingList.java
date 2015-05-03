@@ -34,7 +34,7 @@ import java.util.Optional;
  */
 public final class OptionalTransformingList<E> extends AbstractTransformingList<Optional<E>, E> {
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	private final List<Optional<E>> innerList;
 
@@ -47,7 +47,7 @@ public final class OptionalTransformingList<E> extends AbstractTransformingList<
 
 	// #end FIELDS
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new transforming list which uses a type token to identify the outer elements.
@@ -120,7 +120,7 @@ public final class OptionalTransformingList<E> extends AbstractTransformingList<
 
 	// #end CONSTRUCTION
 
-	// #region IMPLEMENTATION OF 'AbstractTransformingList'
+	// #begin IMPLEMENTATION OF 'AbstractTransformingList'
 
 	@Override
 	protected List<Optional<E>> getInnerList() {

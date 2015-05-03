@@ -16,7 +16,7 @@ import org.codefx.libfx.nesting.Nesting;
  */
 public class NestedIntegerProperty extends SimpleIntegerProperty implements NestedProperty<Number> {
 
-	// #region PROPERTIES
+	// #begin PROPERTIES
 
 	/**
 	 * The property indicating whether the nesting's inner observable is currently present, i.e. not null.
@@ -25,7 +25,7 @@ public class NestedIntegerProperty extends SimpleIntegerProperty implements Nest
 
 	//#end PROPERTIES
 
-	// #region CONSTUCTION
+	// #begin CONSTUCTION
 
 	/**
 	 * Creates a new property. Except {@code nesting} all arguments can be null.
@@ -47,7 +47,7 @@ public class NestedIntegerProperty extends SimpleIntegerProperty implements Nest
 
 	//#end CONSTUCTION
 
-	// #region IMPLEMENTATION OF 'NestedProperty'
+	// #begin IMPLEMENTATION OF 'NestedProperty'
 
 	@Override
 	public ReadOnlyBooleanProperty innerObservablePresentProperty() {

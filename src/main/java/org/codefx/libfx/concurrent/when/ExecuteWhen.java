@@ -26,7 +26,7 @@ import javafx.beans.value.ObservableValue;
  */
 public class ExecuteWhen<T> {
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	/**
 	 * The {@link ObservableValue} upon whose value the action's execution depends.
@@ -40,7 +40,7 @@ public class ExecuteWhen<T> {
 
 	// #end FIELDS
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new instance for the specified observable
@@ -68,7 +68,7 @@ public class ExecuteWhen<T> {
 
 	// #end CONSTRUCTION
 
-	// #region SETTING VALUES
+	// #begin SETTING VALUES
 
 	/**
 	 * Specifies the condition the observable's value must fulfill in order for the action to be executed.
@@ -85,7 +85,7 @@ public class ExecuteWhen<T> {
 
 	// #end SETTING VALUES
 
-	// #region BUILD
+	// #begin BUILD
 
 	/**
 	 * Creates an instance which:

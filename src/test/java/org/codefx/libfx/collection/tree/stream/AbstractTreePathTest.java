@@ -147,7 +147,7 @@ public abstract class AbstractTreePathTest {
 		assertSame(addedElement, path.removeEnd());
 	}
 
-	// #region ABSTRACT FACTORY METHODS
+	// #begin ABSTRACT FACTORY METHODS
 
 	/**
 	 * @return an empty path

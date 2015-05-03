@@ -20,7 +20,7 @@ import java.util.function.Consumer;
  */
 abstract class AbstractTransformingSpliterator<I, O> implements Spliterator<O> {
 
-	// #region IMPLEMENTATION OF 'Spliterator<O>'
+	// #begin IMPLEMENTATION OF 'Spliterator<O>'
 
 	@Override
 	public boolean tryAdvance(Consumer<? super O> action) {
@@ -78,7 +78,7 @@ abstract class AbstractTransformingSpliterator<I, O> implements Spliterator<O> {
 
 	// #end IMPLEMENTATION OF 'Spliterator<O>'
 
-	// #region ABSTRACT METHODS
+	// #begin ABSTRACT METHODS
 
 	/**
 	 * @return the wrapped/inner spliterator

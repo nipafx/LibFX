@@ -11,7 +11,7 @@ import javafx.beans.value.ChangeListener;
 @SuppressWarnings("static-method")
 public class ListenerHandleDemo {
 
-	// #region CONSTRUCTION & MAIN
+	// #begin CONSTRUCTION & MAIN
 
 	/**
 	 * Creates a new demo.
@@ -36,7 +36,7 @@ public class ListenerHandleDemo {
 
 	// #end CONSTRUCTION & MAIN
 
-	// #region DEMOS
+	// #begin DEMOS
 
 	// construction
 
@@ -121,7 +121,7 @@ public class ListenerHandleDemo {
 
 	// #end DEMOS
 
-	// #region NESTED CLASSES
+	// #begin NESTED CLASSES
 
 	/**
 	 * Represents a custom observable instance. Note that it is not necessary to implement {@link Observable} (or any

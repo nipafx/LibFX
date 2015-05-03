@@ -33,7 +33,7 @@ import java.util.function.Function;
  */
 public final class TransformingCollection<I, O> extends AbstractTransformingCollection<I, O> {
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	private final Collection<I> innerCollection;
 
@@ -81,7 +81,7 @@ public final class TransformingCollection<I, O> extends AbstractTransformingColl
 		this.transformToInner = transformToInner;
 	}
 
-	// #region IMPLEMENTATION OF 'AbstractTransformingCollection'
+	// #begin IMPLEMENTATION OF 'AbstractTransformingCollection'
 
 	@Override
 	protected Collection<I> getInnerCollection() {
@@ -120,7 +120,7 @@ public final class TransformingCollection<I, O> extends AbstractTransformingColl
 
 	// #end IMPLEMENTATION OF 'AbstractTransformingCollection'
 
-	// #region OBJECT
+	// #begin OBJECT
 
 	@Override
 	public boolean equals(Object object) {

@@ -11,7 +11,7 @@ import org.codefx.libfx.nesting.Nesting;
  */
 public class NestedDoublePropertyBuilder extends AbstractNestedPropertyBuilder<DoubleProperty, NestedDoubleProperty> {
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new builder which uses the specified nesting.
@@ -36,7 +36,7 @@ public class NestedDoublePropertyBuilder extends AbstractNestedPropertyBuilder<D
 
 	//#end CONSTRUCTION
 
-	// #region METHODS
+	// #begin METHODS
 
 	@Override
 	public NestedDoubleProperty build() {

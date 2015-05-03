@@ -11,7 +11,7 @@ import org.codefx.libfx.nesting.Nesting;
  */
 public class NestedInvalidationListenerBuilder {
 
-	// #region PROPERTIES
+	// #begin PROPERTIES
 
 	/**
 	 * The {@link Nesting} to which the listener will be added.
@@ -25,7 +25,7 @@ public class NestedInvalidationListenerBuilder {
 
 	//#end PROPERTIES
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new builder for the specified nesting.
@@ -64,7 +64,7 @@ public class NestedInvalidationListenerBuilder {
 
 	//#end CONSTRUCTION
 
-	// #region METHODS
+	// #begin METHODS
 
 	/**
 	 * Specified the listener which will be added to the nesting.
@@ -82,7 +82,7 @@ public class NestedInvalidationListenerBuilder {
 
 	//#end METHODS
 
-	// #region PRIVATE CLASSES
+	// #begin PRIVATE CLASSES
 
 	/**
 	 * A subtype of {@link NestedInvalidationListenerBuilder} which can actually build a listener with {@link #buildAttached()}.

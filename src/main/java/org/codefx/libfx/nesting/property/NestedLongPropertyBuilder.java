@@ -11,7 +11,7 @@ import org.codefx.libfx.nesting.Nesting;
  */
 public class NestedLongPropertyBuilder extends AbstractNestedPropertyBuilder<LongProperty, NestedLongProperty> {
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new builder which uses the specified nesting.
@@ -36,7 +36,7 @@ public class NestedLongPropertyBuilder extends AbstractNestedPropertyBuilder<Lon
 
 	//#end CONSTRUCTION
 
-	// #region METHODS
+	// #begin METHODS
 
 	@Override
 	public NestedLongProperty build() {

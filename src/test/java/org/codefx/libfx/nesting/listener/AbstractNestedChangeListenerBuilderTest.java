@@ -12,7 +12,7 @@ import org.junit.Test;
  */
 public abstract class AbstractNestedChangeListenerBuilderTest {
 
-	// #region TESTED INSTANCES
+	// #begin TESTED INSTANCES
 
 	/**
 	 * The tested builder.
@@ -21,7 +21,7 @@ public abstract class AbstractNestedChangeListenerBuilderTest {
 
 	//#end TESTED INSTANCES
 
-	// #region SETUP
+	// #begin SETUP
 
 	/**
 	 * Creates a new builder before each test.
@@ -43,7 +43,7 @@ public abstract class AbstractNestedChangeListenerBuilderTest {
 
 	// #end SETUP
 
-	// #region TESTS
+	// #begin TESTS
 
 	/**
 	 * Tests whether the builder can be created with a null {@link Nesting}.

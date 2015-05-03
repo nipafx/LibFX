@@ -21,7 +21,7 @@ import org.codefx.libfx.collection.tree.navigate.TreeNavigator;
  */
 public class TreeStreams {
 
-	// #region DFS
+	// #begin DFS
 
 	// forward
 

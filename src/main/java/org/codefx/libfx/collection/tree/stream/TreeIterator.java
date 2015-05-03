@@ -19,7 +19,7 @@ class TreeIterator<E> implements Iterator<E> {
 	 * whether it was already returned
 	 */
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	private final TreeIterationStrategy<E> iterationStrategy;
 
@@ -35,7 +35,7 @@ class TreeIterator<E> implements Iterator<E> {
 
 	// #end FIELDS
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new tree iterator which uses the specified strategy to determine the order of nodes.
@@ -53,7 +53,7 @@ class TreeIterator<E> implements Iterator<E> {
 
 	// #end CONSTRUCTION
 
-	// #region IMPLEMENTATION OF 'Iterator'
+	// #begin IMPLEMENTATION OF 'Iterator'
 
 	@Override
 	public final boolean hasNext() {
@@ -69,7 +69,7 @@ class TreeIterator<E> implements Iterator<E> {
 
 	// #end IMPLEMENTATION OF 'Iterator'
 
-	// #region GO TO NEXT NODE & RETURN
+	// #begin GO TO NEXT NODE & RETURN
 
 	private void goToNextNodeIfNecessary() {
 		if (returnedNextNode) {

@@ -17,7 +17,7 @@ import org.junit.Test;
  */
 public class SerializableOptionalTest {
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Tests whether a {@code SerializableOptional} can be created from an empty {@code Optional} with
@@ -103,7 +103,7 @@ public class SerializableOptionalTest {
 
 	// #end CONSTRUCTION
 
-	// #region SERIALIZATION
+	// #begin SERIALIZATION
 
 	/**
 	 * Tests whether {@link SerializableOptional} with an empty {@link Optional} can be serialized.

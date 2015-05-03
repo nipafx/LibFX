@@ -14,7 +14,7 @@ import org.codefx.libfx.nesting.Nesting;
 public final class NestedObjectPropertyBuilder<T>
 		extends AbstractNestedPropertyBuilder<Property<T>, NestedProperty<T>> {
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new builder which uses the specified nesting.
@@ -41,7 +41,7 @@ public final class NestedObjectPropertyBuilder<T>
 
 	//#end CONSTRUCTION
 
-	// #region METHODS
+	// #begin METHODS
 
 	@Override
 	public NestedObjectProperty<T> build() {

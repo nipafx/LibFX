@@ -14,7 +14,7 @@ import java.util.function.Consumer;
  */
 abstract class AbstractTransformingIterator<I, O> implements Iterator<O> {
 
-	// #region IMPLEMENTATION OF 'Iterator<O>'
+	// #begin IMPLEMENTATION OF 'Iterator<O>'
 
 	@Override
 	public boolean hasNext() {
@@ -43,7 +43,7 @@ abstract class AbstractTransformingIterator<I, O> implements Iterator<O> {
 
 	// #end IMPLEMENTATION OF 'Iterator<O>'
 
-	// #region ABSTRACT METHODS
+	// #begin ABSTRACT METHODS
 
 	/**
 	 * @return the wrapped/inner iterator

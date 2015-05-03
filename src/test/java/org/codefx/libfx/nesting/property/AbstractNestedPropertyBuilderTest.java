@@ -17,7 +17,7 @@ import org.junit.Test;
  */
 public abstract class AbstractNestedPropertyBuilderTest<N extends Property<?>, P extends NestedProperty<?>> {
 
-	// #region TESTED INSTANCES
+	// #begin TESTED INSTANCES
 
 	/**
 	 * The tested builder.
@@ -34,7 +34,7 @@ public abstract class AbstractNestedPropertyBuilderTest<N extends Property<?>, P
 		builder = createBuilder();
 	}
 
-	// #region TESTS
+	// #begin TESTS
 
 	/**
 	 * Tests whether calling {@link AbstractNestedPropertyBuilder#setBean(Object)} sets the bean for the created nested
@@ -96,7 +96,7 @@ public abstract class AbstractNestedPropertyBuilderTest<N extends Property<?>, P
 
 	//#end TESTS
 
-	// #region ABSTRACT METHODS
+	// #begin ABSTRACT METHODS
 
 	/**
 	 * Creates the tested builder. Each call must return a new instance
