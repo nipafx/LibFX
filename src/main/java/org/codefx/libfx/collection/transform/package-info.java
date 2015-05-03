@@ -1,6 +1,6 @@
 /**
  * <p>
- * This package contains transforming collections.
+ * Provides transforming collections.
  * </p>
  * <h2>Overview</h2>
  * <p>

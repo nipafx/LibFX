@@ -1,5 +1,5 @@
 /**
- * This package provides classes which make it easier to add and remove listeners from observable instances.
+ * Provides classes which make it easier to add and remove listeners from observable instances.
  * <p>
  * Using the default JavaFX 8 features, it is necessary to store both the observed instance and the listener if the
  * latter has to be added or removed repeatedly. A {@link org.codefx.libfx.listener.handle.ListenerHandle

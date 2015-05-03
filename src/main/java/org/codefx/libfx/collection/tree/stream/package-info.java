@@ -1,5 +1,5 @@
 /**
- * This package provides functionality around streaming the elements of <a
+ * Provides the possibility to stream the elements of <a
  * href="http://en.wikipedia.org/wiki/Tree_%28data_structure%29">tree</a>-like data structures.
  * <p>
  * Its main purpose is to enable easy creation of {@link java.util.stream.Stream Stream}s of nodes over tree-like data
