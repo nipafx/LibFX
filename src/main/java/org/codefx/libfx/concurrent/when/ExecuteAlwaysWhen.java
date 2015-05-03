@@ -110,6 +110,10 @@ public class ExecuteAlwaysWhen<T> {
 	 *            the action which will be executed
 	 */
 	ExecuteAlwaysWhen(ObservableValue<T> observable, Predicate<? super T> condition, Consumer<? super T> action) {
+		assert observable != null : "The argument 'observable' must not be null.";
+		assert condition != null : "The argument 'condition' must not be null.";
+		assert action != null : "The argument 'action' must not be null.";
+
 		this.observable = observable;
 		this.condition = condition;
 		this.action = action;
