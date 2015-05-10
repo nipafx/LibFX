@@ -125,6 +125,19 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<!-- prevent JDK internal API from sneaking in -->
+				<groupId>org.codefx.maven.plugin</groupId>
+				<artifactId>jdeps-maven-plugin</artifactId>
+				<version>0.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>jdkinternals</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<!-- create sources.jar -->
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
