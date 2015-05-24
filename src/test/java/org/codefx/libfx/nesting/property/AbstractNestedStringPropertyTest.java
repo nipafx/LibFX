@@ -7,9 +7,11 @@ import org.codefx.libfx.nesting.Nesting;
 
 /**
  * Abstract superclass to tests for {@link NestedStringProperty NestedStringProperty} which only leaves the creation of
- * the tested properties (by {@link #createNestedPropertyFromNesting(Nesting)}) to the subclasses.
+ * the tested properties (by {@link #createNestedPropertyFromNesting(Nesting, InnerObservableMissingBehavior)}) to the
+ * subclasses.
  */
-public abstract class AbstractNestedStringPropertyTest extends AbstractNestedPropertyTest<String, StringProperty> {
+public abstract class AbstractNestedStringPropertyTest extends
+		AbstractNestedPropertyTest<String, String, StringProperty> {
 
 	/**
 	 * The last value returned by {@link #createNewValue()}.
@@ -17,8 +19,8 @@ public abstract class AbstractNestedStringPropertyTest extends AbstractNestedPro
 	private String lastValue = "";
 
 	@Override
-	protected boolean allowsNullValues() {
-		return true;
+	protected boolean wrapsPrimitive() {
+		return false;
 	}
 
 	@Override

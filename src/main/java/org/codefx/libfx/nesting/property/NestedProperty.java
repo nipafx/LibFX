@@ -23,7 +23,7 @@ import org.codefx.libfx.nesting.Nesting;
  * If the inner observable changes back to a present value, everything said above applies. This implies that when the
  * nested property's value changed while the inner observable was missing, these changes are replaced by the new
  * observable's value when one is set. Since this property's change listeners are called, the replaced value can be
- * caught there before it gets lost.
+ * caught there before it gets lost. TODO add comments explaining what happens when inner observable goes missing
  *
  * @param <T>
  *            the type of the value wrapped by the property

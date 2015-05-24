@@ -23,7 +23,7 @@ public class NestedObjectPropertyBuilderTest {
 			extends AbstractNestedPropertyBuilderTest<Property<SomeValue>, NestedProperty<SomeValue>> {
 
 		@Override
-		protected AbstractNestedPropertyBuilder<Property<SomeValue>, NestedProperty<SomeValue>> createBuilder() {
+		protected AbstractNestedPropertyBuilder<?, Property<SomeValue>, NestedProperty<SomeValue>, ?> createBuilder() {
 			Property<SomeValue> innerObservable = new SimpleObjectProperty<>(new SomeValue());
 			EditableNesting<Property<SomeValue>> nesting = EditableNesting.createWithInnerObservable(innerObservable);
 			return NestedObjectPropertyBuilder.forNesting(nesting);
@@ -37,9 +37,11 @@ public class NestedObjectPropertyBuilderTest {
 	public static class CreatedProperties extends AbstractNestedObjectPropertyTest {
 
 		@Override
-		protected NestedProperty<SomeValue> createNestedPropertyFromNesting(Nesting<Property<SomeValue>> nesting) {
+		protected NestedProperty<SomeValue> createNestedPropertyFromNesting(
+				Nesting<Property<SomeValue>> nesting, InnerObservableMissingBehavior<SomeValue> missingBehavior) {
 			// use the builder to create the property
 			NestedObjectPropertyBuilder<SomeValue> builder = NestedObjectPropertyBuilder.forNesting(nesting);
+			setBehaviorOnBuilder(missingBehavior, builder);
 			return builder.build();
 		}
 

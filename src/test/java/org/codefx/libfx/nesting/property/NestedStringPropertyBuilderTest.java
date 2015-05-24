@@ -22,7 +22,7 @@ public class NestedStringPropertyBuilderTest {
 			extends AbstractNestedPropertyBuilderTest<StringProperty, NestedStringProperty> {
 
 		@Override
-		protected AbstractNestedPropertyBuilder<StringProperty, NestedStringProperty> createBuilder() {
+		protected AbstractNestedPropertyBuilder<?, StringProperty, NestedStringProperty, ?> createBuilder() {
 			StringProperty innerObservable = new SimpleStringProperty("");
 			EditableNesting<StringProperty> nesting = EditableNesting.createWithInnerObservable(innerObservable);
 			return NestedStringPropertyBuilder.forNesting(nesting);
@@ -36,9 +36,11 @@ public class NestedStringPropertyBuilderTest {
 	public static class CreatedProperties extends AbstractNestedStringPropertyTest {
 
 		@Override
-		protected NestedProperty<String> createNestedPropertyFromNesting(Nesting<StringProperty> nesting) {
+		protected NestedProperty<String> createNestedPropertyFromNesting(
+				Nesting<StringProperty> nesting, InnerObservableMissingBehavior<String> missingBehavior) {
 			// use the builder to create the property
 			NestedStringPropertyBuilder builder = NestedStringPropertyBuilder.forNesting(nesting);
+			setBehaviorOnBuilder(missingBehavior, builder);
 			return builder.build();
 		}
 

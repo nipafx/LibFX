@@ -1,7 +1,6 @@
 package org.codefx.libfx.nesting.property;
 
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.Property;
 
 import org.codefx.libfx.nesting.Nesting;
 
@@ -9,7 +8,8 @@ import org.codefx.libfx.nesting.Nesting;
  * A builder for a {@link NestedIntegerProperty} which is bound to the {@link Nesting#innerObservableProperty()
  * innerObservable} of a {@link Nesting}.
  */
-public class NestedIntegerPropertyBuilder extends AbstractNestedPropertyBuilder<IntegerProperty, NestedIntegerProperty> {
+public class NestedIntegerPropertyBuilder extends
+		AbstractNestedPropertyBuilder<Integer, IntegerProperty, NestedIntegerProperty, NestedIntegerPropertyBuilder> {
 
 	// #begin CONSTRUCTION
 
@@ -40,33 +40,7 @@ public class NestedIntegerPropertyBuilder extends AbstractNestedPropertyBuilder<
 
 	@Override
 	public NestedIntegerProperty build() {
-		return new NestedIntegerProperty(getNesting(), getBean(), getName());
-	}
-
-	/**
-	 * Sets the property's future {@link Property#getBean() bean}.
-	 *
-	 * @param bean
-	 *            the property's future bean
-	 * @return this builder
-	 */
-	@Override
-	public NestedIntegerPropertyBuilder setBean(Object bean) {
-		setTheBean(bean);
-		return this;
-	}
-
-	/**
-	 * Sets the property's future {@link Property#getName() name}.
-	 *
-	 * @param name
-	 *            the property's future name
-	 * @return this builder
-	 */
-	@Override
-	public NestedIntegerPropertyBuilder setName(String name) {
-		setTheName(name);
-		return this;
+		return new NestedIntegerProperty(getNesting(), getInnerObservableMissingBehavior(), getBean(), getName());
 	}
 
 	//#end METHODS

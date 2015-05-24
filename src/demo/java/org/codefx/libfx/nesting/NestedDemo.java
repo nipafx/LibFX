@@ -284,6 +284,11 @@ public class NestedDemo {
 	 * Demonstrates how a {@link NestedProperty} behaves when the inner observable is missing.
 	 */
 	private void nestedPropertyBindingWithMissingInnerObservable() {
+
+		/*
+		 * TODO update this example and include new ones
+		 */
+
 		print("NESTED PROPERTY BINDING WHEN INNER OBSERVABLE IS MISSING");
 
 		// create a nested property for the current employee's street name

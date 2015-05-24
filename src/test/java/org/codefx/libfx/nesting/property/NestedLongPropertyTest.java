@@ -10,8 +10,9 @@ import org.codefx.libfx.nesting.Nesting;
 public class NestedLongPropertyTest extends AbstractNestedLongPropertyTest {
 
 	@Override
-	protected NestedProperty<Number> createNestedPropertyFromNesting(Nesting<LongProperty> nesting) {
-		return new NestedLongProperty(nesting, null, null);
+	protected NestedProperty<Number> createNestedPropertyFromNesting(
+			Nesting<LongProperty> nesting, InnerObservableMissingBehavior<Long> missingBehavior) {
+		return new NestedLongProperty(nesting, missingBehavior, null, null);
 	}
 
 }

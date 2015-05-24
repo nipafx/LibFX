@@ -1,7 +1,6 @@
 package org.codefx.libfx.nesting.property;
 
 import javafx.beans.property.LongProperty;
-import javafx.beans.property.Property;
 
 import org.codefx.libfx.nesting.Nesting;
 
@@ -9,7 +8,8 @@ import org.codefx.libfx.nesting.Nesting;
  * A builder for a {@link NestedLongProperty} which is bound to the {@link Nesting#innerObservableProperty()
  * innerObservable} of a {@link Nesting}.
  */
-public class NestedLongPropertyBuilder extends AbstractNestedPropertyBuilder<LongProperty, NestedLongProperty> {
+public class NestedLongPropertyBuilder extends
+		AbstractNestedPropertyBuilder<Long, LongProperty, NestedLongProperty, NestedLongPropertyBuilder> {
 
 	// #begin CONSTRUCTION
 
@@ -40,33 +40,7 @@ public class NestedLongPropertyBuilder extends AbstractNestedPropertyBuilder<Lon
 
 	@Override
 	public NestedLongProperty build() {
-		return new NestedLongProperty(getNesting(), getBean(), getName());
-	}
-
-	/**
-	 * Sets the property's future {@link Property#getBean() bean}.
-	 *
-	 * @param bean
-	 *            the property's future bean
-	 * @return this builder
-	 */
-	@Override
-	public NestedLongPropertyBuilder setBean(Object bean) {
-		setTheBean(bean);
-		return this;
-	}
-
-	/**
-	 * Sets the property's future {@link Property#getName() name}.
-	 *
-	 * @param name
-	 *            the property's future name
-	 * @return this builder
-	 */
-	@Override
-	public NestedLongPropertyBuilder setName(String name) {
-		setTheName(name);
-		return this;
+		return new NestedLongProperty(getNesting(), getInnerObservableMissingBehavior(), getBean(), getName());
 	}
 
 	//#end METHODS
