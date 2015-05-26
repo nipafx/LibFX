@@ -49,7 +49,20 @@ public class EqualityTransformingSet<E> extends AbstractTransformingSet<EqHash<E
 
 	// #begin CONSTRUCTION
 
-	EqualityTransformingSet(Set<?> innerSet, Class<? super E> outerTypeToken,
+	/**
+	 * Creates a new transforming set.
+	 *
+	 * @param innerSet
+	 *            the decorated set; must be empty
+	 * @param outerTypeToken
+	 *            the token used to verify outer elements
+	 * @param equals
+	 *            the function computing equality of elements
+	 * @param hash
+	 *            the function computing the hash code of elements
+	 */
+	EqualityTransformingSet(
+			Set<?> innerSet, Class<? super E> outerTypeToken,
 			BiPredicate<? super E, ? super E> equals, ToIntFunction<? super E> hash) {
 		this.innerSet = castInnerSet(innerSet);
 		this.outerTypeToken = outerTypeToken;

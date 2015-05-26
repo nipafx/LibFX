@@ -51,6 +51,18 @@ public final class EqualityTransformingMap<K, V> extends AbstractTransformingMap
 
 	// #begin CONSTRUCTION
 
+	/**
+	 * Creates a new transforming map.
+	 * 
+	 * @param innerMap
+	 *            the decorated map; must be empty
+	 * @param outerKeyTypeToken
+	 *            the token used to verify outer keys
+	 * @param equals
+	 *            the function computing equality of keys
+	 * @param hash
+	 *            the function computing the hash code of keys
+	 */
 	EqualityTransformingMap(
 			Map<?, ?> innerMap,
 			Class<? super K> outerKeyTypeToken,
