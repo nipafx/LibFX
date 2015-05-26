@@ -40,7 +40,6 @@ public class OptionalTransformingSetTest {
 				CollectionSize.ANY,
 				// exclude 'CollectionFeature.ALLOWS_NULL_VALUES' because nulls are handled in a special way
 				CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
-				CollectionFeature.KNOWN_ORDER,
 				CollectionFeature.SUPPORTS_ADD,
 				CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
 				CollectionFeature.SUPPORTS_REMOVE,
