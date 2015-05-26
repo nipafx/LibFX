@@ -18,10 +18,6 @@ import java.util.function.Function;
  * transformation {@code null -> null}. The transforming functions specified during construction neither have to handle
  * that case nor are they allowed to produce null elements.
  * <p>
- * All method calls (of abstract and default methods existing in JDK 8) are forwarded to <b>the same method</b> on the
- * wrapped set. This implies that all guarantees made by such methods (e.g. regarding atomicity) are upheld by the
- * transformation.
- * <p>
  * If the {@link #stream() stream} returned by this set is told to {@link java.util.stream.Stream#sorted() sort} itself,
  * it will do so on the base of the comparator returned by the inner sets's spliterator (e.g. based on the natural order
  * of {@code I} if it has one).

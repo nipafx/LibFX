@@ -12,7 +12,17 @@
  * the <i>inner type</i>. The transforming collection and its generic type are referred to as <i>outer collection</i>
  * and <i>outer type</i>, respectively.
  * </p>
- * <h2>Details</h2> <h3>Transformation</h3>
+ * <h2>Details</h2>
+ * <p>
+ * The following details are important to use transforming collections without unexpected problems.
+ * </p>
+ * <h3>Forwarding</h3>
+ * <p>
+ * Unless otherwise noted the views forward all method calls (of abstract and default methods existing in JDK 8) to
+ * <b>the same method</b> on the inner collection. This implies that all guarantees made by such methods (e.g. regarding
+ * atomicity) are upheld by the transformation.
+ * </p>
+ * <h3>Transformation</h3>
  * <p>
  * The transformation is computed with a pair of functions. One is used to transform outer elements to inner elements
  * and another one for the other direction. In the case of a {@link java.util.Map Map} two such pairs exist: one for
