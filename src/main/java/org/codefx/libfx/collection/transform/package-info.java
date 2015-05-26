@@ -46,6 +46,9 @@
  * wrong type. If the suptype does not fully obey the <a
  * href="https://en.wikipedia.org/wiki/Liskov_substitution_principle">Liskov Substitution Principle</a> this can lead to
  * unexpected behavior.
+ * <p>
+ * Transforming functions should have no side effects. No guarantees are made regarding how often transformations are
+ * called.
  * </p>
  * <h3>Type Safety</h3>
  * <p>
