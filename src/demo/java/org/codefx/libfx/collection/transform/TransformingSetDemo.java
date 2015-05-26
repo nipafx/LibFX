@@ -39,6 +39,18 @@ public class TransformingSetDemo {
 				innerSet,
 				String.class, this::stringToInteger,
 				Integer.class, this::integerToString);
+
+		print("-- Initial state --");
+		print("\t -> " + innerSet + " ~ " + transformingSet);
+		print();
+	}
+
+	private Integer stringToInteger(String string) {
+		return Integer.parseInt(string);
+	}
+
+	private String integerToString(Integer integer) {
+		return integer.toString();
 	}
 
 	/**
@@ -56,14 +68,7 @@ public class TransformingSetDemo {
 		demo.modifyingInnerSet();
 		demo.modifyingTransformedSet();
 		demo.breakingInverseFunctions();
-	}
-
-	private Integer stringToInteger(String string) {
-		return Integer.parseInt(string);
-	}
-
-	private String integerToString(Integer integer) {
-		return integer.toString();
+		demo.typeSafety();
 	}
 
 	// #end CONSTRUCTION, MAIN & TRANSFORMATION
@@ -168,6 +173,30 @@ public class TransformingSetDemo {
 		print("\t -> " + innerSet + " ~ " + transformingSet);
 
 		print();
+	}
+
+	private void typeSafety() {
+		print("-- Using type tokens to increase type safety --");
+		Set<Integer> transformingSetWithoutTokens = new TransformingSet<>(
+				innerSet,
+				Object.class, this::stringToInteger,
+				Object.class, this::integerToString);
+
+		print("Insert 0, 1, 2");
+		transformingSet.add(0);
+		transformingSet.add(1);
+		transformingSet.add(2);
+		print("\t -> " + innerSet + " ~ " + transformingSet + " ~ " + transformingSetWithoutTokens);
+
+		print("Calling contains with an 'Object o'");
+		Object o = new Object();
+		print("\t 'innerSet.contains(o)': " + innerSet.contains(o));
+		print("\t 'transformingSet.contains(o)': " + transformingSet.contains(o));
+		try {
+			print("\t 'transformingSetWithoutTokens.contains(o)': " + transformingSetWithoutTokens.contains(o));
+		} catch (ClassCastException ex) {
+			print("\t 'transformingSetWithoutTokens.contains(o)': CLASS CAST EXEPTION");
+		}
 	}
 
 	// #end DEMOS
