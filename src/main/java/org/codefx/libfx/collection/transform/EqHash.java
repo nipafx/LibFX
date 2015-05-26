@@ -24,7 +24,7 @@ class EqHash<E> {
 	private final BiPredicate<? super E, ? super E> equals;
 	private final ToIntFunction<? super E> hash;
 
-	public EqHash(E element, BiPredicate<? super E, ? super E> equals, ToIntFunction<? super E> hash) {
+	private EqHash(E element, BiPredicate<? super E, ? super E> equals, ToIntFunction<? super E> hash) {
 		// null is allowed as an element
 		assert equals != null : "The argument 'equals' must not be null.";
 		assert hash != null : "The argument 'hash' must not be null.";
@@ -32,6 +32,22 @@ class EqHash<E> {
 		this.element = element;
 		this.equals = equals;
 		this.hash = hash;
+	}
+
+	/**
+	 * @param <E>
+	 *            the type of the wrapped elements
+	 * @param element
+	 *            the wrapped element; may be null
+	 * @param equals
+	 *            the function computing equality of two elements
+	 * @param hash
+	 *            the function computing the hash code of the element
+	 * @return an instance of {@link EqHash}
+	 */
+	public static <E> EqHash<E> create(
+			E element, BiPredicate<? super E, ? super E> equals, ToIntFunction<? super E> hash) {
+		return new EqHash<E>(element, equals, hash);
 	}
 
 	/**
@@ -63,4 +79,8 @@ class EqHash<E> {
 		return equals.test(this.element, other.element);
 	}
 
+	@Override
+	public String toString() {
+		return "EqHash [" + element + "]";
+	}
 }

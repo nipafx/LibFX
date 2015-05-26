@@ -91,7 +91,7 @@ public class EqualityTransformingSet<E> extends AbstractTransformingSet<EqHash<E
 
 	@Override
 	protected EqHash<E> transformToInner(E outerElement) throws ClassCastException {
-		return new EqHash<E>(outerElement, equals, hash);
+		return EqHash.create(outerElement, equals, hash);
 	}
 
 }

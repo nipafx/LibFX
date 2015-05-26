@@ -104,7 +104,7 @@ public final class EqualityTransformingMap<K, V> extends AbstractTransformingMap
 
 	@Override
 	protected EqHash<K> transformToInnerKey(K outerKey) throws ClassCastException {
-		return new EqHash<>(outerKey, equals, hash);
+		return EqHash.create(outerKey, equals, hash);
 	}
 
 	@Override
