@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.AbstractMap.SimpleEntry;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -44,7 +43,7 @@ public class EqualityTransformingMapTest {
 
 	private static Feature<?>[] features() {
 		return new Feature<?>[] {
-				// since 'TransformedMap' passes all calls along,
+				// since 'EqualityTransformingMap' passes all calls along,
 				// the features are determined by the backing data structure (which is a 'HashMap')
 				CollectionSize.ANY,
 				MapFeature.ALLOWS_ANY_NULL_QUERIES,
@@ -69,7 +68,7 @@ public class EqualityTransformingMapTest {
 	}
 
 	/**
-	 * Creates a test which uses hashCode and equals of the original keys.
+	 * Creates a test which uses hashCode and equals based on the string's lengths.
 	 *
 	 * @return the test case
 	 */
@@ -106,12 +105,11 @@ public class EqualityTransformingMapTest {
 		@Before
 		@SuppressWarnings("javadoc")
 		public void createMap() {
-			testedMap = EqualityTransformingMap
-					.withKeyType(String.class)
-					.withInnerMap(() -> new HashMap<Integer, String>())
+			testedMap = EqualityTransformingBuilder
+					.forKeyType(String.class)
 					.withEquals(equals)
 					.withHash(hash)
-					.build();
+					.buildMap();
 		}
 
 		@org.junit.Test
@@ -170,12 +168,11 @@ public class EqualityTransformingMapTest {
 		@Override
 		@SuppressWarnings("unchecked")
 		public Map<String, Integer> create(Object... entries) {
-			Map<String, Integer> transformingMap = EqualityTransformingMap
-					.withKeyType(String.class)
-					.withInnerMap(() -> new HashMap<Integer, String>())
+			Map<String, Integer> transformingMap = EqualityTransformingBuilder
+					.forKeyType(String.class)
 					.withEquals(equals)
 					.withHash(hash)
-					.build();
+					.buildMap();
 
 			Arrays.stream(entries)
 					.map(entry -> (Entry<String, Integer>) entry)
