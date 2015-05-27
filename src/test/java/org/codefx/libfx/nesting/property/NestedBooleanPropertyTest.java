@@ -10,8 +10,9 @@ import org.codefx.libfx.nesting.Nesting;
 public class NestedBooleanPropertyTest extends AbstractNestedBooleanPropertyTest {
 
 	@Override
-	protected NestedProperty<Boolean> createNestedPropertyFromNesting(Nesting<BooleanProperty> nesting) {
-		return new NestedBooleanProperty(nesting, null, null);
+	protected NestedProperty<Boolean> createNestedPropertyFromNesting(
+			Nesting<BooleanProperty> nesting, InnerObservableMissingBehavior<Boolean> missingBehavior) {
+		return new NestedBooleanProperty(nesting, missingBehavior, null, null);
 	}
 
 }

@@ -22,7 +22,7 @@ public class NestedLongPropertyBuilderTest {
 			extends AbstractNestedPropertyBuilderTest<LongProperty, NestedLongProperty> {
 
 		@Override
-		protected AbstractNestedPropertyBuilder<LongProperty, NestedLongProperty> createBuilder() {
+		protected AbstractNestedPropertyBuilder<?, LongProperty, NestedLongProperty, ?> createBuilder() {
 			LongProperty innerObservable = new SimpleLongProperty(0);
 			EditableNesting<LongProperty> nesting = EditableNesting.createWithInnerObservable(innerObservable);
 			return NestedLongPropertyBuilder.forNesting(nesting);
@@ -36,9 +36,11 @@ public class NestedLongPropertyBuilderTest {
 	public static class CreatedProperties extends AbstractNestedLongPropertyTest {
 
 		@Override
-		protected NestedProperty<Number> createNestedPropertyFromNesting(Nesting<LongProperty> nesting) {
+		protected NestedProperty<Number> createNestedPropertyFromNesting(
+				Nesting<LongProperty> nesting, InnerObservableMissingBehavior<Long> missingBehavior) {
 			// use the builder to create the property
 			NestedLongPropertyBuilder builder = NestedLongPropertyBuilder.forNesting(nesting);
+			setBehaviorOnBuilder(missingBehavior, builder);
 			return builder.build();
 		}
 

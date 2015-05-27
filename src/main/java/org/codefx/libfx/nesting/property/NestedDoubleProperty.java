@@ -1,12 +1,8 @@
 package org.codefx.libfx.nesting.property;
 
-import java.util.Objects;
-
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.Property;
 import javafx.beans.property.ReadOnlyBooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 import org.codefx.libfx.nesting.Nesting;
@@ -16,47 +12,70 @@ import org.codefx.libfx.nesting.Nesting;
  */
 public class NestedDoubleProperty extends SimpleDoubleProperty implements NestedProperty<Number> {
 
-	// #begin PROPERTIES
-
-	/**
-	 * The property indicating whether the nesting's inner observable is currently present, i.e. not null.
-	 */
-	private final BooleanProperty innerObservablePresent;
-
-	//#end PROPERTIES
+	private final NestedPropertyInternals<Number> internals;
 
 	// #begin CONSTUCTION
 
 	/**
-	 * Creates a new property. Except {@code nesting} all arguments can be null.
+	 * Creates a new property.
 	 *
 	 * @param nesting
 	 *            the nesting this property is based on
+	 * @param innerObservableMissingBehavior
+	 *            defines the behavior for the case that the inner observable is missing
 	 * @param bean
 	 *            the bean which owns this property; can be null
 	 * @param name
 	 *            this property's name; can be null
 	 */
-	NestedDoubleProperty(Nesting<? extends Property<Number>> nesting, Object bean, String name) {
-		super(bean, name);
-		Objects.requireNonNull(nesting, "The argument 'nesting' must not be null.");
-		this.innerObservablePresent = new SimpleBooleanProperty(this, "innerObservablePresent");
+	NestedDoubleProperty(
+			Nesting<? extends Property<Number>> nesting,
+			InnerObservableMissingBehavior<? extends Number> innerObservableMissingBehavior,
+			Object bean,
+			String name) {
 
-		PropertyToNestingBinding.bind(this, isPresent -> innerObservablePresent.set(isPresent), nesting);
+		super(bean, name);
+		assert nesting != null : "The argument 'nesting' must not be null.";
+		assert innerObservableMissingBehavior != null : "The argument 'innerObservableMissingBehavior' must not be null.";
+
+		this.internals = new NestedPropertyInternals<>(
+				this, nesting, innerObservableMissingBehavior, this::setValueSuper);
+		internals.initializeBinding();
 	}
 
 	//#end CONSTUCTION
+
+	// #begin OVERRIDE SET(VALUE)
+
+	@Override
+	public void set(double newValue) {
+		internals.setCheckingMissingInnerObservable(newValue);
+	}
+
+	@Override
+	public void setValue(Number newValue) {
+		internals.setCheckingMissingInnerObservable(newValue);
+	}
+
+	private void setValueSuper(Number newValue) {
+		if (newValue == null)
+			super.set(0);
+		else
+			super.set(newValue.doubleValue());
+	}
+
+	// #end OVERRIDE SET(VALUE)
 
 	// #begin IMPLEMENTATION OF 'NestedProperty'
 
 	@Override
 	public ReadOnlyBooleanProperty innerObservablePresentProperty() {
-		return innerObservablePresent;
+		return internals.innerObservablePresentProperty();
 	}
 
 	@Override
 	public boolean isInnerObservablePresent() {
-		return innerObservablePresent.get();
+		return internals.innerObservablePresentProperty().get();
 	}
 
 	//#end IMPLEMENTATION OF 'NestedProperty'

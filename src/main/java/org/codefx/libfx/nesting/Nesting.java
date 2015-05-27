@@ -8,10 +8,11 @@ import javafx.beans.value.ObservableValue;
 
 /**
  * <p>
- * A nesting encapsulates a hierarchy of nested {@link ObservableValue ObservableValues} and its
- * {@link #innerObservableProperty() innerObservable} property always contains the current innermost {@code Observable}
- * in that hierarchy as an {@link Optional}. A {@code Nesting} can be used as a basic building block for other nested
- * functionality.
+ * A nesting encapsulates a hierarchy of nested {@link ObservableValue ObservableValues}.
+ * <p>
+ * Its {@link #innerObservableProperty() innerObservable} property always contains the current innermost
+ * {@code Observable} in that hierarchy as an {@link Optional}. A {@code Nesting} can be used as a basic building block
+ * for other nested functionality.
  * <h2>Nesting Hierarchy</h2> A nesting hierarchy is composed of some {@code ObservableValues}, often simply called
  * <b>observables</b>, and <b>nesting steps</b> which lead from one observable to the next.
  * <p>
@@ -24,7 +25,7 @@ import javafx.beans.value.ObservableValue;
  * Hence they must all implement {@link ObservableValue ObservableValue}. No step is used on the inner observable so it
  * suffices that it implements {@link Observable}.
  * <h3>Example</h3> Consider a class {@code Employee} which has an {@code Property<Address> address}, where
- * {@code Address} has a {@code StringProperty streetName}. There might be a {@code Property<Emplyee> currentEmployee},
+ * {@code Address} has a {@code StringProperty streetName}. There might be a {@code Property<Employee> currentEmployee},
  * which always holds the current employee.
  * <p>
  * In this case the hierarchy would be {@code currentEmployee -> address -> streetName} where {@code currentEmployee} is

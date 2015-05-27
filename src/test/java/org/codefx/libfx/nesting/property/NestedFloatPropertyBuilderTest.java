@@ -22,7 +22,7 @@ public class NestedFloatPropertyBuilderTest {
 			extends AbstractNestedPropertyBuilderTest<FloatProperty, NestedFloatProperty> {
 
 		@Override
-		protected AbstractNestedPropertyBuilder<FloatProperty, NestedFloatProperty> createBuilder() {
+		protected AbstractNestedPropertyBuilder<?, FloatProperty, NestedFloatProperty, ?> createBuilder() {
 			FloatProperty innerObservable = new SimpleFloatProperty(0);
 			EditableNesting<FloatProperty> nesting = EditableNesting.createWithInnerObservable(innerObservable);
 			return NestedFloatPropertyBuilder.forNesting(nesting);
@@ -36,9 +36,11 @@ public class NestedFloatPropertyBuilderTest {
 	public static class CreatedProperties extends AbstractNestedFloatPropertyTest {
 
 		@Override
-		protected NestedProperty<Number> createNestedPropertyFromNesting(Nesting<FloatProperty> nesting) {
+		protected NestedProperty<Number> createNestedPropertyFromNesting(
+				Nesting<FloatProperty> nesting, InnerObservableMissingBehavior<Float> missingBehavior) {
 			// use the builder to create the property
 			NestedFloatPropertyBuilder builder = NestedFloatPropertyBuilder.forNesting(nesting);
+			setBehaviorOnBuilder(missingBehavior, builder);
 			return builder.build();
 		}
 

@@ -22,7 +22,7 @@ public class NestedBooleanPropertyBuilderTest {
 			extends AbstractNestedPropertyBuilderTest<BooleanProperty, NestedBooleanProperty> {
 
 		@Override
-		protected AbstractNestedPropertyBuilder<BooleanProperty, NestedBooleanProperty> createBuilder() {
+		protected AbstractNestedPropertyBuilder<?, BooleanProperty, NestedBooleanProperty, ?> createBuilder() {
 			BooleanProperty innerObservable = new SimpleBooleanProperty(false);
 			EditableNesting<BooleanProperty> nesting = EditableNesting.createWithInnerObservable(innerObservable);
 			return NestedBooleanPropertyBuilder.forNesting(nesting);
@@ -36,9 +36,11 @@ public class NestedBooleanPropertyBuilderTest {
 	public static class CreatedProperties extends AbstractNestedBooleanPropertyTest {
 
 		@Override
-		protected NestedProperty<Boolean> createNestedPropertyFromNesting(Nesting<BooleanProperty> nesting) {
+		protected NestedProperty<Boolean> createNestedPropertyFromNesting(
+				Nesting<BooleanProperty> nesting, InnerObservableMissingBehavior<Boolean> missingBehavior) {
 			// use the builder to create the property
 			NestedBooleanPropertyBuilder builder = NestedBooleanPropertyBuilder.forNesting(nesting);
+			setBehaviorOnBuilder(missingBehavior, builder);
 			return builder.build();
 		}
 

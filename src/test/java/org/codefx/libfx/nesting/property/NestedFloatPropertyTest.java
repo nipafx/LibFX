@@ -10,8 +10,9 @@ import org.codefx.libfx.nesting.Nesting;
 public class NestedFloatPropertyTest extends AbstractNestedFloatPropertyTest {
 
 	@Override
-	protected NestedProperty<Number> createNestedPropertyFromNesting(Nesting<FloatProperty> nesting) {
-		return new NestedFloatProperty(nesting, null, null);
+	protected NestedProperty<Number> createNestedPropertyFromNesting(
+			Nesting<FloatProperty> nesting, InnerObservableMissingBehavior<Float> missingBehavior) {
+		return new NestedFloatProperty(nesting, missingBehavior, null, null);
 	}
 
 }
