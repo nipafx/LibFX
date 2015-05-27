@@ -1,9 +1,13 @@
 package org.codefx.libfx.nesting.property;
 
+import static org.codefx.libfx.nesting.testhelper.NestingAccess.setNestingObservable;
+import static org.codefx.tarkastus.AssertFX.assertSameOrEqual;
+import static org.junit.Assert.assertNotEquals;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 import org.codefx.libfx.nesting.Nesting;
+import org.codefx.libfx.nesting.property.InnerObservableMissingBehavior.WhenInnerObservableMissingOnUpdate;
 import org.junit.Test;
 
 /**
@@ -16,8 +20,8 @@ public abstract class AbstractNestedBooleanPropertyTest extends
 
 	/*
 	 * Since Boolean has only two values, 'createNewValue' can not fulfill its contract. Instead it always returns
-	 * 'true' whereas 'createNewObservableWithSomeValue' uses false. All tests where this might come into play are
-	 * overridden below (for better readability or just to make them work).
+	 * 'true' whereas 'createNewObservableWithSomeValue' uses false. All tests where this leads to a failing test are
+	 * overridden below.
 	 */
 
 	@Override
@@ -42,13 +46,32 @@ public abstract class AbstractNestedBooleanPropertyTest extends
 
 	// #begin OVERRIDDEN TEST METHODS
 
+	// #begin TESTS
+
 	@Override
 	@Test
 	public void newInnerObservableAfterSetValueOnMissingInnerObservable_acceptUntilNext_newInnerObservableKeepsValue() {
-		// TODO rewrite test so that it passes
-	}
+		boolean valueWhileMissing = true;
+		boolean valueOfNewInnerObservable = false;
 
-	// TODO adapt other tests as described in implementation comment or change the comment
+		MissingBehavior<Boolean> missingBehavior = MissingBehavior
+				.<Boolean> defaults()
+				.onUpdate(WhenInnerObservableMissingOnUpdate.ACCEPT_VALUE_UNTIL_NEXT_INNER_OBSERVABLE);
+		NestedProperty<Boolean> property = createNestedPropertyFromNesting(getNesting(), missingBehavior);
+		setNestingObservable(getNesting(), null);
+		BooleanProperty newObservable = createNewObservableWithValue(valueOfNewInnerObservable);
+
+		// change the nested property's value (which can not be written to the nesting's observable as none is present);
+		property.setValue(valueWhileMissing);
+		// the values of the nested property and the new observable are not equal
+		assertNotEquals(newObservable.getValue(), property.getValue());
+
+		// set the new observable and assert that it kept its value and the nested property was updated
+		setNestingObservable(getNesting(), newObservable);
+
+		assertSameOrEqual(valueOfNewInnerObservable, newObservable.getValue(), wrapsPrimitive());
+		assertSameOrEqual(valueOfNewInnerObservable, property.getValue(), wrapsPrimitive());
+	}
 
 	//#end OVERRIDDEN TEST METHODS
 

@@ -224,6 +224,7 @@ public abstract class AbstractNestedPropertyTest<S extends T, T, P extends Prope
 
 		// set the new observable and assert that it kept its value and the nested property was updated
 		setNestingObservable(nesting, newObservable);
+
 		assertSameOrEqual(newInnerObservablesValue, newObservable.getValue(), wrapsPrimitive());
 		assertSameOrEqual(newInnerObservablesValue, property.getValue(), wrapsPrimitive());
 	}
