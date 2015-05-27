@@ -11,7 +11,7 @@ import java.util.function.ToIntFunction;
 /**
  * Builds {@link EqualityTransformingSet}s and {@link EqualityTransformingMap}s.
  * <p>
- * TODO for simplification doc only talks about set
+ * (For simplification the comments only talk about sets but unless otherwise noted the same applies to maps.)
  * <p>
  * The implementations of {@code equals} and {@code hashCode} are provided as functions to the builder. They must of
  * course fulfill the general contract between those two methods (see {@link Object#hashCode() here}). The functions can
