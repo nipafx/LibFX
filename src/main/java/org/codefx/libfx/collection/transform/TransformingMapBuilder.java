@@ -56,7 +56,7 @@ public class TransformingMapBuilder<IK, OK, IV, OV> {
 	}
 
 	/**
-	 * Creates a new builder for the specified inner and outer key and value types.
+	 * Returns a new builder for the specified inner and outer key and value types.
 	 *
 	 * @param <IK>
 	 *            the inner key type of the created transforming map, i.e. the type of the keys contained in the
@@ -88,7 +88,7 @@ public class TransformingMapBuilder<IK, OK, IV, OV> {
 	}
 
 	/**
-	 * Creates a new builder for unknown inner and outer key and value types.
+	 * Returns a new builder for unknown inner and outer key and value types.
 	 * <p>
 	 * This is equivalent to calling {@link #forTypes(Class, Class, Class, Class) forTypes(Object.class, Object.class,
 	 * Object.class, Object.class)}. To obtain a builder for {@code <IK, OK, IV, OV>} you will have to call

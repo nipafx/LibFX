@@ -103,7 +103,7 @@ public class EqualityTransformingSetTest {
 		@SuppressWarnings("javadoc")
 		public void createSet() {
 			testedSet = EqualityTransformingCollectionBuilder
-					.forKeyType(String.class)
+					.forType(String.class)
 					.withEquals(equals)
 					.withHash(hash)
 					.buildSet();
@@ -132,7 +132,7 @@ public class EqualityTransformingSetTest {
 		@Override
 		public Set<String> create(Object... elements) {
 			Set<String> transformingSet = EqualityTransformingCollectionBuilder
-					.forKeyType(String.class)
+					.forType(String.class)
 					.withEquals(equals)
 					.withHash(hash)
 					.buildSet();

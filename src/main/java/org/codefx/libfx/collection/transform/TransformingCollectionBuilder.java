@@ -43,7 +43,7 @@ public class TransformingCollectionBuilder<I, O> {
 	}
 
 	/**
-	 * Creates a new builder for the specified inner and outer type.
+	 * Returns a new builder for the specified inner and outer type.
 	 *
 	 * @param <I>
 	 *            the inner type of the created transforming collection, i.e. the type of the elements contained in the
@@ -63,7 +63,7 @@ public class TransformingCollectionBuilder<I, O> {
 	}
 
 	/**
-	 * Creates a new builder for unknown inner and outer types.
+	 * Returns a new builder for unknown inner and outer types.
 	 * <p>
 	 * This is equivalent to calling {@link #forInnerAndOuterType(Class, Class) forInnerAndOuterType(Object.class,
 	 * Object.class)}. To obtain a builder for {@code <I, O>} you will have to call
