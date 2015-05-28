@@ -21,6 +21,8 @@ import java.util.function.Function;
  * If the {@link java.util.stream.Stream streams} returned by this map's views are told to
  * {@link java.util.stream.Stream#sorted() sort} themself, they will do so on the base of the comparator returned by the
  * inner map view's spliterator (e.g. based on the natural order of {@code IK} or {@code IV} if it has one).
+ * <p>
+ * {@code TransformingMap}s are created with a {@link TransformingMapBuilder}.
  *
  * @param <IK>
  *            the inner key type, i.e. the type of the keys contained in the wrapped/inner map
@@ -38,20 +40,14 @@ public final class TransformingMap<IK, OK, IV, OV> extends AbstractTransformingM
 	private final Map<IK, IV> innerMap;
 
 	private final Class<? super OK> outerKeyTypeToken;
-
 	private final Class<? super IK> innerKeyTypeToken;
-
-	private final Function<IK, OK> transformToOuterKey;
-
-	private final Function<OK, IK> transformToInnerKey;
+	private final Function<? super IK, ? extends OK> transformToOuterKey;
+	private final Function<? super OK, ? extends IK> transformToInnerKey;
 
 	private final Class<? super OV> outerValueTypeToken;
-
 	private final Class<? super IV> innerValueTypeToken;
-
-	private final Function<IV, OV> transformToOuterValue;
-
-	private final Function<OV, IV> transformToInnerValue;
+	private final Function<? super IV, ? extends OV> transformToOuterValue;
+	private final Function<? super OV, ? extends IV> transformToInnerValue;
 
 	// #end FIELDS
 
@@ -64,40 +60,42 @@ public final class TransformingMap<IK, OK, IV, OV> extends AbstractTransformingM
 	 *            the wrapped map
 	 * @param innerKeyTypeToken
 	 *            the token for the inner key type
+	 * @param outerKeyTypeToken
+	 *            the token for the outer key type
 	 * @param transformToOuterKey
 	 *            transforms a key from an inner to an outer key type; will never be called with null argument and must
 	 *            not produce null
-	 * @param outerKeyTypeToken
-	 *            the token for the outer key type
 	 * @param transformToInnerKey
 	 *            transforms a key from an outer to an inner key type; will never be called with null argument and must
 	 *            not produce null
 	 * @param innerValueTypeToken
 	 *            the token for the inner value type
+	 * @param outerValueTypeToken
+	 *            the token for the outer value type
 	 * @param transformToOuterValue
 	 *            transforms a value from an inner to an outer value type; will never be called with null argument and
 	 *            must not produce null
-	 * @param outerValueTypeToken
-	 *            the token for the outer value type
 	 * @param transformToInnerValue
 	 *            transforms a value from an outer to an inner value type; will never be called with null argument and
 	 *            must not produce null
 	 */
-	public TransformingMap(
+	TransformingMap(
 			Map<IK, IV> innerMap,
-			Class<IK> innerKeyTypeToken, Function<IK, OK> transformToOuterKey,
-			Class<OK> outerKeyTypeToken, Function<OK, IK> transformToInnerKey,
-			Class<IV> innerValueTypeToken, Function<IV, OV> transformToOuterValue,
-			Class<OV> outerValueTypeToken, Function<OV, IV> transformToInnerValue) {
+			Class<? super IK> innerKeyTypeToken, Class<? super OK> outerKeyTypeToken,
+			Function<? super IK, ? extends OK> transformToOuterKey,
+			Function<? super OK, ? extends IK> transformToInnerKey,
+			Class<? super IV> innerValueTypeToken, Class<? super OV> outerValueTypeToken,
+			Function<? super IV, ? extends OV> transformToOuterValue,
+			Function<? super OV, ? extends IV> transformToInnerValue) {
 
 		Objects.requireNonNull(innerMap, "The argument 'innerMap' must not be null.");
 		Objects.requireNonNull(innerKeyTypeToken, "The argument 'innerKeyTypeToken' must not be null.");
-		Objects.requireNonNull(transformToOuterKey, "The argument 'transformToOuterKey' must not be null.");
 		Objects.requireNonNull(outerKeyTypeToken, "The argument 'outerKeyTypeToken' must not be null.");
+		Objects.requireNonNull(transformToOuterKey, "The argument 'transformToOuterKey' must not be null.");
 		Objects.requireNonNull(transformToInnerKey, "The argument 'transformToInnerKey' must not be null.");
 		Objects.requireNonNull(innerValueTypeToken, "The argument 'innerValueTypeToken' must not be null.");
-		Objects.requireNonNull(transformToOuterValue, "The argument 'transformToOuterValue' must not be null.");
 		Objects.requireNonNull(outerValueTypeToken, "The argument 'outerValueTypeToken' must not be null.");
+		Objects.requireNonNull(transformToOuterValue, "The argument 'transformToOuterValue' must not be null.");
 		Objects.requireNonNull(transformToInnerValue, "The argument 'transformToInnerValue' must not be null.");
 
 		this.innerMap = innerMap;

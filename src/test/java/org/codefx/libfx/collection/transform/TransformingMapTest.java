@@ -134,16 +134,15 @@ public class TransformingMapTest {
 				String valueName = ((Feline) ((Entry<?, ?>) entry).getValue()).getName();
 				mammals.put(new Mammal(keyName), new Mammal(valueName));
 			}
-			return new TransformingMap<Mammal, Feline, Mammal, Feline>(
-					mammals,
-					/*
-					 * Because 'Feline' does not uphold the Liskov Substitution Principle (by having its own 'toString'
-					 * method) felines can not masquerade as mammals. Hence create a new mammal for each feline.
-					 */
-					Mammal.class, mammal -> new Feline(mammal.getName()),
-					Feline.class, feline -> new Mammal(feline.getName()),
-					Mammal.class, mammal -> new Feline(mammal.getName()),
-					Feline.class, feline -> new Mammal(feline.getName()));
+			// Because 'Feline' does not uphold the Liskov Substitution Principle (by having its own 'toString'
+			// method) felines can not masquerade as mammals. Hence create a new mammal for each feline.
+			return TransformingMapBuilder
+					.forTypes(Mammal.class, Feline.class, Mammal.class, Feline.class)
+					.toOuterKey(mammal -> new Feline(mammal.getName()))
+					.toInnerKey(feline -> new Cat(feline.getName()))
+					.toOuterValue(mammal -> new Feline(mammal.getName()))
+					.toInnerValue(feline -> new Cat(feline.getName()))
+					.transformMap(mammals);
 		}
 
 		private static Map<Feline, Feline> createBackedByCatMap(Object[] entries) {
@@ -153,16 +152,15 @@ public class TransformingMapTest {
 				String valueName = ((Feline) ((Entry<?, ?>) entry).getValue()).getName();
 				cats.put(new Cat(keyName), new Cat(valueName));
 			}
-			return new TransformingMap<Cat, Feline, Cat, Feline>(
-					cats,
-					/*
-					 * Because 'Cat' does not uphold the Liskov Substitution Principle (by having its own 'toString'
-					 * method) cats can not masquerade as felines. Hence create a new feline for each cat.
-					 */
-					Cat.class, cat -> new Feline(cat.getName()),
-					Feline.class, feline -> new Cat(feline.getName()),
-					Cat.class, cat -> new Feline(cat.getName()),
-					Feline.class, feline -> new Cat(feline.getName()));
+			// Because 'Cat' does not uphold the Liskov Substitution Principle (by having its own 'toString'
+			// method) cats can not masquerade as felines. Hence create a new feline for each cat.
+			return TransformingMapBuilder
+					.forTypes(Cat.class, Feline.class, Cat.class, Feline.class)
+					.toOuterKey(cat -> new Feline(cat.getName()))
+					.toInnerKey(feline -> new Cat(feline.getName()))
+					.toOuterValue(cat -> new Feline(cat.getName()))
+					.toInnerValue(feline -> new Cat(feline.getName()))
+					.transformMap(cats);
 		}
 	}
 
