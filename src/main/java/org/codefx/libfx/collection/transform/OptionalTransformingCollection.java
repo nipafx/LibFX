@@ -36,7 +36,6 @@ public final class OptionalTransformingCollection<E> extends AbstractTransformin
 	// #begin FIELDS
 
 	private final Collection<Optional<E>> innerCollection;
-
 	private final Class<? super E> outerTypeToken;
 
 	/**

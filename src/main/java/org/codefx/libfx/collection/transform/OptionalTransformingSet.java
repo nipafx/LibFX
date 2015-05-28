@@ -37,7 +37,6 @@ public final class OptionalTransformingSet<E> extends AbstractTransformingSet<Op
 	// #begin FIELDS
 
 	private final Set<Optional<E>> innerSet;
-
 	private final Class<? super E> outerTypeToken;
 
 	/**

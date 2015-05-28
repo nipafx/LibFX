@@ -37,7 +37,6 @@ public final class OptionalTransformingList<E> extends AbstractTransformingList<
 	// #begin FIELDS
 
 	private final List<Optional<E>> innerList;
-
 	private final Class<? super E> outerTypeToken;
 
 	/**
