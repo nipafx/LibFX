@@ -10,8 +10,7 @@ import java.util.function.ToIntFunction;
  * {@link Object#hashCode() hashCode} which are used by the set.
  * <p>
  * It does so by storing the entries in an inner set and providing a transforming view on them. See the
- * {@link org.codefx.libfx.collection.transform package} documentation for general comments on that. Note that instances
- * of {@code EqualityTransformingSet}s are created with a {@link EqualityTransformingCollectionBuilder builder}.
+ * {@link org.codefx.libfx.collection.transform package} documentation for general comments on that.
  * <p>
  * This implementation mitigates the type safety problems by optionally using a token of the outer type to check
  * instances against them. This solves some of the critical situations but not all of them. In those other cases
@@ -23,6 +22,8 @@ import java.util.function.ToIntFunction;
  * <p>
  * The transformations used by this set preserve object identity of outer values. This means if values are added to this
  * set, an iteration over it will return the same instances.
+ * <p>
+ * {@code EqualityTransformingSet}s are created with a {@link EqualityTransformingCollectionBuilder}.
  *
  * @param <E>
  *            the type of elements in this set

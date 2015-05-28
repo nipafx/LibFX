@@ -23,6 +23,8 @@ import java.util.function.ToIntFunction;
  * <p>
  * The transformations used by this map preserve object identity of outer keys and values. This means if keys and values
  * are added to this map, an iteration over it will return the same instances.
+ * <p>
+ * {@code EqualityTransformingMap}s are created with a {@link EqualityTransformingCollectionBuilder}.
  *
  * @param <K>
  *            the type of keys maintained by this map
@@ -53,7 +55,7 @@ public final class EqualityTransformingMap<K, V> extends AbstractTransformingMap
 
 	/**
 	 * Creates a new transforming map.
-	 * 
+	 *
 	 * @param innerMap
 	 *            the decorated map; must be empty
 	 * @param outerKeyTypeToken

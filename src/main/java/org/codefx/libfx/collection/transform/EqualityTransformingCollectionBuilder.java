@@ -41,6 +41,8 @@ public class EqualityTransformingCollectionBuilder<E> {
 	private BiPredicate<? super E, ? super E> equals;
 	private ToIntFunction<? super E> hash;
 
+	// #begin CONSTRUCTION
+
 	private EqualityTransformingCollectionBuilder(Class<? super E> outerKeyTypeToken) {
 		this.outerKeyTypeToken = outerKeyTypeToken;
 		// note that the methods from 'Objects' already implement the contract for null-safety
@@ -49,35 +51,15 @@ public class EqualityTransformingCollectionBuilder<E> {
 		this.hash = Objects::hashCode;
 	}
 
-	// #begin SET PROPERTIES
-
 	/**
-	 * Returns a new builder.
+	 * Returns a new builder for the specified element type.
 	 * <p>
-	 * This method can be called if no type token for the elements can be provided (if it can be, call the preferable
-	 * {@link #forKeyType(Class)} instead). A call might look as follows (for a generic type {@code T}):
-	 *
-	 * <pre>
-	 * EqualityTransformingBuilder.&lt;T&gt; forUnspecifiedKeyType();
-	 * </pre>
+	 * If a type token for the elements can not be provided, call {@link #forKeyTypeUnknown()} instead.
 	 *
 	 * @param <E>
-	 *            the type of elements contained in the set created by the builder
-	 * @return a new builder
-	 */
-	public static <E> EqualityTransformingCollectionBuilder<E> forUnspecifiedKeyType() {
-		return new EqualityTransformingCollectionBuilder<>(Object.class);
-	}
-
-	/**
-	 * Returns a new builder to create equality transforming sets for elements of the specified type.
-	 * <p>
-	 * If a type token for the keys can not be provided, call {@link #forUnspecifiedKeyType()} instead.
-	 *
-	 * @param <E>
-	 *            the type of elements contained in the set created by the builder
+	 *            the type of elements contained in the created set
 	 * @param keyTypeToken
-	 *            a type token for the elements contained in the set created by the builder
+	 *            a type token for the elements contained in the created set
 	 * @return a new builder
 	 */
 	public static <E> EqualityTransformingCollectionBuilder<E> forKeyType(Class<? super E> keyTypeToken) {
@@ -86,8 +68,26 @@ public class EqualityTransformingCollectionBuilder<E> {
 	}
 
 	/**
+	 * Returns a new builder for an unknown key type.
+	 * <p>
+	 * This is equivalent to calling {@link #forKeyType(Class) forKeyType(Object.class)}. To obtain a builder for
+	 * {@code <E>} you will have to call {@code EqualityTransformingCollectionBuilder.<E> forKeyTypeUnknown()}.
+	 *
+	 * @param <E>
+	 *            the type of elements contained in the set created by the builder
+	 * @return a new builder
+	 */
+	public static <E> EqualityTransformingCollectionBuilder<E> forKeyTypeUnknown() {
+		return new EqualityTransformingCollectionBuilder<>(Object.class);
+	}
+
+	// #end CONSTRUCTION
+
+	// #begin SET PROPERTIES
+
+	/**
 	 * @param equals
-	 *            a function determining equality of keys; might be called with null keys
+	 *            a function determining equality of elements; might be called with null elements
 	 * @return this builder
 	 */
 	public EqualityTransformingCollectionBuilder<E> withEqualsHandlingNull(BiPredicate<? super E, ? super E> equals) {
@@ -98,7 +98,7 @@ public class EqualityTransformingCollectionBuilder<E> {
 
 	/**
 	 * @param equals
-	 *            a function determining equality of keys; will not be called with null keys
+	 *            a function determining equality of elements; will not be called with null elements
 	 * @return this builder
 	 */
 	public EqualityTransformingCollectionBuilder<E> withEquals(BiPredicate<? super E, ? super E> equals) {
@@ -119,7 +119,7 @@ public class EqualityTransformingCollectionBuilder<E> {
 
 	/**
 	 * @param hash
-	 *            a function computing the hash code of a key; might be called with null keys
+	 *            a function computing the hash code of an element; might be called with null elements
 	 * @return this builder
 	 */
 	public EqualityTransformingCollectionBuilder<E> withHashHandlingNull(ToIntFunction<? super E> hash) {
@@ -130,7 +130,7 @@ public class EqualityTransformingCollectionBuilder<E> {
 
 	/**
 	 * @param hash
-	 *            a function computing the hash code of a key; will not be called with null keys
+	 *            a function computing the hash code of an element; will not be called with null elements
 	 * @return this builder
 	 */
 	public EqualityTransformingCollectionBuilder<E> withHash(ToIntFunction<? super E> hash) {
@@ -162,7 +162,7 @@ public class EqualityTransformingCollectionBuilder<E> {
 	 *            an empty set which is not otherwise referenced
 	 * @return a new instance of {@link EqualityTransformingSet}
 	 */
-	public EqualityTransformingSet<E> buildSetDecorating(Set<Object> emptySet) {
+	public EqualityTransformingSet<E> buildSet(Set<Object> emptySet) {
 		return new EqualityTransformingSet<>(emptySet, outerKeyTypeToken, equals, hash);
 	}
 
@@ -186,7 +186,7 @@ public class EqualityTransformingCollectionBuilder<E> {
 	 *            an empty map which is not otherwise referenced
 	 * @return a new instance of {@link EqualityTransformingMap}
 	 */
-	public <V> EqualityTransformingMap<E, V> buildMapDecorating(Map<Object, Object> emptyMap) {
+	public <V> EqualityTransformingMap<E, V> buildMap(Map<Object, Object> emptyMap) {
 		return new EqualityTransformingMap<>(emptyMap, outerKeyTypeToken, equals, hash);
 	}
 
