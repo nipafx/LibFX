@@ -27,7 +27,7 @@ These features are present in the latest release:
 
 ## Documentation
 
-The best documentation are the tests. But understandably nobody wants to dig into them just to understand what the classes do so there are also examples and extensive Javadoc. The best way to get to know a feature is to check out the corresponding article in the [wiki](https://github.com/CodeFX-org/LibFX/wiki). It will include a high level explanation as well as links to demos and the best entry point into the documentation. The Javadoc of the current version is published [here](http://libfx.codefx.org/javadoc).
+The best documentation are the tests. But understandably nobody wants to dig into them just to understand what the classes do so there are also examples and extensive Javadoc. The best way to get to know a feature is to check out the corresponding article in the [wiki](https://github.com/CodeFX-org/LibFX/wiki). It will include a high level explanation as well as links to demos and the best entry point into the documentation. The Javadoc of the current version is published [here](http://libfx.codefx.org/apidocs).
 
 If anything is missing or an explanation proves to be unhelpful, contact me (see below).
 
