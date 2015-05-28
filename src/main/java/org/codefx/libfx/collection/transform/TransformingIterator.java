@@ -18,15 +18,8 @@ import java.util.function.Function;
  */
 public final class TransformingIterator<I, O> extends AbstractTransformingIterator<I, O> {
 
-	/**
-	 * The wrapped/inner iterator.
-	 */
-	private final Iterator<I> innerIterator;
-
-	/**
-	 * Function to transform elements from the inner type {@code I} to the outer type {@code O}.
-	 */
-	private final Function<I, O> transformToOuter;
+	private final Iterator<? extends I> innerIterator;
+	private final Function<? super I, ? extends O> transformToOuter;
 
 	/**
 	 * Creates a new iterator.
@@ -39,7 +32,8 @@ public final class TransformingIterator<I, O> extends AbstractTransformingIterat
 	 * @param transformToOuter
 	 *            transforms elements from the inner type {@code I} to the outer type {@code O}
 	 */
-	public TransformingIterator(Iterator<I> innerIterator, Function<I, O> transformToOuter) {
+	public TransformingIterator(
+			Iterator<? extends I> innerIterator, Function<? super I, ? extends O> transformToOuter) {
 		Objects.requireNonNull(innerIterator, "The argument 'innerIterator' must not be null.");
 		Objects.requireNonNull(transformToOuter, "The argument 'transformToOuter' must not be null.");
 
@@ -48,7 +42,7 @@ public final class TransformingIterator<I, O> extends AbstractTransformingIterat
 	}
 
 	@Override
-	protected Iterator<I> getInnerIterator() {
+	protected Iterator<? extends I> getInnerIterator() {
 		return innerIterator;
 	}
 

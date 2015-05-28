@@ -24,20 +24,9 @@ import java.util.function.Function;
  */
 public final class TransformingSpliterator<I, O> extends AbstractTransformingSpliterator<I, O> {
 
-	/**
-	 * The wrapped/inner spliterator.
-	 */
 	private final Spliterator<I> innerSpliterator;
-
-	/**
-	 * Function to transform elements from the inner type {@code I} to the outer type {@code O}.
-	 */
-	private final Function<I, O> transformToOuter;
-
-	/**
-	 * Function to transform elements from the outer type {@code O} to the inner type {@code I}.
-	 */
-	private final Function<O, I> transformToInner;
+	private final Function<? super I, ? extends O> transformToOuter;
+	private final Function<? super O, ? extends I> transformToInner;
 
 	/**
 	 * Creates a new transforming spliterator.
@@ -53,15 +42,16 @@ public final class TransformingSpliterator<I, O> extends AbstractTransformingSpl
 	 *            transforms elements from the outer type {@code O} to the inner type {@code I}
 	 */
 	public TransformingSpliterator(
-			Spliterator<I> innerSpliterator, Function<I, O> transformToOuter, Function<O, I> transformToInner) {
+			Spliterator<I> innerSpliterator,
+			Function<? super I, ? extends O> transformToOuter, Function<? super O, ? extends I> transformToInner) {
 
 		Objects.requireNonNull(innerSpliterator, "The argument 'innerSpliterator' must not be null.");
-		Objects.requireNonNull(transformToOuter, "The argument 'transformToOuter' must not be null.");
 		Objects.requireNonNull(transformToInner, "The argument 'transformToInner' must not be null.");
+		Objects.requireNonNull(transformToOuter, "The argument 'transformToOuter' must not be null.");
 
 		this.innerSpliterator = innerSpliterator;
-		this.transformToOuter = transformToOuter;
 		this.transformToInner = transformToInner;
+		this.transformToOuter = transformToOuter;
 	}
 
 	@Override

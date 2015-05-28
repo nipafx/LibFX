@@ -124,8 +124,8 @@ public class TransformingSetTest {
 					 * Because 'Feline' does not uphold the Liskov Substitution Principle (by having its own 'toString'
 					 * method) felines can not masquerade as mammals. Hence create a new mammal for each feline.
 					 */
-					Mammal.class, mammal -> new Feline(mammal.getName()),
-					Feline.class, feline -> new Mammal(feline.getName()));
+					Mammal.class, Feline.class,
+					mammal -> new Feline(mammal.getName()), feline -> new Mammal(feline.getName()));
 		}
 
 		private static Set<Feline> createBackedByCatSet(Object[] felines) {
@@ -143,8 +143,8 @@ public class TransformingSetTest {
 					 * Because 'Cat' does not uphold the Liskov Substitution Principle (by having its own 'toString'
 					 * method) cats can not masquerade as felines. Hence create a new feline for each cat.
 					 */
-					Cat.class, cat -> new Feline(cat.getName()),
-					Feline.class, feline -> new Cat(feline.getName()));
+					Cat.class, Feline.class,
+					cat -> new Feline(cat.getName()), feline -> new Cat(feline.getName()));
 		}
 	}
 

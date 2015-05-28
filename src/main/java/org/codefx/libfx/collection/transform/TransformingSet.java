@@ -32,14 +32,10 @@ public final class TransformingSet<I, O> extends AbstractTransformingSet<I, O> {
 	// #begin FIELDS
 
 	private final Set<I> innerSet;
-
 	private final Class<? super O> outerTypeToken;
-
 	private final Class<? super I> innerTypeToken;
-
-	private final Function<I, O> transformToOuter;
-
-	private final Function<O, I> transformToInner;
+	private final Function<? super I, ? extends O> transformToOuter;
+	private final Function<? super O, ? extends I> transformToInner;
 
 	// #end FIELDS
 
@@ -50,29 +46,29 @@ public final class TransformingSet<I, O> extends AbstractTransformingSet<I, O> {
 	 *            the wrapped set
 	 * @param innerTypeToken
 	 *            the token for the inner type
+	 * @param outerTypeToken
+	 *            the token for the outer type
 	 * @param transformToOuter
 	 *            transforms an element from an inner to an outer type; will never be called with null argument and must
 	 *            not produce null
-	 * @param outerTypeToken
-	 *            the token for the outer type
 	 * @param transformToInner
 	 *            transforms an element from an outer to an inner type; will never be called with null argument and must
 	 *            not produce null
 	 */
-	public TransformingSet(
+	TransformingSet(
 			Set<I> innerSet,
-			Class<? super I> innerTypeToken, Function<I, O> transformToOuter,
-			Class<? super O> outerTypeToken, Function<O, I> transformToInner) {
+			Class<? super I> innerTypeToken, Class<? super O> outerTypeToken,
+			Function<? super I, ? extends O> transformToOuter, Function<? super O, ? extends I> transformToInner) {
 
 		Objects.requireNonNull(innerSet, "The argument 'innerSet' must not be null.");
-		Objects.requireNonNull(outerTypeToken, "The argument 'outerTypeToken' must not be null.");
 		Objects.requireNonNull(innerTypeToken, "The argument 'innerTypeToken' must not be null.");
+		Objects.requireNonNull(outerTypeToken, "The argument 'outerTypeToken' must not be null.");
 		Objects.requireNonNull(transformToOuter, "The argument 'transformToOuter' must not be null.");
 		Objects.requireNonNull(transformToInner, "The argument 'transformToInner' must not be null.");
 
 		this.innerSet = innerSet;
-		this.outerTypeToken = outerTypeToken;
 		this.innerTypeToken = innerTypeToken;
+		this.outerTypeToken = outerTypeToken;
 		this.transformToOuter = transformToOuter;
 		this.transformToInner = transformToInner;
 	}

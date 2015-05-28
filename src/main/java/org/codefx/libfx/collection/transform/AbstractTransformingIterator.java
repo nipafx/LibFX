@@ -48,7 +48,7 @@ abstract class AbstractTransformingIterator<I, O> implements Iterator<O> {
 	/**
 	 * @return the wrapped/inner iterator
 	 */
-	protected abstract Iterator<I> getInnerIterator();
+	protected abstract Iterator<? extends I> getInnerIterator();
 
 	/**
 	 * Transforms an element from the inner type {@code I} to the outer type {@code O}.

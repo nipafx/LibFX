@@ -19,20 +19,9 @@ import java.util.function.Function;
  */
 public final class TransformingListIterator<I, O> extends AbstractTransformingListIterator<I, O> {
 
-	/**
-	 * The wrapped/inner list iterator.
-	 */
 	private final ListIterator<I> innerListIterator;
-
-	/**
-	 * Function to transform elements from the inner type {@code I} to the outer type {@code O}.
-	 */
-	private final Function<I, O> transformToOuter;
-
-	/**
-	 * Function to transform elements from the outer type {@code O} to the inner type {@code I}.
-	 */
-	private final Function<O, I> transformToInner;
+	private final Function<? super I, ? extends O> transformToOuter;
+	private final Function<? super O, ? extends I> transformToInner;
 
 	/**
 	 * Creates a new transforming list iterator.
@@ -48,7 +37,8 @@ public final class TransformingListIterator<I, O> extends AbstractTransformingLi
 	 *            transforms elements from the outer type {@code O} to the inner type {@code I}
 	 */
 	public TransformingListIterator(
-			ListIterator<I> innerListIterator, Function<I, O> transformToOuter, Function<O, I> transformToInner) {
+			ListIterator<I> innerListIterator,
+			Function<? super I, ? extends O> transformToOuter, Function<? super O, ? extends I> transformToInner) {
 
 		Objects.requireNonNull(innerListIterator, "The argument 'innerListIterator' must not be null.");
 		Objects.requireNonNull(transformToOuter, "The argument 'transformToOuter' must not be null.");
