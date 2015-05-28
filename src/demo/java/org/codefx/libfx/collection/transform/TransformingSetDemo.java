@@ -22,7 +22,7 @@ public class TransformingSetDemo {
 	private final Set<String> innerSet;
 
 	/**
-	 * A view ion the set which uses integers instead.
+	 * A view on the set which uses integers instead.
 	 */
 	private final Set<Integer> transformingSet;
 

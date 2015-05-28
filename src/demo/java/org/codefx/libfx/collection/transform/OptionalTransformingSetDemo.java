@@ -15,10 +15,13 @@ public class OptionalTransformingSetDemo {
 	// #begin FIELDS
 
 	/**
-	 * The inner set, which - for some strange
+	 * The inner set, which - for some strange reason - contains {@link Optional}s.
 	 */
 	private final Set<Optional<String>> innerSet;
 
+	/**
+	 * The transformation without {@link Optional}.
+	 */
 	private final Set<String> transformingSet;
 
 	// #end FIELDS

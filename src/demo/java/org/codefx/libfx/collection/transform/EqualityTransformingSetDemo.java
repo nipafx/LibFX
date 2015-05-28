@@ -39,6 +39,9 @@ public class EqualityTransformingSetDemo {
 	}
 
 	private void addSomeElements() {
+		print("-- Adding some elements --");
+		print();
+
 		lengthSet.add("a");
 		lengthSet.add("b");
 		print(lengthSet.toString());
