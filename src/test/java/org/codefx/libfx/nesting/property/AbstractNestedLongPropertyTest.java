@@ -7,9 +7,11 @@ import org.codefx.libfx.nesting.Nesting;
 
 /**
  * Abstract superclass to tests for {@link NestedLongProperty NestedLongProperty} which only leaves the creation of the
- * tested properties (by {@link #createNestedPropertyFromNesting(Nesting)}) to the subclasses.
+ * tested properties (by {@link #createNestedPropertyFromNesting(Nesting, InnerObservableMissingBehavior)}) to the
+ * subclasses.
  */
-public abstract class AbstractNestedLongPropertyTest extends AbstractNestedPropertyTest<Number, LongProperty> {
+public abstract class AbstractNestedLongPropertyTest extends
+		AbstractNestedPropertyTest<Long, Number, LongProperty> {
 
 	/**
 	 * The last value returned by {@link #createNewValue()}.
@@ -17,12 +19,12 @@ public abstract class AbstractNestedLongPropertyTest extends AbstractNestedPrope
 	private long lastValue = 0;
 
 	@Override
-	protected boolean allowsNullValues() {
-		return false;
+	protected boolean wrapsPrimitive() {
+		return true;
 	}
 
 	@Override
-	protected Number createNewValue() {
+	protected Long createNewValue() {
 		lastValue += 1;
 		return lastValue;
 	}

@@ -6,17 +6,13 @@ import javafx.beans.property.SimpleLongProperty;
 import org.codefx.libfx.nesting.Nesting;
 import org.codefx.libfx.nesting.testhelper.NestingAccess.EditableNesting;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+
+import com.nitorcreations.junit.runners.NestedRunner;
 
 /**
  * Tests the class {@link NestedLongPropertyBuilder}.
  */
-@RunWith(Suite.class)
-@SuiteClasses({
-		NestedLongPropertyBuilderTest.AbstractBuilderContract.class,
-		NestedLongPropertyBuilderTest.CreatedProperties.class,
-})
+@RunWith(NestedRunner.class)
 public class NestedLongPropertyBuilderTest {
 
 	/**
@@ -26,7 +22,7 @@ public class NestedLongPropertyBuilderTest {
 			extends AbstractNestedPropertyBuilderTest<LongProperty, NestedLongProperty> {
 
 		@Override
-		protected AbstractNestedPropertyBuilder<LongProperty, NestedLongProperty> createBuilder() {
+		protected AbstractNestedPropertyBuilder<?, LongProperty, NestedLongProperty, ?> createBuilder() {
 			LongProperty innerObservable = new SimpleLongProperty(0);
 			EditableNesting<LongProperty> nesting = EditableNesting.createWithInnerObservable(innerObservable);
 			return NestedLongPropertyBuilder.forNesting(nesting);
@@ -40,9 +36,11 @@ public class NestedLongPropertyBuilderTest {
 	public static class CreatedProperties extends AbstractNestedLongPropertyTest {
 
 		@Override
-		protected NestedProperty<Number> createNestedPropertyFromNesting(Nesting<LongProperty> nesting) {
+		protected NestedProperty<Number> createNestedPropertyFromNesting(
+				Nesting<LongProperty> nesting, InnerObservableMissingBehavior<Long> missingBehavior) {
 			// use the builder to create the property
 			NestedLongPropertyBuilder builder = NestedLongPropertyBuilder.forNesting(nesting);
+			setBehaviorOnBuilder(missingBehavior, builder);
 			return builder.build();
 		}
 

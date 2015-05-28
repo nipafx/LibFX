@@ -18,7 +18,7 @@ import org.junit.Test;
  */
 public class GenericListenerHandleTest {
 
-	// #region INSTANCES
+	// #begin INSTANCES
 
 	/**
 	 * The tested handle.
@@ -47,7 +47,7 @@ public class GenericListenerHandleTest {
 
 	// #end INSTANCES
 
-	// #region SETUP
+	// #begin SETUP
 
 	/**
 	 * Creates the tested instances.
@@ -65,7 +65,7 @@ public class GenericListenerHandleTest {
 
 	// #end SETUP
 
-	// #region TESTS
+	// #begin TESTS
 
 	/**
 	 * Tests whether the construction of the handle does not cause any calls to {@link #add} and {@link #remove}.

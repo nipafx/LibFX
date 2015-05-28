@@ -19,7 +19,7 @@ import org.codefx.libfx.nesting.Nesting;
  */
 public class NestingAccess {
 
-	// #region NESTING
+	// #begin NESTING
 
 	/**
 	 * @param <O>
@@ -32,12 +32,8 @@ public class NestingAccess {
 	 */
 	public static <O extends Observable> O getNestingObservable(Nesting<O> nesting) {
 		Objects.requireNonNull(nesting, "The argument 'nesting' must not be null.");
-
 		Optional<O> nestingObservable = nesting.innerObservableProperty().getValue();
-		if (nestingObservable.isPresent())
-			return nestingObservable.get();
-		else
-			return null;
+		return nestingObservable.orElse(null);
 	}
 
 	/**
@@ -52,7 +48,6 @@ public class NestingAccess {
 	 */
 	public static <O extends Observable> void setNestingObservable(EditableNesting<O> nesting, O newObservable) {
 		Objects.requireNonNull(nesting, "The argument 'nesting' must not be null.");
-
 		nesting.setInnerObservable(Optional.ofNullable(newObservable));
 	}
 
@@ -71,7 +66,6 @@ public class NestingAccess {
 	 */
 	public static <T, O extends ObservableValue<T>> T getNestingValue(Nesting<O> nesting) {
 		Objects.requireNonNull(nesting, "The argument 'nesting' must not be null.");
-
 		return getNestingObservable(nesting).getValue();
 	}
 
@@ -91,13 +85,12 @@ public class NestingAccess {
 	 */
 	public static <T, O extends Property<T>> void setNestingValue(Nesting<O> nesting, T newValue) {
 		Objects.requireNonNull(nesting, "The argument 'nesting' must not be null.");
-
 		getNestingObservable(nesting).setValue(newValue);
 	}
 
 	//#end NESTING
 
-	// #region NESTED HIERARCHY
+	// #begin NESTED HIERARCHY
 
 	/**
 	 * @param outerObservable
@@ -106,7 +99,6 @@ public class NestingAccess {
 	 */
 	public static OuterValue getOuterValue(ObservableValue<OuterValue> outerObservable) {
 		Objects.requireNonNull(outerObservable, "The argument 'outerObservable' must not be null.");
-
 		return outerObservable.getValue();
 	}
 
@@ -120,7 +112,6 @@ public class NestingAccess {
 	 */
 	public static void setOuterValue(Property<OuterValue> outerObservable, OuterValue outerValue) {
 		Objects.requireNonNull(outerObservable, "The argument 'outerObservable' must not be null.");
-
 		outerObservable.setValue(outerValue);
 	}
 
@@ -133,7 +124,6 @@ public class NestingAccess {
 	 */
 	public static InnerValue getInnerValue(ObservableValue<OuterValue> outerObservable) {
 		Objects.requireNonNull(outerObservable, "The argument 'outerObservable' must not be null.");
-
 		return outerObservable.getValue().getInnerValue();
 	}
 
@@ -149,7 +139,6 @@ public class NestingAccess {
 	 */
 	public static void setInnerValue(ObservableValue<OuterValue> outerObservable, InnerValue innerValue) {
 		Objects.requireNonNull(outerObservable, "The argument 'outerObservable' must not be null.");
-
 		outerObservable.getValue().setInnerValue(innerValue);
 	}
 
@@ -162,7 +151,6 @@ public class NestingAccess {
 	 */
 	public static Observable getInnerObservable(ObservableValue<OuterValue> outerObservable) {
 		Objects.requireNonNull(outerObservable, "The argument 'outerObservable' must not be null.");
-
 		return getInnerValue(outerObservable).observable();
 	}
 
@@ -175,7 +163,6 @@ public class NestingAccess {
 	 */
 	public static Property<SomeValue> getInnerProperty(ObservableValue<OuterValue> outerObservable) {
 		Objects.requireNonNull(outerObservable, "The argument 'outerObservable' must not be null.");
-
 		return getInnerValue(outerObservable).property();
 	}
 
@@ -192,7 +179,7 @@ public class NestingAccess {
 
 	//#end NESTED HIERARCHY
 
-	// #region INNER CLASSES
+	// #begin INNER CLASSES
 
 	/**
 	 * An implementation of {@link Nesting} which does no real nesting. Instead it allows to directly edit the

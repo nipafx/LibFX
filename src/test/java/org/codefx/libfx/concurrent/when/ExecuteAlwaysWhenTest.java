@@ -18,7 +18,7 @@ import org.junit.Test;
  */
 public class ExecuteAlwaysWhenTest {
 
-	// #region FIELDS & INITIALIZATION
+	// #begin FIELDS & INITIALIZATION
 
 	/**
 	 * The string which passes the {@link #ACTION_GATEWAY}.
@@ -62,7 +62,7 @@ public class ExecuteAlwaysWhenTest {
 
 	// #end FIELDS & INITIALIZATION
 
-	// #region SINGLE-THREADED TESTS
+	// #begin SINGLE-THREADED TESTS
 
 	/**
 	 * Tests whether an {@link IllegalStateException} is thrown when {@link ExecuteAlwaysWhen#executeWhen()
@@ -203,7 +203,7 @@ public class ExecuteAlwaysWhenTest {
 
 	// #end SINGLE-THREADED TESTS
 
-	// #region MULTI-THREADED TESTS
+	// #begin MULTI-THREADED TESTS
 
 	/*
 	 * Unfortunately I could not come up with multi-threaded tests... :( The problem is that the only interesting part

@@ -14,7 +14,7 @@ import javax.swing.event.HyperlinkEvent.EventType;
  */
 public enum DomEventType {
 
-	// #region INSTANCES
+	// #begin INSTANCES
 
 	/**
 	 * A mouse click.
@@ -50,7 +50,7 @@ public enum DomEventType {
 
 	// #end INSTANCES
 
-	// #region DEFINITION
+	// #begin DEFINITION
 
 	/**
 	 * The event's name.
@@ -78,7 +78,7 @@ public enum DomEventType {
 
 	// #end DEFINITION
 
-	// #region HELPER
+	// #begin HELPER
 
 	/**
 	 * Returns the DOM event type for the specified event name.

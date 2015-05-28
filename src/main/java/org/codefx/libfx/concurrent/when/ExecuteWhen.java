@@ -26,7 +26,7 @@ import javafx.beans.value.ObservableValue;
  */
 public class ExecuteWhen<T> {
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	/**
 	 * The {@link ObservableValue} upon whose value the action's execution depends.
@@ -40,7 +40,7 @@ public class ExecuteWhen<T> {
 
 	// #end FIELDS
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new instance for the specified observable
@@ -49,6 +49,8 @@ public class ExecuteWhen<T> {
 	 *            the {@link ObservableValue} which will be observed by the created {@code Execute...When} instances
 	 */
 	private ExecuteWhen(ObservableValue<T> observable) {
+		Objects.requireNonNull(observable, "The argument 'observable' must not be null.");
+
 		this.observable = observable;
 		condition = Optional.empty();
 	}
@@ -68,7 +70,7 @@ public class ExecuteWhen<T> {
 
 	// #end CONSTRUCTION
 
-	// #region SETTING VALUES
+	// #begin SETTING VALUES
 
 	/**
 	 * Specifies the condition the observable's value must fulfill in order for the action to be executed.
@@ -79,13 +81,14 @@ public class ExecuteWhen<T> {
 	 */
 	public ExecuteWhen<T> when(Predicate<? super T> condition) {
 		Objects.requireNonNull(condition, "The argument 'condition' must not be null.");
+
 		this.condition = Optional.of(condition);
 		return this;
 	}
 
 	// #end SETTING VALUES
 
-	// #region BUILD
+	// #begin BUILD
 
 	/**
 	 * Creates an instance which:
@@ -104,6 +107,8 @@ public class ExecuteWhen<T> {
 	 *             if {@link #when(Predicate)} was not called
 	 */
 	public ExecuteOnceWhen<T> thenOnce(Consumer<? super T> action) throws IllegalStateException {
+		Objects.requireNonNull(action, "The argument 'action' must not be null.");
+
 		ensureConditionWasSet();
 		return new ExecuteOnceWhen<T>(observable, condition.get(), action);
 	}
@@ -125,6 +130,8 @@ public class ExecuteWhen<T> {
 	 *             if {@link #when(Predicate)} was not called
 	 */
 	public ExecuteAlwaysWhen<T> thenAlways(Consumer<? super T> action) throws IllegalStateException {
+		Objects.requireNonNull(action, "The argument 'action' must not be null.");
+
 		ensureConditionWasSet();
 		return new ExecuteAlwaysWhen<T>(observable, condition.get(), action);
 	}
@@ -139,7 +146,7 @@ public class ExecuteWhen<T> {
 		boolean noCondition = !condition.isPresent();
 		if (noCondition)
 			throw new IllegalStateException(
-					"Set a condition with 'when(Predicate<? super T>)' before calling any 'then' method.");
+					"Set a condition with 'when(Predicate<? super T>)' before calling any 'then...' method.");
 	}
 
 	// #end BUILD

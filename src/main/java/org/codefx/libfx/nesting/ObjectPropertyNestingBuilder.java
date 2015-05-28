@@ -28,7 +28,7 @@ import org.codefx.libfx.nesting.property.NestedProperty;
  */
 public class ObjectPropertyNestingBuilder<T> extends AbstractNestingBuilderOnProperty<T, Property<T>> {
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new nesting builder which acts as the outer builder.
@@ -59,7 +59,7 @@ public class ObjectPropertyNestingBuilder<T> extends AbstractNestingBuilderOnPro
 
 	//#end CONSTRUCTION
 
-	// #region NEST
+	// #begin NEST
 
 	/**
 	 * Returns a builder for nestings whose inner observable is an {@link Observable}. The created nestings depend on
@@ -242,7 +242,7 @@ public class ObjectPropertyNestingBuilder<T> extends AbstractNestingBuilderOnPro
 
 	//#end NEST
 
-	// #region BUILD
+	// #begin BUILD
 
 	/**
 	 * Creates a nested property from this builder's settings. This method can be called arbitrarily often and each call

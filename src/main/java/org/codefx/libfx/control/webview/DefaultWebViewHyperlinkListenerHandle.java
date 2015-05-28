@@ -37,7 +37,7 @@ class DefaultWebViewHyperlinkListenerHandle implements WebViewHyperlinkListenerH
 	 * it easier, all instances of org.w3c.dom classes carry a 'dom'-prefix.
 	 */
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	/**
 	 * The {@link WebView} to which the {@link #domEventListener} will be attached.
@@ -104,7 +104,7 @@ class DefaultWebViewHyperlinkListenerHandle implements WebViewHyperlinkListenerH
 		domEventListener = this::callHyperlinkListenerWithEvent;
 	}
 
-	// #region ATTACH
+	// #begin ATTACH
 
 	@Override
 	public void attach() {
@@ -149,7 +149,7 @@ class DefaultWebViewHyperlinkListenerHandle implements WebViewHyperlinkListenerH
 
 	// #end ATTACH
 
-	// #region DETACH
+	// #begin DETACH
 
 	@Override
 	public void detach() {
@@ -185,7 +185,7 @@ class DefaultWebViewHyperlinkListenerHandle implements WebViewHyperlinkListenerH
 
 	// #end DETACH
 
-	// #region COMMON MANAGEMENT METHODS
+	// #begin COMMON MANAGEMENT METHODS
 
 	/**
 	 * Executes the specified function on each link in the {@link #webView}'s current document for each
@@ -245,7 +245,7 @@ class DefaultWebViewHyperlinkListenerHandle implements WebViewHyperlinkListenerH
 
 	// #end COMMON MANAGEMENT METHODS
 
-	// #region PROCESS EVENT
+	// #begin PROCESS EVENT
 
 	/**
 	 * Converts the specified {@code domEvent} into a {@link HyperlinkEvent} and calls the {@link #eventListener} with

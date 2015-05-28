@@ -27,7 +27,7 @@ import javafx.beans.value.ObservableValue;
  */
 public class ObservableValueNestingBuilder<T> extends AbstractNestingBuilderOnObservableValue<T, ObservableValue<T>> {
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new nesting builder which acts as the outer builder.
@@ -58,7 +58,7 @@ public class ObservableValueNestingBuilder<T> extends AbstractNestingBuilderOnOb
 
 	//#end CONSTRUCTION
 
-	// #region NEST
+	// #begin NEST
 
 	/**
 	 * Returns a builder for nestings whose inner observable is an {@link Observable}. The created nestings depend on

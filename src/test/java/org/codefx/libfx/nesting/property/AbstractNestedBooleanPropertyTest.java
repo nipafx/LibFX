@@ -1,33 +1,32 @@
 package org.codefx.libfx.nesting.property;
 
-import static org.codefx.libfx.nesting.testhelper.NestingAccess.getNestingObservable;
-import static org.codefx.libfx.nesting.testhelper.NestingAccess.getNestingValue;
 import static org.codefx.libfx.nesting.testhelper.NestingAccess.setNestingObservable;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertTrue;
+import static org.codefx.tarkastus.AssertFX.assertSameOrEqual;
+import static org.junit.Assert.assertNotEquals;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 import org.codefx.libfx.nesting.Nesting;
+import org.codefx.libfx.nesting.property.InnerObservableMissingBehavior.WhenInnerObservableMissingOnUpdate;
 import org.junit.Test;
 
 /**
  * Abstract superclass to tests for {@link NestedBooleanProperty NestedBooleanProperty} which only leaves the creation
- * of the tested properties (by {@link #createNestedPropertyFromNesting(Nesting)}) to the subclasses.
+ * of the tested properties (by {@link #createNestedPropertyFromNesting(Nesting, InnerObservableMissingBehavior)}) to
+ * the subclasses.
  */
-public abstract class AbstractNestedBooleanPropertyTest extends AbstractNestedPropertyTest<Boolean, BooleanProperty> {
+public abstract class AbstractNestedBooleanPropertyTest extends
+		AbstractNestedPropertyTest<Boolean, Boolean, BooleanProperty> {
 
 	/*
 	 * Since Boolean has only two values, 'createNewValue' can not fulfill its contract. Instead it always returns
-	 * 'true' whereas 'createNewObservableWithSomeValue' uses false. All tests where this might come into play are
-	 * overridden below (for better readability or just to make them work).
+	 * 'true' whereas 'createNewObservableWithSomeValue' uses false. All tests where this leads to a failing test are
+	 * overridden below.
 	 */
 
 	@Override
-	protected boolean allowsNullValues() {
-		return false;
+	protected boolean wrapsPrimitive() {
+		return true;
 	}
 
 	@Override
@@ -45,56 +44,33 @@ public abstract class AbstractNestedBooleanPropertyTest extends AbstractNestedPr
 		return createNewObservableWithValue(false);
 	}
 
-	// #region OVERRIDDEN TEST METHODS
+	// #begin OVERRIDDEN TEST METHODS
+
+	// #begin TESTS
 
 	@Override
 	@Test
-	public void testChangingNewObservablesValue() {
-		// set a new observable whose value is 'false'...
-		BooleanProperty newObservable = createNewObservableWithValue(false);
-		setNestingObservable(getNesting(), newObservable);
-		// (assert that setting the observable worked)
-		assertEquals(newObservable, getNestingObservable(getNesting()));
+	public void newInnerObservableAfterSetValueOnMissingInnerObservable_acceptUntilNext_newInnerObservableKeepsValue() {
+		boolean valueWhileMissing = true;
+		boolean valueOfNewInnerObservable = false;
 
-		// ... and change its value to 'true'
-		newObservable.setValue(true);
-
-		// assert that nesting and property hold the new value
-		assertTrue(getNestingValue(getNesting()));
-		assertTrue(getPropertyValue());
-	}
-
-	@Override
-	@Test
-	public void testChangingOldObservablesValue() {
-		// store the old observable which has the value 'false' (see 'createNewObservableWithSomeValue') ...
-		BooleanProperty oldObservable = getNestingObservable(getNesting());
-
-		// ... set a new observable with value 'false' ...
-		BooleanProperty newObservableWithFalse = createNewObservableWithValue(false);
-		setNestingObservable(getNesting(), newObservableWithFalse);
-		// (assert that setting the observable worked)
-		assertNotSame(oldObservable, getNestingObservable(getNesting()));
-
-		// ... and change the old observable's value
-		oldObservable.setValue(true);
-
-		// assert that nesting and property hold the new observable's value (i.e. 'false') instead of the old observable's new value (i.e. 'true')
-		assertFalse(getNestingValue(getNesting()));
-		assertFalse(getPropertyValue());
-	}
-
-	@Override
-	@Test
-	public void testChangedValueNotPropagatedAfterObservableWasMissing() {
-		// set the nesting observable and change the nested property's value to 'true'
+		MissingBehavior<Boolean> missingBehavior = MissingBehavior
+				.<Boolean> defaults()
+				.onUpdate(WhenInnerObservableMissingOnUpdate.ACCEPT_VALUE_UNTIL_NEXT_INNER_OBSERVABLE);
+		NestedProperty<Boolean> property = createNestedPropertyFromNesting(getNesting(), missingBehavior);
 		setNestingObservable(getNesting(), null);
-		getProperty().setValue(true);
+		BooleanProperty newObservable = createNewObservableWithValue(valueOfNewInnerObservable);
 
-		// set the new observable and assert that the property reflects its value, i.e. holds 'false'
-		BooleanProperty newObservable = createNewObservableWithValue(false);
+		// change the nested property's value (which can not be written to the nesting's observable as none is present);
+		property.setValue(valueWhileMissing);
+		// the values of the nested property and the new observable are not equal
+		assertNotEquals(newObservable.getValue(), property.getValue());
+
+		// set the new observable and assert that it kept its value and the nested property was updated
 		setNestingObservable(getNesting(), newObservable);
-		assertFalse(getPropertyValue());
+
+		assertSameOrEqual(valueOfNewInnerObservable, newObservable.getValue(), wrapsPrimitive());
+		assertSameOrEqual(valueOfNewInnerObservable, property.getValue(), wrapsPrimitive());
 	}
 
 	//#end OVERRIDDEN TEST METHODS

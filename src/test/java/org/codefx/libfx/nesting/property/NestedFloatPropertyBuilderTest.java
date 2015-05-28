@@ -6,17 +6,13 @@ import javafx.beans.property.SimpleFloatProperty;
 import org.codefx.libfx.nesting.Nesting;
 import org.codefx.libfx.nesting.testhelper.NestingAccess.EditableNesting;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+
+import com.nitorcreations.junit.runners.NestedRunner;
 
 /**
  * Tests the class {@link NestedFloatPropertyBuilder}.
  */
-@RunWith(Suite.class)
-@SuiteClasses({
-		NestedFloatPropertyBuilderTest.AbstractBuilderContract.class,
-		NestedFloatPropertyBuilderTest.CreatedProperties.class,
-})
+@RunWith(NestedRunner.class)
 public class NestedFloatPropertyBuilderTest {
 
 	/**
@@ -26,7 +22,7 @@ public class NestedFloatPropertyBuilderTest {
 			extends AbstractNestedPropertyBuilderTest<FloatProperty, NestedFloatProperty> {
 
 		@Override
-		protected AbstractNestedPropertyBuilder<FloatProperty, NestedFloatProperty> createBuilder() {
+		protected AbstractNestedPropertyBuilder<?, FloatProperty, NestedFloatProperty, ?> createBuilder() {
 			FloatProperty innerObservable = new SimpleFloatProperty(0);
 			EditableNesting<FloatProperty> nesting = EditableNesting.createWithInnerObservable(innerObservable);
 			return NestedFloatPropertyBuilder.forNesting(nesting);
@@ -40,9 +36,11 @@ public class NestedFloatPropertyBuilderTest {
 	public static class CreatedProperties extends AbstractNestedFloatPropertyTest {
 
 		@Override
-		protected NestedProperty<Number> createNestedPropertyFromNesting(Nesting<FloatProperty> nesting) {
+		protected NestedProperty<Number> createNestedPropertyFromNesting(
+				Nesting<FloatProperty> nesting, InnerObservableMissingBehavior<Float> missingBehavior) {
 			// use the builder to create the property
 			NestedFloatPropertyBuilder builder = NestedFloatPropertyBuilder.forNesting(nesting);
+			setBehaviorOnBuilder(missingBehavior, builder);
 			return builder.build();
 		}
 

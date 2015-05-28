@@ -11,7 +11,7 @@ import javafx.collections.ObservableMap;
  */
 abstract class AbstractControlPropertyListenerHandle implements ControlPropertyListenerHandle {
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	/**
 	 * The properties to which the {@link #listener} will be added.
@@ -35,7 +35,7 @@ abstract class AbstractControlPropertyListenerHandle implements ControlPropertyL
 
 	// #end FIELDS
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new listener handle. Initially detached.
@@ -74,7 +74,7 @@ abstract class AbstractControlPropertyListenerHandle implements ControlPropertyL
 
 	// #end CONSTRUCTION
 
-	// #region PROCESS VALUE
+	// #begin PROCESS VALUE
 
 	/**
 	 * Processes the specified value for the {@link #key} before removing the pair from the {@link #properties}
@@ -98,7 +98,7 @@ abstract class AbstractControlPropertyListenerHandle implements ControlPropertyL
 
 	// #end PROCESS VALUE
 
-	// #region IMPLEMENTATION OF 'ControlPropertyListenerHandle'
+	// #begin IMPLEMENTATION OF 'ControlPropertyListenerHandle'
 
 	@Override
 	public void attach() {

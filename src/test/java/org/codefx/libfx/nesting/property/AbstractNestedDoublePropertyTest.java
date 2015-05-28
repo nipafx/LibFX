@@ -7,9 +7,11 @@ import org.codefx.libfx.nesting.Nesting;
 
 /**
  * Abstract superclass to tests for {@link NestedDoubleProperty NestedDoubleProperty} which only leaves the creation of
- * the tested properties (by {@link #createNestedPropertyFromNesting(Nesting)}) to the subclasses.
+ * the tested properties (by {@link #createNestedPropertyFromNesting(Nesting, InnerObservableMissingBehavior)}) to the
+ * subclasses.
  */
-public abstract class AbstractNestedDoublePropertyTest extends AbstractNestedPropertyTest<Number, DoubleProperty> {
+public abstract class AbstractNestedDoublePropertyTest extends
+		AbstractNestedPropertyTest<Double, Number, DoubleProperty> {
 
 	/**
 	 * The last value returned by {@link #createNewValue()}.
@@ -17,12 +19,12 @@ public abstract class AbstractNestedDoublePropertyTest extends AbstractNestedPro
 	private double lastValue = 1.5;
 
 	@Override
-	protected boolean allowsNullValues() {
-		return false;
+	protected boolean wrapsPrimitive() {
+		return true;
 	}
 
 	@Override
-	protected Number createNewValue() {
+	protected Double createNewValue() {
 		lastValue += 1;
 		return lastValue;
 	}

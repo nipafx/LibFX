@@ -22,7 +22,7 @@ import org.junit.Test;
  */
 public class ExecuteOnceWhenTest {
 
-	// #region FIELDS & INITIALIZATION
+	// #begin FIELDS & INITIALIZATION
 
 	/**
 	 * The string which passes the {@link #ACTION_CONDITION}.
@@ -66,7 +66,7 @@ public class ExecuteOnceWhenTest {
 
 	// #end FIELDS & INITIALIZATION
 
-	// #region SINGLE-THREADED TESTS
+	// #begin SINGLE-THREADED TESTS
 
 	/**
 	 * Tests whether an {@link IllegalStateException} is thrown when {@link ExecuteOnceWhen#executeWhen() executeWhen()}
@@ -169,7 +169,7 @@ public class ExecuteOnceWhenTest {
 
 	// #end SINGLE-THREADED TESTS
 
-	// #region MULTI-THREADED TESTS
+	// #begin MULTI-THREADED TESTS
 
 	/**
 	 * Creates a number of threads which repeatedly change the {@link #observable}'s value and a number of threads which

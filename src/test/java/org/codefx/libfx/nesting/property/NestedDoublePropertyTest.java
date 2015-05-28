@@ -10,8 +10,9 @@ import org.codefx.libfx.nesting.Nesting;
 public class NestedDoublePropertyTest extends AbstractNestedDoublePropertyTest {
 
 	@Override
-	protected NestedProperty<Number> createNestedPropertyFromNesting(Nesting<DoubleProperty> nesting) {
-		return new NestedDoubleProperty(nesting, null, null);
+	protected NestedProperty<Number> createNestedPropertyFromNesting(
+			Nesting<DoubleProperty> nesting, InnerObservableMissingBehavior<Double> missingBehavior) {
+		return new NestedDoubleProperty(nesting, missingBehavior, null, null);
 	}
 
 }

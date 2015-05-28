@@ -22,7 +22,7 @@ import org.junit.Test;
 public abstract class AbstractDeepNestingTest<OO extends Observable, IO extends Observable>
 		extends AbstractNestingTest<OO, IO> {
 
-	// #region TESTS
+	// #begin TESTS
 
 	// construction
 
@@ -121,7 +121,7 @@ public abstract class AbstractDeepNestingTest<OO extends Observable, IO extends 
 
 	//#end TESTS
 
-	// #region ABSTRACT METHODS
+	// #begin ABSTRACT METHODS
 
 	/**
 	 * Creates a new outer observable with a null value. The returned instances must be new for each call.
@@ -153,7 +153,7 @@ public abstract class AbstractDeepNestingTest<OO extends Observable, IO extends 
 
 	//#end ABSTRACT METHODS
 
-	// #region INNER CLASSES
+	// #begin INNER CLASSES
 
 	/**
 	 * Indicates on which level of the nesting hierarchy a new value will be set by

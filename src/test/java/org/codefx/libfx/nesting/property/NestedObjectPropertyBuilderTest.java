@@ -4,23 +4,16 @@ import javafx.beans.property.Property;
 import javafx.beans.property.SimpleObjectProperty;
 
 import org.codefx.libfx.nesting.Nesting;
-import org.codefx.libfx.nesting.property.AbstractNestedPropertyBuilder;
-import org.codefx.libfx.nesting.property.NestedObjectPropertyBuilder;
-import org.codefx.libfx.nesting.property.NestedProperty;
-import org.codefx.libfx.nesting.testhelper.SomeValue;
 import org.codefx.libfx.nesting.testhelper.NestingAccess.EditableNesting;
+import org.codefx.libfx.nesting.testhelper.SomeValue;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+
+import com.nitorcreations.junit.runners.NestedRunner;
 
 /**
  * Tests the class {@link NestedObjectPropertyBuilder}.
  */
-@RunWith(Suite.class)
-@SuiteClasses({
-	NestedObjectPropertyBuilderTest.AbstractBuilderContract.class,
-	NestedObjectPropertyBuilderTest.CreatedProperties.class,
-})
+@RunWith(NestedRunner.class)
 public class NestedObjectPropertyBuilderTest {
 
 	/**
@@ -30,7 +23,7 @@ public class NestedObjectPropertyBuilderTest {
 			extends AbstractNestedPropertyBuilderTest<Property<SomeValue>, NestedProperty<SomeValue>> {
 
 		@Override
-		protected AbstractNestedPropertyBuilder<Property<SomeValue>, NestedProperty<SomeValue>> createBuilder() {
+		protected AbstractNestedPropertyBuilder<?, Property<SomeValue>, NestedProperty<SomeValue>, ?> createBuilder() {
 			Property<SomeValue> innerObservable = new SimpleObjectProperty<>(new SomeValue());
 			EditableNesting<Property<SomeValue>> nesting = EditableNesting.createWithInnerObservable(innerObservable);
 			return NestedObjectPropertyBuilder.forNesting(nesting);
@@ -44,9 +37,11 @@ public class NestedObjectPropertyBuilderTest {
 	public static class CreatedProperties extends AbstractNestedObjectPropertyTest {
 
 		@Override
-		protected NestedProperty<SomeValue> createNestedPropertyFromNesting(Nesting<Property<SomeValue>> nesting) {
+		protected NestedProperty<SomeValue> createNestedPropertyFromNesting(
+				Nesting<Property<SomeValue>> nesting, InnerObservableMissingBehavior<SomeValue> missingBehavior) {
 			// use the builder to create the property
 			NestedObjectPropertyBuilder<SomeValue> builder = NestedObjectPropertyBuilder.forNesting(nesting);
+			setBehaviorOnBuilder(missingBehavior, builder);
 			return builder.build();
 		}
 

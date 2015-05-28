@@ -12,9 +12,9 @@ import org.codefx.libfx.nesting.Nesting;
  *            the type of the value wrapped by the property which will be build
  */
 public final class NestedObjectPropertyBuilder<T>
-		extends AbstractNestedPropertyBuilder<Property<T>, NestedProperty<T>> {
+		extends AbstractNestedPropertyBuilder<T, Property<T>, NestedProperty<T>, NestedObjectPropertyBuilder<T>> {
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new builder which uses the specified nesting.
@@ -41,37 +41,11 @@ public final class NestedObjectPropertyBuilder<T>
 
 	//#end CONSTRUCTION
 
-	// #region METHODS
+	// #begin METHODS
 
 	@Override
 	public NestedObjectProperty<T> build() {
-		return new NestedObjectProperty<>(getNesting(), getBean(), getName());
-	}
-
-	/**
-	 * Sets the property's future {@link Property#getBean() bean}.
-	 *
-	 * @param bean
-	 *            the property's future bean
-	 * @return this builder
-	 */
-	@Override
-	public NestedObjectPropertyBuilder<T> setBean(Object bean) {
-		setTheBean(bean);
-		return this;
-	}
-
-	/**
-	 * Sets the property's future {@link Property#getName() name}.
-	 *
-	 * @param name
-	 *            the property's future name
-	 * @return this builder
-	 */
-	@Override
-	public NestedObjectPropertyBuilder<T> setName(String name) {
-		setTheName(name);
-		return this;
+		return new NestedObjectProperty<>(getNesting(), getInnerObservableMissingBehavior(), getBean(), getName());
 	}
 
 	//#end METHODS

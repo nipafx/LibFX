@@ -20,7 +20,7 @@ import org.codefx.libfx.listener.handle.ListenerHandle;
  */
 public class WebViewHyperlinkListenerDemo extends Application {
 
-	// #region INITIALIZATION
+	// #begin INITIALIZATION
 
 	/**
 	 * Runs this demo.
@@ -96,7 +96,7 @@ public class WebViewHyperlinkListenerDemo extends Application {
 
 	// #end INITIALIZATION
 
-	// #region LISTENER
+	// #begin LISTENER
 
 	/**
 	 * Attaches/detaches the specified listener to/from the specified web view according to the specified property's

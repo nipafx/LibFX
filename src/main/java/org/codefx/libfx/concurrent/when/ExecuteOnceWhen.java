@@ -25,7 +25,7 @@ import javafx.beans.value.ObservableValue;
  * value (the one tested during {@code executeWhen()}) or one of several which were set by those threads.
  * <p>
  * Use {@link ExecuteWhen} to build an instance of this class.
- * 
+ *
  * @param <T>
  *            the type the observed {@link ObservableValue}'s wraps
  */
@@ -48,7 +48,7 @@ public class ExecuteOnceWhen<T> {
 	 * condition, it is checked (and set to false). If it contained true, the action will be executed.
 	 */
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	/**
 	 * The {@link ObservableValue} upon whose value the action's execution depends.
@@ -96,6 +96,10 @@ public class ExecuteOnceWhen<T> {
 	 *            the action which will be executed
 	 */
 	ExecuteOnceWhen(ObservableValue<T> observable, Predicate<? super T> condition, Consumer<? super T> action) {
+		assert observable != null : "The argument 'observable' must not be null.";
+		assert condition != null : "The argument 'condition' must not be null.";
+		assert action != null : "The argument 'action' must not be null.";
+
 		this.observable = observable;
 		this.condition = condition;
 		this.action = action;
@@ -105,7 +109,7 @@ public class ExecuteOnceWhen<T> {
 		willExecute = new AtomicBoolean(true);
 	}
 
-	// #region METHODS
+	// #begin METHODS
 
 	/**
 	 * Executes the action (once) when the observable's value passes the condition.

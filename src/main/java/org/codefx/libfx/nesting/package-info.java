@@ -1,7 +1,7 @@
 /**
  * <p>
- * This package provides functionality around nesting hierarchies - a term which is explained in all detail in the
- * comment on {@link org.codefx.libfx.nesting.Nesting Nesting}.
+ * Provides functionality around nesting hierarchies - a term which is explained in all detail in the comment on
+ * {@link org.codefx.libfx.nesting.Nesting Nesting}.
  * <h2>Nesting</h2> A {@code Nesting} encapsulates a hierarchy of nested {@code ObservableValues} and collapses them
  * into a property which always contains the current innermost {@code Observable} in that hierarchy. A {@code Nesting}
  * can be used as a basic building block for other nested functionality (see below).

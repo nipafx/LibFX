@@ -10,18 +10,13 @@ import javafx.beans.value.ObservableValue;
 
 import org.codefx.libfx.nesting.testhelper.SomeValue;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+
+import com.nitorcreations.junit.runners.NestedRunner;
 
 /**
  * Tests the {@link Nesting} implementation {@link ShallowNesting}.
  */
-@RunWith(Suite.class)
-@SuiteClasses({
-	ShallowNestingTest.OnObservable.class,
-	ShallowNestingTest.OnObservableValue.class,
-	ShallowNestingTest.OnProperty.class,
-})
+@RunWith(NestedRunner.class)
 public class ShallowNestingTest {
 
 	/**

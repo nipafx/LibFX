@@ -154,7 +154,6 @@ public class SerializableOptionalDemo {
 	/**
 	 * A class with methods which have an optional return value or argument.
 	 */
-	@SuppressWarnings("javadoc")
 	private static class SearchAndLog {
 
 		Random random = new Random();

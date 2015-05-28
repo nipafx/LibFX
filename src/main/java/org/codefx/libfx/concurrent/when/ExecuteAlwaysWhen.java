@@ -58,7 +58,7 @@ public class ExecuteAlwaysWhen<T> {
 	 * on the first execution of the action.
 	 */
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	/**
 	 * The {@link ObservableValue} upon whose value the action's execution depends.
@@ -110,6 +110,10 @@ public class ExecuteAlwaysWhen<T> {
 	 *            the action which will be executed
 	 */
 	ExecuteAlwaysWhen(ObservableValue<T> observable, Predicate<? super T> condition, Consumer<? super T> action) {
+		assert observable != null : "The argument 'observable' must not be null.";
+		assert condition != null : "The argument 'condition' must not be null.";
+		assert action != null : "The argument 'action' must not be null.";
+
 		this.observable = observable;
 		this.condition = condition;
 		this.action = action;
@@ -120,7 +124,7 @@ public class ExecuteAlwaysWhen<T> {
 		alreadyExecuted = new AtomicBoolean(false);
 	}
 
-	// #region METHODS
+	// #begin METHODS
 
 	/**
 	 * Executes the action (every time) when the observable's value passes the condition.

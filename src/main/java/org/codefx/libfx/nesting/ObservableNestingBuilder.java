@@ -10,7 +10,7 @@ import javafx.beans.Observable;
  */
 public class ObservableNestingBuilder extends AbstractNestingBuilderOnObservable<Object, Observable> {
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new nesting builder which acts as the outer builder.

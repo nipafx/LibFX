@@ -7,9 +7,11 @@ import org.codefx.libfx.nesting.Nesting;
 
 /**
  * Abstract superclass to tests for {@link NestedFloatProperty NestedFloatProperty} which only leaves the creation of
- * the tested properties (by {@link #createNestedPropertyFromNesting(Nesting)}) to the subclasses.
+ * the tested properties (by {@link #createNestedPropertyFromNesting(Nesting, InnerObservableMissingBehavior)}) to the
+ * subclasses.
  */
-public abstract class AbstractNestedFloatPropertyTest extends AbstractNestedPropertyTest<Number, FloatProperty> {
+public abstract class AbstractNestedFloatPropertyTest extends
+		AbstractNestedPropertyTest<Float, Number, FloatProperty> {
 
 	/**
 	 * The last value returned by {@link #createNewValue()}.
@@ -17,12 +19,12 @@ public abstract class AbstractNestedFloatPropertyTest extends AbstractNestedProp
 	private float lastValue = 1.5f;
 
 	@Override
-	protected boolean allowsNullValues() {
-		return false;
+	protected boolean wrapsPrimitive() {
+		return true;
 	}
 
 	@Override
-	protected Number createNewValue() {
+	protected Float createNewValue() {
 		lastValue += 1;
 		return lastValue;
 	}

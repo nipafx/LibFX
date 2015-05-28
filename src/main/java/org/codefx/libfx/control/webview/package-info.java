@@ -1,7 +1,7 @@
 /**
  * <p>
- * This package provides functionality around JavaFX' {@link javafx.scene.web.WebView WebView}. All of it can be
- * accessed via the utility class {@link org.codefx.libfx.control.webview.WebViews WebViews}.
+ * Provides functionality surrounding JavaFX' {@link javafx.scene.web.WebView WebView}. All of it can be accessed via
+ * the utility class {@link org.codefx.libfx.control.webview.WebViews WebViews}.
  * </p>
  * <h2>Hyperlink Listener</h2>
  * <p>

@@ -25,7 +25,7 @@ public final class WebViews {
 		// nothing to do
 	}
 
-	// #region HYPERLINK LISTENERS
+	// #begin HYPERLINK LISTENERS
 
 	// create listener handles
 
@@ -146,7 +146,7 @@ public final class WebViews {
 
 	// #end HYPERLINK LISTENERS
 
-	// #region EVENTS
+	// #begin EVENTS
 
 	/**
 	 * Indicates whether the specified DOM event can be converted to a {@link HyperlinkEvent}.
@@ -206,7 +206,7 @@ public final class WebViews {
 
 	// #end HYPERLINK EVENTS
 
-	// #region DOM EVENTS
+	// #begin DOM EVENTS
 
 	/**
 	 * Returns a string representation of the specified event.

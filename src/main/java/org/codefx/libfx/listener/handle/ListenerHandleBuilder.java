@@ -34,6 +34,18 @@ import java.util.function.BiConsumer;
  * 	.onDetach((property, listener) -&gt; property.removeListener(listener))
  * 	.build();
  * </pre>
+ * Or, with method references:
+ *
+ * <pre>
+ * Property&lt;String&gt; textProperty;
+ * ChangeListener&lt;String&gt; textListener;
+ *
+ * ListenerHandle textListenerHandle = ListenerHandleBuilder
+ * 	.from(textProperty, textListener)
+ * 	.onAttach(Property::addListener))
+ * 	.onDetach(Property::removeListener)
+ * 	.build();
+ * </pre>
  *
  * @param <O>
  *            the type of the observable instance (e.g {@link javafx.beans.value.ObservableValue ObservableValue} or
@@ -43,7 +55,7 @@ import java.util.function.BiConsumer;
  */
 public final class ListenerHandleBuilder<O, L> {
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	/**
 	 * The observable instance to which the {@link #listener} will be added.
@@ -67,7 +79,7 @@ public final class ListenerHandleBuilder<O, L> {
 
 	// #end FIELDS
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a builder for a generic {@link ListenerHandle}.
@@ -108,7 +120,7 @@ public final class ListenerHandleBuilder<O, L> {
 
 	// #end CONSTRUCTION
 
-	// #region SET AND BUILD
+	// #begin SET AND BUILD
 
 	/**
 	 * Sets the function which is executed when the built {@link ListenerHandle} must add the listener because
@@ -182,37 +194,37 @@ public final class ListenerHandleBuilder<O, L> {
 	 *             if {@link #add} or {@link #remove} is empty.
 	 */
 	private void verifyAddAndRemovePresent() throws IllegalStateException {
-		boolean onAttachNotCalled = !add.isPresent();
-		boolean onDetachNotCalled = !remove.isPresent();
-		boolean canBuild = !onAttachNotCalled && !onDetachNotCalled;
+		boolean onAttachCalled = add.isPresent();
+		boolean onDetachCalled = remove.isPresent();
+		boolean canBuild = onAttachCalled && onDetachCalled;
 
 		if (canBuild)
 			return;
 		else
-			throwExceptionForMissingCall(onAttachNotCalled, onDetachNotCalled);
+			throwExceptionForMissingCall(onAttachCalled, onDetachCalled);
 	}
 
 	/**
 	 * Throws an {@link IllegalStateException} for a missing call.
 	 *
-	 * @param onAttachNotCalled
+	 * @param onAttachCalled
 	 *            indicates whether {@link #onAttach(BiConsumer)} has been called
-	 * @param onDetachNotCalled
+	 * @param onDetachCalled
 	 *            indicates whether {@link #onDetach(BiConsumer)} has been called
 	 * @throws IllegalStateException
 	 *             if at least one of the specified booleans is true
 	 */
-	private static void throwExceptionForMissingCall(boolean onAttachNotCalled, boolean onDetachNotCalled)
+	private static void throwExceptionForMissingCall(boolean onAttachCalled, boolean onDetachCalled)
 			throws IllegalStateException {
 
-		if (onAttachNotCalled && onDetachNotCalled)
+		if (!onAttachCalled && !onDetachCalled)
 			throw new IllegalStateException(
 					"A listener handle can not be build until 'onAttach' and 'onDetach' have been called.");
 
-		if (onAttachNotCalled)
+		if (!onAttachCalled)
 			throw new IllegalStateException("A listener handle can not be build until 'onAttach' has been called.");
 
-		if (onDetachNotCalled)
+		if (!onDetachCalled)
 			throw new IllegalStateException("A listener handle can not be build until 'onDetach' has been called.");
 	}
 

@@ -1,8 +1,8 @@
 /**
+ * Makes using a {@link javafx.scene.control.Control Control}'s {@link javafx.scene.control.Control#getProperties()
+ * propertyMap} more convenient.
  * <p>
- * This package provides functionality to make using a {@link javafx.scene.control.Control Control}'s
- * {@link javafx.scene.control.Control#getProperties() propertyMap} easier. As such its main use will be to creators of
- * controls.
+ * As such its main use will be to creators of controls.
  * </p>
  * <h2>Listening to the Property Map</h2>
  * <p>

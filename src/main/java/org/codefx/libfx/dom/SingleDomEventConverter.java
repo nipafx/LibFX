@@ -46,7 +46,7 @@ class SingleDomEventConverter {
 		this.source = source;
 	}
 
-	// #region CONVERT
+	// #begin CONVERT
 
 	/**
 	 * Indicates whether the DOM event specified during construction can be converted to a {@link HyperlinkEvent}.

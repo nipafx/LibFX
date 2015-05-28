@@ -18,7 +18,7 @@ import org.codefx.libfx.nesting.listener.NestedChangeListenerBuilder;
 abstract class AbstractNestingBuilderOnObservableValue<T, O extends ObservableValue<T>>
 		extends AbstractNestingBuilderOnObservable<T, O> {
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new nesting builder which acts as the outer builder.
@@ -48,7 +48,7 @@ abstract class AbstractNestingBuilderOnObservableValue<T, O extends ObservableVa
 
 	//#end CONSTRUCTION
 
-	// #region LISTENERS
+	// #begin LISTENERS
 
 	/**
 	 * Adds the specified change listener to the nesting hierarchy's inner {@link ObservableValue}.

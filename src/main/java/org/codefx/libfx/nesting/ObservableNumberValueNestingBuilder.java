@@ -11,7 +11,7 @@ import javafx.beans.value.ObservableNumberValue;
 public class ObservableNumberValueNestingBuilder extends
 		AbstractNestingBuilderOnObservableValue<Number, ObservableNumberValue> {
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new nesting builder which acts as the outer builder.

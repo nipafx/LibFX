@@ -17,7 +17,7 @@ import org.codefx.libfx.nesting.property.NestedStringProperty;
  */
 public class NestedDemo {
 
-	// #region FIELDS
+	// #begin FIELDS
 
 	/**
 	 * The currently selected employee.
@@ -26,7 +26,7 @@ public class NestedDemo {
 
 	//#end FIELDS
 
-	// #region CONSTRUCTION & MAIN
+	// #begin CONSTRUCTION & MAIN
 
 	/**
 	 * Creates a new demo.
@@ -50,13 +50,14 @@ public class NestedDemo {
 		demo.nestedPropertyCreation();
 		demo.nestedPropertyCreationWithBuilder();
 		demo.nestedPropertyBinding();
-		demo.nestedPropertyBindingWithMissingInnerObservable();
+		demo.nestedPropertyBindingWithMissingInnerObservableAndDefaultBehavior();
+		demo.nestedPropertyBindingWithMissingInnerObservableAndCustomizedBehavior();
 		demo.additionalNestedFeatures();
 	}
 
 	//#end CONSTRUCTION & MAIN
 
-	// #region DEMOS
+	// #begin DEMOS
 
 	/**
 	 * Demonstrates how to create a {@link Nesting}.
@@ -281,10 +282,11 @@ public class NestedDemo {
 	}
 
 	/**
-	 * Demonstrates how a {@link NestedProperty} behaves when the inner observable is missing.
+	 * Demonstrates how a {@link NestedProperty} behaves by default when the inner observable is missing.
 	 */
-	private void nestedPropertyBindingWithMissingInnerObservable() {
-		print("NESTED PROPERTY BINDING WHEN INNER OBSERVABLE IS MISSING");
+	private void nestedPropertyBindingWithMissingInnerObservableAndDefaultBehavior() {
+		print("NESTED PROPERTY BINDING WHEN INNER OBSERVABLE IS MISSING (DEFAULT)");
+		currentEmployee.getValue().addressProperty().getValue().streetNameProperty().set("Some Street");
 
 		// create a nested property for the current employee's street name
 		NestedStringProperty currentEmployeesStreetName = Nestings.on(currentEmployee)
@@ -298,8 +300,43 @@ public class NestedDemo {
 		print("The inner observable is now missing (is present: \""
 				+ currentEmployeesStreetName.isInnerObservablePresent() + "\")");
 
-		currentEmployeesStreetName.set("Null Street");
-		print("The nested property can still be changed: \"" + currentEmployeesStreetName.get() + "\"");
+		try {
+			currentEmployeesStreetName.set("Null Street");
+			print("You should never see this on the console.");
+		} catch (Exception ex) {
+			print("By default, the nested property can not be changed: " + ex.getClass());
+			// reset the example to a proper state
+			currentEmployee.getValue().addressProperty().setValue(new Employee.Address("Some Street"));
+		}
+
+		print();
+	}
+
+	/**
+	 * Demonstrates how a {@link NestedProperty} can be configured to behave differently when the inner observable is
+	 * missing.
+	 */
+	private void nestedPropertyBindingWithMissingInnerObservableAndCustomizedBehavior() {
+		print("NESTED PROPERTY BINDING WHEN INNER OBSERVABLE IS MISSING (CUSTOM)");
+
+		// create a nested property for the current employee's street name
+		NestedStringProperty currentEmployeesStreetName = Nestings.on(currentEmployee)
+				.nest(Employee::addressProperty)
+				.nestStringProperty(Address::streetNameProperty)
+				.buildPropertyWithBuilder()
+				.onInnerObservableMissingSetValue("Null street")
+				.onUpdateWhenInnerObservableMissingAcceptValues()
+				.build();
+
+		print("Nested property's initial street name: \"" + currentEmployeesStreetName.get() + "\"");
+
+		currentEmployee.getValue().addressProperty().setValue(null);
+		print("The inner observable is now missing (is present: \""
+				+ currentEmployeesStreetName.isInnerObservablePresent() + "\")");
+		print("The street name changed to the specified value: \"" + currentEmployeesStreetName.get() + "\"");
+
+		currentEmployeesStreetName.set("Another Street");
+		print("The nested property can be changed: \"" + currentEmployeesStreetName.get() + "\"");
 
 		currentEmployee.getValue().addressProperty().setValue(new Employee.Address("New Street"));
 		print("When a new inner observable is present (\"" + currentEmployeesStreetName.isInnerObservablePresent()

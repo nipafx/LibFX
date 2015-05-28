@@ -14,7 +14,7 @@ import javafx.beans.property.Property;
 abstract class AbstractNestingBuilderOnProperty<T, O extends Property<T>>
 		extends AbstractNestingBuilderOnObservableValue<T, O> {
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new nesting builder which acts as the outer builder.

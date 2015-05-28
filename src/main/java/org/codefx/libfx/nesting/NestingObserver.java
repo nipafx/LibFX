@@ -31,7 +31,7 @@ import javafx.beans.Observable;
  */
 public final class NestingObserver<O extends Observable> {
 
-	// #region PROPERTIES
+	// #begin PROPERTIES
 
 	/**
 	 * The observed {@link Nesting}.
@@ -58,7 +58,7 @@ public final class NestingObserver<O extends Observable> {
 
 	//#end PROPERTIES
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new {@link NestingObserver} from the specified {@link NestingObserverBuilder builder}.
@@ -90,7 +90,7 @@ public final class NestingObserver<O extends Observable> {
 
 	//#end CONSTRUCTION
 
-	// #region OBSERVE
+	// #begin OBSERVE
 
 	/**
 	 * Initializes the observer by observing the initial status and any changes made to it.
@@ -127,7 +127,7 @@ public final class NestingObserver<O extends Observable> {
 
 	//#end BIND
 
-	// #region INNER CLASSES
+	// #begin INNER CLASSES
 
 	/**
 	 * Builds a {@link NestingObserver}.

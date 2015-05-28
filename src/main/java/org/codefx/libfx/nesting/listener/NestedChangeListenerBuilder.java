@@ -17,7 +17,7 @@ import org.codefx.libfx.nesting.Nesting;
  */
 public class NestedChangeListenerBuilder<T, O extends ObservableValue<T>> {
 
-	// #region PROPERTIES
+	// #begin PROPERTIES
 
 	/**
 	 * The {@link Nesting} to which the listener will be added.
@@ -31,7 +31,7 @@ public class NestedChangeListenerBuilder<T, O extends ObservableValue<T>> {
 
 	//#end PROPERTIES
 
-	// #region CONSTRUCTION
+	// #begin CONSTRUCTION
 
 	/**
 	 * Creates a new builder for the specified nesting.
@@ -72,7 +72,7 @@ public class NestedChangeListenerBuilder<T, O extends ObservableValue<T>> {
 
 	//#end CONSTRUCTION
 
-	// #region METHODS
+	// #begin METHODS
 
 	/**
 	 * Specified the listener which will be added to the nesting.
@@ -90,7 +90,7 @@ public class NestedChangeListenerBuilder<T, O extends ObservableValue<T>> {
 
 	//#end METHODS
 
-	// #region PRIVATE CLASSES
+	// #begin PRIVATE CLASSES
 
 	/**
 	 * A subtype of {@link NestedChangeListenerBuilder} which can actually build a listener with

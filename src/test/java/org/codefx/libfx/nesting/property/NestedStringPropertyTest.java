@@ -10,8 +10,9 @@ import org.codefx.libfx.nesting.Nesting;
 public class NestedStringPropertyTest extends AbstractNestedStringPropertyTest {
 
 	@Override
-	protected NestedProperty<String> createNestedPropertyFromNesting(Nesting<StringProperty> nesting) {
-		return new NestedStringProperty(nesting, null, null);
+	protected NestedProperty<String> createNestedPropertyFromNesting(
+			Nesting<StringProperty> nesting, InnerObservableMissingBehavior<String> missingBehavior) {
+		return new NestedStringProperty(nesting, missingBehavior, null, null);
 	}
 
 }

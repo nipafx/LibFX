@@ -11,17 +11,13 @@ import org.codefx.libfx.listener.handle.CreateListenerHandle;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
+
+import com.nitorcreations.junit.runners.NestedRunner;
 
 /**
  * Tests the {@link ControlPropertyListenerBuilder}.
  */
-@RunWith(Suite.class)
-@SuiteClasses({
-		ControlPropertiesTest.BuilderContract.class,
-		ControlPropertiesTest.CreatedCastingControlPropertyListener.class,
-		ControlPropertiesTest.CreatedTypeCheckingControlPropertyListener.class })
+@RunWith(NestedRunner.class)
 public class ControlPropertiesTest {
 
 	/**
@@ -29,7 +25,7 @@ public class ControlPropertiesTest {
 	 */
 	public static class BuilderContract {
 
-		// #region FIELDS
+		// #begin FIELDS
 
 		/**
 		 * The key used to create the listeners.
@@ -56,7 +52,7 @@ public class ControlPropertiesTest {
 			properties = FXCollections.observableHashMap();
 		}
 
-		// #region TESTS
+		// #begin TESTS
 
 		// EXCEPTIONS DURING CONSTRUCTION
 
@@ -142,7 +138,7 @@ public class ControlPropertiesTest {
 
 	}
 
-	// #region TESTS CREATED LISTENERS
+	// #begin TESTS CREATED LISTENERS
 
 	/**
 	 * Tests the created {@link CastingControlPropertyListenerHandle}.
