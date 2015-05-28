@@ -105,7 +105,7 @@ public class EqualityTransformingMapTest {
 		@Before
 		@SuppressWarnings("javadoc")
 		public void createMap() {
-			testedMap = EqualityTransformingBuilder
+			testedMap = EqualityTransformingCollectionBuilder
 					.forKeyType(String.class)
 					.withEquals(equals)
 					.withHash(hash)
@@ -168,7 +168,7 @@ public class EqualityTransformingMapTest {
 		@Override
 		@SuppressWarnings("unchecked")
 		public Map<String, Integer> create(Object... entries) {
-			Map<String, Integer> transformingMap = EqualityTransformingBuilder
+			Map<String, Integer> transformingMap = EqualityTransformingCollectionBuilder
 					.forKeyType(String.class)
 					.withEquals(equals)
 					.withHash(hash)

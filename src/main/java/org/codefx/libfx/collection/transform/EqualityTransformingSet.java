@@ -11,7 +11,7 @@ import java.util.function.ToIntFunction;
  * <p>
  * It does so by storing the entries in an inner set and providing a transforming view on them. See the
  * {@link org.codefx.libfx.collection.transform package} documentation for general comments on that. Note that instances
- * of {@code EqualityTransformingSet}s are created with a {@link EqualityTransformingBuilder builder}.
+ * of {@code EqualityTransformingSet}s are created with a {@link EqualityTransformingCollectionBuilder builder}.
  * <p>
  * This implementation mitigates the type safety problems by optionally using a token of the outer type to check
  * instances against them. This solves some of the critical situations but not all of them. In those other cases

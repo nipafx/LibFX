@@ -35,13 +35,13 @@ import java.util.function.ToIntFunction;
  * @param <E>
  *            the type of elements maintained by the created set or keys by the created map.
  */
-public class EqualityTransformingBuilder<E> {
+public class EqualityTransformingCollectionBuilder<E> {
 
 	private final Class<? super E> outerKeyTypeToken;
 	private BiPredicate<? super E, ? super E> equals;
 	private ToIntFunction<? super E> hash;
 
-	private EqualityTransformingBuilder(Class<? super E> outerKeyTypeToken) {
+	private EqualityTransformingCollectionBuilder(Class<? super E> outerKeyTypeToken) {
 		this.outerKeyTypeToken = outerKeyTypeToken;
 		// note that the methods from 'Objects' already implement the contract for null-safety
 		// imposed by the transforming set and map
@@ -65,8 +65,8 @@ public class EqualityTransformingBuilder<E> {
 	 *            the type of elements contained in the set created by the builder
 	 * @return a new builder
 	 */
-	public static <E> EqualityTransformingBuilder<E> forUnspecifiedKeyType() {
-		return new EqualityTransformingBuilder<>(Object.class);
+	public static <E> EqualityTransformingCollectionBuilder<E> forUnspecifiedKeyType() {
+		return new EqualityTransformingCollectionBuilder<>(Object.class);
 	}
 
 	/**
@@ -80,9 +80,9 @@ public class EqualityTransformingBuilder<E> {
 	 *            a type token for the elements contained in the set created by the builder
 	 * @return a new builder
 	 */
-	public static <E> EqualityTransformingBuilder<E> forKeyType(Class<? super E> keyTypeToken) {
+	public static <E> EqualityTransformingCollectionBuilder<E> forKeyType(Class<? super E> keyTypeToken) {
 		Objects.requireNonNull(keyTypeToken, "The argument 'keyTypeToken' must not be null.");
-		return new EqualityTransformingBuilder<>(keyTypeToken);
+		return new EqualityTransformingCollectionBuilder<>(keyTypeToken);
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class EqualityTransformingBuilder<E> {
 	 *            a function determining equality of keys; might be called with null keys
 	 * @return this builder
 	 */
-	public EqualityTransformingBuilder<E> withEqualsHandlingNull(BiPredicate<? super E, ? super E> equals) {
+	public EqualityTransformingCollectionBuilder<E> withEqualsHandlingNull(BiPredicate<? super E, ? super E> equals) {
 		Objects.requireNonNull(equals, "The argument 'equals' must not be null.");
 		this.equals = equals;
 		return this;
@@ -101,7 +101,7 @@ public class EqualityTransformingBuilder<E> {
 	 *            a function determining equality of keys; will not be called with null keys
 	 * @return this builder
 	 */
-	public EqualityTransformingBuilder<E> withEquals(BiPredicate<? super E, ? super E> equals) {
+	public EqualityTransformingCollectionBuilder<E> withEquals(BiPredicate<? super E, ? super E> equals) {
 		Objects.requireNonNull(equals, "The argument 'equals' must not be null.");
 		return withEqualsHandlingNull(makeNullSafe(equals));
 	}
@@ -122,7 +122,7 @@ public class EqualityTransformingBuilder<E> {
 	 *            a function computing the hash code of a key; might be called with null keys
 	 * @return this builder
 	 */
-	public EqualityTransformingBuilder<E> withHashHandlingNull(ToIntFunction<? super E> hash) {
+	public EqualityTransformingCollectionBuilder<E> withHashHandlingNull(ToIntFunction<? super E> hash) {
 		Objects.requireNonNull(hash, "The argument 'hash' must not be null.");
 		this.hash = hash;
 		return this;
@@ -133,7 +133,7 @@ public class EqualityTransformingBuilder<E> {
 	 *            a function computing the hash code of a key; will not be called with null keys
 	 * @return this builder
 	 */
-	public EqualityTransformingBuilder<E> withHash(ToIntFunction<? super E> hash) {
+	public EqualityTransformingCollectionBuilder<E> withHash(ToIntFunction<? super E> hash) {
 		Objects.requireNonNull(hash, "The argument 'hash' must not be null.");
 		return withHashHandlingNull(makeNullSafe(hash));
 	}
