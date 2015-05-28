@@ -21,6 +21,8 @@ import java.util.function.Function;
  * If the {@link #stream() stream} returned by this set is told to {@link java.util.stream.Stream#sorted() sort} itself,
  * it will do so on the base of the comparator returned by the inner sets's spliterator (e.g. based on the natural order
  * of {@code I} if it has one).
+ * <p>
+ * {@code TransformingSet}s are created with a {@link TransformingCollectionBuilder}.
  *
  * @param <I>
  *            the inner type, i.e. the type of the elements contained in the wrapped/inner set

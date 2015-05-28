@@ -35,10 +35,11 @@ public class TransformingSetDemo {
 	 */
 	public TransformingSetDemo() {
 		innerSet = new HashSet<>();
-		transformingSet = new TransformingSet<>(
-				innerSet,
-				String.class, this::stringToInteger,
-				Integer.class, this::integerToString);
+		transformingSet = TransformingCollectionBuilder
+				.forInnerAndOuterType(String.class, Integer.class)
+				.toOuter(this::stringToInteger)
+				.toInner(this::integerToString)
+				.transformSet(innerSet);
 
 		print("-- Initial state --");
 		print("\t -> " + innerSet + " ~ " + transformingSet);
@@ -177,10 +178,11 @@ public class TransformingSetDemo {
 
 	private void typeSafety() {
 		print("-- Using type tokens to increase type safety --");
-		Set<Integer> transformingSetWithoutTokens = new TransformingSet<>(
-				innerSet,
-				Object.class, this::stringToInteger,
-				Object.class, this::integerToString);
+		Set<Integer> transformingSetWithoutTokens = TransformingCollectionBuilder
+				.<String, Integer> forInnerAndOuterTypeUnknown()
+				.toOuter(this::stringToInteger)
+				.toInner(this::integerToString)
+				.transformSet(innerSet);
 
 		print("Insert 0, 1, 2");
 		transformingSet.add(0);
