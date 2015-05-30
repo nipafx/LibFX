@@ -35,7 +35,7 @@ import java.util.function.ToIntFunction;
  * @param <E>
  *            the type of elements maintained by the created set or keys by the created map.
  */
-public class EqualityTransformingCollectionBuilder<E> {
+public final class EqualityTransformingCollectionBuilder<E> {
 
 	private final Class<? super E> outerKeyTypeToken;
 	private BiPredicate<? super E, ? super E> equals;

@@ -20,7 +20,7 @@ import java.util.function.Function;
  *            the outer type of the created transforming collection, i.e. the type of elements appearing to be in the
  *            created collection
  */
-public class TransformingCollectionBuilder<I, O> {
+public final class TransformingCollectionBuilder<I, O> {
 
 	// #begin FIELDS
 

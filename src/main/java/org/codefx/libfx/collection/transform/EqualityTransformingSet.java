@@ -28,7 +28,7 @@ import java.util.function.ToIntFunction;
  * @param <E>
  *            the type of elements in this set
  */
-public class EqualityTransformingSet<E> extends AbstractTransformingSet<EqHash<E>, E> {
+public final class EqualityTransformingSet<E> extends AbstractTransformingSet<EqHash<E>, E> {
 
 	// #begin FIELDS
 

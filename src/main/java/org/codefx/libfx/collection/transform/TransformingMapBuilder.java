@@ -22,7 +22,7 @@ import java.util.function.Function;
  * @param <OV>
  *            the outer value type of the created transforming map, i.e. the type of values appearing to be in this map
  */
-public class TransformingMapBuilder<IK, OK, IV, OV> {
+public final class TransformingMapBuilder<IK, OK, IV, OV> {
 
 	// #begin FIELDS
 
