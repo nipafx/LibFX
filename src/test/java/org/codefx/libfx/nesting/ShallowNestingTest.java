@@ -98,7 +98,7 @@ public class ShallowNestingTest {
 
 		@Override
 		protected Property<SomeValue> createNewNestingHierarchy() {
-			return new SimpleObjectProperty<SomeValue>(new SomeValue());
+			return new SimpleObjectProperty<>(new SomeValue());
 		}
 
 	}

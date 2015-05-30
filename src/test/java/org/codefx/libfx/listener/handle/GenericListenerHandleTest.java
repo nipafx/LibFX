@@ -8,8 +8,6 @@ import static org.mockito.Mockito.verifyZeroInteractions;
 
 import java.util.function.BiConsumer;
 
-import org.codefx.libfx.listener.handle.GenericListenerHandle;
-import org.codefx.libfx.listener.handle.ListenerHandle;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -60,7 +58,7 @@ public class GenericListenerHandleTest {
 		observable = "observable";
 		listener = "listner";
 
-		handle = new GenericListenerHandle<Object, Object>(observable, listener, add, remove);
+		handle = new GenericListenerHandle<>(observable, listener, add, remove);
 	}
 
 	// #end SETUP

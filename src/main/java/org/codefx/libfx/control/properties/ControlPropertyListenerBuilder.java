@@ -89,7 +89,7 @@ public class ControlPropertyListenerBuilder<T> {
 	 * @return a {@link ControlPropertyListenerBuilder}
 	 */
 	public static <T> ControlPropertyListenerBuilder<T> on(ObservableMap<Object, Object> properties) {
-		return new ControlPropertyListenerBuilder<T>(properties);
+		return new ControlPropertyListenerBuilder<>(properties);
 	}
 
 	/**
@@ -164,7 +164,7 @@ public class ControlPropertyListenerBuilder<T> {
 		checkFields();
 
 		if (valueType.isPresent())
-			return new TypeCheckingControlPropertyListenerHandle<T>(properties, key, valueType.get(), valueProcessor);
+			return new TypeCheckingControlPropertyListenerHandle<>(properties, key, valueType.get(), valueProcessor);
 		else
 			return new CastingControlPropertyListenerHandle<T>(properties, key, valueProcessor);
 	}

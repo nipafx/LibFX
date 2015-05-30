@@ -119,7 +119,7 @@ class TreePathFactory {
 	}
 
 	private static <E> TreePath<TreeNode<E>> createPathByInverting(List<TreeNode<E>> pathFromDescendantBackToNode) {
-		StackTreePath<TreeNode<E>> treePath = new StackTreePath<TreeNode<E>>();
+		StackTreePath<TreeNode<E>> treePath = new StackTreePath<>();
 		for (int i = pathFromDescendantBackToNode.size() - 1; i >= 0; i--)
 			treePath.append(pathFromDescendantBackToNode.get(i));
 		return treePath;

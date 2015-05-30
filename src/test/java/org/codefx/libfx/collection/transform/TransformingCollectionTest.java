@@ -85,7 +85,7 @@ public class TransformingCollectionTest {
 
 		@Override
 		public SampleElements<Feline> samples() {
-			return new SampleElements<Feline>(
+			return new SampleElements<>(
 					new Feline("A"), new Feline("B"), new Feline("C"), new Feline("D"), new Feline("E"));
 		}
 

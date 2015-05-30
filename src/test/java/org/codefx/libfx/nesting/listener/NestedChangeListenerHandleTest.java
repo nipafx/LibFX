@@ -17,7 +17,7 @@ public class NestedChangeListenerHandleTest extends AbstractNestedChangeListener
 			ChangeListener<T> listener,
 			CreateListenerHandle attachedOrDetached) {
 
-		NestedChangeListenerHandle<T> listenerHandle = new NestedChangeListenerHandle<T>(nesting, listener);
+		NestedChangeListenerHandle<T> listenerHandle = new NestedChangeListenerHandle<>(nesting, listener);
 		if (attachedOrDetached == CreateListenerHandle.ATTACHED)
 			listenerHandle.attach();
 		return listenerHandle;

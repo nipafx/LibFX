@@ -85,7 +85,7 @@ public final class NestingObserver<O extends Observable> {
 	 * @return a new {@link NestingObserverBuilder}
 	 */
 	public static <O extends Observable> NestingObserverBuilder<O> forNesting(Nesting<O> nesting) {
-		return new NestingObserverBuilder<O>(nesting);
+		return new NestingObserverBuilder<>(nesting);
 	}
 
 	//#end CONSTRUCTION

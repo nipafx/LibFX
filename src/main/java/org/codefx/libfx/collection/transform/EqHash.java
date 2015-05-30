@@ -47,7 +47,7 @@ class EqHash<E> {
 	 */
 	public static <E> EqHash<E> create(
 			E element, BiPredicate<? super E, ? super E> equals, ToIntFunction<? super E> hash) {
-		return new EqHash<E>(element, equals, hash);
+		return new EqHash<>(element, equals, hash);
 	}
 
 	/**

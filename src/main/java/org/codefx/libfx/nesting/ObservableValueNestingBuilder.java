@@ -87,7 +87,7 @@ public class ObservableValueNestingBuilder<T> extends AbstractNestingBuilderOnOb
 	 */
 	public <N> ObservableValueNestingBuilder<N> nestObservableValue(NestingStep<T, ObservableValue<N>> nestingStep) {
 		Objects.requireNonNull(nestingStep, "The argument 'nestingStep' must not be null.");
-		return new ObservableValueNestingBuilder<N>(this, nestingStep);
+		return new ObservableValueNestingBuilder<>(this, nestingStep);
 	}
 
 	/**
@@ -121,7 +121,7 @@ public class ObservableValueNestingBuilder<T> extends AbstractNestingBuilderOnOb
 	 */
 	public <N> ObjectPropertyNestingBuilder<N> nestProperty(NestingStep<T, Property<N>> nestingStep) {
 		Objects.requireNonNull(nestingStep, "The argument 'nestingStep' must not be null.");
-		return new ObjectPropertyNestingBuilder<N>(this, nestingStep);
+		return new ObjectPropertyNestingBuilder<>(this, nestingStep);
 	}
 
 	/**

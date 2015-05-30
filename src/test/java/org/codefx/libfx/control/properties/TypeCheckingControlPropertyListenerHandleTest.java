@@ -18,7 +18,7 @@ public class TypeCheckingControlPropertyListenerHandleTest extends AbstractContr
 			CreateListenerHandle attachedOrDetached) {
 
 		ControlPropertyListenerHandle handle =
-				new TypeCheckingControlPropertyListenerHandle<T>(properties, key, valueType, valueProcessor);
+				new TypeCheckingControlPropertyListenerHandle<>(properties, key, valueType, valueProcessor);
 		if (attachedOrDetached == CreateListenerHandle.ATTACHED)
 			handle.attach();
 

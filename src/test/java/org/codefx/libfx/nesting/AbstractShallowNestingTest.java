@@ -13,7 +13,7 @@ public abstract class AbstractShallowNestingTest<O extends Observable> extends A
 
 	@Override
 	protected Nesting<O> createNewNestingFromOuterObservable(O outerObservable) {
-		return new ShallowNesting<O>(outerObservable);
+		return new ShallowNesting<>(outerObservable);
 	}
 
 	@Override

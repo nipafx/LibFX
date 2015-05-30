@@ -27,7 +27,7 @@ public class OuterValue {
 	 * @return a new outer value with an instantiated inner type, which in turn has instantiated observables
 	 */
 	public static OuterValue createWithInnerType() {
-		return new OuterValue(new SimpleObjectProperty<InnerValue>(InnerValue.createWithObservables()));
+		return new OuterValue(new SimpleObjectProperty<>(InnerValue.createWithObservables()));
 	}
 
 	/**

@@ -144,7 +144,7 @@ public class EqualityTransformingSetTest {
 
 		@Override
 		public SampleElements<String> samples() {
-			return new SampleElements<String>("A", "AA", "AAA", "AAAA", "AAAAA");
+			return new SampleElements<>("A", "AA", "AAA", "AAAA", "AAAAA");
 		}
 
 		@Override

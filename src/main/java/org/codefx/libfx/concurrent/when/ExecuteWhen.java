@@ -110,7 +110,7 @@ public class ExecuteWhen<T> {
 		Objects.requireNonNull(action, "The argument 'action' must not be null.");
 
 		ensureConditionWasSet();
-		return new ExecuteOnceWhen<T>(observable, condition.get(), action);
+		return new ExecuteOnceWhen<>(observable, condition.get(), action);
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class ExecuteWhen<T> {
 		Objects.requireNonNull(action, "The argument 'action' must not be null.");
 
 		ensureConditionWasSet();
-		return new ExecuteAlwaysWhen<T>(observable, condition.get(), action);
+		return new ExecuteAlwaysWhen<>(observable, condition.get(), action);
 	}
 
 	/**

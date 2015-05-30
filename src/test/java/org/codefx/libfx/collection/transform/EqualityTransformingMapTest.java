@@ -136,7 +136,7 @@ public class EqualityTransformingMapTest {
 
 		@Override
 		public SampleElements<Entry<String, Integer>> samples() {
-			return new SampleElements<Entry<String, Integer>>(
+			return new SampleElements<>(
 					new SimpleEntry<>("A", 1),
 					new SimpleEntry<>("AA", 2),
 					new SimpleEntry<>("AAA", 3),

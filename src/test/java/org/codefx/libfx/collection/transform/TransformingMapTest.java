@@ -87,7 +87,7 @@ public class TransformingMapTest {
 
 		@Override
 		public SampleElements<Entry<Feline, Feline>> samples() {
-			return new SampleElements<Entry<Feline, Feline>>(
+			return new SampleElements<>(
 					new SimpleEntry<>(new Feline("A"), new Feline("1")),
 					new SimpleEntry<>(new Feline("B"), new Feline("2")),
 					new SimpleEntry<>(new Feline("C"), new Feline("3")),

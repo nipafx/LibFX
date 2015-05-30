@@ -184,7 +184,7 @@ public final class ListenerHandleBuilder<O, L> {
 	 */
 	public ListenerHandle buildDetached() throws IllegalStateException {
 		verifyAddAndRemovePresent();
-		return new GenericListenerHandle<O, L>(observable, listener, add.get(), remove.get());
+		return new GenericListenerHandle<>(observable, listener, add.get(), remove.get());
 	}
 
 	/**

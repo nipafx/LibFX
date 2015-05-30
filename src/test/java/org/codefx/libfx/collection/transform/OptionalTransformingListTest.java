@@ -91,7 +91,7 @@ public class OptionalTransformingListTest {
 
 		@Override
 		public SampleElements<String> samples() {
-			return new SampleElements<String>("A", "B", "C", "D", "E");
+			return new SampleElements<>("A", "B", "C", "D", "E");
 		}
 
 		@Override

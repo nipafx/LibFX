@@ -199,7 +199,7 @@ public class NestingAccess {
 		 * Creates a new editable nesting.
 		 */
 		private EditableNesting() {
-			this.innerObservable = new SimpleObjectProperty<Optional<O>>(this, "innerObservable", Optional.empty());
+			this.innerObservable = new SimpleObjectProperty<>(this, "innerObservable", Optional.empty());
 		}
 
 		/**

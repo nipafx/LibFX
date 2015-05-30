@@ -42,7 +42,7 @@ public class TreeStreams {
 	 */
 	public static <N> Stream<N> dfsFromRoot(TreeNavigator<N> navigator, N root) {
 		TreePath<TreeNode<N>> initialPath = TreePathFactory.createWithSingleNode(root);
-		TreeIterationStrategy<N> strategy = new DfsTreeIterationStrategy<N>(navigator, initialPath);
+		TreeIterationStrategy<N> strategy = new DfsTreeIterationStrategy<>(navigator, initialPath);
 		return byStrategy(strategy);
 	}
 
@@ -65,7 +65,7 @@ public class TreeStreams {
 	 */
 	public static <N> Stream<N> dfsFromWithin(TreeNavigator<N> navigator, N startNode) {
 		TreePath<TreeNode<N>> initialPath = TreePathFactory.createFromRootToNode(navigator, startNode);
-		TreeIterationStrategy<N> strategy = new DfsTreeIterationStrategy<N>(navigator, initialPath);
+		TreeIterationStrategy<N> strategy = new DfsTreeIterationStrategy<>(navigator, initialPath);
 		return byStrategy(strategy);
 	}
 
@@ -91,7 +91,7 @@ public class TreeStreams {
 	 */
 	public static <N> Stream<N> dfsFromWithin(TreeNavigator<N> navigator, N root, N startNode) {
 		TreePath<TreeNode<N>> initialPath = TreePathFactory.createFromNodeToDescendant(navigator, root, startNode);
-		TreeIterationStrategy<N> strategy = new DfsTreeIterationStrategy<N>(navigator, initialPath);
+		TreeIterationStrategy<N> strategy = new DfsTreeIterationStrategy<>(navigator, initialPath);
 		return byStrategy(strategy);
 	}
 
@@ -115,7 +115,7 @@ public class TreeStreams {
 	 */
 	public static <N> Stream<N> backwardDfs(TreeNavigator<N> navigator, N startNode) {
 		TreePath<TreeNode<N>> initialPath = TreePathFactory.createFromRootToNode(navigator, startNode);
-		TreeIterationStrategy<N> strategy = new DfsTreeIterationStrategy<N>(navigator, initialPath);
+		TreeIterationStrategy<N> strategy = new DfsTreeIterationStrategy<>(navigator, initialPath);
 		return byStrategy(strategy);
 	}
 
@@ -139,7 +139,7 @@ public class TreeStreams {
 	 */
 	public static <N> Stream<N> backwardDfsToRoot(TreeNavigator<N> navigator, N root, N startNode) {
 		TreePath<TreeNode<N>> initialPath = TreePathFactory.createFromNodeToDescendant(navigator, root, startNode);
-		TreeIterationStrategy<N> strategy = new DfsTreeIterationStrategy<N>(navigator, initialPath);
+		TreeIterationStrategy<N> strategy = new DfsTreeIterationStrategy<>(navigator, initialPath);
 		return byStrategy(strategy);
 	}
 
@@ -174,7 +174,7 @@ public class TreeStreams {
 	 * @return a stream of nodes
 	 */
 	public static <N> Stream<N> byStrategy(TreeIterationStrategy<N> strategy, int characteristics, boolean parallel) {
-		Iterator<N> iterator = new TreeIterator<N>(strategy);
+		Iterator<N> iterator = new TreeIterator<>(strategy);
 		Spliterator<N> spliterator = Spliterators.spliteratorUnknownSize(iterator, characteristics);
 		return StreamSupport.stream(spliterator, parallel);
 	}

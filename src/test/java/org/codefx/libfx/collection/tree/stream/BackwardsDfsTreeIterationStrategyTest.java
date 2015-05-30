@@ -129,7 +129,7 @@ public class BackwardsDfsTreeIterationStrategyTest {
 				.children.get(1) // returns the tree rooted in "13"
 				.children.get(1); // returns the tree rooted in "15"
 		TreePath<TreeNode<Node>> initialPath = createFromNodeToDescendant(NAVIGATOR, root, rightmostLeaf);
-		TreeIterationStrategy<Node> strategy = new BackwardsDfsTreeIterationStrategy<Node>(NAVIGATOR, initialPath);
+		TreeIterationStrategy<Node> strategy = new BackwardsDfsTreeIterationStrategy<>(NAVIGATOR, initialPath);
 
 		String[] treeContent = iterateTreeContent(strategy);
 

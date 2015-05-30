@@ -77,7 +77,7 @@ public class Nestings {
 	 * @return an instance of {@link ObservableValueNestingBuilder} which depends on the specified outer observable
 	 */
 	public static <T> ObservableValueNestingBuilder<T> on(ObservableValue<T> outerObservable) {
-		return new ObservableValueNestingBuilder<T>(outerObservable);
+		return new ObservableValueNestingBuilder<>(outerObservable);
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class Nestings {
 	 * @return an instance of {@link ObjectPropertyNestingBuilder} which depends on the specified outer observable value
 	 */
 	public static <T> ObjectPropertyNestingBuilder<T> on(Property<T> outerProperty) {
-		return new ObjectPropertyNestingBuilder<T>(outerProperty);
+		return new ObjectPropertyNestingBuilder<>(outerProperty);
 	}
 
 }

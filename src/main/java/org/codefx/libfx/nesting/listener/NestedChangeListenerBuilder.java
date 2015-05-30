@@ -145,7 +145,7 @@ public class NestedChangeListenerBuilder<T, O extends ObservableValue<T>> {
 				throw new IllegalStateException("This builder can only build one 'NestedChangeListenerHandle'.");
 
 			built = true;
-			return new NestedChangeListenerHandle<T>(nesting, listener);
+			return new NestedChangeListenerHandle<>(nesting, listener);
 		}
 
 	}
