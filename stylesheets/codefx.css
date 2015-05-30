@@ -1,0 +1,29 @@
+#header nav li a {
+	border: 1px solid #c47600;
+	background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ff9900), color-stop(100%, #eb8d00));
+	background: -webkit-linear-gradient(#ff9900, #eb8d00);
+	background: -moz-linear-gradient(#ff9900, #eb8d00);
+	background: -o-linear-gradient(#ff9900, #eb8d00);
+	background: -ms-linear-gradient(#ff9900, #eb8d00);
+	background: linear-gradient(#ff9900, #eb8d00);
+	background-color: #ff9900;
+}
+	
+#header nav li a:hover {
+	border: 1px solid #c46600;
+	background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ff8400), color-stop(100%, #eb7a00));
+	background: -webkit-linear-gradient(#ff8400, #eb7a00);
+	background: -moz-linear-gradient(#ff8400, #eb7a00);
+	background: -o-linear-gradient(#ff8400, #eb7a00);
+	background: -ms-linear-gradient(#ff8400, #eb7a00);
+	background: linear-gradient(#ff8400, #eb7a00);
+	background-color: #ff8400;
+}
+	
+a {
+	color: #ff9900;
+}
+
+a:hover {
+	color: #ff8400;
+}
