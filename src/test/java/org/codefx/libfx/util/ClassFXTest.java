@@ -1,4 +1,4 @@
-package org.codefx.libfx.utils;
+package org.codefx.libfx.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

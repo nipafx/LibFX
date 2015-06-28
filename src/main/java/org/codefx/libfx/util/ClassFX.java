@@ -1,11 +1,11 @@
-package org.codefx.libfx.utils;
+package org.codefx.libfx.util;
 
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * Implements utility methods related to {@link Class classes}.
+ * Provides utility methods related to {@link Class classes}.
  */
 public interface ClassFX {
 

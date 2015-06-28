@@ -1,10 +1,10 @@
-package org.codefx.libfx.utils;
+package org.codefx.libfx.util;
 
 import java.util.Optional;
 import java.util.stream.Stream;
 
 /**
- * Demonstrates some use cases for {@link ClassFX}.
+ * Demonstrates some use cases for {@link UtilsFX}.
  */
 @SuppressWarnings({ "static-method", "unused" })
 public class ClassFXDemo {
