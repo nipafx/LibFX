@@ -3,6 +3,7 @@ package org.codefx.libfx.collection.transform;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -60,6 +61,47 @@ public class TransformingCollectionBuilder<I, O> {
 	public static <I, O> TransformingCollectionBuilder<I, O> forInnerAndOuterType(
 			Class<? super I> innerTypeToken, Class<? super O> outerTypeToken) {
 		return new TransformingCollectionBuilder<>(innerTypeToken, outerTypeToken);
+	}
+
+	/**
+	 * Returns a new builder that transforms a collection of strings into a collection of the specified outer type.
+	 * <p>
+	 * Besides fixing the inner type to {@link String}, the returned builder also guesses the transforming functions. It
+	 * uses {@link Object#toString() toString} for outer to inner elements and the {@code valueOf(String)} methods of
+	 * {@link Integer#valueOf(String) Integer}, {@link Long#valueOf(String) Long}, {@link Float#valueOf(String) Float},
+	 * and {@link Double#valueOf(String) Double} for the other way if one of them is the outer type. These preselected
+	 * transformations can be overriden with {@link #toInner(Function) toInner} and {@link #toOuter(Function) to Outer}.
+	 *
+	 * @param <O>
+	 *            the outer type of the created transforming collection, i.e. the type of elements appearing to be in
+	 *            the created collection
+	 * @param outerTypeToken
+	 *            the token for the outer type
+	 * @return a new builder
+	 */
+	public static <O> TransformingCollectionBuilder<String, O> forInnerStringAndOuterType(
+			Class<? super O> outerTypeToken) {
+
+		TransformingCollectionBuilder<String, O> builder = new TransformingCollectionBuilder<>(
+				String.class, outerTypeToken);
+		builder = builder.toInner(Object::toString);
+		Optional<Function<String, O>> toOuter = tryGuessToOuterFunction(outerTypeToken);
+		toOuter.ifPresent(builder::toOuter);
+		return builder;
+	}
+
+	@SuppressWarnings("unchecked")
+	private static <T> Optional<Function<String, T>> tryGuessToOuterFunction(Class<? super T> typeToken) {
+		if (typeToken == Integer.class)
+			return Optional.of(string -> (T) Integer.valueOf(string));
+		if (typeToken == Long.class)
+			return Optional.of(string -> (T) Long.valueOf(string));
+		if (typeToken == Float.class)
+			return Optional.of(string -> (T) Float.valueOf(string));
+		if (typeToken == Double.class)
+			return Optional.of(string -> (T) Double.valueOf(string));
+
+		return Optional.empty();
 	}
 
 	/**
