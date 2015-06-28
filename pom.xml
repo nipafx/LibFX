@@ -74,6 +74,13 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<!-- JUNIT RUNNERS to use NestedRunner -->
+			<groupId>com.nitorcreations</groupId>
+			<artifactId>junit-runners</artifactId>
+			<version>1.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<!-- MOCKITO to mock instances for automated tests -->
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-all</artifactId>
@@ -92,13 +99,6 @@
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava-testlib</artifactId>
 			<version>18.0</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<!-- JUNIT RUNNERS to use NestedRunner -->
-			<groupId>com.nitorcreations</groupId>
-			<artifactId>junit-runners</artifactId>
-			<version>1.2</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
