@@ -88,6 +88,13 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<!-- ASSERTJ for better assertions -->
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>3.0.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<!-- NEKOHTML to parse HTML to DOM Documents for tests -->
 			<groupId>net.sourceforge.nekohtml</groupId>
 			<artifactId>nekohtml</artifactId>
