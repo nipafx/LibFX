@@ -7,15 +7,14 @@ import java.util.stream.Stream;
 /**
  * Provides utility methods related to {@link Class classes}.
  */
-public interface ClassFX {
+public class ClassFX {
 
 	/**
 	 * Returns an {@link Optional} that contains the specified object if it is a non-null
 	 * {@link Class#isInstance(Object) instance} of the specified type or otherwise an empty {@code Optional}.
 	 * <p>
 	 * This method can be used to combine filter-and-map into one step:
-	 *
-	 * <pre>
+     * <pre>
 	 * Optional&lt;Object&gt; someOptional = // ...
 	 *
 	 * // the usual way to get an 'Optional&lt;String&gt;' is to filter, then cast
@@ -49,8 +48,7 @@ public interface ClassFX {
 	 * instance} of the specified type or otherwise an empty {@code Stream}.
 	 * <p>
 	 * This method can be used to combine filter-and-map into one step:
-	 *
-	 * <pre>
+     * <pre>
 	 * Stream&lt;Object&gt; someStream = // ...
 	 *
 	 * // the usual way to get a 'Stream&lt;String&gt;' is to filter, then cast
