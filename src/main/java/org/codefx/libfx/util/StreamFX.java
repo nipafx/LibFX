@@ -1,10 +1,14 @@
 package org.codefx.libfx.util;
 
-import static java.util.Objects.requireNonNull;
-
 import java.io.BufferedReader;
 import java.io.StringReader;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Spliterator;
+import java.util.StringJoiner;
 import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
@@ -13,6 +17,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Provides utility methods for {@link Stream}s.
@@ -29,7 +35,6 @@ public class StreamFX {
     public static <T> Stream<T> parallelStream(Iterable<T> iterable) {
 		Spliterator<T> spliterator = iterable.spliterator();
 		return StreamSupport.stream(spliterator, spliterator.hasCharacteristics(Spliterator.CONCURRENT));
-
 	}
 
     public static Stream<String> split(String string, String regex) {
@@ -44,7 +49,69 @@ public class StreamFX {
 
 	// #begin COLLECTION
 
-    public static Collector<CharSequence, ?, String> joining(
+	/**
+	 * Returns a {@link BinaryOperator} that throws an {@link IllegalStateException} when it is called.
+	 * <p>
+	 * This can be used to reduce a stream to its only element, verifying the assumption that it indeed only contains
+	 * the one.
+	 * <pre>
+	 * Stream.empty().reduce(toOnlyElement()); // returns empty Optional
+	 * Stream.of("a").reduce(toOnlyElement()); // returns 'Optional["a"]'
+	 * Stream.of("a", "b").reduce(toOnlyElement()); // throws 'IllegalStateException'
+	 * </pre>
+	 * Note that null elements also trigger the exception and that reducing a stream of a single null fails because
+	 * the stream API will call {@code Optional.of(null)}:
+	 * <pre>
+	 * Stream.of("a", null).reduce(toOnlyElement()); // throws 'IllegalStateException'
+	 * Stream.of(null).reduce(toOnlyElement()); // throws 'NullPointerException'
+	 * </pre>
+	 *
+	 * @param <T> the type of the stream elements
+	 * @return a BinaryOperator
+	 *
+	 * @see #toOnlyNonNullElement()
+	 */
+	public static <T> BinaryOperator<T> toOnlyElement() {
+		return (element, otherElement) -> {
+			throw new IllegalStateException("The stream contains more than one element.");
+		};
+	}
+	/**
+	 * Returns a {@link BinaryOperator} that throws an {@link IllegalStateException} when it is called with two
+	 * non-null arguments.
+	 * <p>
+	 * This can be used to reduce a stream to its only non-null element, verifying the assumption that it indeed only
+	 * contains the one.
+	 * <pre>
+	 * Stream.empty().reduce(toOnlyNonNullElement()); // returns empty Optional
+	 * Stream.of("a").reduce(toOnlyNonNullElement()); // returns 'Optional["a"]'
+	 * Stream.of("a", null).reduce(toOnlyNonNullElement()); // returns 'Optional["a"]'
+	 * Stream.of("a", "b").reduce(toOnlyNonNullElement()); // throws 'IllegalStateException'
+	 * </pre>
+	 * Note that reducing a stream of a single null fails because the stream API will call {@code Optional.of(null)}:
+	 * <pre>
+	 * Stream.of(null).reduce(toOnlyNonNullElement()); // throws 'NullPointerException'
+	 * </pre>
+	 *
+	 * @param <T> the type of the stream elements
+	 * @return a BinaryOperator
+	 *
+	 * @see #toOnlyElement()
+	 */
+	public static <T> BinaryOperator<T> toOnlyNonNullElement() {
+		return (element, otherElement) -> {
+			if (element != null && otherElement != null)
+				throw new IllegalStateException("The stream contains more than one non-null element.");
+			if (element != null)
+				return element;
+			if (otherElement != null)
+				return otherElement;
+			return null;
+		};
+	}
+
+
+	public static Collector<CharSequence, ?, String> joining(
 			CharSequence delimiter, CharSequence prefix, CharSequence suffix, CharSequence emptyValue) {
 		return joining(() -> new StringJoiner(delimiter, prefix, suffix).setEmptyValue(emptyValue));
 	}
