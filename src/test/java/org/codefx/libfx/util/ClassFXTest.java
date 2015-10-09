@@ -33,9 +33,10 @@ public class ClassFXTest {
 
 	@Test
 	public void castIntoOptional_instanceOfCorrectType_optionalWithSameInstance() throws Exception {
-		Optional<String> cast = ClassFX.castIntoOptional("42", String.class);
+		String value = "42";
+		Optional<String> cast = ClassFX.castIntoOptional(value, String.class);
 
-		assertThat(cast).contains("42");
+		assertThat(cast).containsSame(value);
 	}
 
 	// #end CAST_INTO_OPTIONAL
@@ -60,10 +61,11 @@ public class ClassFXTest {
 
 	@Test
 	public void castIntoStream_instanceOfCorrectType_optionalWithSameInstance() throws Exception {
-		Stream<String> cast = ClassFX.castIntoStream("42", String.class);
+		String value = "42";
+		Stream<String> cast = ClassFX.castIntoStream(value, String.class);
 
 		List<String> asList = cast.collect(Collectors.toList());
-		assertThat(asList).containsExactly("42");
+		assertThat(asList).containsExactly(value);
 	}
 
 	// #end CAST_INTO_STREAM

@@ -35,7 +35,7 @@ public class ClassFX {
 	 *            a token of the type to which the object will be cast
 	 * @return an {@code Optional}; will contain the object if it is non-null and of the correct type
 	 */
-	static <T> Optional<T> castIntoOptional(Object object, Class<T> type) {
+	public static <T> Optional<T> castIntoOptional(Object object, Class<T> type) {
 		Objects.requireNonNull(type, "The argument 'type' must not be null.");
 		if (type.isInstance(object))
 			return Optional.of(type.cast(object));
@@ -69,7 +69,7 @@ public class ClassFX {
 	 *            a token of the type to which the object will be cast
 	 * @return an {@code Stream}; will contain the object if it is non-null and of the correct type
 	 */
-	static <T> Stream<T> castIntoStream(Object object, Class<T> type) {
+	public static <T> Stream<T> castIntoStream(Object object, Class<T> type) {
 		Objects.requireNonNull(type, "The argument 'type' must not be null.");
 		if (type.isInstance(object))
 			return Stream.of(type.cast(object));
