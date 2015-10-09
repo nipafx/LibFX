@@ -13,6 +13,58 @@ import java.util.stream.Stream;
  */
 public class StringsFX {
 
+	/**
+	 * Joins the strings to which the objects from the specified {@link Iterator} are mapped.
+	 * <p/>
+	 * See {@link StreamFX#joining(CharSequence, CharSequence, CharSequence, CharSequence) StreamFX.joining} for how
+	 * exactly the strings are joined.
+	 *
+	 * @param <T>
+	 * 		the type of the elements contained in the specified iterator
+	 * @param items
+	 * 		the joined items
+	 * @param toString
+	 * 		maps the items to strings; could be as simple as {@code Object::toString}
+	 * @param delimiter
+	 * 		inserted between two values
+	 * @param prefix
+	 * 		the first characters of the created string; followed by the first value
+	 * @param suffix
+	 * 		the last characters of the created string; follows the last value
+	 * @param emptyValue
+	 * 		used if the string is empty
+	 *
+	 * @return the joined string
+	 */
+	public static <T> String join(
+			Iterator<T> items, Function<T, String> toString,
+			String delimiter, String prefix, String suffix, String emptyValue) {
+		return join(StreamFX.stream(items), toString, delimiter, prefix, suffix, emptyValue);
+	}
+
+	/**
+	 * Joins the strings to which the objects from the specified {@link Iterable} are mapped.
+	 * <p/>
+	 * See {@link StreamFX#joining(CharSequence, CharSequence, CharSequence, CharSequence) StreamFX.joining} for how
+	 * exactly the strings are joined.
+	 *
+	 * @param <T>
+	 * 		the type of the elements contained in the specified iterable
+	 * @param items
+	 * 		the joined items
+	 * @param toString
+	 * 		maps the items to strings; could be as simple as {@code Object::toString}
+	 * @param delimiter
+	 * 		inserted between two values
+	 * @param prefix
+	 * 		the first characters of the created string; followed by the first value
+	 * @param suffix
+	 * 		the last characters of the created string; follows the last value
+	 * @param emptyValue
+	 * 		used if the string is empty
+	 *
+	 * @return the joined string
+	 */
 	public static <T> String join(
 			Iterable<T> items, Function<T, String> toString,
 			String delimiter, String prefix, String suffix, String emptyValue) {
