@@ -82,16 +82,42 @@ public class TransformingCollectionBuilder<I, O> {
 	public static <O> TransformingCollectionBuilder<String, O> forInnerStringAndOuterType(
 			Class<? super O> outerTypeToken) {
 
-		TransformingCollectionBuilder<String, O> builder = new TransformingCollectionBuilder<>(
-				String.class, outerTypeToken);
+		TransformingCollectionBuilder<String, O> builder =
+				new TransformingCollectionBuilder<>(String.class, outerTypeToken);
 		builder = builder.toInner(Object::toString);
-		Optional<Function<String, O>> toOuter = tryGuessToOuterFunction(outerTypeToken);
-		toOuter.ifPresent(builder::toOuter);
+		tryGuessTransformationFunctionFromStringToType(outerTypeToken).ifPresent(builder::toOuter);
+		return builder;
+	}
+
+	/**
+	 * Returns a new builder that transforms a collection of the specified type into a collection of strings.
+	 * <p>
+	 * Besides fixing the outer type to {@link String}, the returned builder also guesses the transforming functions. It
+	 * uses {@link Object#toString() toString} for inner to outer elements and the {@code valueOf(String)} methods of
+	 * {@link Integer#valueOf(String) Integer}, {@link Long#valueOf(String) Long}, {@link Float#valueOf(String) Float},
+	 * and {@link Double#valueOf(String) Double} for the other way if one of them is the inner type. These preselected
+	 * transformations can be overriden with {@link #toInner(Function) toInner} and {@link #toOuter(Function) to Outer}.
+	 *
+	 * @param <I>
+	 *            the inner type of the created transforming collection, i.e. the type of elements in the transformed
+	 *            collection
+	 * @param innerTypeToken
+	 *            the token for the inner type
+	 * @return a new builder
+	 */
+	public static <I> TransformingCollectionBuilder<I, String> forInnerTypeAndOuterString(
+			Class<? super I> innerTypeToken) {
+
+		TransformingCollectionBuilder<I, String> builder =
+				new TransformingCollectionBuilder<>(innerTypeToken, String.class);
+		builder = builder.toOuter(Object::toString);
+		tryGuessTransformationFunctionFromStringToType(innerTypeToken).ifPresent(builder::toInner);
 		return builder;
 	}
 
 	@SuppressWarnings("unchecked")
-	private static <T> Optional<Function<String, T>> tryGuessToOuterFunction(Class<? super T> typeToken) {
+	private static <T> Optional<Function<String, T>> tryGuessTransformationFunctionFromStringToType(
+			Class<? super T> typeToken) {
 		if (typeToken == Integer.class)
 			return Optional.of(string -> (T) Integer.valueOf(string));
 		if (typeToken == Long.class)
