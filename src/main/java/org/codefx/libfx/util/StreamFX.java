@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.StringJoiner;
@@ -26,6 +27,38 @@ import java.util.stream.StreamSupport;
 public class StreamFX {
 
 	// #begin CREATION
+
+	/**
+	 * Creates a sequential stream from the specified iterator.
+	 *
+	 * @param iterator
+	 * 		the iterator to stream over
+	 * @param <T>
+	 * 		the type of elements returned by the iterator
+	 *
+	 * @return a new {@link Stream}
+	 */
+	public static <T> Stream<T> stream(Iterator<T> iterator) {
+		requireNonNull(iterator, "The argument 'iterator' must not be null.");
+		return stream(() -> iterator);
+	}
+
+	/**
+	 * Creates a parallel stream from the specified iterator if the created {@link Iterable#spliterator()} is {@link
+	 * Spliterator#CONCURRENT concurrent}. Otherwise the stream is sequential.
+	 *
+	 * @param iterator
+	 * 		the iterator to stream over
+	 * @param <T>
+	 * 		the type of elements returned by the iterator
+	 *
+	 * @return a new {@link Stream}, parallel if possible
+	 */
+
+	public static <T> Stream<T> parallelStream(Iterator<T> iterator) {
+		requireNonNull(iterator, "The argument 'iterator' must not be null.");
+		return stream(() -> iterator);
+	}
 
 	/**
 	 * Creates a sequential stream from the specified iterable.
