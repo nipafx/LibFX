@@ -5,10 +5,10 @@ import java.util.Set;
 
 /**
  * Demonstrates how to use the {@link TransformingSet}.
- * <p>
+ * <p/>
  * The demonstrated example is based on the situation that a {@link Set} of {@link String}s which only ever contains
  * natural numbers as character sequences is to be represented as a {@code Set} of {@link Integer}s.
- * <p>
+ * <p/>
  * This is not entirely trivial as leading zeros allow multiple strings to be mapped to the same integer which will make
  * the transformation function non-inverse.
  */
@@ -35,11 +35,18 @@ public class TransformingSetDemo {
 	 */
 	public TransformingSetDemo() {
 		innerSet = new HashSet<>();
+
 		transformingSet = TransformingCollectionBuilder
-				.forInnerAndOuterType(String.class, Integer.class)
-				.toOuter(this::stringToInteger)
-				.toInner(this::integerToString)
+				.forInnerStringAndOuterType(Integer.class)
 				.transformSet(innerSet);
+
+		// This was a shortcut for creating transforming collections where one of the types is a string.
+		// The more general (but in this case equivalent) approach looks like this:
+//		transformingSet = TransformingCollectionBuilder
+//				.forInnerAndOuterType(String.class, Integer.class)
+//				.toOuter(Integer::valueOf)
+//				.toInner(Object::toString)
+//				.transformSet(innerSet);
 
 		print("-- Initial state --");
 		print("\t -> " + innerSet + " ~ " + transformingSet);
@@ -47,7 +54,7 @@ public class TransformingSetDemo {
 	}
 
 	private Integer stringToInteger(String string) {
-		return Integer.parseInt(string);
+		return Integer.valueOf(string);
 	}
 
 	private String integerToString(Integer integer) {
@@ -58,7 +65,7 @@ public class TransformingSetDemo {
 	 * Runs this demo.
 	 *
 	 * @param args
-	 *            command line arguments (will not be used)
+	 * 		command line arguments (will not be used)
 	 */
 	public static void main(String[] args) {
 		print("Outputs are written as 'Modification -> innerSet.toString ~ transformingSet.toString'".toUpperCase());
