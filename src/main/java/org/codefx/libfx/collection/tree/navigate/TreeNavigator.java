@@ -11,10 +11,10 @@ import java.util.OptionalInt;
  * <p>
  * The navigation relies on child nodes having some fixed order so they can be accessed via an index.
  *
- * @param <E>
- *            the type of elements contained in the tree
+ * @param <N>
+ *            the type of nodes contained in the tree
  */
-public interface TreeNavigator<E> {
+public interface TreeNavigator<N> {
 
 	// PARENT
 
@@ -24,7 +24,7 @@ public interface TreeNavigator<E> {
 	 * @return the child's parent; if it is the root, it doesn't have a parent, so {@link Optional#empty() empty} is
 	 *         returned
 	 */
-	Optional<E> getParent(E child);
+	Optional<N> getParent(N child);
 
 	// NODE
 
@@ -34,7 +34,7 @@ public interface TreeNavigator<E> {
 	 * @return the index of the node within the list of children of its parent; if it is the root, it doesn't have a
 	 *         parent, so {@link OptionalInt#empty() empty} is returned
 	 */
-	OptionalInt getChildIndex(E node);
+	OptionalInt getChildIndex(N node);
 
 	// CHILDREN
 
@@ -43,7 +43,7 @@ public interface TreeNavigator<E> {
 	 *            a node in the tree
 	 * @return the number of children the node has
 	 */
-	int getChildrenCount(E parent);
+	int getChildrenCount(N parent);
 
 	/**
 	 * @param parent
@@ -53,6 +53,6 @@ public interface TreeNavigator<E> {
 	 * @return the child of the node with the child index; if no such child exists (e.g. because no children exist)
 	 *         {@link OptionalInt#empty() empty} is returned
 	 */
-	Optional<E> getChild(E parent, int childIndex);
+	Optional<N> getChild(N parent, int childIndex);
 
 }
