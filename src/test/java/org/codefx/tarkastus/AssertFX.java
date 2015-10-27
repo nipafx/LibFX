@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.fail;
 
 /**
  * Moar assertions!
@@ -50,6 +51,32 @@ public class AssertFX {
 			assertEquals(0, ((Double) value).doubleValue(), 0);
 		else
 			assertNull(value);
+	}
+
+	/**
+	 * Asserts that executing the specified operation throws an {@link UnsupportedOperationException}.
+	 * <p>
+	 * The assertion fails if the operation throws any other exception or nor exception at all.
+	 *
+	 * @param operation
+	 *            the operation to test
+	 */
+	public static void assertOperationIsUnsupported(RunnableWithException operation) {
+		try {
+			operation.run();
+			// there should have been an 'UnsupportedOperationException' so fail the test if there wasn't
+			fail("");
+		} catch (UnsupportedOperationException ex) {
+			// this is the intended exception; if it is thrown, the test passes
+		} catch (Exception ex) {
+			// this exception is not inteded, so the test should fail if it is thrown
+			fail();
+		}
+	}
+
+	@FunctionalInterface
+	public interface RunnableWithException {
+		void run() throws Exception;
 	}
 
 }
