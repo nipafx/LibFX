@@ -26,7 +26,7 @@ public class TreeStreams {
 	// forward
 
 	/**
-	 * Returns a stream which enumerates nodes in the (sub-)tree rooted in the specified root in the order of a <a
+	 * Returns a stream that enumerates nodes in the (sub-)tree rooted in the specified root in the order of a <a
 	 * href="https://en.wikipedia.org/wiki/Depth-first_search">depth-first search</a>.
 	 * <p>
 	 * It is not necessary for the specified node to be the tree's actual root. It will be treated as the root of a
@@ -47,8 +47,8 @@ public class TreeStreams {
 	}
 
 	/**
-	 * Returns a stream which enumerates nodes in a tree in the order of a <a
-	 * href="https://en.wikipedia.org/wiki/Depth-first_search">depth-first search</a> which starts in the specified
+	 * Returns a stream that enumerates nodes in a tree in the order of a <a
+	 * href="https://en.wikipedia.org/wiki/Depth-first_search">depth-first search</a> that starts in the specified
 	 * node.
 	 * <p>
 	 * While the search will start in the specified node it will eventually backtrack above it, i.e. the search is not
@@ -70,13 +70,13 @@ public class TreeStreams {
 	}
 
 	/**
-	 * Returns a stream which enumerates nodes in the (sub-)tree rooted in the specified root in the order of a <a
-	 * href="https://en.wikipedia.org/wiki/Depth-first_search">depth-first search</a> which starts in the specified
+	 * Returns a stream that enumerates nodes in the (sub-)tree rooted in the specified root in the order of a <a
+	 * href="https://en.wikipedia.org/wiki/Depth-first_search">depth-first search</a> that starts in the specified
 	 * start node.
 	 * <p>
 	 * This is a combination of {@link #dfsFromRoot(TreeNavigator, Object) dfsFromRoot} and
 	 * {@link #dfsFromWithin(TreeNavigator, Object) dfsFromWithin}. Only the (sub-)tree rooted in the specified root is
-	 * searched (i.e. the search will never backtrack above it) but the root actually startes in the specified start
+	 * searched (i.e. the search will never backtrack above it) but the stream actually starts in the specified start
 	 * node.
 	 *
 	 * @param <N>
@@ -98,8 +98,8 @@ public class TreeStreams {
 	// backward
 
 	/**
-	 * Returns a stream which enumerates nodes in a tree in the order of a <em>backwards</em> <a
-	 * href="https://en.wikipedia.org/wiki/Depth-first_search">depth-first search</a> which starts in the specified
+	 * Returns a stream that enumerates nodes in a tree in the order of a <em>backwards</em> <a
+	 * href="https://en.wikipedia.org/wiki/Depth-first_search">depth-first search</a> that starts in the specified
 	 * node.
 	 * <p>
 	 * The stream enumerates the nodes which would be encountered by starting a depth-first search in the tree's root
@@ -120,8 +120,8 @@ public class TreeStreams {
 	}
 
 	/**
-	 * Returns a stream which enumerates nodes in the (sub-)tree rooted in the specified root in the order of a
-	 * <em>backwards</em> <a href="https://en.wikipedia.org/wiki/Depth-first_search">depth-first search</a> which starts
+	 * Returns a stream that enumerates nodes in the (sub-)tree rooted in the specified root in the order of a
+	 * <em>backwards</em> <a href="https://en.wikipedia.org/wiki/Depth-first_search">depth-first search</a> that starts
 	 * in the specified node.
 	 * <p>
 	 * The stream enumerates the nodes which would be encountered by starting a depth-first search in the specified root
