@@ -40,7 +40,7 @@ public class ImmutableTreeNode<C> implements TreeNode<C, ImmutableTreeNode<C>> {
 
 	/**
 	 * Creates an immutable copy of the tree rooted in the specified node.
-	 * <p/>
+	 * <p>
 	 * The returned node's {@link TreeNode#getParent() parent} will be empty.
 	 *
 	 * @param node

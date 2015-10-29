@@ -22,6 +22,10 @@ public class MutableTreeNode<C> implements TreeNode<C, MutableTreeNode<C>> {
 
 	/**
 	 * Creates a new node without parent and children.
+	 *
+	 * @param content
+	 * 		the initial content of the new node;
+	 * 		if not all nodes carry content, consider using {@code Optional<>} for {@code C}
 	 */
 	public MutableTreeNode(C content) {
 		this.content = requireNonNull(content, "The argument 'content' must not be null.");
@@ -35,7 +39,8 @@ public class MutableTreeNode<C> implements TreeNode<C, MutableTreeNode<C>> {
 	}
 
 	/**
-	 * @param content the new content to set; must not be null
+	 * @param content
+	 * 		the new content to set
 	 */
 	public void setContent(C content) {
 		this.content = requireNonNull(content, "The argument 'content' must not be null.");
@@ -56,9 +61,13 @@ public class MutableTreeNode<C> implements TreeNode<C, MutableTreeNode<C>> {
 	 * <p>
 	 * Also sets this node as the child's {@link #getParent() parent}.
 	 *
-	 * @param child the child to add; must not have a parent unless it is this node
-	 * @throws IllegalArgumentException if the {@code child} has a parent that is not this node
+	 * @param child
+	 * 		the child to add; must not have a parent unless it is this node
+	 *
 	 * @return true if the child was added; false if it was already a child of this node
+	 *
+	 * @throws IllegalArgumentException
+	 * 		if the {@code child} has a parent that is not this node
 	 */
 	public boolean addChild(MutableTreeNode<C> child) {
 		requireNonNull(child, "The argument 'child' must not be null.");
@@ -87,7 +96,9 @@ public class MutableTreeNode<C> implements TreeNode<C, MutableTreeNode<C>> {
 	 * <p>
 	 * Also sets the child's {@link #getParent() parent} to {@link Optional#empty() empty}.
 	 *
-	 * @param child the child to remove
+	 * @param child
+	 * 		the child to remove
+	 *
 	 * @return true if the child was removed; false if it wasn't a child of this node
 	 */
 	public boolean removeChild(MutableTreeNode<C> child) {
