@@ -104,4 +104,9 @@ public class ImmutableTreeNode<C> implements TreeNode<C, ImmutableTreeNode<C>> {
 
 	}
 
+	@Override
+	public String toString() {
+		return "Node [" + content + "]";
+	}
+
 }

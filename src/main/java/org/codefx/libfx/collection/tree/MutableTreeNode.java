@@ -117,4 +117,9 @@ public class MutableTreeNode<C> implements TreeNode<C, MutableTreeNode<C>> {
 		children.remove(child);
 	}
 
+	@Override
+	public String toString() {
+		return "Node [" + content + "]";
+	}
+
 }
