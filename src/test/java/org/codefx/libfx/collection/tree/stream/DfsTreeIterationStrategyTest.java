@@ -2,11 +2,11 @@ package org.codefx.libfx.collection.tree.stream;
 
 import static org.codefx.libfx.collection.tree.stream.TreePathFactory.createFromNodeToDescendant;
 import static org.codefx.libfx.collection.tree.stream.TreePathFactory.createWithSingleNode;
-import static org.codefx.libfx.collection.tree.stream.TreeTestHelper.NAVIGATOR;
-import static org.codefx.libfx.collection.tree.stream.TreeTestHelper.createDeepBinaryTree;
-import static org.codefx.libfx.collection.tree.stream.TreeTestHelper.createSimpleBinaryTree;
-import static org.codefx.libfx.collection.tree.stream.TreeTestHelper.createSingletonTree;
-import static org.codefx.libfx.collection.tree.stream.TreeTestHelper.iterateTreeContent;
+import static org.codefx.libfx.collection.tree.TreeTestHelper.NAVIGATOR;
+import static org.codefx.libfx.collection.tree.TreeTestHelper.createDeepBinaryTree;
+import static org.codefx.libfx.collection.tree.TreeTestHelper.createSimpleBinaryTree;
+import static org.codefx.libfx.collection.tree.TreeTestHelper.createSingletonTree;
+import static org.codefx.libfx.collection.tree.TreeTestHelper.iterateTreeContent;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.mock;
@@ -14,7 +14,7 @@ import static org.mockito.Mockito.mock;
 import java.util.Arrays;
 
 import org.codefx.libfx.collection.tree.navigate.TreeNavigator;
-import org.codefx.libfx.collection.tree.stream.TreeTestHelper.Node;
+import org.codefx.libfx.collection.tree.TreeTestHelper.Node;
 import org.junit.Before;
 import org.junit.Test;
 

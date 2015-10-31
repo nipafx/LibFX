@@ -1,4 +1,4 @@
-package org.codefx.libfx.collection.tree.stream;
+package org.codefx.libfx.collection.tree;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,7 +12,7 @@ import org.codefx.libfx.collection.tree.stream.TreeIterationStrategy;
 /**
  * Supports testing by providing sample trees and a {@link Navigator} for them.
  */
-class TreeTestHelper {
+public class TreeTestHelper {
 
 	/**
 	 * The singleton instance of a stateless navigator which can be used to iterate over the test trees.
