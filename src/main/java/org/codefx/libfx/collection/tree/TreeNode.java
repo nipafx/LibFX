@@ -9,8 +9,8 @@ import java.util.Optional;
 /**
  * A node in a tree, i.e. a directed, acyclic graph.
  * <p>
- * A node carries some {@link #getContent() content} and knows its {@link #getParent() parent} and {@link #getChildren()
- * children}.
+ * A node carries some {@link #getContent() content} and knows its {@link #getParent() parent} and
+ * {@link #getChildren() children}.
  *
  * @param <C>
  * 		the type of content contained in the tree
@@ -35,6 +35,11 @@ public interface TreeNode<C, N extends TreeNode<C, N>> {
 	List<N> getChildren();
 
 	/**
+	 * @param <C>
+	 * 		the type of content contained in the tree
+	 * @param <N>
+	 * 		the type of nodes contained in the tree
+	 *
 	 * @return a {@link TreeNavigator} that navigates a tree of {@link TreeNode}s
 	 */
 	static <C, N extends TreeNode<C, N>> TreeNavigator<N> navigator() {

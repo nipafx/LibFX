@@ -22,7 +22,7 @@ import java.util.stream.StreamSupport;
  * An example of this would be a list of fully qualified type names, from which a package tree is created.
  * <p>
  * In this case the names would be the elements. Each would be split into a list of so called "hierarchy elements", in
- * this case the package names and class/interface name that make it up (e.g. "java.lang.String" -> { "java", "lang",
+ * this case the package names and class/interface name that make it up (e.g. "java.lang.String" to { "java", "lang",
  * "String" }). This is done by a function given to the factory at construction.
  * <p>
  * Another such function has the responsibility to create the content for each tree node. For this it is given the

@@ -37,12 +37,15 @@ public class TypeNameTreeFactory<C> {
 	}
 
 	/**
-	 * Returns a function that uses the type name element for the content of the corresponding node.
+	 * Returns a function that uses the type name element for the content of the corresponding node if no content
+	 * exists yet.
 	 * <p>
 	 * It can be used to create a factory like so:
 	 * <pre>
 	 * {@code new TypeNameTreeFactory<>(TypeNameTreeFactory.nameElementsAsNodeContent());}
 	 * </pre>
+	 *
+	 * @return a function to create content for a node
 	 */
 	public static ToContentFunction<String, String> nameElementsAsNodeContent() {
 		return (typeName, nameElementIndex, existingNodeContent) ->
