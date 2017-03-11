@@ -117,8 +117,8 @@ public final class NestingObserver<O extends Observable> {
 	private void observeInnerObservableChange(
 			Optional<? extends O> oldInnerObservable, Optional<? extends O> newInnerObservable) {
 
-		oldInnerObservable.ifPresent(oldObservable -> oldInnerObservableConsumer.accept(oldObservable));
-		newInnerObservable.ifPresent(newObservable -> newInnerObservableConsumer.accept(newObservable));
+		oldInnerObservable.ifPresent(oldInnerObservableConsumer::accept);
+		newInnerObservable.ifPresent(newInnerObservableConsumer::accept);
 
 		boolean oldInnerObservablePresent = oldInnerObservable.isPresent();
 		boolean newInnerObservablePresent = newInnerObservable.isPresent();

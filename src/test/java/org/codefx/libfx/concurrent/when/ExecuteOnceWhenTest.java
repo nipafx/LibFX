@@ -191,7 +191,7 @@ public class ExecuteOnceWhenTest {
 
 		createThreadsWhichActAndSetValues(
 				latch, nrOfActThreads, nrOfValueThreads, nrOfLoopsPerThread)
-				.forEach(thread -> thread.start());
+				.forEach(Thread::start);
 
 		latch.await();
 

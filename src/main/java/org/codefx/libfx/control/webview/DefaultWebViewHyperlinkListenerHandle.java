@@ -115,7 +115,7 @@ class DefaultWebViewHyperlinkListenerHandle implements WebViewHyperlinkListenerH
 		if (Platform.isFxApplicationThread())
 			attachInApplicationThreadEachTimeLoadSucceeds();
 		else
-			Platform.runLater(() -> attachInApplicationThreadEachTimeLoadSucceeds());
+			Platform.runLater(this::attachInApplicationThreadEachTimeLoadSucceeds);
 	}
 
 	/**
@@ -160,7 +160,7 @@ class DefaultWebViewHyperlinkListenerHandle implements WebViewHyperlinkListenerH
 		if (Platform.isFxApplicationThread())
 			detachInApplicationThread();
 		else
-			Platform.runLater(() -> detachInApplicationThread());
+			Platform.runLater(this::detachInApplicationThread);
 	}
 
 	/**
@@ -170,7 +170,7 @@ class DefaultWebViewHyperlinkListenerHandle implements WebViewHyperlinkListenerH
 	 * Must be called in JavaFX application thread.
 	 */
 	private void detachInApplicationThread() {
-		attachWhenLoadSucceeds.ifPresent(attachWhen -> attachWhen.cancel());
+		attachWhenLoadSucceeds.ifPresent(ExecuteAlwaysWhen::cancel);
 		attachWhenLoadSucceeds = Optional.empty();
 
 		// it suffices to remove the listener if the worker state is on SUCCEEDED;

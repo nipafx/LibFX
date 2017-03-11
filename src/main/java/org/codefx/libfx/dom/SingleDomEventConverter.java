@@ -69,7 +69,7 @@ class SingleDomEventConverter {
 		String domEventName = domEvent.getType();
 		Optional<EventType> eventType = DomEventType
 				.byName(domEventName)
-				.flatMap(domEventType -> domEventType.toHyperlinkEventType());
+				.flatMap(DomEventType::toHyperlinkEventType);
 		return eventType;
 	}
 
