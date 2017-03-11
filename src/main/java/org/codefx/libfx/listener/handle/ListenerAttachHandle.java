@@ -5,6 +5,7 @@ package org.codefx.libfx.listener.handle;
  *
  * @see ListenerHandle
  */
+@FunctionalInterface
 public interface ListenerAttachHandle {
 
 	/**

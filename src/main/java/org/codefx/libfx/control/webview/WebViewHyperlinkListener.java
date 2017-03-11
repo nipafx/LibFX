@@ -2,11 +2,11 @@ package org.codefx.libfx.control.webview;
 
 import java.util.function.Function;
 
-import javafx.scene.web.WebEngine;
-import javafx.scene.web.WebView;
-
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
+
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 
 /**
  * A listener to {@link HyperlinkEvent}s which are dispatched by a {@link WebView}.
@@ -15,6 +15,7 @@ import javax.swing.event.HyperlinkListener;
  * {@link WebEngine}. This does not extent to other listeners of this type to the same {@code WebView} - these are
  * always called.
  */
+@FunctionalInterface
 public interface WebViewHyperlinkListener {
 
 	/**

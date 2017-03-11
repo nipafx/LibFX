@@ -8,6 +8,7 @@ import java.util.Optional;
  * @param <E>
  *            the type of elements contained in the tree
  */
+@FunctionalInterface
 public interface TreeIterationStrategy<E> {
 
 	/**
