@@ -74,7 +74,7 @@ public class EqualityTransformingMapTest {
 	 */
 	private static Test lengthBasedEquality() {
 		BiPredicate<String, String> equals = (s1, s2) -> s1.length() == s2.length();
-		ToIntFunction<String> hash = s -> s.length();
+		ToIntFunction<String> hash = String::length;
 
 		Test generalTests = MapTestSuiteBuilder
 				.using(new TransformingMapGenerator(equals, hash))
@@ -100,7 +100,7 @@ public class EqualityTransformingMapTest {
 
 		private final BiPredicate<String, String> equals = (s1, s2) -> s1.length() == s2.length();
 
-		private final ToIntFunction<String> hash = s -> s.length();
+		private final ToIntFunction<String> hash = String::length;
 
 		@Before
 		@SuppressWarnings("javadoc")
