@@ -71,7 +71,7 @@ public class EqualityTransformingSetTest {
 	 */
 	private static Test lengthBasedEquality() {
 		BiPredicate<String, String> equals = (s1, s2) -> s1.length() == s2.length();
-		ToIntFunction<String> hash = s -> s.length();
+		ToIntFunction<String> hash = String::length;
 
 		Test generalTests = SetTestSuiteBuilder
 				.using(new TransformingSetGenerator(equals, hash))
@@ -97,7 +97,7 @@ public class EqualityTransformingSetTest {
 
 		private final BiPredicate<String, String> equals = (s1, s2) -> s1.length() == s2.length();
 
-		private final ToIntFunction<String> hash = s -> s.length();
+		private final ToIntFunction<String> hash = String::length;
 
 		@Before
 		@SuppressWarnings("javadoc")

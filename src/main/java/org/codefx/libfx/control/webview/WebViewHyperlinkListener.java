@@ -15,6 +15,7 @@ import javax.swing.event.HyperlinkListener;
  * {@link WebEngine}. This does not extent to other listeners of this type to the same {@code WebView} - these are
  * always called.
  */
+@FunctionalInterface
 public interface WebViewHyperlinkListener {
 
 	/**
